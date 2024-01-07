@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/screens/wizard/follow_teams_screen.dart';
 import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_images.dart';
@@ -58,7 +59,9 @@ class _IntroScreenState extends State<IntroScreen> {
             ),
             const SizedBox(height: 10),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                context.push(const FollowTeamsScreen());
+              },
               child: Text(context.appLocalization.next),
             ),
           ],

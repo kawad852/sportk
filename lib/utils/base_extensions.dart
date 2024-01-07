@@ -5,6 +5,7 @@ import 'package:sportk/alerts/loading/app_loading_indicators.dart';
 import 'package:sportk/providers/app_provider.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/utils/app_routes.dart';
+import 'package:sportk/utils/color_palette.dart';
 import 'package:sportk/utils/enums.dart';
 
 extension LanguageExtension on BuildContext {
@@ -83,6 +84,7 @@ extension AppLoadingIncidatorExtension on BuildContext {
 
 extension ThemeExtension on BuildContext {
   ColorScheme get colorScheme => Theme.of(this).colorScheme;
+  ColorPalette get colorPalette => ColorPalette.of(this);
   TextTheme get textTheme => Theme.of(this).textTheme;
 }
 

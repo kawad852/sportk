@@ -12,9 +12,9 @@ class MyTheme {
 
   static final String fontFamily = GoogleFonts.cairo().fontFamily!;
 
-  static const double radiusPrimary = 20;
-  static const double radiusSecondary = 16;
-  static const double radiusTertiary = 10;
+  static const double radiusPrimary = 5;
+  static const double radiusSecondary = 10;
+  static const double radiusTertiary = 16;
 
   static bool isLightTheme(BuildContext context) => context.colorScheme.brightness == Brightness.light;
 
@@ -34,7 +34,7 @@ class MyTheme {
       ),
       listTileTheme: ListTileThemeData(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(radiusSecondary),
+          borderRadius: BorderRadius.circular(radiusPrimary),
         ),
       ),
       cardTheme: CardTheme(
@@ -42,27 +42,38 @@ class MyTheme {
           borderRadius: BorderRadius.circular(20),
         ),
       ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(radiusPrimary),
+          ),
+        ),
+      ),
+      bottomAppBarTheme: const BottomAppBarTheme(
+        surfaceTintColor: Colors.transparent,
+      ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         isDense: true,
+        fillColor: context.colorPalette.blueD4B.withOpacity(0.10),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(radiusTertiary),
-          borderSide: BorderSide(color: colorScheme.outlineVariant),
+          borderRadius: BorderRadius.circular(radiusPrimary),
+          borderSide: BorderSide.none,
         ),
         disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(radiusTertiary),
-          borderSide: BorderSide(color: colorScheme.outlineVariant),
+          borderRadius: BorderRadius.circular(radiusPrimary),
+          borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(radiusTertiary),
-          borderSide: BorderSide(color: colorScheme.primary),
+          borderRadius: BorderRadius.circular(radiusPrimary),
+          borderSide: BorderSide.none,
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(radiusTertiary),
+          borderRadius: BorderRadius.circular(radiusPrimary),
           borderSide: BorderSide(color: colorScheme.error),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(radiusTertiary),
+          borderRadius: BorderRadius.circular(radiusPrimary),
           borderSide: BorderSide(color: colorScheme.error),
         ),
       ),

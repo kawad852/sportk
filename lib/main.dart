@@ -73,7 +73,8 @@ class _MyAppState extends State<MyApp> {
     return Consumer<AppProvider>(
       builder: (context, appProvider, child) {
         final seedColorScheme = ColorScheme.fromSeed(
-          seedColor: const Color(0xFF3091D2),
+          seedColor: const Color(0xFF032D4B),
+          primary: const Color(0xFF032D4B),
           brightness: appProvider.appTheme == ThemeEnum.light ? Brightness.light : Brightness.dark,
         );
         return MaterialApp(

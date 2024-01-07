@@ -30,5 +30,7 @@
   "serverErrorBody": "We're currently having trouble retrieving data from the server. Please try again later.",
   "authFailed": "Your account has been suspended due to unusual activities",
   "next": "Next",
-  "skip": "Skip"
+  "skip": "Skip",
+  "followYourTeam": "Follow your team",
+  "clubSearchHint": "Search for a club or league"
 }
