@@ -19,7 +19,7 @@ class CustomSmoothIndicator extends StatelessWidget {
       activeIndex: index,
       count: count,
       axisDirection: axis,
-      effect: WormEffect(
+      effect: ExpandingDotsEffect(
         dotWidth: 8,
         dotHeight: 8,
         dotColor: context.colorScheme.outlineVariant,

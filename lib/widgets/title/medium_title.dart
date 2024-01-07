@@ -5,12 +5,14 @@ class MediumTitle extends StatelessWidget {
   final String title;
   final EdgeInsetsGeometry? padding;
   final TextAlign? textAlign;
+  final Color? color;
 
   const MediumTitle(
     this.title, {
     super.key,
     this.padding,
     this.textAlign,
+    this.color,
   });
 
   @override
@@ -21,6 +23,7 @@ class MediumTitle extends StatelessWidget {
         title,
         style: context.textTheme.titleMedium!.copyWith(
           fontWeight: FontWeight.bold,
+          color: color,
         ),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
