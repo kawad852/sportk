@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/screens/home/home_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_images.dart';
 import 'package:sportk/widgets/title/medium_title.dart';
@@ -20,7 +21,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         automaticallyImplyLeading: false,
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              context.push(const HomeScreen());
+            },
             child: Text(
               context.appLocalization.skip,
             ),
