@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/screens/wizard/league_screen.dart';
 import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_svg.dart';
+import 'package:sportk/widgets/league_bubble.dart';
 import 'package:sportk/widgets/search_field.dart';
 import 'package:sportk/widgets/stretch_button.dart';
 
@@ -46,21 +48,7 @@ class _FollowTeamsScreenState extends State<FollowTeamsScreen> {
                 separatorBuilder: (context, index) => const SizedBox(width: 5),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  return const SizedBox(
-                    width: 100,
-                    child: Column(
-                      children: [
-                        CustomNetworkImage(
-                          kFakeImage,
-                          height: 100,
-                        ),
-                        Text(
-                          "Real MadridReal MadridReal Madrid",
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                  );
+                  return const LeagueBubble();
                 },
               ),
             ),
@@ -81,20 +69,23 @@ class _FollowTeamsScreenState extends State<FollowTeamsScreen> {
               separatorBuilder: (context, index) => const SizedBox(height: 5),
               itemBuilder: (context, index) {
                 return ListTile(
+                  onTap: () {
+                    context.push(const LeagueScreen());
+                  },
                   tileColor: context.colorPalette.grey2F2,
-                  leading: CustomNetworkImage(
+                  leading: const CustomNetworkImage(
                     kFakeImage,
                     radius: 0,
                     width: 25,
                     height: 25,
                   ),
-                  title: Text(
+                  title: const Text(
                     "English League",
                     overflow: TextOverflow.ellipsis,
                   ),
                   trailing: IconButton(
                     onPressed: () {},
-                    icon: CustomSvg(MyIcons.starOutlined),
+                    icon: const CustomSvg(MyIcons.starFilled),
                   ),
                 );
               },
