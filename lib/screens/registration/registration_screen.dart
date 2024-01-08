@@ -50,18 +50,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             children: [
               Image.asset(
                 MyImages.google,
-                width: 60,
+                width: 50,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: Image.asset(
                   MyImages.apple,
-                  width: 60,
+                  width: 50,
                 ),
               ),
               Image.asset(
                 MyImages.facebook,
-                width: 60,
+                width: 50,
               ),
             ],
           ),
