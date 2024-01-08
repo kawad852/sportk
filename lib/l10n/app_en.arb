@@ -16,8 +16,6 @@
   "appName": "iBear",
   "getStarted": "Get started",
   "guest": "Guest",
-  "regTitle": "Find Your Place in iBear",
-  "regBody": "Sign in effortlessly with your preferred method and discover a world of a collection that is just right for you.",
   "conWithGoogle": "Continue with Google",
   "conWithApple": "Continue with Apple",
   "conWithAPhone": "Continue with Phone",
@@ -32,5 +30,8 @@
   "next": "Next",
   "skip": "Skip",
   "followYourTeam": "Follow your team",
-  "clubSearchHint": "Search for a club or league"
+  "clubSearchHint": "Search for a club or league",
+  "registrationTitle": "Register your account",
+  "registrationBody": "Register your account now and start collecting points that you can exchange for Google Play cards, iTunes cards, and many other great prizes",
+  "registerWith": "Register with"
 }

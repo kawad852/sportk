@@ -16,8 +16,6 @@
   "appName": "iBear",
   "getStarted": "ابدأ",
   "guest": "زائر",
-  "regTitle": "ابحث عن مكانك في iBear",
-  "regBody": "سجل الدخول بسهولة باستخدام الطريقة المفضلة لديك واكتشف عالمًا من المجموعات التي تناسبك تمامًا.",
   "conWithGoogle": "المتابعة باستخدام Google",
   "conWithApple": "المتابعة باستخدام Apple",
   "conWithAPhone": "المتابعة باستخدام الهاتف",
@@ -32,5 +30,8 @@
   "next": "التالي",
   "skip": "تخطي",
   "followYourTeam": "تابع فريقك",
-  "clubSearchHint": "ابحث عن نادي او دوري"
+  "clubSearchHint": "ابحث عن نادي او دوري",
+  "registrationTitle": "سجل حسابك",
+  "registrationBody": "سجل حسابك الآن وابدأ بجمع نقاط يمكنك استبدالها ببطاقات Google Play , itunes وغيرها العديد من الجوائز رائعة",
+  "registerWith": "سجل حسابك من خلال"
 }

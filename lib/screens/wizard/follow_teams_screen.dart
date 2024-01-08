@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/screens/registration/registration_screen.dart';
 import 'package:sportk/screens/wizard/league_screen.dart';
 import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
@@ -32,7 +33,9 @@ class _FollowTeamsScreenState extends State<FollowTeamsScreen> {
       bottomNavigationBar: BottomAppBar(
         child: Center(
           child: StretchedButton(
-            onPressed: () {},
+            onPressed: () {
+              context.push(const RegistrationScreen());
+            },
             child: Text(context.appLocalization.next),
           ),
         ),
