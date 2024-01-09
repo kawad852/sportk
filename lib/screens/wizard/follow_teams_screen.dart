@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/screens/registration/registration_screen.dart';
-import 'package:sportk/screens/wizard/league_screen.dart';
-import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
-import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 import 'package:sportk/widgets/league_bubble.dart';
+import 'package:sportk/widgets/league_tile.dart';
 import 'package:sportk/widgets/search_field.dart';
 import 'package:sportk/widgets/stretch_button.dart';
 
@@ -71,21 +69,7 @@ class _FollowTeamsScreenState extends State<FollowTeamsScreen> {
               itemCount: 20,
               separatorBuilder: (context, index) => const SizedBox(height: 5),
               itemBuilder: (context, index) {
-                return ListTile(
-                  onTap: () {
-                    context.push(const LeagueScreen());
-                  },
-                  tileColor: context.colorPalette.grey2F2,
-                  leading: const CustomNetworkImage(
-                    kFakeImage,
-                    radius: 0,
-                    width: 25,
-                    height: 25,
-                  ),
-                  title: const Text(
-                    "English League",
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                return LeagueTile(
                   trailing: IconButton(
                     onPressed: () {},
                     icon: const CustomSvg(MyIcons.starFilled),
