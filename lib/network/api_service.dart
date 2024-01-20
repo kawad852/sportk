@@ -26,7 +26,7 @@ class ApiService<T> {
 
   final kPublicHeader = {
     'Content-Type': 'application/json',
-    'X-localization': MySharedPreferences.language,
+    'Authorization': 'Basic ${base64Encode(utf8.encode('dooshfed77cef9b6a8382207b047604960e3c'))}',
   };
 
   Future<T> uploadFiles({
