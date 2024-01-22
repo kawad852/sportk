@@ -13,7 +13,7 @@ class ServerErrorWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const FaIcon(FontAwesomeIcons.solidBug),
+            //const FaIcon(FontAwesomeIcons.solidBug),
             Padding(
               padding: const EdgeInsets.only(top: 20, bottom: 10),
               child: Text(

@@ -57,6 +57,8 @@ dependencies:
   flutter_svg: ^2.0.9
   pin_code_fields: ^8.0.1
   font_awesome_flutter: ^10.6.0
+  dots_indicator: ^3.0.0
+  scroll_indicator: ^0.0.3
 
   #firebase
   cloud_firestore: 4.12.2
@@ -70,10 +72,10 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-dependency_overrides:
-  font_awesome_flutter:
-    git:
-      url: https://github.com/kawad852/font_awesome_flutter.git
+# dependency_overrides:
+#   font_awesome_flutter:
+#     git:
+#       url: https://github.com/kawad852/font_awesome_flutter.git
 
 
   # The "flutter_lints" package below contains a set of recommended lints to

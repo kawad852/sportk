@@ -11,7 +11,11 @@ class ColorPalette {
   bool get _isLightTheme => MyTheme.isLightTheme(_context);
 
   ///grey
-  Color get grey2F2 => _isLightTheme ? const Color(0xFFF2F2F2) : const Color(0xFFF2F2F2);
+  Color get grey2F2 =>
+      _isLightTheme ? const Color(0xFFF2F2F2) : const Color(0xFFF2F2F2);
+  Color get grey3F3 => const Color.fromRGBO(243,243, 243, 1);
+  Color get grey3F => const Color.fromRGBO(233,233, 233, 1);
+
 
   ///blue
   Color get blueD4B => const Color(0xFF032D4B);
