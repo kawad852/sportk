@@ -70,7 +70,7 @@ class ApiService<T> {
   }) async {
     final futureCallback = await _handleCall(() async {
       late http.Response response;
-      final uri = Uri.parse(link ?? '${ApiUrl.mainUrl}$url');
+      final uri = Uri.parse(link ?? '${ApiUrl.mainUrl}$url?user=doosh&secret=fed77cef9b6a8382207b047604960e3c');
       Map<String, String> headers = callHeaders ?? (isPublic ? kPublicHeader : kAuthorizedHeader);
       if (additionalHeaders != null) {
         headers.addAll(additionalHeaders);
