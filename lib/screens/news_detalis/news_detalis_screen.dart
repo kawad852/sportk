@@ -120,27 +120,19 @@ class _NewsDetalisScreenState extends State<NewsDetalisScreen> {
                                   ),
                                 ),
                               ),
-                              IconButton(
+                              IconButton.filled(
                                 onPressed: () {},
-                                icon: Container(
-                                  width: 45,
-                                  height: 38,
-                                  decoration: BoxDecoration(
-                                    color: context.colorPalette.blueD4B,
-                                    borderRadius: BorderRadius.circular(10),
+                                style: IconButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
                                   ),
-                                  child: Transform.scale(
-                                    scale: 0.7,
-                                    child: const CustomSvg(
-                                      MyIcons.send,
-                                      height: 5,
-                                      width: 2,
-                                    ),
-                                  ),
+                                ),
+                                icon: const CustomSvg(
+                                  MyIcons.send,
                                 ),
                               )
                             ],
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -163,6 +155,7 @@ class _NewsDetalisScreenState extends State<NewsDetalisScreen> {
                   ),
                 ),
               ),
+              //here
               SliverPadding(
                 padding: const EdgeInsetsDirectional.all(20),
                 sliver: SliverList.separated(
@@ -201,7 +194,7 @@ class _NewsDetalisScreenState extends State<NewsDetalisScreen> {
                       const SizedBox(height: 5),
                   itemCount: 6,
                 ),
-              )
+              ),
             ],
           ),
         ));

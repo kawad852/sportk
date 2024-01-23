@@ -1,3 +1,6 @@
 {
-    "dart.flutterSdkPath": "E:\\flutter_windows_3.16.8-stable\\flutter"
+    "dart.flutterSdkPath": "E:\\flutter_windows_3.16.8-stable\\flutter",
+    "[dart]": {
+        "editor.rulers": [100]
+    }
 }

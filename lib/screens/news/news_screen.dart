@@ -50,14 +50,11 @@ class _NewsScreenState extends State<NewsScreen> {
             SliverToBoxAdapter(
               child: Row(
                 children: [
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  const CustomSvg(
-                    MyIcons.location,
-                  ),
-                  const SizedBox(
-                    width: 10,
+                  const Padding(
+                    padding: EdgeInsetsDirectional.only(start: 10, end: 10),
+                    child: CustomSvg(
+                      MyIcons.location,
+                    ),
                   ),
                   Text(
                     "اخبار تهمك",
@@ -66,40 +63,38 @@ class _NewsScreenState extends State<NewsScreen> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(
-                    width: 6,
-                  ),
                   Container(
                     width: 131,
                     height: 35,
+                    margin: const EdgeInsetsDirectional.only(start: 6),
+                    alignment: Alignment.center,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: context.colorPalette.red000,
                     ),
-                    child: Center(
-                      child: Text(
-                        "اخبار جديدة",
-                        style: TextStyle(
-                            color: context.colorPalette.white, fontSize: 18),
-                      ),
+                    child: Text(
+                      "اخبار جديدة",
+                      style: TextStyle(color: context.colorPalette.white, fontSize: 18),
                     ),
                   ),
                 ],
               ),
             ),
             SliverToBoxAdapter(
-                child: SizedBox(
-              height: 257.0,
-              child: ListView.builder(
-                controller: _pageController,
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemCount: 10,
-                itemBuilder: (BuildContext context, int index) {
-                  return const CardNews();
-                },
+              child: SizedBox(
+                height: 257.0,
+                child: ListView.builder(
+                  controller: _pageController,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 10,
+                  itemBuilder: (BuildContext context, int index) {
+                    return const CardNews();
+                  },
+                ),
               ),
-            )),
+            ),
+            //here
             SliverToBoxAdapter(
               child: Column(
                 children: [
@@ -123,37 +118,40 @@ class _NewsScreenState extends State<NewsScreen> {
                 ],
               ),
             ),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsetsDirectional.only(
-                  top: 20,
-                  start: 20,
-                  bottom: 5,
-                ),
-                child: Text(
-                  "اخبار البطولات",
-                  style: TextStyle(
-                    color: context.colorPalette.blueD4B,
-                    fontWeight: FontWeight.w600,
-                  ),
+            SliverPadding(
+              padding: const EdgeInsetsDirectional.only(
+                top: 20,
+                start: 20,
+                bottom: 5,
+              ),
+              sliver: SliverToBoxAdapter(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "اخبار البطولات",
+                      style: TextStyle(
+                        color: context.colorPalette.blueD4B,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 70.0,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 7,
+                        itemBuilder: (BuildContext context, int index) {
+                          return const NewsChampCard();
+                        },
+                      ),
+                    )
+                  ],
                 ),
               ),
             ),
-            SliverToBoxAdapter(
-                child: SizedBox(
-              height: 70.0,
-              child: Padding(
-                padding: const EdgeInsetsDirectional.only(start: 10),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 7,
-                  itemBuilder: (BuildContext context, int index) {
-                    return const NewsChampCard();
-                  },
-                ),
-              ),
-            )),
+            //here
+
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsetsDirectional.only(
