@@ -4,6 +4,7 @@ import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_svg.dart';
+import 'package:sportk/widgets/stretch_button.dart';
 
 class NewsDetalisCard extends StatelessWidget {
   const NewsDetalisCard({super.key});
@@ -16,7 +17,7 @@ class NewsDetalisCard extends StatelessWidget {
         const CustomNetworkImage(
           kFakeImage,
           radius: 10,
-          width: 350,
+          width: double.infinity,
           height: 200,
         ),
         const SizedBox(
@@ -29,48 +30,39 @@ class NewsDetalisCard extends StatelessWidget {
               "12/12/2023",
               style: TextStyle(fontSize: 10),
             ),
-            SizedBox(
-              width: 5,
+            Padding(
+              padding: EdgeInsetsDirectional.only(
+                start: 5,
+                end: 5,
+              ),
+              child: Text(
+                "9:41",
+                style: TextStyle(fontSize: 10),
+              ),
             ),
-            Text(
-              "9:41",
-              style: TextStyle(fontSize: 10),
-            ),
-            SizedBox(
-              width: 5,
-            ),
-            CustomSvg(MyIcons.clock)
+            CustomSvg(MyIcons.clock),
           ],
         ),
         Text(
           "بعد اصابته... أخبار سيئة بشأن نيمار",
           style: TextStyle(
             color: context.colorPalette.blueD4B,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w600,
           ),
         ),
-        const SizedBox(
-          height: 15,
+        const Padding(
+          padding: EdgeInsetsDirectional.only(top: 15, bottom: 15),
+          child: Text(
+            " وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف ر وصف وصف وصف وصف وصف وصف وصف وصف وصف",
+          ),
         ),
-        const Text(
-          " وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف ر وصف وصف وصف وصف وصف وصف وصف وصف وصف",
+        StretchedButton(
+          onPressed: () {},
+          child: Text(
+            "قراءة الخبر من المصدر",
+            style: TextStyle(color: context.colorPalette.white),
+          ),
         ),
-        const SizedBox(
-          height: 10,
-        ),
-        ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              backgroundColor: context.colorPalette.blueD4B,
-              fixedSize: const Size(350, 45),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
-              ),
-            ),
-            child: Text(
-              "قراءة الخبر من المصدر",
-              style: TextStyle(color: context.colorPalette.white),
-            ))
       ],
     );
   }

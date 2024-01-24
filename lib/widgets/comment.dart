@@ -11,7 +11,7 @@ class Comment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 350,
+      width: double.infinity,
       decoration: BoxDecoration(
         color: context.colorPalette.grey3F3,
         borderRadius: BorderRadius.circular(10),
@@ -19,6 +19,7 @@ class Comment extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsetsDirectional.all(8.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -40,7 +41,7 @@ class Comment extends StatelessWidget {
                         color: context.colorPalette.blueD4B,
                         fontWeight: FontWeight.w600,
                       ),
-                    )
+                    ),
                   ],
                 ),
                 Row(
@@ -49,15 +50,12 @@ class Comment extends StatelessWidget {
                       "209",
                       style: TextStyle(color: context.colorPalette.red000),
                     ),
-                    IconButton(
-                        onPressed: () {},
-                        icon: const CustomSvg(MyIcons.heartEmpty))
+                    IconButton(onPressed: () {}, icon: const CustomSvg(MyIcons.heartEmpty))
                   ],
-                )
+                ),
               ],
             ),
-            const Text(
-                "تعليق تعليق تعليق تعليق تعليق تعليق تعليق تعليق تعليق تعليق تعليق ")
+            const Text("تعليق تعليق تعليق تعليق تعليق تعليق تعليق تعليق تعليق تعليق تعليق "),
           ],
         ),
       ),
