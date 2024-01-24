@@ -1,45 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/screens/news/news_detalis_screen.dart';
 import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 
-class LatestNews extends StatelessWidget {
-  const LatestNews({super.key});
+class NewsCard extends StatelessWidget {
+  const NewsCard({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsetsDirectional.only(bottom: 8),
-      width: double.infinity,
-      height: 250.0,
       decoration: BoxDecoration(
         color: context.colorPalette.grey3F3,
         borderRadius: BorderRadius.circular(15),
       ),
+      margin: const EdgeInsetsDirectional.all(8.0),
+      width: 280.0,
       child: Column(
         children: [
-          const ClipRRect(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(15),
-              topRight: Radius.circular(15),
-            ),
+          ClipRRect(
+            borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(15), topRight: Radius.circular(15)),
             child: CustomNetworkImage(
               kFakeImage,
+              onTap: () {
+                context.push(const NewsDetalisScreen());
+              },
               radius: 0,
-              width: double.infinity,
+              width: 280,
               height: 153,
             ),
           ),
           Padding(
             padding: const EdgeInsetsDirectional.all(8.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
                   "تشيلسي يوافق على بيع قائده بسبب قواعد اللعب المالي النظيف",
-                  maxLines: 1,
+                  maxLines: 2,
                   style: TextStyle(
                     fontSize: 10,
                     overflow: TextOverflow.ellipsis,
@@ -105,13 +105,6 @@ class LatestNews extends StatelessWidget {
                       onTap: () {},
                       child: const CustomSvg(
                         MyIcons.download,
-                        width: 25,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: const CustomSvg(
-                        MyIcons.message,
                         width: 25,
                       ),
                     ),

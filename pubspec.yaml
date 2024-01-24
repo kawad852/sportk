@@ -57,8 +57,7 @@ dependencies:
   flutter_svg: ^2.0.9
   pin_code_fields: ^8.0.1
   font_awesome_flutter: ^10.6.0
-  dots_indicator: ^3.0.0
-  scroll_indicator: ^0.0.3
+  
 
   #firebase
   cloud_firestore: 4.12.2

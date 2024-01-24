@@ -1,8 +1,9 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:scroll_indicator/scroll_indicator.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
-import 'package:sportk/widgets/card_news.dart';
+import 'package:sportk/widgets/news_card.dart';
+import 'package:sportk/widgets/custom_smoth_indicator.dart';
 import 'package:sportk/widgets/news_champ_card.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 import 'package:sportk/widgets/latest_news.dart';
@@ -16,7 +17,6 @@ class NewsScreen extends StatefulWidget {
 
 class _NewsScreenState extends State<NewsScreen> {
   int currentIndex = 0;
-  final ScrollController _pageController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -81,39 +81,29 @@ class _NewsScreenState extends State<NewsScreen> {
               ),
             ),
             SliverToBoxAdapter(
-              child: SizedBox(
-                height: 257.0,
-                child: ListView.builder(
-                  controller: _pageController,
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 10,
-                  itemBuilder: (BuildContext context, int index) {
-                    return const CardNews();
-                  },
-                ),
-              ),
-            ),
-            //here
-            SliverToBoxAdapter(
               child: Column(
                 children: [
+                  CarouselSlider.builder(
+                    itemCount: 10,
+                    options: CarouselOptions(
+                        reverse: false,
+                        autoPlay: false,
+                        height: 280.0,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            currentIndex = index;
+                          });
+                        }),
+                    itemBuilder: (context, index, realIndex) {
+                      return const NewsCard();
+                    },
+                  ),
                   const SizedBox(
                     height: 10,
                   ),
-                  ScrollIndicator(
-                    scrollController: _pageController,
-                    width: 100,
-                    height: 10,
-                    indicatorWidth: 20,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: context.colorPalette.grey3F,
-                    ),
-                    indicatorDecoration: BoxDecoration(
-                      color: context.colorPalette.blueD4B,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+                  CustomSmoothIndicator(
+                    count: 10,
+                    index: currentIndex,
                   ),
                 ],
               ),
@@ -145,20 +135,18 @@ class _NewsScreenState extends State<NewsScreen> {
                           return const NewsChampCard();
                         },
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
             ),
-            //here
-
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsetsDirectional.only(
-                  top: 15,
-                  start: 20,
-                  bottom: 5,
-                ),
+            SliverPadding(
+              padding: const EdgeInsetsDirectional.only(
+                top: 15,
+                start: 20,
+                bottom: 5,
+              ),
+              sliver: SliverToBoxAdapter(
                 child: Text(
                   "احدث الاخبار",
                   style: TextStyle(
@@ -171,13 +159,13 @@ class _NewsScreenState extends State<NewsScreen> {
             SliverPadding(
               padding: const EdgeInsetsDirectional.all(20),
               sliver: SliverList.separated(
+                separatorBuilder: (context, index) => const SizedBox(height: 5),
+                itemCount: 6,
                 itemBuilder: (context, index) {
                   return const LatestNews();
                 },
-                separatorBuilder: (context, index) => const SizedBox(height: 5),
-                itemCount: 6,
               ),
-            )
+            ),
           ],
         ),
       ),
