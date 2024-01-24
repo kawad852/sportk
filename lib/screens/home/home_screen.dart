@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:sportk/model/schedule_and_results_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
+import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
@@ -26,19 +27,22 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late Future<ScheduleAndResultsModel> _scheduleAndResultsfuture;
+  late AuthProvider _authProvider;
 
-  void _initFuture() {
-    _scheduleAndResultsfuture = ApiService<ScheduleAndResultsModel>().build(
+  Future<ScheduleAndResultsModel> _initFuture() {
+    final data = ApiService<ScheduleAndResultsModel>().build(
       url: ApiUrl.scheduleAndResults,
       isPublic: true,
       apiType: ApiType.get,
       builder: ScheduleAndResultsModel.fromJson,
     );
+    return data;
   }
 
   @override
   void initState() {
     super.initState();
+    _authProvider = context.authProvider;
     _initFuture();
   }
 
