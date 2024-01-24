@@ -15,6 +15,8 @@ class MyIcons {
   static const String clock = '${_path}clock.svg';
   static const String send = '${_path}send.svg';
   static const String heartEmpty = '${_path}heart_empty.svg';
+  static const String ticketStar = '${_path}ticket_star.svg';
+
 
 
 

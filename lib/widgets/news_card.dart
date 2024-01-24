@@ -7,7 +7,8 @@ import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 
 class NewsCard extends StatelessWidget {
-  const NewsCard({super.key});
+  const NewsCard({super.key, this.isMessage = false});
+  final bool? isMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,8 @@ class NewsCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       margin: const EdgeInsetsDirectional.all(8.0),
-      width: 280.0,
+      width: double.infinity,
+      height: 260.0,
       child: Column(
         children: [
           ClipRRect(
@@ -29,7 +31,7 @@ class NewsCard extends StatelessWidget {
                 context.push(const NewsDetalisScreen());
               },
               radius: 0,
-              width: 280,
+              width: double.infinity,
               height: 153,
             ),
           ),
@@ -85,9 +87,9 @@ class NewsCard extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        GestureDetector(
-                          onTap: () {},
-                          child: const CustomSvg(
+                        IconButton(
+                          onPressed: () {},
+                          icon: const CustomSvg(
                             MyIcons.heart,
                             width: 25,
                           ),
@@ -101,13 +103,21 @@ class NewsCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: const CustomSvg(
+                    IconButton(
+                      onPressed: () {},
+                      icon: const CustomSvg(
                         MyIcons.download,
                         width: 25,
                       ),
                     ),
+                    if (isMessage == true)
+                      IconButton(
+                        onPressed: () {},
+                        icon: const CustomSvg(
+                          MyIcons.message,
+                          width: 25,
+                        ),
+                      ),
                   ],
                 ),
               ),
