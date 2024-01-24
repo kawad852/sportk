@@ -108,9 +108,9 @@ class LatestNews extends StatelessWidget {
                         width: 25,
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: const CustomSvg(
+                    IconButton(
+                      onPressed: () {},
+                      icon: const CustomSvg(
                         MyIcons.message,
                         width: 25,
                       ),

@@ -2,11 +2,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
-import 'package:sportk/widgets/news_card.dart';
 import 'package:sportk/widgets/custom_smoth_indicator.dart';
-import 'package:sportk/widgets/news_champ_card.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 import 'package:sportk/widgets/latest_news.dart';
+import 'package:sportk/widgets/news_card.dart';
+import 'package:sportk/widgets/news_champ_card.dart';
 
 class NewsScreen extends StatefulWidget {
   const NewsScreen({super.key});
@@ -88,6 +88,8 @@ class _NewsScreenState extends State<NewsScreen> {
                     options: CarouselOptions(
                         reverse: false,
                         autoPlay: false,
+                        viewportFraction: 0.7,
+                        enableInfiniteScroll: false,
                         height: 280.0,
                         onPageChanged: (index, reason) {
                           setState(() {
