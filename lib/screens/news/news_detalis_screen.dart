@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
+import 'package:sportk/widgets/news_card.dart';
 import 'package:sportk/widgets/news_detalis_card.dart';
 import 'package:sportk/widgets/comment.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_svg.dart';
-import 'package:sportk/widgets/latest_news.dart';
 
 class NewsDetalisScreen extends StatefulWidget {
   const NewsDetalisScreen({super.key});
@@ -184,7 +184,9 @@ class _NewsDetalisScreenState extends State<NewsDetalisScreen> {
                 separatorBuilder: (context, index) => const SizedBox(height: 5),
                 itemCount: 6,
                 itemBuilder: (context, index) {
-                  return const LatestNews();
+                  return const NewsCard(
+                    isMessage: true,
+                  );
                 },
               ),
             ),

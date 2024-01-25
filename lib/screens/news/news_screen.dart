@@ -4,7 +4,6 @@ import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/custom_smoth_indicator.dart';
 import 'package:sportk/widgets/custom_svg.dart';
-import 'package:sportk/widgets/latest_news.dart';
 import 'package:sportk/widgets/news_card.dart';
 import 'package:sportk/widgets/news_champ_card.dart';
 
@@ -164,7 +163,9 @@ class _NewsScreenState extends State<NewsScreen> {
                 separatorBuilder: (context, index) => const SizedBox(height: 5),
                 itemCount: 6,
                 itemBuilder: (context, index) {
-                  return const LatestNews();
+                  return const NewsCard(
+                    isMessage: true,
+                  );
                 },
               ),
             ),
