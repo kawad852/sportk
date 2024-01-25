@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<ScheduleAndResultsModel> _initFuture() {
     final data = ApiService<ScheduleAndResultsModel>().build(
-      url: ApiUrl.scheduleAndResults,
+      sportsUrl: ApiUrl.scheduleAndResults,
       isPublic: true,
       apiType: ApiType.get,
       builder: ScheduleAndResultsModel.fromJson,

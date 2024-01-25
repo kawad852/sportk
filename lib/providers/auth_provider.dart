@@ -40,7 +40,7 @@ class AuthProvider extends ChangeNotifier {
   void initializeLocale(BuildContext context) async {
     countryCodeFuture = ApiService<LocaleModel>()
         .build(
-          url: '',
+          sportsUrl: '',
           link: 'https://cloud.appwrite.io/v1/locale',
           apiType: ApiType.get,
           builder: LocaleModel.fromJson,
