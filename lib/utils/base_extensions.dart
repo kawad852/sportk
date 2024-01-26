@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sportk/alerts/loading/app_loading_indicators.dart';
 import 'package:sportk/providers/app_provider.dart';
 import 'package:sportk/providers/auth_provider.dart';
+import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/utils/app_routes.dart';
 import 'package:sportk/utils/color_palette.dart';
 import 'package:sportk/utils/enums.dart';
@@ -91,6 +92,7 @@ extension ThemeExtension on BuildContext {
 extension ProvidersExtension on BuildContext {
   AuthProvider get authProvider => read<AuthProvider>();
   AppProvider get appProvider => read<AppProvider>();
+  FootBallProvider get footBallProvider => read<FootBallProvider>();
 }
 
 extension CommonExtensions on BuildContext {
