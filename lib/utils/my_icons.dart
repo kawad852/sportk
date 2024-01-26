@@ -16,6 +16,16 @@ class MyIcons {
   static const String send = '${_path}send.svg';
   static const String heartEmpty = '${_path}heart_empty.svg';
   static const String ticketStar = '${_path}ticket_star.svg';
+  static const String sort = '${_path}sort.svg';
+  static const String coin = '${_path}coin.svg';
+  static const String videoPlay = '${_path}video_play.svg';
+  static const String moneyTime = '${_path}money_time.svg';
+  static const String replacementRequests = '${_path}replacement_requests.svg';
+
+
+
+
+
 
 
 

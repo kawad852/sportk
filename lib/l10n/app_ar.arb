@@ -33,5 +33,12 @@
   "clubSearchHint": "ابحث عن نادي او دوري",
   "registrationTitle": "سجل حسابك",
   "registrationBody": "سجل حسابك الآن وابدأ بجمع نقاط يمكنك استبدالها ببطاقات Google Play , itunes وغيرها العديد من الجوائز رائعة",
-  "registerWith": "سجل حسابك من خلال"
+  "registerWith": "سجل حسابك من خلال",
+  "invitationCode":"كود الدعوة",
+  "friendsRecomend":"هل رشح لك احد اصدقائك استخدام سبورتك؟",
+  "addInvitationCode":"اضف كود الدعوة الخاص بك واحصل على ",
+  "sportk50":"50 سبورتك",
+  "forYouAndYourFriend":"لك ولصديقك.",
+  "enterInvitationCode":"ادخل كود الدعوة هنا",
+  "send":"ارسال"
 }

@@ -81,7 +81,7 @@ class NewsCard extends StatelessWidget {
                 bottomRight: Radius.circular(15),
               ),
               child: Container(
-                color: context.colorPalette.grey3F,
+                color: context.colorPalette.grey9E9,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [

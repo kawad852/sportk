@@ -36,34 +36,34 @@ class _InvitationCodeScreenState extends State<InvitationCodeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsetsDirectional.only(top: 30, bottom: 10),
+            Padding(
+              padding: const EdgeInsetsDirectional.only(top: 30, bottom: 10),
               child: Text(
-                "Invitation code",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                context.appLocalization.invitationCode,
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
               ),
             ),
-            const Text("Did one of your friends recommend SPORTK?"),
+            Text(context.appLocalization.friendsRecomend),
             Row(
               children: [
-                const Text("Add his invitation code and get "),
+                Text(context.appLocalization.addInvitationCode),
                 Text(
-                  "50 SPORTK",
+                  context.appLocalization.sportk50,
                   style: TextStyle(
-                    color: context.colorPalette.mainYellow,
+                    color: context.colorPalette.yellowF7A,
                   ),
                 ),
               ],
             ),
-            const Text("For you and your friend."),
+            Text(context.appLocalization.forYouAndYourFriend),
             const SizedBox(
               height: 10,
             ),
             TextFormField(
               decoration: InputDecoration(
-                fillColor: context.colorPalette.grey3F,
+                fillColor: context.colorPalette.blue1AD4B,
                 contentPadding: const EdgeInsetsDirectional.symmetric(horizontal: 5, vertical: 10),
-                hintText: "Enter the invitation code here",
+                hintText: context.appLocalization.enterInvitationCode,
                 hintStyle: TextStyle(
                   color: context.colorPalette.blueD4B,
                   fontWeight: FontWeight.w600,
@@ -78,7 +78,7 @@ class _InvitationCodeScreenState extends State<InvitationCodeScreen> {
             const Spacer(),
             StretchedButton(
               onPressed: () {},
-              child: const Text("Send"),
+              child: Text(context.appLocalization.send),
             ),
           ],
         ),
