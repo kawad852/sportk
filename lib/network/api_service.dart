@@ -71,7 +71,7 @@ class ApiService<T> {
   }) async {
     final futureCallback = await _handleCall(() async {
       late http.Response response;
-      final uri = Uri.parse(link ?? (sportsUrl != null ? '${ApiUrl.mainUrl}$sportsUrl?user=doosh&secret=fed77cef9b6a8382207b047604960e3c' : ''));
+      final uri = Uri.parse(link ?? (sportsUrl != null ? '${ApiUrl.mainUrl}$sportsUrl' : ''));
       Map<String, String> headers = callHeaders ?? (isPublic ? kPublicHeader : kAuthorizedHeader);
       if (additionalHeaders != null) {
         headers.addAll(additionalHeaders);
@@ -95,7 +95,7 @@ class ApiService<T> {
           body: body,
         );
       }
-      log("ApiRequest::\nURL:: ${link ?? sportsUrl}\nQueryParameters:: $queryParams\nSTATUSCODE:: ${response.statusCode}");
+      log("ApiRequest::\nURL:: ${link ?? uri}\nQueryParameters:: $queryParams\nSTATUSCODE:: ${response.statusCode}");
       if (onEnd != null) {
         Map<String, dynamic> json = jsonDecode(response.body);
         final model = builder(json) as T;

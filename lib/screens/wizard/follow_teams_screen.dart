@@ -23,7 +23,7 @@ class _FollowTeamsScreenState extends State<FollowTeamsScreen> {
   late FootBallProvider _footBallProvider;
 
   void _initializeFutures() {
-    _competitionFuture = _footBallProvider.fetchCompetition();
+    _competitionFuture = _footBallProvider.fetchCompetitions();
   }
 
   @override
@@ -95,6 +95,7 @@ class _FollowTeamsScreenState extends State<FollowTeamsScreen> {
                   separatorBuilder: (context, index) => const SizedBox(height: 5),
                   itemBuilder: (context, index) {
                     return LeagueTile(
+                      competitionId: '',
                       trailing: IconButton(
                         onPressed: () {},
                         icon: const CustomSvg(MyIcons.starFilled),
