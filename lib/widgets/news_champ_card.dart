@@ -12,7 +12,7 @@ class NewsChampCard extends StatelessWidget {
       width: 60,
       margin: const EdgeInsetsDirectional.all(6.0),
       decoration: BoxDecoration(
-        color: context.colorPalette.grey3F,
+        color: context.colorPalette.grey9E9,
         borderRadius: BorderRadius.circular(5),
       ),
       child: const Center(
