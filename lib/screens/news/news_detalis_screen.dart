@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
+import 'package:sportk/widgets/custom_back.dart';
 import 'package:sportk/widgets/news_card.dart';
 import 'package:sportk/widgets/news_detalis_card.dart';
 import 'package:sportk/widgets/comment.dart';
@@ -23,30 +24,10 @@ class _NewsDetalisScreenState extends State<NewsDetalisScreen> {
       child: Scaffold(
         body: CustomScrollView(
           slivers: [
-            SliverAppBar(
+            const SliverAppBar(
               leadingWidth: 120,
               pinned: true,
-              leading: Row(
-                children: [
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      context.pop();
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back_ios,
-                    ),
-                  ),
-                  const Text(
-                    "رجوع",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
+              leading: CustomBack(),
             ),
             const SliverPadding(
               padding: EdgeInsetsDirectional.symmetric(horizontal: 10),

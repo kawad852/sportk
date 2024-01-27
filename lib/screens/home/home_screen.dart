@@ -7,6 +7,8 @@ import 'package:sportk/model/schedule_and_results_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
 import 'package:sportk/providers/auth_provider.dart';
+import 'package:sportk/screens/match_info/match_info_screen.dart';
+import 'package:sportk/screens/news/news_screen.dart';
 import 'package:sportk/screens/wallet/wallet_screen.dart';
 import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
@@ -17,7 +19,6 @@ import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 import 'package:sportk/widgets/league_tile.dart';
 
-import '../news/news_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -64,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
           pinned: true,
           leading: IconButton(
             onPressed: () {
-              context.push(const WalletScreen());
+              context.push(const MatchInfoScreen());
             },
             icon: const CustomSvg(MyIcons.menu),
           ),
