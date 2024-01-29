@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
+import 'package:sportk/widgets/custom_back.dart';
 import 'package:sportk/widgets/custom_smoth_indicator.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 import 'package:sportk/widgets/news_card.dart';
@@ -24,27 +25,10 @@ class _NewsScreenState extends State<NewsScreen> {
       child: Scaffold(
         body: CustomScrollView(
           slivers: [
-            SliverAppBar(
+            const SliverAppBar(
               leadingWidth: 120,
               pinned: true,
-              leading: Row(
-                children: [
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  IconButton(
-                      onPressed: () {
-                        context.pop();
-                      },
-                      icon: const Icon(
-                        Icons.arrow_back_ios,
-                      )),
-                  const Text(
-                    "رجوع",
-                    style: TextStyle(fontWeight: FontWeight.w600),
-                  )
-                ],
-              ),
+              leading: CustomBack(),
             ),
             SliverToBoxAdapter(
               child: Row(
