@@ -40,5 +40,21 @@
   "sportk50":"50 SPORTK",
   "forYouAndYourFriend":"For you and your friend.",
   "enterInvitationCode":"Enter the invitation code here",
-  "send":"Send"
+  "send":"Send",
+  "back":"Back",
+  "winner":"W",
+  "draw":"D",
+  "loser":"L",
+  "live":"Live",
+  "matchEvents":"Events",
+  "plan":"Plan",
+  "statistics":"Statistics",
+  "standings":"Standings",
+  "team":"Team",
+  "play":"TP",
+  "goals":"Goals",
+  "differance":"D",
+  "points":"P",
+  "championships":"Championships"
+  
 }

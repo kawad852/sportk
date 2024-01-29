@@ -40,5 +40,20 @@
   "sportk50":"50 سبورتك",
   "forYouAndYourFriend":"لك ولصديقك.",
   "enterInvitationCode":"ادخل كود الدعوة هنا",
-  "send":"ارسال"
+  "send":"ارسال",
+  "back":"رجوع",
+  "winner":"ف",
+  "draw":"ت",
+  "loser":"خ",
+  "live":"مباشر",
+  "matchEvents":"احداث",
+  "plan":"تشكيلة",
+  "statistics":"الاحصائيات",
+  "standings":"الترتيب",
+  "team":"الفريق",
+  "play":"لعب",
+  "goals":"اهداف",
+  "differance":"ف",
+  "points":"ن",
+  "championships":"البطولات"
 }

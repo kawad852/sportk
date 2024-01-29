@@ -21,7 +21,7 @@ class MyIcons {
   static const String videoPlay = '${_path}video_play.svg';
   static const String moneyTime = '${_path}money_time.svg';
   static const String replacementRequests = '${_path}replacement_requests.svg';
-
+  static const String notification='${_path}notification.svg';
 
 
 
