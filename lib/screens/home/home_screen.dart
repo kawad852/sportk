@@ -5,6 +5,7 @@ import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 import 'package:sportk/widgets/league_tile.dart';
+import 'package:sportk/widgets/stretch_button.dart';
 
 import '../news/news_screen.dart';
 
@@ -38,17 +39,28 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomFutureBuilder(
-        future: _fetchCompetitionsFuture,
-        onRetry: () {
-          setState(() {
-            _initializeCompetitions();
-          });
-        },
-        onComplete: (context, snapshot) {
-          final competitions = snapshot.data!;
-          return CustomScrollView(
+    return CustomFutureBuilder(
+      future: _fetchCompetitionsFuture,
+      withBackgroundColor: true,
+      onRetry: () {
+        setState(() {
+          _initializeCompetitions();
+        });
+      },
+      onError: (snapshot) => const SizedBox.shrink(),
+      onComplete: (context, snapshot) {
+        final competitions = snapshot.data!;
+        return Scaffold(
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {},
+          ),
+          bottomNavigationBar: BottomAppBar(
+            child: StretchedButton(
+              child: const Text("Save"),
+              onPressed: () {},
+            ),
+          ),
+          body: CustomScrollView(
             slivers: [
               SliverAppBar(
                 pinned: true,
@@ -102,9 +114,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ],
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

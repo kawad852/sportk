@@ -21,6 +21,20 @@ class FootBallProvider extends ChangeNotifier {
     return snapshot;
   }
 
+  Future<CompetitionModel> fetchPlayers({
+    int? page,
+    int? time,
+    String? uuid,
+  }) {
+    final snapshot = ApiService<CompetitionModel>().build(
+      sportsUrl: '${ApiUrl.competitions}&page=$page&time=$time&uuid=$uuid',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: CompetitionModel.fromJson,
+    );
+    return snapshot;
+  }
+
   Future<SeasonModel> fetchSeasons({
     int? page,
     int? time,
