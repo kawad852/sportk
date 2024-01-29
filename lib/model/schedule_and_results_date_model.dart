@@ -1,30 +1,30 @@
-class ScheduleAndResultsModel {
+class ScheduleAndResultsDateModel {
   int? code;
   Query? query;
   List<Result>? results;
   ResultsExtra? resultsExtra;
 
-  ScheduleAndResultsModel({
+  ScheduleAndResultsDateModel({
     this.code,
     this.query,
     this.results,
     this.resultsExtra,
   });
 
-  ScheduleAndResultsModel copyWith({
+  ScheduleAndResultsDateModel copyWith({
     int? code,
     Query? query,
     List<Result>? results,
     ResultsExtra? resultsExtra,
   }) =>
-      ScheduleAndResultsModel(
+      ScheduleAndResultsDateModel(
         code: code ?? this.code,
         query: query ?? this.query,
         results: results ?? this.results,
         resultsExtra: resultsExtra ?? this.resultsExtra,
       );
 
-  factory ScheduleAndResultsModel.fromJson(Map<String, dynamic> json) => ScheduleAndResultsModel(
+  factory ScheduleAndResultsDateModel.fromJson(Map<String, dynamic> json) => ScheduleAndResultsDateModel(
         code: json["code"],
         query: json["query"] == null ? null : Query.fromJson(json["query"]),
         results: json["results"] == null ? [] : List<Result>.from(json["results"]!.map((x) => Result.fromJson(x))),
