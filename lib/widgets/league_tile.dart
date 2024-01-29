@@ -51,6 +51,9 @@ class _LeagueTileState extends State<LeagueTile> {
       },
       onComplete: (context, snapshot) {
         final competition = snapshot.data!;
+        if (competition.results!.isEmpty) {
+          return const Center(child: Text("Change competition id (Testing only msg)"));
+        }
         final result = competition.results!.first;
         return ListTile(
           onTap: () {
