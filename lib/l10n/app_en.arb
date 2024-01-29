@@ -33,5 +33,12 @@
   "clubSearchHint": "Search for a club or league",
   "registrationTitle": "Register your account",
   "registrationBody": "Register your account now and start collecting points that you can exchange for Google Play cards, iTunes cards, and many other great prizes",
-  "registerWith": "Register with"
+  "registerWith": "Register with",
+  "invitationCode":"Invitation code",
+  "friendsRecomend":"Did one of your friends recommend SPORTK?",
+  "addInvitationCode":"Add his invitation code and get ",
+  "sportk50":"50 SPORTK",
+  "forYouAndYourFriend":"For you and your friend.",
+  "enterInvitationCode":"Enter the invitation code here",
+  "send":"Send"
 }

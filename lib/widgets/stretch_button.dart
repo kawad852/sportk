@@ -6,12 +6,14 @@ class StretchedButton extends StatelessWidget {
   final Widget child;
   final VoidCallback onPressed;
   final EdgeInsetsGeometry? margin;
+  final Color? backgroundColor;
 
   const StretchedButton({
     super.key,
     required this.child,
     required this.onPressed,
     this.margin,
+    this.backgroundColor,
   });
 
   @override
@@ -21,6 +23,7 @@ class StretchedButton extends StatelessWidget {
       child: FilledButton(
         onPressed: onPressed,
         style: FilledButton.styleFrom(
+          backgroundColor: backgroundColor ?? context.colorPalette.blueD4B,
           minimumSize: Size.fromHeight(context.systemButtonHeight + 4),
           textStyle: TextStyle(fontSize: 17, fontFamily: MyTheme.fontFamily),
         ),

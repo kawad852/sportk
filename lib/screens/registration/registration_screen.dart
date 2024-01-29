@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/screens/home/home_screen.dart';
+import 'package:sportk/screens/invitation_code/invitation_code_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_images.dart';
 import 'package:sportk/widgets/title/medium_title.dart';
@@ -51,20 +52,31 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                MyImages.google,
-                width: 50,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: Image.asset(
-                  MyImages.apple,
+              IconButton(
+                onPressed: () {
+                  context.push(const InvitationCodeScreen());
+                },
+                icon: Image.asset(
+                  MyImages.google,
                   width: 50,
                 ),
               ),
-              Image.asset(
-                MyImages.facebook,
-                width: 50,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: IconButton(
+                  onPressed: () {},
+                  icon: Image.asset(
+                    MyImages.apple,
+                    width: 50,
+                  ),
+                ),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: Image.asset(
+                  MyImages.facebook,
+                  width: 50,
+                ),
               ),
             ],
           ),
