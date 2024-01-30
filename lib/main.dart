@@ -10,6 +10,7 @@ import 'package:sportk/providers/app_provider.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/home/home_screen.dart';
+import 'package:sportk/screens/player_team/player_team_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_theme.dart';
@@ -88,7 +89,7 @@ class _MyAppState extends State<MyApp> {
           // locale: appConfigProvider.appLocale,
           locale: Locale(appProvider.appLocale.languageCode),
           theme: MyTheme().materialTheme(context, seedColorScheme),
-          home: const HomeScreen(),
+          home: const PlayerTeamScreen(uuid: "p3glrw7he0gqdyj"),
           // home: _toggleRoute(context),
         );
       },

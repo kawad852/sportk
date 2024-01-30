@@ -8,4 +8,6 @@ class ApiUrl {
   static const String scheduleAndResultsSeason = '/match/season/recent$auth';
   static const String seasons = '/season/list$auth';
   static const String teams = '/team/additional/list$auth';
+  static const String playerInfo = '/player/with_stat/list$auth';
+
 }

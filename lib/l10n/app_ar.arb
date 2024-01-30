@@ -55,5 +55,12 @@
   "goals":"اهداف",
   "differance":"ف",
   "points":"ن",
-  "championships":"البطولات"
+  "championships":"البطولات",
+  "position":"المركز",
+  "age":"العمر",
+  "weight":"الوزن",
+  "height":"الطول",
+  "year":"عام",
+  "kg":"كغم",
+  "cm":"سم"
 }

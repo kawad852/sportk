@@ -55,6 +55,13 @@
   "goals":"Goals",
   "differance":"D",
   "points":"P",
-  "championships":"Championships"
+  "championships":"Championships",
+  "position":"Position",
+  "age":"Age",
+  "weight":"Weight",
+  "height":"Height",
+  "year":"year",
+  "kg":"kg",
+  "cm":"cm"
   
 }

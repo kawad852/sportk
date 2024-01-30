@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:sportk/model/competition_model.dart';
+import 'package:sportk/model/player_model.dart';
 import 'package:sportk/model/schedule_and_results_season_model.dart';
 import 'package:sportk/model/season_model.dart';
 import 'package:sportk/model/team_model.dart';
@@ -71,6 +72,19 @@ class FootBallProvider extends ChangeNotifier {
       isPublic: true,
       apiType: ApiType.get,
       builder: TeamModel.fromJson,
+    );
+    return snapshot;
+  }
+  Future<PlayerModel> fetchPlayerInfo({
+    int? page,
+    int? time,
+    String? uuid,
+  }) {
+    final snapshot = ApiService<PlayerModel>().build(
+      sportsUrl: '${ApiUrl.playerInfo}&page=$page&time=$time&uuid=$uuid',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: PlayerModel.fromJson,
     );
     return snapshot;
   }

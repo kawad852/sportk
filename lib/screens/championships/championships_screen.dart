@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
-import 'package:sportk/widgets/championships_card.dart';
+import 'package:sportk/screens/championships/widgets/championships_card.dart';
 import 'package:sportk/widgets/custom_svg.dart';
-import 'package:sportk/widgets/league_card.dart';
+import 'package:sportk/screens/championships/widgets/league_card.dart';
 
-class Championships extends StatefulWidget {
-  const Championships({super.key});
+class ChampionshipsScreen extends StatefulWidget {
+  const ChampionshipsScreen({super.key});
 
   @override
-  State<Championships> createState() => _ChampionshipsState();
+  State<ChampionshipsScreen> createState() => _ChampionshipsScreenState();
 }
 
-class _ChampionshipsState extends State<Championships> {
+class _ChampionshipsScreenState extends State<ChampionshipsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +46,7 @@ class _ChampionshipsState extends State<Championships> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Popular Championships",
+                    "Popular ChampionshipsScreen",
                     style: TextStyle(
                       color: context.colorPalette.blueD4B,
                       fontWeight: FontWeight.w600,
