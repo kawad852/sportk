@@ -62,6 +62,9 @@
   "height":"Height",
   "year":"year",
   "kg":"kg",
-  "cm":"cm"
+  "cm":"cm",
+  "yellowCard":"Yellow Card",
+  "redCard":"Red Card",
+  "assist":"Assist"
   
 }

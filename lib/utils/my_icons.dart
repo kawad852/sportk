@@ -22,6 +22,14 @@ class MyIcons {
   static const String moneyTime = '${_path}money_time.svg';
   static const String replacementRequests = '${_path}replacement_requests.svg';
   static const String notification='${_path}notification.svg';
+  static const String goals='${_path}goals.svg';
+  static const String yellowCard='${_path}yellow_card.svg';
+  static const String redCard='${_path}red_card.svg';
+  static const String assist='${_path}assist.svg';
+
+
+
+
 
 
 
