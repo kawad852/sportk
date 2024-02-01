@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sportk/screens/player_team/widgets/statistics_card.dart';
-import 'package:sportk/screens/player_team/widgets/ver_divider.dart';
+import 'package:sportk/screens/player/widgets/statistics_card.dart';
+import 'package:sportk/screens/player/widgets/line_divider.dart';
 import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
@@ -99,19 +99,19 @@ class _PlayerStatisticsState extends State<PlayerStatistics> {
                     title: context.appLocalization.goals,
                     text: "9",
                   ),
-                  const VerDivider(),
+                  const LineDivider(),
                   StatisticsCard(
                     icon: MyIcons.yellowCard,
                     title: context.appLocalization.yellowCard,
                     text: "9",
                   ),
-                  const VerDivider(),
+                  const LineDivider(),
                   StatisticsCard(
                     icon: MyIcons.redCard,
                     title: context.appLocalization.redCard,
                     text: "9",
                   ),
-                  const VerDivider(),
+                  const LineDivider(),
                   StatisticsCard(
                     icon: MyIcons.assist,
                     title: context.appLocalization.assist,

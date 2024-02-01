@@ -10,7 +10,7 @@ import 'package:sportk/providers/app_provider.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/home/home_screen.dart';
-import 'package:sportk/screens/player_team/player_team_screen.dart';
+import 'package:sportk/screens/player/player_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_theme.dart';
@@ -30,7 +30,8 @@ Future<void> main() async {
   await MySharedPreferences.init();
   // MySharedPreferences.clearStorage();
   // MySharedPreferences.isPassedIntro = false;
-  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  await SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   FirebaseMessaging.onBackgroundMessage(onBackgroundMessage);
   runApp(
     MultiProvider(
@@ -89,7 +90,7 @@ class _MyAppState extends State<MyApp> {
           // locale: appConfigProvider.appLocale,
           locale: Locale(appProvider.appLocale.languageCode),
           theme: MyTheme().materialTheme(context, seedColorScheme),
-          home: const PlayerTeamScreen(uuid: "p3glrw7he0gqdyj"),
+          home: const PlayerScreen(playerUUID: "2y8m4zh3x11ql07"),
           // home: _toggleRoute(context),
         );
       },

@@ -9,5 +9,7 @@ class ApiUrl {
   static const String seasons = '/season/list$auth';
   static const String teams = '/team/additional/list$auth';
   static const String playerInfo = '/player/with_stat/list$auth';
+  static const String countries = '/country/list$auth';
+
 
 }

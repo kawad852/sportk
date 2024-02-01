@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/utils/base_extensions.dart';
 
-class VerDivider extends StatelessWidget {
-  const VerDivider({super.key});
+class LineDivider extends StatelessWidget {
+  const LineDivider({super.key});
 
   @override
   Widget build(BuildContext context) {

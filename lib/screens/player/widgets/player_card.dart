@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/model/player_model.dart';
 import 'package:sportk/providers/football_provider.dart';
-import 'package:sportk/screens/player_team/widgets/player_card_loading.dart';
-import 'package:sportk/utils/app_constants.dart';
+import 'package:sportk/screens/player/widgets/player_card_loading.dart';
+import 'package:sportk/screens/player/widgets/player_country.dart';
+import 'package:sportk/screens/player/widgets/player_team.dart';
+import 'package:sportk/screens/player/widgets/team_name.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
@@ -19,6 +21,7 @@ class PlayerCard extends StatefulWidget {
 class _PlayerCardState extends State<PlayerCard> {
   late FootBallProvider _footBallProvider;
   late Future<PlayerModel> _playerFuture;
+
   void _initializeFuture() {
     _playerFuture = _footBallProvider.fetchPlayerInfo(uuid: widget.uuid);
   }
@@ -49,34 +52,7 @@ class _PlayerCardState extends State<PlayerCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Stack(
-                  children: [
-                    const CustomNetworkImage(
-                      kFakeImage,
-                      width: 30,
-                      height: 30,
-                      radius: 0,
-                    ),
-                    Padding(
-                      padding: const EdgeInsetsDirectional.only(top: 25, start: 5),
-                      child: Container(
-                        width: 20,
-                        height: 20,
-                        decoration: BoxDecoration(
-                          color: context.colorPalette.white,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Text(
-                          "9",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: context.colorPalette.blueD4B,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                PlayerCountry(countryId: player.results![0].countryId!),
                 Padding(
                   padding: const EdgeInsetsDirectional.only(start: 20, end: 20),
                   child: Column(
@@ -90,34 +66,7 @@ class _PlayerCardState extends State<PlayerCard> {
                     ],
                   ),
                 ),
-                Stack(
-                  children: [
-                    const CustomNetworkImage(
-                      kFakeImage,
-                      width: 30,
-                      height: 30,
-                      radius: 0,
-                    ),
-                    Padding(
-                      padding: const EdgeInsetsDirectional.only(top: 25, start: 5),
-                      child: Container(
-                        width: 20,
-                        height: 20,
-                        decoration: BoxDecoration(
-                          color: context.colorPalette.white,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Text(
-                          "9",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: context.colorPalette.blueD4B,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                PlayerTeam(teamUUID: player.results![0].teamId!),
               ],
             ),
             Text(
@@ -125,11 +74,7 @@ class _PlayerCardState extends State<PlayerCard> {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(color: context.colorPalette.blueD4B),
             ),
-            Text(
-              "Team",
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: context.colorPalette.blueD4B),
-            ),
+            TeamName(teamUUID: player.results![0].teamId!),
             const SizedBox(
               height: 10,
             ),

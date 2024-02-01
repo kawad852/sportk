@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:sportk/model/competition_model.dart';
+import 'package:sportk/model/country_model.dart';
 import 'package:sportk/model/player_model.dart';
 import 'package:sportk/model/schedule_and_results_season_model.dart';
 import 'package:sportk/model/season_model.dart';
@@ -85,6 +86,20 @@ class FootBallProvider extends ChangeNotifier {
       isPublic: true,
       apiType: ApiType.get,
       builder: PlayerModel.fromJson,
+    );
+    return snapshot;
+  }
+
+  Future<CyModel> fetchCountry({
+    int? page,
+    int? time,
+   
+  }) {
+    final snapshot = ApiService<CyModel>().build(
+      sportsUrl: '${ApiUrl.countries}&page=$page&time=$time',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: CyModel.fromJson,
     );
     return snapshot;
   }

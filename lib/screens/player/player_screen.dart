@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:sportk/screens/player_team/widgets/player_card.dart';
-import 'package:sportk/screens/player_team/widgets/player_statistics.dart';
+import 'package:sportk/screens/player/widgets/player_card.dart';
+import 'package:sportk/screens/player/widgets/player_statistics.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/widgets/custom_back.dart';
 
-class PlayerTeamScreen extends StatefulWidget {
-  const PlayerTeamScreen({super.key, required this.uuid});
-  final String uuid;
+class PlayerScreen extends StatefulWidget {
+  const PlayerScreen({super.key, required this.playerUUID});
+  final String playerUUID;
 
   @override
-  State<PlayerTeamScreen> createState() => _PlayerTeamScreenState();
+  State<PlayerScreen> createState() => _PlayerScreenState();
 }
 
-class _PlayerTeamScreenState extends State<PlayerTeamScreen> {
+class _PlayerScreenState extends State<PlayerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +41,7 @@ class _PlayerTeamScreenState extends State<PlayerTeamScreen> {
               preferredSize: const Size.fromHeight(200),
               child: Padding(
                 padding: const EdgeInsetsDirectional.only(bottom: 40),
-                child: PlayerCard(uuid: widget.uuid),
+                child: PlayerCard(uuid: widget.playerUUID),
               ),
             ),
           ),
