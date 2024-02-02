@@ -26,6 +26,8 @@ class MyIcons {
   static const String yellowCard='${_path}yellow_card.svg';
   static const String redCard='${_path}red_card.svg';
   static const String assist='${_path}assist.svg';
+  static const String starWhite='${_path}star_white.svg';
+
 
 
 

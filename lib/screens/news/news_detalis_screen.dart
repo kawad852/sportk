@@ -3,7 +3,7 @@ import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/custom_back.dart';
-import 'package:sportk/screens/news/widgets/news_card.dart';
+import 'package:sportk/widgets/news_card.dart';
 import 'package:sportk/screens/news/widgets/news_detalis_card.dart';
 import 'package:sportk/screens/news/widgets/comment.dart';
 import 'package:sportk/widgets/custom_network_image.dart';

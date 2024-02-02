@@ -65,6 +65,10 @@
   "cm":"cm",
   "yellowCard":"Yellow Card",
   "redCard":"Red Card",
-  "assist":"Assist"
+  "assist":"Assist",
+  "matches":"Matches",
+  "news":"News",
+  "players":"Players",
+  "nextMatches":"Next matches"
   
 }
