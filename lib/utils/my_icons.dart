@@ -21,14 +21,8 @@ class MyIcons {
   static const String videoPlay = '${_path}video_play.svg';
   static const String moneyTime = '${_path}money_time.svg';
   static const String replacementRequests = '${_path}replacement_requests.svg';
-  static const String notification='${_path}notification.svg';
-
-
-
-
-
-
-
-
-
+  static const String notification = '${_path}notification.svg';
+  static const String football = '${_path}football.svg';
+  static const String wallet = '${_path}wallet-money.svg';
+  static const String documentText = '${_path}document-text.svg';
 }

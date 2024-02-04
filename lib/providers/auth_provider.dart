@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sportk/model/auth_model.dart';
 import 'package:sportk/model/locale_model.dart';
@@ -47,5 +48,26 @@ class AuthProvider extends ChangeNotifier {
           isPublic: true,
         )
         .then((value) => value.countryCode!);
+  }
+
+  Future<void> updateDeviceToken(BuildContext context) async {
+    try {
+      await FirebaseMessaging.instance.subscribeToTopic('all');
+      final deviceToken = await FirebaseMessaging.instance.getToken();
+      debugPrint("DeviceToken:: $deviceToken");
+      if (context.mounted) {
+        // ApiService<UpdateProfileModel>().fetch(
+        //   context,
+        //   withOverlayLoader: false,
+        //   url: ApiUrl.deviceToken,
+        //   isPublic: true,
+        //   apiType: ApiType.get,
+        //   builder: UpdateProfileModel.fromJson,
+        //   onError: null,
+        // );
+      }
+    } catch (e) {
+      debugPrint("DeviceTokenError:: $e");
+    }
   }
 }

@@ -22,6 +22,7 @@ class CustomSvg extends StatelessWidget {
       icon,
       height: height,
       width: width,
+      color: color,
       // colorFilter: ColorFilter.mode(
       //   context.colorScheme.inverseSurface,
       //   BlendMode.srcIn,

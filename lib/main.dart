@@ -9,7 +9,9 @@ import 'package:provider/provider.dart';
 import 'package:sportk/providers/app_provider.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
-import 'package:sportk/screens/home/home_screen.dart';
+import 'package:sportk/screens/base/app_nav_bar.dart';
+import 'package:sportk/screens/intro/intro_screen.dart';
+import 'package:sportk/screens/registration/registration_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_theme.dart';
@@ -51,22 +53,22 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // Widget _toggleRoute(BuildContext context) {
-  //   if (context.authProvider.user.token != null) {
-  //     return const AppNavBar();
-  //   } else {
-  //     if (MySharedPreferences.isPassedIntro) {
-  //       return const LoginScreen();
-  //     } else {
-  //       return const IntroScreen();
-  //     }
-  //   }
-  // }
+  Widget _toggleRoute(BuildContext context) {
+    if (context.authProvider.user.id != null) {
+      return const AppNavBar();
+    } else {
+      if (MySharedPreferences.isPassedIntro) {
+        return const RegistrationScreen();
+      } else {
+        return const IntroScreen();
+      }
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    //context.authProvider.initializeLocale(context);
+    context.authProvider.initializeLocale(context);
     context.authProvider.initUser();
   }
 
@@ -85,10 +87,9 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          // locale: appConfigProvider.appLocale,
           locale: Locale(appProvider.appLocale.languageCode),
           theme: MyTheme().materialTheme(context, seedColorScheme),
-          home: const HomeScreen(),
+          home: const AppNavBar(),
           // home: _toggleRoute(context),
         );
       },
