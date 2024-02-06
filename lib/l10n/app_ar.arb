@@ -69,5 +69,9 @@
   "matches":"المباريات",
   "news":"الأخبار",
   "players":"اللاعبين",
-  "nextMatches":"المباريات التالية"
+  "nextMatches":"المباريات التالية",
+  "attackers":"المهاجمين",
+  "defenders":"المدافعون",
+  "midline":"خط الوسط",
+  "guards":"الحراس"
 }

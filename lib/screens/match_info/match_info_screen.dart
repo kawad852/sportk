@@ -4,7 +4,7 @@ import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/utils/my_images.dart';
 import 'package:sportk/widgets/custom_back.dart';
 import 'package:sportk/widgets/custom_svg.dart';
-import 'package:sportk/screens/match_info/widgets/league_standings.dart';
+import 'package:sportk/widgets/league_standings.dart';
 import 'package:sportk/screens/match_info/widgets/match_card.dart';
 import 'package:sportk/screens/match_info/widgets/match_events.dart';
 import 'package:sportk/screens/match_info/widgets/match_statistics.dart';

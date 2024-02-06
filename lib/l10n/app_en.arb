@@ -69,6 +69,10 @@
   "matches":"Matches",
   "news":"News",
   "players":"Players",
-  "nextMatches":"Next matches"
+  "nextMatches":"Next matches",
+  "attackers":"Attackers",
+  "defenders":"Defenders",
+  "midline":"Midline",
+  "guards":"Guards"
   
 }
