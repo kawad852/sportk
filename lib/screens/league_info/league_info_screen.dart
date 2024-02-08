@@ -1,26 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:sportk/widgets/matches_card.dart';
-import 'package:sportk/screens/club/widgets/club_news.dart';
-import 'package:sportk/screens/club/widgets/club_players.dart';
-import 'package:sportk/screens/club/widgets/club_standings.dart';
+import 'package:sportk/screens/league_info/widgets/league_news.dart';
+import 'package:sportk/screens/league_info/widgets/league_scorers.dart';
 import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
-import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/utils/my_images.dart';
 import 'package:sportk/widgets/custom_back.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
-import 'package:sportk/widgets/custom_svg.dart';
+import 'package:sportk/widgets/league_standings.dart';
+import 'package:sportk/widgets/matches_card.dart';
 
-class ClubScreen extends StatefulWidget {
-  const ClubScreen({super.key});
+class LeagueInfoScreen extends StatefulWidget {
+  const LeagueInfoScreen({super.key});
 
   @override
-  State<ClubScreen> createState() => _ClubScreenState();
+  State<LeagueInfoScreen> createState() => _LeagueInfoScreenState();
 }
 
-class _ClubScreenState extends State<ClubScreen> with SingleTickerProviderStateMixin {
+class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerProviderStateMixin {
   late TabController controller;
-
   @override
   void initState() {
     super.initState();
@@ -31,6 +28,7 @@ class _ClubScreenState extends State<ClubScreen> with SingleTickerProviderStateM
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
+        physics: const NeverScrollableScrollPhysics(),
         slivers: [
           SliverAppBar(
             leadingWidth: 500,
@@ -38,12 +36,6 @@ class _ClubScreenState extends State<ClubScreen> with SingleTickerProviderStateM
             leading: CustomBack(
               color: context.colorPalette.white,
             ),
-            actions: [
-              IconButton(
-                onPressed: () {},
-                icon: const CustomSvg(MyIcons.starWhite),
-              ),
-            ],
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(200),
               child: Padding(
@@ -60,10 +52,10 @@ class _ClubScreenState extends State<ClubScreen> with SingleTickerProviderStateM
                       height: 10,
                     ),
                     Text(
-                      "Bayern Munich",
+                      "Premier League",
                       style: TextStyle(
-                        color: context.colorPalette.white,
-                        fontWeight: FontWeight.w600,
+                        color: context.colorPalette.blueD4B,
+                        fontWeight: FontWeight.bold,
                       ),
                     )
                   ],
@@ -80,7 +72,7 @@ class _ClubScreenState extends State<ClubScreen> with SingleTickerProviderStateM
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
-                    height: 90,
+                    height: 270,
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
@@ -111,10 +103,10 @@ class _ClubScreenState extends State<ClubScreen> with SingleTickerProviderStateM
                         labelPadding: const EdgeInsetsDirectional.symmetric(horizontal: 4),
                         padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
                         tabs: [
-                          Text(context.appLocalization.matches),
-                          Text(context.appLocalization.news),
                           Text(context.appLocalization.standings),
-                          Text(context.appLocalization.players),
+                          Text(context.appLocalization.scorers),
+                          Text(context.appLocalization.table),
+                          Text(context.appLocalization.news),
                         ],
                       ),
                     ),
@@ -127,10 +119,10 @@ class _ClubScreenState extends State<ClubScreen> with SingleTickerProviderStateM
             child: TabBarView(
               controller: controller,
               children: const [
+                LeagueStandings(),
+                LeagueScorers(),
                 MatchesCard(),
-                ClubNews(),
-                ClubStandings(),
-                ClubPlayers(),
+                LeagueNews(),
               ],
             ),
           ),

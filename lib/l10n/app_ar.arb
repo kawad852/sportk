@@ -73,5 +73,11 @@
   "attackers":"المهاجمين",
   "defenders":"المدافعون",
   "midline":"خط الوسط",
-  "guards":"الحراس"
+  "guards":"الحراس",
+  "scorers":"الهدافين",
+  "table":"جدول",
+  "st":"ت",
+  "player":"اللاعب",
+  "missedPenalty":"جزاء.ض",
+  "goalsPenalty":"جزاء.ه"
 }

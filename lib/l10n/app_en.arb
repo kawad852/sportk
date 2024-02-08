@@ -73,6 +73,12 @@
   "attackers":"Attackers",
   "defenders":"Defenders",
   "midline":"Midline",
-  "guards":"Guards"
+  "guards":"Guards",
+  "scorers":"Scorers",
+  "table":"Table",
+  "st":"S",
+  "player":"Player",
+  "missedPenalty":"M.penalty",
+  "goalsPenalty":"G.penalty"
   
 }

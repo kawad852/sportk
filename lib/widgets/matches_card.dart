@@ -3,14 +3,14 @@ import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 
-class ClubMatches extends StatefulWidget {
-  const ClubMatches({super.key});
+class MatchesCard extends StatefulWidget {
+  const MatchesCard({super.key});
 
   @override
-  State<ClubMatches> createState() => _ClubMatchesState();
+  State<MatchesCard> createState() => _MatchesCardState();
 }
 
-class _ClubMatchesState extends State<ClubMatches> {
+class _MatchesCardState extends State<MatchesCard> {
   final test = [
     {
       "title": "Premier League- week 22",
