@@ -110,7 +110,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                 MatchEvents(),
                 TeamsPlan(),
                 MatchStatistics(),
-                LeagueStandings(),
+                LeagueStandings(leagueId: 564),
               ],
             ),
           ),

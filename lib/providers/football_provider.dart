@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:sportk/model/competition_model.dart';
 import 'package:sportk/model/country_model.dart';
+import 'package:sportk/model/league_model.dart';
 import 'package:sportk/model/player_model.dart';
 import 'package:sportk/model/schedule_and_results_season_model.dart';
 import 'package:sportk/model/season_model.dart';
@@ -107,10 +108,10 @@ class FootBallProvider extends ChangeNotifier {
   }
 
   Future<StandingsModel> fetchStandings({
-    required int seasonId,
+    required int leagueId,
   }) {
     final snapshot = ApiService<StandingsModel>().build(
-      sportsUrl: '${ApiUrl.standings}/$seasonId${ApiUrl.auth}&include=details.type',
+      sportsUrl: '${ApiUrl.standings}/$leagueId${ApiUrl.auth}&include=details.type',
       isPublic: true,
       apiType: ApiType.get,
       builder: StandingsModel.fromJson,
@@ -126,6 +127,19 @@ class FootBallProvider extends ChangeNotifier {
       isPublic: true,
       apiType: ApiType.get,
       builder: TeamInfoModel.fromJson,
+    );
+    return snapshot;
+  }
+
+
+  Future<LeagueModel> fetchLeague({
+    required int leagueId,
+  }) {
+    final snapshot = ApiService<LeagueModel>().build(
+      sportsUrl: '${ApiUrl.league}/$leagueId${ApiUrl.auth}',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: LeagueModel.fromJson,
     );
     return snapshot;
   }

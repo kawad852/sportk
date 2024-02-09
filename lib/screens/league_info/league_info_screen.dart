@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/model/league_model.dart';
+import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/league_info/widgets/league_news.dart';
 import 'package:sportk/screens/league_info/widgets/league_scorers.dart';
-import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_images.dart';
 import 'package:sportk/widgets/custom_back.dart';
+import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/league_standings.dart';
 import 'package:sportk/widgets/matches_card.dart';
+import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
+
+import 'widgets/league_loading.dart';
 
 class LeagueInfoScreen extends StatefulWidget {
-  const LeagueInfoScreen({super.key});
+  const LeagueInfoScreen({super.key, required this.leagueId});
+  final int leagueId;
 
   @override
   State<LeagueInfoScreen> createState() => _LeagueInfoScreenState();
@@ -18,10 +24,19 @@ class LeagueInfoScreen extends StatefulWidget {
 
 class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerProviderStateMixin {
   late TabController controller;
+  late FootBallProvider _footBallProvider;
+  late Future<LeagueModel> _leagueFuture;
+
+  void _initializeFuture() {
+    _leagueFuture = _footBallProvider.fetchLeague(leagueId: widget.leagueId);
+  }
+
   @override
   void initState() {
     super.initState();
     controller = TabController(length: 4, vsync: this);
+    _footBallProvider = context.footBallProvider;
+    _initializeFuture();
   }
 
   @override
@@ -38,28 +53,42 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
             ),
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(200),
-              child: Padding(
-                padding: const EdgeInsetsDirectional.only(bottom: 65),
-                child: Column(
-                  children: [
-                    const CustomNetworkImage(
-                      kFakeImage,
-                      width: 100,
-                      height: 100,
-                      radius: 0,
+              child: CustomFutureBuilder(
+                future: _leagueFuture,
+                onRetry: () {
+                  setState(() {
+                    _initializeFuture();
+                  });
+                },
+                onLoading: () {
+                  return const ShimmerLoading(child: LeagueLoading());
+                },
+                onComplete: ((context, snapshot) {
+                  final league = snapshot.data!;
+                  return Padding(
+                    padding: const EdgeInsetsDirectional.only(bottom: 65),
+                    child: Column(
+                      children: [
+                        CustomNetworkImage(
+                          league.data!.imagePath!,
+                          width: 100,
+                          height: 100,
+                          radius: 0,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          league.data!.name!,
+                          style: TextStyle(
+                            color: context.colorPalette.blueD4B,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      ],
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Premier League",
-                      style: TextStyle(
-                        color: context.colorPalette.blueD4B,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )
-                  ],
-                ),
+                  );
+                }),
               ),
             ),
             flexibleSpace: Stack(
@@ -118,11 +147,11 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
           SliverFillRemaining(
             child: TabBarView(
               controller: controller,
-              children: const [
-                LeagueStandings(),
-                LeagueScorers(),
-                MatchesCard(),
-                LeagueNews(),
+              children: [
+                LeagueStandings(leagueId: widget.leagueId),
+                const LeagueScorers(),
+                const MatchesCard(),
+                const LeagueNews(),
               ],
             ),
           ),

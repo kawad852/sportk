@@ -13,8 +13,10 @@ class ApiUrl {
 
 
   //test
-  static const String standings = '/standings/seasons';
+  static const String standings = '/standings/live/leagues';
   static const String teamInfo = '/teams';
+  static const String league = '/leagues';
+
 
 
 

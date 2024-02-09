@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/model/standings_model.dart';
 import 'package:sportk/providers/football_provider.dart';
-import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
-import 'package:sportk/widgets/custom_network_image.dart';
+import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 import 'package:sportk/widgets/team_info.dart';
 
 class LeagueStandings extends StatefulWidget {
-  const LeagueStandings({super.key});
+  const LeagueStandings({super.key, required this.leagueId});
+  final int leagueId;
 
   @override
   State<LeagueStandings> createState() => _LeagueStandingsState();
@@ -19,7 +19,7 @@ class _LeagueStandingsState extends State<LeagueStandings> {
   late Future<StandingsModel> _standingsFuture;
 
   void _initializeFuture() {
-    _standingsFuture = _footBallProvider.fetchStandings(seasonId: 21646);
+    _standingsFuture = _footBallProvider.fetchStandings(leagueId: widget.leagueId);
   }
 
   @override
@@ -37,6 +37,21 @@ class _LeagueStandingsState extends State<LeagueStandings> {
         setState(() {
           _initializeFuture();
         });
+      },
+      onLoading: () {
+        return ShimmerLoading(
+          child: Padding(
+            padding: const EdgeInsetsDirectional.symmetric(horizontal: 20, vertical: 5),
+            child: Container(
+              width: double.infinity,
+              height: 200,
+              decoration: BoxDecoration(
+                color: context.colorPalette.grey2F2,
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+          ),
+        );
       },
       onComplete: ((context, snapshot) {
         final standings = snapshot.data!;
@@ -64,13 +79,6 @@ class _LeagueStandingsState extends State<LeagueStandings> {
                     ),
                   ),
                   children: [
-                    // Padding(
-                    //   padding: EdgeInsets.all(8.0),
-                    //   child: Text("S",
-                    //       style: TextStyle(
-                    //         fontSize: 12,
-                    //       )),
-                    // ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                       child: Text(
@@ -139,7 +147,6 @@ class _LeagueStandingsState extends State<LeagueStandings> {
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
                         ),
-                        //textAlign: TextAlign.center,
                       ),
                     ),
                     Padding(
@@ -150,7 +157,6 @@ class _LeagueStandingsState extends State<LeagueStandings> {
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
                         ),
-                        // textAlign: TextAlign.center,
                       ),
                     ),
                   ],
@@ -169,15 +175,6 @@ class _LeagueStandingsState extends State<LeagueStandings> {
                           : null,
                     ),
                     children: [
-                      // Padding(
-                      //   padding: const EdgeInsets.all(8.0),
-                      //   child: Text(
-                      //     (matchInfo.indexOf(data) + 1).toString(),
-                      //     style: const TextStyle(
-                      //       fontSize: 12,
-                      //     ),
-                      //   ),
-                      // ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 5),
                         child: Row(
@@ -244,7 +241,6 @@ class _LeagueStandingsState extends State<LeagueStandings> {
                         padding: const EdgeInsets.symmetric(vertical: 15),
                         child: Text(
                           element.details?[18].value?.toString() ?? "",
-                          //textAlign: TextAlign.center,
                           style: const TextStyle(
                             fontSize: 11,
                           ),
@@ -254,7 +250,6 @@ class _LeagueStandingsState extends State<LeagueStandings> {
                         padding: const EdgeInsets.symmetric(vertical: 15),
                         child: Text(
                           element.points?.toString() ?? "",
-                          //textAlign: TextAlign.center,
                           style: const TextStyle(
                             fontSize: 11,
                           ),
