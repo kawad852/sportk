@@ -1,17 +1,17 @@
-class PlayerModel {
+class CountryInfoModel {
     Data? data;
     List<Subscription>? subscription;
     RateLimit? rateLimit;
     String? timezone;
 
-    PlayerModel({
+    CountryInfoModel({
         this.data,
         this.subscription,
         this.rateLimit,
         this.timezone,
     });
 
-    factory PlayerModel.fromJson(Map<String, dynamic> json) => PlayerModel(
+    factory CountryInfoModel.fromJson(Map<String, dynamic> json) => CountryInfoModel(
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
         subscription: json["subscription"] == null ? [] : List<Subscription>.from(json["subscription"]!.map((x) => Subscription.fromJson(x))),
         rateLimit: json["rate_limit"] == null ? null : RateLimit.fromJson(json["rate_limit"]),
@@ -28,141 +28,57 @@ class PlayerModel {
 
 class Data {
     int? id;
-    int? sportId;
-    int? countryId;
-    int? nationalityId;
-    dynamic cityId;
-    int? positionId;
-    int? detailedPositionId;
-    int? typeId;
-    String? commonName;
-    String? firstname;
-    String? lastname;
+    int? continentId;
     String? name;
-    String? displayName;
+    String? officialName;
+    String? fifaName;
+    String? iso2;
+    String? iso3;
+    String? latitude;
+    String? longitude;
+    List<String>? borders;
     String? imagePath;
-    int? height;
-    int? weight;
-    DateTime? dateOfBirth;
-    String? gender;
-    List<Team>? teams;
 
     Data({
         this.id,
-        this.sportId,
-        this.countryId,
-        this.nationalityId,
-        this.cityId,
-        this.positionId,
-        this.detailedPositionId,
-        this.typeId,
-        this.commonName,
-        this.firstname,
-        this.lastname,
+        this.continentId,
         this.name,
-        this.displayName,
+        this.officialName,
+        this.fifaName,
+        this.iso2,
+        this.iso3,
+        this.latitude,
+        this.longitude,
+        this.borders,
         this.imagePath,
-        this.height,
-        this.weight,
-        this.dateOfBirth,
-        this.gender,
-        this.teams,
     });
 
     factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"],
-        sportId: json["sport_id"],
-        countryId: json["country_id"],
-        nationalityId: json["nationality_id"],
-        cityId: json["city_id"],
-        positionId: json["position_id"],
-        detailedPositionId: json["detailed_position_id"],
-        typeId: json["type_id"],
-        commonName: json["common_name"],
-        firstname: json["firstname"],
-        lastname: json["lastname"],
+        continentId: json["continent_id"],
         name: json["name"],
-        displayName: json["display_name"],
+        officialName: json["official_name"],
+        fifaName: json["fifa_name"],
+        iso2: json["iso2"],
+        iso3: json["iso3"],
+        latitude: json["latitude"],
+        longitude: json["longitude"],
+        borders: json["borders"] == null ? [] : List<String>.from(json["borders"]!.map((x) => x)),
         imagePath: json["image_path"],
-        height: json["height"],
-        weight: json["weight"],
-        dateOfBirth: json["date_of_birth"] == null ? null : DateTime.parse(json["date_of_birth"]),
-        gender: json["gender"],
-        teams: json["teams"] == null ? [] : List<Team>.from(json["teams"]!.map((x) => Team.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
-        "sport_id": sportId,
-        "country_id": countryId,
-        "nationality_id": nationalityId,
-        "city_id": cityId,
-        "position_id": positionId,
-        "detailed_position_id": detailedPositionId,
-        "type_id": typeId,
-        "common_name": commonName,
-        "firstname": firstname,
-        "lastname": lastname,
+        "continent_id": continentId,
         "name": name,
-        "display_name": displayName,
+        "official_name": officialName,
+        "fifa_name": fifaName,
+        "iso2": iso2,
+        "iso3": iso3,
+        "latitude": latitude,
+        "longitude": longitude,
+        "borders": borders == null ? [] : List<dynamic>.from(borders!.map((x) => x)),
         "image_path": imagePath,
-        "height": height,
-        "weight": weight,
-        "date_of_birth": "${dateOfBirth!.year.toString().padLeft(4, '0')}-${dateOfBirth!.month.toString().padLeft(2, '0')}-${dateOfBirth!.day.toString().padLeft(2, '0')}",
-        "gender": gender,
-        "teams": teams == null ? [] : List<dynamic>.from(teams!.map((x) => x.toJson())),
-    };
-}
-
-class Team {
-    int? id;
-    int? transferId;
-    int? playerId;
-    int? teamId;
-    int? positionId;
-    int? detailedPositionId;
-    DateTime? start;
-    DateTime? end;
-    bool? captain;
-    int? jerseyNumber;
-
-    Team({
-        this.id,
-        this.transferId,
-        this.playerId,
-        this.teamId,
-        this.positionId,
-        this.detailedPositionId,
-        this.start,
-        this.end,
-        this.captain,
-        this.jerseyNumber,
-    });
-
-    factory Team.fromJson(Map<String, dynamic> json) => Team(
-        id: json["id"],
-        transferId: json["transfer_id"],
-        playerId: json["player_id"],
-        teamId: json["team_id"],
-        positionId: json["position_id"],
-        detailedPositionId: json["detailed_position_id"],
-        start: json["start"] == null ? null : DateTime.parse(json["start"]),
-        end: json["end"] == null ? null : DateTime.parse(json["end"]),
-        captain: json["captain"],
-        jerseyNumber: json["jersey_number"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "transfer_id": transferId,
-        "player_id": playerId,
-        "team_id": teamId,
-        "position_id": positionId,
-        "detailed_position_id": detailedPositionId,
-        "start": "${start!.year.toString().padLeft(4, '0')}-${start!.month.toString().padLeft(2, '0')}-${start!.day.toString().padLeft(2, '0')}",
-        "end": "${end!.year.toString().padLeft(4, '0')}-${end!.month.toString().padLeft(2, '0')}-${end!.day.toString().padLeft(2, '0')}",
-        "captain": captain,
-        "jersey_number": jerseyNumber,
     };
 }
 

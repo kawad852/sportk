@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:sportk/model/competition_model.dart';
-import 'package:sportk/model/country_model.dart';
+import 'package:sportk/model/country_info_model.dart';
 import 'package:sportk/model/league_model.dart';
 import 'package:sportk/model/player_model.dart';
 import 'package:sportk/model/schedule_and_results_season_model.dart';
@@ -81,12 +81,10 @@ class FootBallProvider extends ChangeNotifier {
   }
 
   Future<PlayerModel> fetchPlayerInfo({
-    int? page,
-    int? time,
-    String? uuid,
+    required int playerId,
   }) {
     final snapshot = ApiService<PlayerModel>().build(
-      sportsUrl: '${ApiUrl.playerInfo}&page=$page&time=$time&uuid=$uuid',
+      sportsUrl: '${ApiUrl.playerInfo}/$playerId${ApiUrl.auth}&include=teams',
       isPublic: true,
       apiType: ApiType.get,
       builder: PlayerModel.fromJson,
@@ -94,15 +92,14 @@ class FootBallProvider extends ChangeNotifier {
     return snapshot;
   }
 
-  Future<CyModel> fetchCountry({
-    int? page,
-    int? time,
+  Future<CountryInfoModel> fetchCountry({
+    required int countryId,
   }) {
-    final snapshot = ApiService<CyModel>().build(
-      sportsUrl: '${ApiUrl.countries}&page=$page&time=$time',
+    final snapshot = ApiService<CountryInfoModel>().build(
+      sportsUrl: '${ApiUrl.countryInfo}/$countryId${ApiUrl.auth}',
       isPublic: true,
       apiType: ApiType.get,
-      builder: CyModel.fromJson,
+      builder: CountryInfoModel.fromJson,
     );
     return snapshot;
   }
@@ -130,7 +127,6 @@ class FootBallProvider extends ChangeNotifier {
     );
     return snapshot;
   }
-
 
   Future<LeagueModel> fetchLeague({
     required int leagueId,

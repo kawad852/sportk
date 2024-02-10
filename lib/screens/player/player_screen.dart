@@ -5,8 +5,8 @@ import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/widgets/custom_back.dart';
 
 class PlayerScreen extends StatefulWidget {
-  const PlayerScreen({super.key, required this.playerUUID});
-  final String playerUUID;
+  const PlayerScreen({super.key, required this.playerId});
+  final int playerId;
 
   @override
   State<PlayerScreen> createState() => _PlayerScreenState();
@@ -41,7 +41,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
               preferredSize: const Size.fromHeight(200),
               child: Padding(
                 padding: const EdgeInsetsDirectional.only(bottom: 40),
-                child: PlayerCard(uuid: widget.playerUUID),
+                child: PlayerCard(playerId: widget.playerId),
               ),
             ),
           ),

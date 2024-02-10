@@ -79,6 +79,24 @@
   "st":"S",
   "player":"Player",
   "missedPenalty":"M.penalty",
-  "goalsPenalty":"G.penalty"
+  "goalsPenalty":"G.penalty",
+  "goalKeeper":"GK",
+  "defender":"D",
+  "midfielder":"M",
+  "attacker":"A",
+  "unknown":"Unknown",
+  "centreBack":"CB",
+  "defensiveMidfield":"DM",
+  "attackingMidfield":"AM",
+  "centreForward":"CF",
+  "leftWing":"LW",
+  "centralMidfield":"CM",
+  "rightBack":"RB",
+  "leftBack":"LB",
+  "rightWing":"RW",
+  "leftMidfield":"LM",
+  "rightMidfield":"RM",
+  "secondaryStriker":"SS",
+  "coach":"Coach"
   
 }

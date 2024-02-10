@@ -2,17 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:sportk/model/player_model.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/player/widgets/player_card_loading.dart';
-import 'package:sportk/screens/player/widgets/player_country.dart';
 import 'package:sportk/screens/player/widgets/player_team.dart';
-import 'package:sportk/screens/player/widgets/team_name.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 
 class PlayerCard extends StatefulWidget {
-  const PlayerCard({super.key, required this.uuid});
-  final String uuid;
+  const PlayerCard({super.key, required this.playerId});
+  final int playerId;
 
   @override
   State<PlayerCard> createState() => _PlayerCardState();
@@ -23,7 +21,54 @@ class _PlayerCardState extends State<PlayerCard> {
   late Future<PlayerModel> _playerFuture;
 
   void _initializeFuture() {
-    _playerFuture = _footBallProvider.fetchPlayerInfo(uuid: widget.uuid);
+    _playerFuture = _footBallProvider.fetchPlayerInfo(playerId: widget.playerId);
+  }
+
+  int getAeg(DateTime date) {
+    return DateTime.now().year - date.year;
+  }
+
+  String getPosition(int? id, int? parentId) {
+    switch ([id, parentId]) {
+      case ([24, 24]):
+        return context.appLocalization.goalKeeper;
+      case ([25, 25]):
+        return context.appLocalization.defender;
+      case ([26, 26]):
+        return context.appLocalization.midfielder;
+      case ([27, 27]):
+        return context.appLocalization.attacker;
+      case ([28, 28]):
+        return context.appLocalization.unknown;
+      case ([148, 25]):
+        return context.appLocalization.centreBack;
+      case ([149, 26]):
+        return context.appLocalization.defensiveMidfield;
+      case ([150, 26]):
+        return context.appLocalization.attackingMidfield;
+      case ([151, 27]):
+        return context.appLocalization.centreForward;
+      case ([152, 27]):
+        return context.appLocalization.leftWing;
+      case ([153, 26]):
+        return context.appLocalization.centralMidfield;
+      case ([154, 25]):
+        return context.appLocalization.rightBack;
+      case ([155, 25]):
+        return context.appLocalization.leftBack;
+      case ([156, 27]):
+        return context.appLocalization.rightWing;
+      case ([157, 26]):
+        return context.appLocalization.leftMidfield;
+      case ([158, 26]):
+        return context.appLocalization.rightMidfield;
+      case ([163, 27]):
+        return context.appLocalization.secondaryStriker;
+      case ([221, 221]):
+        return context.appLocalization.coach;
+      default:
+        return context.appLocalization.unknown;
+    }
   }
 
   @override
@@ -52,13 +97,17 @@ class _PlayerCardState extends State<PlayerCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                PlayerCountry(countryId: player.results![0].countryId!),
+                PlayerTeam(
+                  teamId: player.data!.teams!.isEmpty ? null : player.data!.teams![0].teamId,
+                  jerseyNumber:
+                      player.data!.teams!.isEmpty ? null : player.data!.teams![0].jerseyNumber,
+                ),
                 Padding(
                   padding: const EdgeInsetsDirectional.only(start: 20, end: 20),
                   child: Column(
                     children: [
                       CustomNetworkImage(
-                        player.results![0].logo!,
+                        player.data!.imagePath!,
                         width: 60,
                         height: 60,
                         radius: 5,
@@ -66,15 +115,19 @@ class _PlayerCardState extends State<PlayerCard> {
                     ],
                   ),
                 ),
-                PlayerTeam(teamUUID: player.results![0].teamId!),
+                PlayerTeam(
+                  teamId: player.data!.teams!.length == 2 ? player.data!.teams![1].teamId : null,
+                  jerseyNumber:
+                      player.data!.teams!.length == 2 ? player.data!.teams![1].jerseyNumber : null,
+                ),
               ],
             ),
             Text(
-              player.results![0].name!,
+              player.data!.name!,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(color: context.colorPalette.blueD4B),
             ),
-            TeamName(teamUUID: player.results![0].teamId!),
+            //TeamName(teamUUID: "player.results![0].teamId!"),
             const SizedBox(
               height: 10,
             ),
@@ -99,11 +152,11 @@ class _PlayerCardState extends State<PlayerCard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            player.results![0].positions![0] ?? "",
+                            getPosition(player.data!.detailedPositionId, player.data!.positionId),
                             style: TextStyle(
                               color: context.colorPalette.blueD4B,
                               fontWeight: FontWeight.bold,
-                              fontSize: 13,
+                              fontSize: 12,
                             ),
                           ),
                           Text(
@@ -131,7 +184,9 @@ class _PlayerCardState extends State<PlayerCard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "${player.results![0].age!} ${context.appLocalization.year}",
+                            player.data!.dateOfBirth == null
+                                ? context.appLocalization.unknown
+                                : "${getAeg(player.data!.dateOfBirth!)} ${context.appLocalization.year}",
                             style: TextStyle(
                               color: context.colorPalette.blueD4B,
                               fontWeight: FontWeight.bold,
@@ -163,7 +218,9 @@ class _PlayerCardState extends State<PlayerCard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "${player.results![0].weight!} ${context.appLocalization.kg}",
+                            player.data!.weight == null
+                                ? context.appLocalization.unknown
+                                : "${player.data!.weight} ${context.appLocalization.kg}",
                             style: TextStyle(
                               color: context.colorPalette.blueD4B,
                               fontWeight: FontWeight.bold,
@@ -195,7 +252,9 @@ class _PlayerCardState extends State<PlayerCard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "${player.results![0].height!} ${context.appLocalization.cm}",
+                            player.data!.height == null
+                                ? context.appLocalization.unknown
+                                : "${player.data!.height} ${context.appLocalization.cm}",
                             style: TextStyle(
                               color: context.colorPalette.blueD4B,
                               fontWeight: FontWeight.bold,

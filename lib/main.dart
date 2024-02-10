@@ -92,7 +92,7 @@ class _MyAppState extends State<MyApp> {
           // locale: appConfigProvider.appLocale,
           locale: Locale(appProvider.appLocale.languageCode),
           theme: MyTheme().materialTheme(context, seedColorScheme),
-          home: const LeagueInfoScreen(leagueId: 564),
+          home: const PlayerScreen(playerId: 31000),
           //const PlayerScreen(playerUUID: "y0or5jheolzqwzv"),
           // home: _toggleRoute(context),
         );
