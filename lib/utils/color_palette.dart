@@ -17,12 +17,16 @@ class ColorPalette {
   Color get greyD9D => const Color(0xFFD9D9D9);
   Color get grey3F1 => const Color(0xFFF3F3F1);
   Color get greyAF8 => _isLightTheme ? const Color(0xFFFAFAF8) : const Color(0xFF5C7B92);
+  Color get greyEAE => const Color(0xFFEAEAEA);
+  Color get greyAAA => const Color(0xFFAAAAAA);
 
   ///blue
   Color get blueD4B => const Color(0xFF032D4B);
   Color get blue1FC => const Color(0xFFE2F1FC);
   Color get blue1AD4B => const Color(0x1A032D4B);
   Color get blueABB => const Color(0xFFABB8C1);
+  Color get blueE2F => const Color(0x66E2F1FC);
+
 
   ///red
   Color get red000 => const Color(0xFFCC0000);
@@ -43,4 +47,6 @@ class ColorPalette {
 
   //green
   Color get greenAD0 => const Color(0xFF00AD05);
+  Color get green057 => const Color(0xFF057008);
+
 }

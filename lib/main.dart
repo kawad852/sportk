@@ -31,7 +31,8 @@ Future<void> main() async {
   await MySharedPreferences.init();
   // MySharedPreferences.clearStorage();
   // MySharedPreferences.isPassedIntro = false;
-  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  await SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   FirebaseMessaging.onBackgroundMessage(onBackgroundMessage);
   runApp(
     MultiProvider(

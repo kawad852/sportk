@@ -6,7 +6,7 @@ import 'package:sportk/widgets/custom_back.dart';
 import 'package:sportk/widgets/custom_smoth_indicator.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 import 'package:sportk/widgets/news_card.dart';
-import 'package:sportk/widgets/news_champ_card.dart';
+import 'package:sportk/screens/news/widgets/news_champ_card.dart';
 
 class NewsScreen extends StatefulWidget {
   const NewsScreen({super.key});

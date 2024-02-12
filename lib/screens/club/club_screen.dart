@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/widgets/matches_card.dart';
+import 'package:sportk/screens/club/widgets/club_news.dart';
+import 'package:sportk/screens/club/widgets/club_players.dart';
+import 'package:sportk/screens/club/widgets/club_standings.dart';
+import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/utils/my_images.dart';
 import 'package:sportk/widgets/custom_back.dart';
+import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_svg.dart';
-import 'package:sportk/widgets/league_standings.dart';
-import 'package:sportk/screens/match_info/widgets/match_card.dart';
-import 'package:sportk/screens/match_info/widgets/match_events.dart';
-import 'package:sportk/screens/match_info/widgets/match_statistics.dart';
-import 'package:sportk/screens/match_info/widgets/teams_plan.dart';
 
-class MatchInfoScreen extends StatefulWidget {
-  const MatchInfoScreen({super.key});
+class ClubScreen extends StatefulWidget {
+  const ClubScreen({super.key});
 
   @override
-  State<MatchInfoScreen> createState() => _MatchInfoScreenState();
+  State<ClubScreen> createState() => _ClubScreenState();
 }
 
-class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProviderStateMixin {
+class _ClubScreenState extends State<ClubScreen> with SingleTickerProviderStateMixin {
   late TabController controller;
 
   @override
@@ -40,14 +41,33 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
             actions: [
               IconButton(
                 onPressed: () {},
-                icon: const CustomSvg(MyIcons.notification),
+                icon: const CustomSvg(MyIcons.starWhite),
               ),
             ],
-            bottom: const PreferredSize(
-              preferredSize: Size.fromHeight(200),
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(200),
               child: Padding(
-                padding: EdgeInsetsDirectional.only(bottom: 65),
-                child: MatchCard(),
+                padding: const EdgeInsetsDirectional.only(bottom: 65),
+                child: Column(
+                  children: [
+                    const CustomNetworkImage(
+                      kFakeImage,
+                      width: 100,
+                      height: 100,
+                      radius: 0,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "Bayern Munich",
+                      style: TextStyle(
+                        color: context.colorPalette.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
             flexibleSpace: Stack(
@@ -91,10 +111,10 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                         labelPadding: const EdgeInsetsDirectional.symmetric(horizontal: 4),
                         padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
                         tabs: [
-                          Text(context.appLocalization.matchEvents),
-                          Text(context.appLocalization.plan),
-                          Text(context.appLocalization.statistics),
+                          Text(context.appLocalization.matches),
+                          Text(context.appLocalization.news),
                           Text(context.appLocalization.standings),
+                          Text(context.appLocalization.players),
                         ],
                       ),
                     ),
@@ -107,10 +127,10 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
             child: TabBarView(
               controller: controller,
               children: const [
-                MatchEvents(),
-                TeamsPlan(),
-                MatchStatistics(),
-                LeagueStandings(leagueId: 564),
+                MatchesCard(),
+                ClubNews(),
+                ClubStandings(),
+                ClubPlayers(),
               ],
             ),
           ),

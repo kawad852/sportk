@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/utils/base_extensions.dart';
-import 'package:sportk/widgets/team_card.dart';
+import 'package:sportk/screens/match_info/widgets/team_card.dart';
 
 class MatchCard extends StatelessWidget {
   const MatchCard({super.key});
