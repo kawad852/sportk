@@ -61,12 +61,12 @@ dependencies:
   flutter_local_notifications: ^16.3.2
 
   #firebase
-  cloud_firestore: 4.12.2
+#  cloud_firestore: 4.12.2
   firebase_auth: 4.12.1
   firebase_core: 2.21.0
   firebase_messaging: ^14.6.1
 #  firebase_analytics: ^10.7.4
-  firebase_ui_firestore: ^1.5.12
+#  firebase_ui_firestore: ^1.5.12
 
 dev_dependencies:
   flutter_test:
