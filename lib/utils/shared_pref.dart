@@ -12,24 +12,24 @@ class MySharedPreferences {
   }
 
   static void clearStorage() {
-    user = AuthModel.fromJson(AuthModel().toJson());
+    user = UserModel.fromJson(UserModel().toJson());
   }
 
-  static AuthModel get user {
+  static UserModel get user {
     String value = _sharedPreferences.getString('userModel') ?? '';
-    var authModel = AuthModel();
+    var authModel = UserModel();
     if (value.isNotEmpty) {
-      authModel = AuthModel.fromJson(jsonDecode(value));
+      authModel = UserModel.fromJson(jsonDecode(value));
     }
     return authModel;
   }
 
-  static set user(AuthModel value) {
+  static set user(UserModel value) {
     _sharedPreferences.setString('userModel', jsonEncode(value.toJson()));
   }
 
-  static void saveUser(AuthModel adminModel) {
-    user = AuthModel.fromJson(adminModel.toJson());
+  static void saveUser(UserModel adminModel) {
+    user = UserModel.fromJson(adminModel.toJson());
   }
 
   static String get language => _sharedPreferences.getString('language') ?? LanguageEnum.english;
