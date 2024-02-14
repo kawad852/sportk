@@ -19,11 +19,11 @@ class _PlayerStatisticsState extends State<PlayerStatistics> {
   int selectedIndex = 0;
   late Future<List<dynamic>> _futures;
 
-  _initlaizeFutures() async {
+  Future<List<dynamic>> _initlaizeFutures() async {
     final f1 = method1();
     final id = await f1;
     final f2 = method2(id);
-    _futures = Future.wait([f1, f2]);
+    return Future.wait([f1, f2]);
   }
 
   Future<String> method2(int id) {
@@ -37,7 +37,7 @@ class _PlayerStatisticsState extends State<PlayerStatistics> {
   @override
   void initState() {
     super.initState();
-    _initlaizeFutures();
+    _futures = _initlaizeFutures();
   }
 
   @override
@@ -46,7 +46,7 @@ class _PlayerStatisticsState extends State<PlayerStatistics> {
         future: _futures,
         onRetry: () {
           setState(() {
-            _initlaizeFutures();
+            _futures = _initlaizeFutures();
           });
         },
         onComplete: (context, snapshot) {
