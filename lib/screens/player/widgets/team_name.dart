@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:sportk/model/team_model.dart';
+import 'package:sportk/model/team_info_model.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 
 class TeamName extends StatefulWidget {
-  const TeamName({super.key, required this.teamUUID});
-  final String teamUUID;
+  const TeamName({super.key, required this.teamId});
+  final int teamId;
 
   @override
   State<TeamName> createState() => _TeamNameState();
@@ -15,9 +15,9 @@ class TeamName extends StatefulWidget {
 
 class _TeamNameState extends State<TeamName> {
   late FootBallProvider _footBallProvider;
-  late Future<TeamModel> _teamFuture;
+  late Future<TeamInfoModel> _teamFuture;
   void _initializeFuture() {
-    _teamFuture = _footBallProvider.fetchTeams(uuid: widget.teamUUID);
+    _teamFuture = _footBallProvider.fetchTeamInfo(teamId: widget.teamId);
   }
 
   @override
@@ -39,8 +39,8 @@ class _TeamNameState extends State<TeamName> {
       onLoading: () {
         return ShimmerLoading(
           child: Container(
-            width: 80,
-            height: 15,
+            width: 40,
+            height: 9,
             color: context.colorPalette.grey2F2,
           ),
         );
@@ -48,9 +48,12 @@ class _TeamNameState extends State<TeamName> {
       onComplete: ((context, snapshot) {
         final team = snapshot.data!;
         return Text(
-          team.results![0].name!,
+          team.data!.name!,
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(color: context.colorPalette.blueD4B),
+          style: TextStyle(
+            color: context.colorPalette.blueD4B,
+            fontSize: 10,
+          ),
         );
       }),
     );

@@ -3,6 +3,7 @@ import 'package:sportk/model/player_model.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/player/widgets/player_card_loading.dart';
 import 'package:sportk/screens/player/widgets/player_team.dart';
+import 'package:sportk/screens/player/widgets/team_name.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
@@ -127,7 +128,12 @@ class _PlayerCardState extends State<PlayerCard> {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(color: context.colorPalette.blueD4B),
             ),
-            //TeamName(teamUUID: "player.results![0].teamId!"),
+            TeamName(
+              teamId: player.data!.teams![1].teamId!,
+            ),
+            TeamName(
+              teamId: player.data!.teams![0].teamId!,
+            ),
             const SizedBox(
               height: 10,
             ),
