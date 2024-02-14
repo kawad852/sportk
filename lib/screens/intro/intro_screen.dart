@@ -77,25 +77,65 @@ class _IntroScreenState extends State<IntroScreen> {
             return CustomNetworkImage(
               kFakeImage,
               alignment: AlignmentDirectional.centerStart,
-              child: Padding(
-                padding: const EdgeInsets.all(30).copyWith(bottom: 200),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    MediumTitle(
-                      "Title",
-                      color: context.colorScheme.background,
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      "BodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBody",
-                      style: TextStyle(
-                        color: context.colorScheme.background,
+              child: Stack(
+                children: [
+                  Column(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                context.colorScheme.primary,
+                                context.colorPalette.greyD9D.withOpacity(0.0),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                context.colorPalette.greyD9D.withOpacity(0.0),
+                                context.colorScheme.primary,
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(30).copyWith(bottom: 200),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        MediumTitle(
+                          "Title",
+                          color: context.colorScheme.background,
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          "BodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBodyBody",
+                          style: TextStyle(
+                            color: context.colorScheme.background,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             );
           },
