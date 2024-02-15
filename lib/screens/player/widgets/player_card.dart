@@ -129,10 +129,10 @@ class _PlayerCardState extends State<PlayerCard> {
               style: TextStyle(color: context.colorPalette.blueD4B),
             ),
             TeamName(
-              teamId: player.data!.teams![1].teamId!,
+              teamId: player.data!.teams!.isEmpty ? null : player.data!.teams![0].teamId,
             ),
             TeamName(
-              teamId: player.data!.teams![0].teamId!,
+              teamId: player.data!.teams!.length == 2 ? player.data!.teams![1].teamId : null,
             ),
             const SizedBox(
               height: 10,

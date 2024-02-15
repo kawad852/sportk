@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/model/player_model.dart';
+import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/player/widgets/player_card.dart';
 import 'package:sportk/screens/player/widgets/player_statistics.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/widgets/custom_back.dart';
+import 'package:sportk/widgets/custom_future_builder.dart';
 
 class PlayerScreen extends StatefulWidget {
   const PlayerScreen({super.key, required this.playerId});
@@ -13,6 +16,20 @@ class PlayerScreen extends StatefulWidget {
 }
 
 class _PlayerScreenState extends State<PlayerScreen> {
+  late FootBallProvider _footBallProvider;
+  late Future<PlayerModel> _playerFuture;
+
+  void _initializeFuture() {
+    _playerFuture = _footBallProvider.fetchPlayerInfo(playerId: widget.playerId);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _footBallProvider = context.footBallProvider;
+    _initializeFuture();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,9 +62,28 @@ class _PlayerScreenState extends State<PlayerScreen> {
               ),
             ),
           ),
-          const SliverPadding(
-            padding: EdgeInsetsDirectional.only(start: 15),
-            sliver: SliverToBoxAdapter(child: PlayerStatistics()),
+          SliverPadding(
+            padding: const EdgeInsetsDirectional.only(start: 15),
+            sliver: SliverToBoxAdapter(
+              child: CustomFutureBuilder(
+                future: _playerFuture,
+                onRetry: () {
+                  setState(
+                    () {
+                      _initializeFuture();
+                    },
+                  );
+                },
+                onLoading: () {
+                  return const SizedBox.shrink();
+                },
+                onComplete: ((context, snapshot) {
+                  return PlayerStatistics(
+                    playerId: widget.playerId,
+                  );
+                }),
+              ),
+            ),
           ),
         ],
       ),

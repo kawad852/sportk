@@ -1,6 +1,8 @@
 class ApiUrl {
-  static const String mainUrl = 'https://api.sportmonks.com/v3';
-  static const String auth = '?api_token=DbrVb58yhLSBbx1yJxKZx2GQnLfEMmYVUjDISnFltvWjvK0ezHhWhH9GcT6r';
+  static const String sportsMailUrl = 'https://api.sportmonks.com/v3';
+  static const String weCanMailUrl = 'http://dash.thesportk.com';
+  static const String auth =
+      '?api_token=DbrVb58yhLSBbx1yJxKZx2GQnLfEMmYVUjDISnFltvWjvK0ezHhWhH9GcT6r';
 
   ///intro
   static const String competitions = '/competition/additional/list$auth';
@@ -11,19 +13,14 @@ class ApiUrl {
   // static const String playerInfo = '/player/with_stat/list$auth';
   static const String countries = '/country/list$auth';
 
-
   //test
   static const String standings = '/football/standings/live/leagues';
   static const String teamInfo = '/football/teams';
   static const String league = '/football/leagues';
   static const String playerInfo = '/football/players';
   static const String countryInfo = '/core/countries';
+  static const String seasonInfo = '/football/seasons/teams';
 
-  
-
-
-
-
-
-
+  ///weCan url
+  static const String login = '/api/login';
 }

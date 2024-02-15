@@ -1,13 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:sportk/alerts/errors/app_error_feedback.dart';
+import 'package:sportk/alerts/feedback/app_feedback.dart';
 import 'package:sportk/model/auth_model.dart';
 import 'package:sportk/model/locale_model.dart';
 import 'package:sportk/network/api_service.dart';
+import 'package:sportk/network/api_url.dart';
+import 'package:sportk/screens/base/app_nav_bar.dart';
+import 'package:sportk/screens/registration/registration_screen.dart';
+import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/shared_pref.dart';
 
 class AuthProvider extends ChangeNotifier {
-  var user = AuthModel();
+  var user = UserModel();
   late Future<String> countryCodeFuture;
 
   FirebaseAuth get _firebaseAuth => FirebaseAuth.instance;
@@ -15,17 +21,50 @@ class AuthProvider extends ChangeNotifier {
   bool get isAuthenticated => user.id != null;
 
   void initUser() {
-    user = AuthModel.copy(MySharedPreferences.user);
+    user = UserModel.copy(MySharedPreferences.user);
+  }
+
+  Future login(
+    BuildContext context, {
+    required String? displayName,
+    required String? email,
+  }) async {
+    await ApiFutureBuilder<AuthModel>().fetch(
+      context,
+      withOverlayLoader: false,
+      future: () {
+        final socialLoginFuture = ApiService<AuthModel>().build(
+          weCanUrl: ApiUrl.login,
+          isPublic: true,
+          apiType: ApiType.post,
+          queryParams: {
+            "name": displayName,
+            "email": email,
+            "favorites": [],
+          },
+          builder: AuthModel.fromJson,
+        );
+        return socialLoginFuture;
+      },
+      onComplete: (snapshot) {
+        if (snapshot.status == 200) {
+          context.pushAndRemoveUntil(const AppNavBar());
+          updateUser(context, userModel: snapshot.data!.user);
+        } else {
+          context.showSnackBar(snapshot.msg!);
+        }
+      },
+      onError: (failure) => AppErrorFeedback.show(context, failure),
+    );
   }
 
   Future<void> updateUser(
     BuildContext context, {
-    AuthModel? authModel,
+    UserModel? userModel,
     bool notify = true,
-    bool updateDoc = true,
   }) async {
-    user = AuthModel.copy(authModel ?? user);
-    MySharedPreferences.saveUser(authModel ?? user);
+    user = UserModel.copy(userModel ?? user);
+    MySharedPreferences.saveUser(userModel ?? user);
     debugPrint("User:: ${user.toJson()}");
     if (notify) {
       notifyListeners();
@@ -34,8 +73,8 @@ class AuthProvider extends ChangeNotifier {
 
   void logout(BuildContext context) {
     _firebaseAuth.signOut();
-    updateUser(context, authModel: AuthModel(), updateDoc: false);
-    // context.pushAndRemoveUntil(const RegistrationScreen());
+    updateUser(context, userModel: UserModel());
+    context.pushAndRemoveUntil(const RegistrationScreen());
   }
 
   void initializeLocale(BuildContext context) async {

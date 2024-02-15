@@ -3,7 +3,9 @@ import 'package:sportk/model/competition_model.dart';
 import 'package:sportk/model/country_info_model.dart';
 import 'package:sportk/model/league_model.dart';
 import 'package:sportk/model/player_model.dart';
+import 'package:sportk/model/player_statistics_model.dart';
 import 'package:sportk/model/schedule_and_results_season_model.dart';
+import 'package:sportk/model/season_info_model.dart';
 import 'package:sportk/model/season_model.dart';
 import 'package:sportk/model/standings_model.dart';
 import 'package:sportk/model/team_info_model.dart';
@@ -136,6 +138,32 @@ class FootBallProvider extends ChangeNotifier {
       isPublic: true,
       apiType: ApiType.get,
       builder: LeagueModel.fromJson,
+    );
+    return snapshot;
+  }
+
+  Future<SeasonInfoModel> fetchSeasonsByTeam({
+    required int teamId,
+  }) {
+    final snapshot = ApiService<SeasonInfoModel>().build(
+      sportsUrl: '${ApiUrl.seasonInfo}/$teamId${ApiUrl.auth}',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: SeasonInfoModel.fromJson,
+    );
+    return snapshot;
+  }
+
+  Future<PlayerStatisticsModel> fetchPlayerStatistics({
+    required int playerId,
+    required int seasonId,
+  }) {
+    final snapshot = ApiService<PlayerStatisticsModel>().build(
+      sportsUrl:
+          '${ApiUrl.playerInfo}/$playerId${ApiUrl.auth}&include=statistics.details&filters=playerStatisticSeasons:$seasonId',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: PlayerStatisticsModel.fromJson,
     );
     return snapshot;
   }

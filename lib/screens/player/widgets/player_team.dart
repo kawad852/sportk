@@ -43,6 +43,9 @@ class _PlayerTeamState extends State<PlayerTeam> {
             onLoading: () {
               return context.loaders.circular(isSmall: true);
             },
+            onError: (snapshot) {
+              return const SizedBox.shrink();
+            },
             onComplete: ((context, snapshot) {
               final team = snapshot.data!;
               return Column(

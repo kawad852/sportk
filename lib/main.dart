@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -28,7 +29,7 @@ Future<void> onBackgroundMessage(RemoteMessage message) async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
+  await Firebase.initializeApp();
   await MySharedPreferences.init();
   // MySharedPreferences.clearStorage();
   // MySharedPreferences.isPassedIntro = false;
@@ -91,8 +92,9 @@ class _MyAppState extends State<MyApp> {
           supportedLocales: AppLocalizations.supportedLocales,
           locale: Locale(appProvider.appLocale.languageCode),
           theme: MyTheme().materialTheme(context, seedColorScheme),
-          home: const PlayerScreen(playerId: 184798),
           // home: _toggleRoute(context),
+          // home: const AppNavBar(),
+          home:const PlayerScreen(playerId: 268),
         );
       },
     );

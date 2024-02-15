@@ -36,7 +36,7 @@ class ApiService<T> {
     required Function(http.MultipartRequest value) onRequest,
   }) async {
     final futureCallback = await _handleCall(() async {
-      final uri = Uri.parse('${ApiUrl.mainUrl}$url');
+      final uri = Uri.parse('${ApiUrl.sportsMailUrl}$url');
 
       var request = http.MultipartRequest('POST', uri);
 
@@ -71,7 +71,7 @@ class ApiService<T> {
   }) async {
     final futureCallback = await _handleCall(() async {
       late http.Response response;
-      final uri = Uri.parse(link ?? (sportsUrl != null ? '${ApiUrl.mainUrl}$sportsUrl' : ''));
+      final uri = Uri.parse(link ?? (sportsUrl != null ? '${ApiUrl.sportsMailUrl}$sportsUrl' : '${ApiUrl.weCanMailUrl}$weCanUrl'));
       Map<String, String> headers = callHeaders ?? (isPublic ? kPublicHeader : kAuthorizedHeader);
       if (additionalHeaders != null) {
         headers.addAll(additionalHeaders);

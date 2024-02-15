@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/model/player_model.dart';
+import 'package:sportk/model/season_info_model.dart';
 import 'package:sportk/providers/football_provider.dart';
-import 'package:sportk/screens/player/widgets/statistics_card.dart';
-import 'package:sportk/screens/player/widgets/line_divider.dart';
-import 'package:sportk/utils/app_constants.dart';
+import 'package:sportk/screens/player/widgets/league_card.dart';
+import 'package:sportk/screens/player/widgets/statistics_info.dart';
 import 'package:sportk/utils/base_extensions.dart';
-import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
-import 'package:sportk/widgets/custom_network_image.dart';
 
 class PlayerStatistics extends StatefulWidget {
-  const PlayerStatistics({super.key});
+  const PlayerStatistics({super.key, required this.playerId});
+  final int playerId;
 
   @override
   State<PlayerStatistics> createState() => _PlayerStatisticsState();
@@ -18,26 +18,52 @@ class PlayerStatistics extends StatefulWidget {
 class _PlayerStatisticsState extends State<PlayerStatistics> {
   int selectedIndex = 0;
   late Future<List<dynamic>> _futures;
+  late FootBallProvider _footBallProvider;
+  late Future<PlayerModel> _playerFuture;
+  late Future<SeasonInfoModel> _seasonByTeam1Future;
+  late Future<SeasonInfoModel> _seasonByTeam2Future;
+  List<int> leagueIds = [];
+  List<int> seasonIds = [];
 
-  Future<List<dynamic>> _initlaizeFutures() async {
-    final f1 = method1();
-    final id = await f1;
-    final f2 = method2(id);
-    return Future.wait([f1, f2]);
-  }
-
-  Future<String> method2(int id) {
-    return Future.value("mhyar id is $id");
-  }
-
-  Future<int> method1() {
-    return Future.value(1999);
+  Future<List<dynamic>> _initializeFutures() async {
+    _playerFuture = _footBallProvider.fetchPlayerInfo(playerId: widget.playerId);
+    final team = await _playerFuture;
+    if (team.data!.teams!.isNotEmpty) {
+      _seasonByTeam1Future =
+          _footBallProvider.fetchSeasonsByTeam(teamId: team.data!.teams![0].teamId!);
+      final season = await _seasonByTeam1Future;
+      if (season.data!.isNotEmpty) {
+        season.data!.map((e) {
+          if (e.isCurrent == true) {
+            leagueIds.add(e.leagueId!);
+            seasonIds.add(e.id!);
+          }
+        }).toSet();
+      }
+    }
+    if (team.data!.teams!.length == 2) {
+      _seasonByTeam2Future =
+          _footBallProvider.fetchSeasonsByTeam(teamId: team.data!.teams![1].teamId!);
+      final season = await _seasonByTeam2Future;
+      if (season.data!.isNotEmpty) {
+        season.data!.map((e) {
+          if (e.isCurrent == true) {
+            leagueIds.add(e.leagueId!);
+            seasonIds.add(e.id!);
+          }
+        }).toSet();
+      }
+    }
+    return Future.wait([
+      _playerFuture,
+    ]);
   }
 
   @override
   void initState() {
     super.initState();
-    _futures = _initlaizeFutures();
+    _footBallProvider = context.footBallProvider;
+    _futures = _initializeFutures();
   }
 
   @override
@@ -46,17 +72,23 @@ class _PlayerStatisticsState extends State<PlayerStatistics> {
         future: _futures,
         onRetry: () {
           setState(() {
-            _futures = _initlaizeFutures();
+            _futures = _initializeFutures();
           });
         },
+        onLoading: () {
+          return Padding(
+            padding: const EdgeInsetsDirectional.only(top: 50),
+            child: Center(
+              child: CircularProgressIndicator(
+                color: context.colorPalette.blueD4B,
+              ),
+            ),
+          );
+        },
         onComplete: (context, snapshot) {
-          final dat1 = snapshot.data![0] as int;
-          final data2 = snapshot.data![1] as String;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(dat1.toString()),
-              Text(data2),
               Text(
                 context.appLocalization.statistics,
                 style: TextStyle(
@@ -67,98 +99,41 @@ class _PlayerStatisticsState extends State<PlayerStatistics> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 8),
-                child: SizedBox(
-                  height: 35.0,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 4,
-                    itemBuilder: (BuildContext context, int index) {
-                      return InkWell(
-                        onTap: () {
-                          setState(() {
-                            selectedIndex = index;
-                          });
-                        },
-                        child: Container(
-                          height: 30,
-                          margin: const EdgeInsetsDirectional.only(start: 5, end: 5),
-                          decoration: BoxDecoration(
-                            color: selectedIndex == index
-                                ? context.colorPalette.blueABB
-                                : context.colorPalette.greyEAE,
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsetsDirectional.only(start: 8, end: 8),
-                            child: Row(
-                              children: [
-                                const CustomNetworkImage(
-                                  kFakeImage,
-                                  width: 20,
-                                  height: 20,
-                                  radius: 0,
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  "Premier League",
-                                  style: TextStyle(
-                                    color: context.colorPalette.blueD4B,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                child: leagueIds.isEmpty
+                    ? const Text("No statistics")
+                    : SizedBox(
+                        height: 35.0,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: leagueIds.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return InkWell(
+                              onTap: () {
+                                WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
+                                      selectedIndex = index;
+                                    }));
+                                // setState(() {
+                                //   selectedIndex = index;
+                                // });
+                              },
+                              child: LeagueCard(
+                                leagueId: leagueIds[index],
+                                index: index,
+                                selectIndex: selectedIndex,
+                              ),
+                            );
+                          },
                         ),
-                      );
-                    },
-                  ),
-                ),
+                      ),
               ),
-              Padding(
-                padding: const EdgeInsetsDirectional.only(end: 15, top: 15),
-                child: Container(
-                  height: 128,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: context.colorPalette.grey3F3,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsetsDirectional.only(start: 10, end: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        StatisticsCard(
-                          icon: MyIcons.goals,
-                          title: context.appLocalization.goals,
-                          text: "9",
-                        ),
-                        const LineDivider(),
-                        StatisticsCard(
-                          icon: MyIcons.yellowCard,
-                          title: context.appLocalization.yellowCard,
-                          text: "9",
-                        ),
-                        const LineDivider(),
-                        StatisticsCard(
-                          icon: MyIcons.redCard,
-                          title: context.appLocalization.redCard,
-                          text: "9",
-                        ),
-                        const LineDivider(),
-                        StatisticsCard(
-                          icon: MyIcons.assist,
-                          title: context.appLocalization.assist,
-                          text: "50",
-                        ),
-                      ],
+              leagueIds.isEmpty
+                  ? const SizedBox.shrink()
+                  : StatisticsInfo(
+                      key: UniqueKey(),
+                      playerId: widget.playerId,
+                      seasonId: seasonIds[selectedIndex],
                     ),
-                  ),
-                ),
-              ),
             ],
           );
         });
