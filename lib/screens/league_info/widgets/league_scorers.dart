@@ -1,200 +1,217 @@
 import 'package:flutter/material.dart';
-import 'package:sportk/utils/app_constants.dart';
+import 'package:sportk/model/season_by_league_model.dart';
+import 'package:sportk/model/top_scorers_model.dart';
+import 'package:sportk/providers/football_provider.dart';
+import 'package:sportk/screens/league_info/widgets/league_scorers_loading.dart';
+import 'package:sportk/screens/league_info/widgets/penalty.dart';
+import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
+import 'package:sportk/widgets/team_name.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 
-class LeagueScorers extends StatelessWidget {
-  const LeagueScorers({super.key});
+class LeagueScorers extends StatefulWidget {
+  const LeagueScorers({super.key, required this.leagueId});
+  final int leagueId;
+
+  @override
+  State<LeagueScorers> createState() => _LeagueScorersState();
+}
+
+class _LeagueScorersState extends State<LeagueScorers> {
+  late Future<List<dynamic>> _futures;
+  late FootBallProvider _footBallProvider;
+  late Future<TopScorersModel> _topScorersFuture;
+  late Future<SeasonByLeagueModel> _seasonFuture;
+
+  Future<List<dynamic>> _initializeFutures() async {
+    _seasonFuture = _footBallProvider.fetchSeasonByLeague(leagueId: widget.leagueId);
+    final season = await _seasonFuture;
+    _topScorersFuture =
+        _footBallProvider.fetchTopScorers(seasonId: season.data!.currentseason!.id!);
+    return Future.wait([_topScorersFuture]);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _footBallProvider = context.footBallProvider;
+    _futures = _initializeFutures();
+  }
 
   @override
   Widget build(BuildContext context) {
-    TableRow spacer = const TableRow(children: [
-      SizedBox(
-        height: 10,
-      ),
-      SizedBox(
-        height: 10,
-      ),
-      SizedBox(
-        height: 10,
-      ),
-      SizedBox(
-        height: 10,
-      ),
-      SizedBox(
-        height: 10,
-      ),
-    ]);
-    final test = [
-      {
-        "nameplayer": "Lionel Messi",
-        "team": "Man City",
-        "goals": 22,
-        "mPinalty": 0,
-        "mGoals": 5,
+    return CustomFutureBuilder(
+      future: _futures,
+      onRetry: () {
+        setState(() {
+          _futures = _initializeFutures();
+        });
       },
-      {
-        "nameplayer": "Lionel Messi",
-        "team": "Man City",
-        "goals": 22,
-        "mPinalty": 0,
-        "mGoals": 5,
+      onLoading: () {
+        return const ShimmerLoading(
+          child: LeagueScorersLoading(),
+        );
       },
-      {
-        "nameplayer": "Lionel Messi",
-        "team": "Man City",
-        "goals": 22,
-        "mPinalty": 0,
-        "mGoals": 5,
-      },
-      {
-        "nameplayer": "Lionel Messi",
-        "team": "Man City",
-        "goals": 22,
-        "mPinalty": 0,
-        "mGoals": 5,
-      },
-      {
-        "nameplayer": "Lionel Messi",
-        "team": "Man City",
-        "goals": 22,
-        "mPinalty": 0,
-        "mGoals": 5,
-      },
-    ];
-
-    return Padding(
-      padding: const EdgeInsetsDirectional.symmetric(horizontal: 20, vertical: 10),
-      child: SingleChildScrollView(
-        child: Table(
-          columnWidths: const {
-            0: FlexColumnWidth(1.4),
-            1: FlexColumnWidth(6.3),
-            2: FlexColumnWidth(1.4),
-            3: FlexColumnWidth(1.4),
-            4: FlexColumnWidth(1.4),
-          },
-          children: [
-            TableRow(
-              decoration: BoxDecoration(
-                color: context.colorPalette.grey3F3,
-                borderRadius: BorderRadius.circular(10),
-              ),
+      onComplete: (context, snapshot) {
+        final topScorers = snapshot.data![0] as TopScorersModel;
+        return Padding(
+          padding: const EdgeInsetsDirectional.symmetric(horizontal: 20, vertical: 10),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                  child: Text(
-                    context.appLocalization.st,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                    ),
+                Container(
+                  width: double.infinity,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: context.colorPalette.grey3F3,
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  child: Text(
-                    context.appLocalization.player,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  child: Text(
-                    context.appLocalization.goals,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  child: Text(
-                    context.appLocalization.goalsPenalty,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  child: Text(
-                    context.appLocalization.missedPenalty,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            spacer,
-            ...test.map((data) {
-              return TableRow(
-                decoration: BoxDecoration(
-                  color: context.colorPalette.grey3F3,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 5),
-                    child: Text(
-                      (test.indexOf(data) + 1).toString(),
-                      style: const TextStyle(),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
+                  child: Padding(
+                    padding: const EdgeInsetsDirectional.symmetric(horizontal: 10),
                     child: Row(
                       children: [
-                        const CustomNetworkImage(
-                          kFakeImage,
-                          width: 35,
-                          height: 35,
-                          radius: 20,
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            context.appLocalization.st,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 11,
+                            ),
+                          ),
                         ),
-                        Column(
-                          children: [
-                            Text(
-                              data["nameplayer"].toString(),
-                              style: const TextStyle(),
+                        Expanded(
+                          flex: 5,
+                          child: Text(
+                            context.appLocalization.player,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 11,
                             ),
-                            Text(
-                              data["team"].toString(),
-                              style: TextStyle(fontSize: 11, color: context.colorPalette.blueD4B),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            context.appLocalization.goals,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 11,
                             ),
-                          ],
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            context.appLocalization.goalsPenalty,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 11,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            context.appLocalization.missedPenalty,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 11,
+                            ),
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    child: Text(
-                      data["goals"].toString(),
-                      style: TextStyle(fontSize: 11, color: context.colorPalette.blueD4B),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    child: Text(
-                      data["mGoals"].toString(),
-                      style: const TextStyle(),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    child: Text(
-                      data["mPinalty"].toString(),
-                      style: const TextStyle(),
-                    ),
-                  ),
-                ],
-              );
-            }).toList(),
-          ],
-        ),
-      ),
+                ),
+                ...topScorers.data!.map(
+                  (element) {
+                    return Padding(
+                      padding: const EdgeInsetsDirectional.symmetric(vertical: 5),
+                      child: Container(
+                        width: double.infinity,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: context.colorPalette.grey3F3,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsetsDirectional.symmetric(horizontal: 10),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: Text(
+                                  element.position.toString(),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 5,
+                                child: Row(
+                                  children: [
+                                    CustomNetworkImage(
+                                      element.player!.imagePath!,
+                                      width: 35,
+                                      height: 35,
+                                      radius: 20,
+                                    ),
+                                    const SizedBox(
+                                      width: 2,
+                                    ),
+                                    Flexible(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            element.player!.displayName!,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              color: context.colorPalette.blueD4B,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                          TeamName(
+                                            teamId: element.participantId,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    element.total.toString(),
+                                    style: TextStyle(
+                                      color: context.colorPalette.blueD4B,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 4,
+                                child: Penalty(
+                                  playerId: element.playerId!,
+                                  seasonId: element.seasonId!,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ).toList()
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

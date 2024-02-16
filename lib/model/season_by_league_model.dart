@@ -1,17 +1,17 @@
-class PlayerStatisticsModel {
+class SeasonByLeagueModel {
   Data? data;
   List<Subscription>? subscription;
   RateLimit? rateLimit;
   String? timezone;
 
-  PlayerStatisticsModel({
+  SeasonByLeagueModel({
     this.data,
     this.subscription,
     this.rateLimit,
     this.timezone,
   });
 
-  factory PlayerStatisticsModel.fromJson(Map<String, dynamic> json) => PlayerStatisticsModel(
+  factory SeasonByLeagueModel.fromJson(Map<String, dynamic> json) => SeasonByLeagueModel(
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
         subscription: json["subscription"] == null
             ? []
@@ -33,217 +33,129 @@ class Data {
   int? id;
   int? sportId;
   int? countryId;
-  int? nationalityId;
-  dynamic cityId;
-  int? positionId;
-  int? detailedPositionId;
-  int? typeId;
-  String? commonName;
-  String? firstname;
-  String? lastname;
   String? name;
-  String? displayName;
+  bool? active;
+  String? shortCode;
   String? imagePath;
-  int? height;
-  int? weight;
-  DateTime? dateOfBirth;
-  String? gender;
-  List<Statistic>? statistics;
+  String? type;
+  String? subType;
+  DateTime? lastPlayedAt;
+  int? category;
+  bool? hasJerseys;
+  Currentseason? currentseason;
 
   Data({
     this.id,
     this.sportId,
     this.countryId,
-    this.nationalityId,
-    this.cityId,
-    this.positionId,
-    this.detailedPositionId,
-    this.typeId,
-    this.commonName,
-    this.firstname,
-    this.lastname,
     this.name,
-    this.displayName,
+    this.active,
+    this.shortCode,
     this.imagePath,
-    this.height,
-    this.weight,
-    this.dateOfBirth,
-    this.gender,
-    this.statistics,
+    this.type,
+    this.subType,
+    this.lastPlayedAt,
+    this.category,
+    this.hasJerseys,
+    this.currentseason,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"],
         sportId: json["sport_id"],
         countryId: json["country_id"],
-        nationalityId: json["nationality_id"],
-        cityId: json["city_id"],
-        positionId: json["position_id"],
-        detailedPositionId: json["detailed_position_id"],
-        typeId: json["type_id"],
-        commonName: json["common_name"],
-        firstname: json["firstname"],
-        lastname: json["lastname"],
         name: json["name"],
-        displayName: json["display_name"],
+        active: json["active"],
+        shortCode: json["short_code"],
         imagePath: json["image_path"],
-        height: json["height"],
-        weight: json["weight"],
-        dateOfBirth: json["date_of_birth"] == null ? null : DateTime.parse(json["date_of_birth"]),
-        gender: json["gender"],
-        statistics: json["statistics"] == null
-            ? []
-            : List<Statistic>.from(json["statistics"]!.map((x) => Statistic.fromJson(x))),
+        type: json["type"],
+        subType: json["sub_type"],
+        lastPlayedAt:
+            json["last_played_at"] == null ? null : DateTime.parse(json["last_played_at"]),
+        category: json["category"],
+        hasJerseys: json["has_jerseys"],
+        currentseason:
+            json["currentseason"] == null ? null : Currentseason.fromJson(json["currentseason"]),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "sport_id": sportId,
         "country_id": countryId,
-        "nationality_id": nationalityId,
-        "city_id": cityId,
-        "position_id": positionId,
-        "detailed_position_id": detailedPositionId,
-        "type_id": typeId,
-        "common_name": commonName,
-        "firstname": firstname,
-        "lastname": lastname,
         "name": name,
-        "display_name": displayName,
+        "active": active,
+        "short_code": shortCode,
         "image_path": imagePath,
-        "height": height,
-        "weight": weight,
-        "date_of_birth":
-            "${dateOfBirth!.year.toString().padLeft(4, '0')}-${dateOfBirth!.month.toString().padLeft(2, '0')}-${dateOfBirth!.day.toString().padLeft(2, '0')}",
-        "gender": gender,
-        "statistics":
-            statistics == null ? [] : List<dynamic>.from(statistics!.map((x) => x.toJson())),
+        "type": type,
+        "sub_type": subType,
+        "last_played_at": lastPlayedAt?.toIso8601String(),
+        "category": category,
+        "has_jerseys": hasJerseys,
+        "currentseason": currentseason?.toJson(),
       };
 }
 
-class Statistic {
+class Currentseason {
   int? id;
-  int? playerId;
-  int? teamId;
-  int? seasonId;
-  bool? hasValues;
-  int? positionId;
-  int? jerseyNumber;
-  List<Detail>? details;
+  int? sportId;
+  int? leagueId;
+  int? tieBreakerRuleId;
+  String? name;
+  bool? finished;
+  bool? pending;
+  bool? isCurrent;
+  DateTime? startingAt;
+  DateTime? endingAt;
+  DateTime? standingsRecalculatedAt;
+  bool? gamesInCurrentWeek;
 
-  Statistic({
+  Currentseason({
     this.id,
-    this.playerId,
-    this.teamId,
-    this.seasonId,
-    this.hasValues,
-    this.positionId,
-    this.jerseyNumber,
-    this.details,
+    this.sportId,
+    this.leagueId,
+    this.tieBreakerRuleId,
+    this.name,
+    this.finished,
+    this.pending,
+    this.isCurrent,
+    this.startingAt,
+    this.endingAt,
+    this.standingsRecalculatedAt,
+    this.gamesInCurrentWeek,
   });
 
-  factory Statistic.fromJson(Map<String, dynamic> json) => Statistic(
+  factory Currentseason.fromJson(Map<String, dynamic> json) => Currentseason(
         id: json["id"],
-        playerId: json["player_id"],
-        teamId: json["team_id"],
-        seasonId: json["season_id"],
-        hasValues: json["has_values"],
-        positionId: json["position_id"],
-        jerseyNumber: json["jersey_number"],
-        details: json["details"] == null
-            ? []
-            : List<Detail>.from(json["details"]!.map((x) => Detail.fromJson(x))),
+        sportId: json["sport_id"],
+        leagueId: json["league_id"],
+        tieBreakerRuleId: json["tie_breaker_rule_id"],
+        name: json["name"],
+        finished: json["finished"],
+        pending: json["pending"],
+        isCurrent: json["is_current"],
+        startingAt: json["starting_at"] == null ? null : DateTime.parse(json["starting_at"]),
+        endingAt: json["ending_at"] == null ? null : DateTime.parse(json["ending_at"]),
+        standingsRecalculatedAt: json["standings_recalculated_at"] == null
+            ? null
+            : DateTime.parse(json["standings_recalculated_at"]),
+        gamesInCurrentWeek: json["games_in_current_week"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "player_id": playerId,
-        "team_id": teamId,
-        "season_id": seasonId,
-        "has_values": hasValues,
-        "position_id": positionId,
-        "jersey_number": jerseyNumber,
-        "details": details == null ? [] : List<dynamic>.from(details!.map((x) => x.toJson())),
-      };
-}
-
-class Detail {
-  int? id;
-  int? playerStatisticId;
-  int? typeId;
-  Value? value;
-
-  Detail({
-    this.id,
-    this.playerStatisticId,
-    this.typeId,
-    this.value,
-  });
-
-  factory Detail.fromJson(Map<String, dynamic> json) => Detail(
-        id: json["id"],
-        playerStatisticId: json["player_statistic_id"],
-        typeId: json["type_id"],
-        value: json["value"] == null ? null : Value.fromJson(json["value"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "player_statistic_id": playerStatisticId,
-        "type_id": typeId,
-        "value": value?.toJson(),
-      };
-}
-
-class Value {
-  double? total;
-  int? goals;
-  int? penalties;
-  int? valueIn;
-  int? out;
-  double? average;
-  double? highest;
-  double? lowest;
-  double? scored;
-  double? missed;
-
-  Value({
-    this.total,
-    this.goals,
-    this.penalties,
-    this.valueIn,
-    this.out,
-    this.average,
-    this.highest,
-    this.lowest,
-    this.scored,
-    this.missed
-  });
-
-  factory Value.fromJson(Map<String, dynamic> json) => Value(
-        total: json["total"]?.toDouble(),
-        goals: json["goals"],
-        penalties: json["penalties"],
-        valueIn: json["in"],
-        out: json["out"],
-        average: json["average"]?.toDouble(),
-        highest: json["highest"]?.toDouble(),
-        lowest: json["lowest"]?.toDouble(),
-        scored: json["scored"]?.toDouble(),
-        missed: json["missed"]?.toDouble(),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "total": total,
-        "goals": goals,
-        "penalties": penalties,
-        "in": valueIn,
-        "out": out,
-        "average": average,
-        "highest": highest,
-        "lowest": lowest,
-        "scored":scored,
-        "missed":missed,
+        "sport_id": sportId,
+        "league_id": leagueId,
+        "tie_breaker_rule_id": tieBreakerRuleId,
+        "name": name,
+        "finished": finished,
+        "pending": pending,
+        "is_current": isCurrent,
+        "starting_at":
+            "${startingAt!.year.toString().padLeft(4, '0')}-${startingAt!.month.toString().padLeft(2, '0')}-${startingAt!.day.toString().padLeft(2, '0')}",
+        "ending_at":
+            "${endingAt!.year.toString().padLeft(4, '0')}-${endingAt!.month.toString().padLeft(2, '0')}-${endingAt!.day.toString().padLeft(2, '0')}",
+        "standings_recalculated_at": standingsRecalculatedAt?.toIso8601String(),
+        "games_in_current_week": gamesInCurrentWeek,
       };
 }
 

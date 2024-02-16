@@ -97,5 +97,6 @@
   "leftMidfield":"وسط ايسر",
   "rightMidfield":"وسط ايمن",
   "secondaryStriker":"مهاجم ثانوي",
-  "coach":"مدرب"
+  "coach":"مدرب",
+  "noStatistics":"لا يوجد احصائيات متوفرة"
 }

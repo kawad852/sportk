@@ -100,7 +100,7 @@ class _PlayerStatisticsState extends State<PlayerStatistics> {
               Padding(
                 padding: const EdgeInsets.only(top: 8),
                 child: leagueIds.isEmpty
-                    ? const Text("No statistics")
+                    ? Text(context.appLocalization.noStatistics)
                     : SizedBox(
                         height: 35.0,
                         child: ListView.builder(
@@ -110,12 +110,9 @@ class _PlayerStatisticsState extends State<PlayerStatistics> {
                           itemBuilder: (BuildContext context, int index) {
                             return InkWell(
                               onTap: () {
-                                WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
-                                      selectedIndex = index;
-                                    }));
-                                // setState(() {
-                                //   selectedIndex = index;
-                                // });
+                                setState(() {
+                                  selectedIndex = index;
+                                });
                               },
                               child: LeagueCard(
                                 leagueId: leagueIds[index],

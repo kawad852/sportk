@@ -97,6 +97,7 @@
   "leftMidfield":"LM",
   "rightMidfield":"RM",
   "secondaryStriker":"SS",
-  "coach":"Coach"
+  "coach":"Coach",
+  "noStatistics":"There are no statistics available"
   
 }

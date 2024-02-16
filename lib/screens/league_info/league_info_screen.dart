@@ -11,7 +11,6 @@ import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/league_standings.dart';
 import 'package:sportk/widgets/matches_card.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
-
 import 'widgets/league_loading.dart';
 
 class LeagueInfoScreen extends StatefulWidget {
@@ -149,7 +148,7 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
               controller: controller,
               children: [
                 LeagueStandings(leagueId: widget.leagueId),
-                const LeagueScorers(),
+                LeagueScorers(leagueId: widget.leagueId),
                 const MatchesCard(),
                 const LeagueNews(),
               ],

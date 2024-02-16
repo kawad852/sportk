@@ -20,6 +20,7 @@ class ApiUrl {
   static const String playerInfo = '/football/players';
   static const String countryInfo = '/core/countries';
   static const String seasonInfo = '/football/seasons/teams';
+  static const String topScorers = '/football/topscorers/seasons';
 
   ///weCan url
   static const String login = '/api/login';
