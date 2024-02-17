@@ -10,6 +10,7 @@ class ColorPalette {
 
   bool get _isLightTheme => MyTheme.isLightTheme(_context);
 
+  // TODO: Mihyar: consider the dark Theme
   ///grey
   Color get grey2F2 => _isLightTheme ? const Color(0xFFF2F2F2) : const Color(0xFFF2F2F2);
   Color get grey3F3 => const Color(0xFFF3F3F3);
@@ -21,12 +22,11 @@ class ColorPalette {
   Color get greyAAA => const Color(0xFFAAAAAA);
 
   ///blue
-  Color get blueD4B => const Color(0xFF032D4B);
+  Color get blueD4B => _isLightTheme ? const Color(0xFF032D4B) : const Color(0xFFCC0000);
   Color get blue1FC => const Color(0xFFE2F1FC);
   Color get blue1AD4B => const Color(0x1A032D4B);
   Color get blueABB => const Color(0xFFABB8C1);
   Color get blueE2F => const Color(0x66E2F1FC);
-
 
   ///red
   Color get red000 => const Color(0xFFCC0000);
@@ -48,5 +48,4 @@ class ColorPalette {
   //green
   Color get greenAD0 => const Color(0xFF00AD05);
   Color get green057 => const Color(0xFF057008);
-
 }

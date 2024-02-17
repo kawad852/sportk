@@ -161,8 +161,7 @@ class FootBallProvider extends ChangeNotifier {
     required int seasonId,
   }) {
     final snapshot = ApiService<PlayerStatisticsModel>().build(
-      sportsUrl:
-          '${ApiUrl.playerInfo}/$playerId${ApiUrl.auth}&include=statistics.details&filters=playerStatisticSeasons:$seasonId',
+      sportsUrl: '${ApiUrl.playerInfo}/$playerId${ApiUrl.auth}&include=statistics.details&filters=playerStatisticSeasons:$seasonId',
       isPublic: true,
       apiType: ApiType.get,
       builder: PlayerStatisticsModel.fromJson,
@@ -174,8 +173,7 @@ class FootBallProvider extends ChangeNotifier {
     required int seasonId,
   }) {
     final snapshot = ApiService<TopScorersModel>().build(
-      sportsUrl:
-          '${ApiUrl.topScorers}/$seasonId${ApiUrl.auth}&include=player&filters=seasonTopscorerTypes:208',
+      sportsUrl: '${ApiUrl.topScorers}/$seasonId${ApiUrl.auth}&include=player&filters=seasonTopscorerTypes:208',
       isPublic: true,
       apiType: ApiType.get,
       builder: TopScorersModel.fromJson,

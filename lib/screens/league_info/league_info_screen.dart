@@ -5,12 +5,14 @@ import 'package:sportk/screens/league_info/widgets/league_news.dart';
 import 'package:sportk/screens/league_info/widgets/league_scorers.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_images.dart';
+import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_back.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/league_standings.dart';
 import 'package:sportk/widgets/matches_card.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
+
 import 'widgets/league_loading.dart';
 
 class LeagueInfoScreen extends StatefulWidget {
@@ -22,7 +24,8 @@ class LeagueInfoScreen extends StatefulWidget {
 }
 
 class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerProviderStateMixin {
-  late TabController controller;
+  // TODO: Mihyar: make this private
+  late TabController _controller;
   late FootBallProvider _footBallProvider;
   late Future<LeagueModel> _leagueFuture;
 
@@ -33,7 +36,7 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
   @override
   void initState() {
     super.initState();
-    controller = TabController(length: 4, vsync: this);
+    _controller = TabController(length: 4, vsync: this);
     _footBallProvider = context.footBallProvider;
     _initializeFuture();
   }
@@ -45,7 +48,7 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
         physics: const NeverScrollableScrollPhysics(),
         slivers: [
           SliverAppBar(
-            leadingWidth: 500,
+            leadingWidth: kBarLeadingWith, // TODO: Mihyar: place the 500 px in a variable (maybe in theme class since it's shared all cross the app)
             pinned: true,
             leading: CustomBack(
               color: context.colorPalette.white,
@@ -60,8 +63,12 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
                   });
                 },
                 onLoading: () {
+                  // TODO: Mihyar: make the radius same as CustomNetworkImage (use radius from theme class) or zero if it's zero
                   return const ShimmerLoading(child: LeagueLoading());
                 },
+                onError: (snapshot) => const SizedBox.shrink(),
+                // TODO: Mihyar: handle error
+                // TODO: Mihyar: there are two "((" here, remove the extra.
                 onComplete: ((context, snapshot) {
                   final league = snapshot.data!;
                   return Padding(
@@ -72,7 +79,6 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
                           league.data!.imagePath!,
                           width: 100,
                           height: 100,
-                          radius: 0,
                         ),
                         const SizedBox(
                           height: 10,
@@ -90,6 +96,8 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
                 }),
               ),
             ),
+            // TODO: Mihyar: there is a cool animation we can make here instead of of making it a stack
+            // TODO: Mihyar: use bottom for the tabBar
             flexibleSpace: Stack(
               children: [
                 Image.asset(
@@ -119,13 +127,14 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
                     padding: const EdgeInsetsDirectional.symmetric(horizontal: 20),
                     child: Container(
                       height: 45,
+                      // TODO: Mihyar: need some margin from top
                       width: double.infinity,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: context.colorPalette.grey9E9,
                       ),
                       child: TabBar(
-                        controller: controller,
+                        controller: _controller,
                         indicatorColor: context.colorPalette.blueD4B,
                         labelColor: context.colorPalette.blueD4B,
                         labelPadding: const EdgeInsetsDirectional.symmetric(horizontal: 4),
@@ -143,9 +152,10 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
               ],
             ),
           ),
+          // TODO: Mihyar: SliverFillRemaining removes the animation,
           SliverFillRemaining(
             child: TabBarView(
-              controller: controller,
+              controller: _controller,
               children: [
                 LeagueStandings(leagueId: widget.leagueId),
                 LeagueScorers(leagueId: widget.leagueId),

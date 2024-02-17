@@ -4,11 +4,11 @@ import 'package:sportk/model/top_scorers_model.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/league_info/widgets/league_scorers_loading.dart';
 import 'package:sportk/screens/league_info/widgets/penalty.dart';
-import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
-import 'package:sportk/widgets/team_name.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
+import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
+import 'package:sportk/widgets/team_name.dart';
 
 class LeagueScorers extends StatefulWidget {
   const LeagueScorers({super.key, required this.leagueId});
@@ -27,8 +27,7 @@ class _LeagueScorersState extends State<LeagueScorers> {
   Future<List<dynamic>> _initializeFutures() async {
     _seasonFuture = _footBallProvider.fetchSeasonByLeague(leagueId: widget.leagueId);
     final season = await _seasonFuture;
-    _topScorersFuture =
-        _footBallProvider.fetchTopScorers(seasonId: season.data!.currentseason!.id!);
+    _topScorersFuture = _footBallProvider.fetchTopScorers(seasonId: season.data!.currentseason!.id!);
     return Future.wait([_topScorersFuture]);
   }
 
@@ -58,6 +57,7 @@ class _LeagueScorersState extends State<LeagueScorers> {
         return Padding(
           padding: const EdgeInsetsDirectional.symmetric(horizontal: 20, vertical: 10),
           child: SingleChildScrollView(
+            // TODO: Mihyar: use padding here instead
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

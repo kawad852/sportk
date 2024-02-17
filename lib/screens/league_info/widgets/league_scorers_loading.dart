@@ -10,6 +10,7 @@ class LeagueScorersLoading extends StatelessWidget {
       padding: const EdgeInsetsDirectional.symmetric(horizontal: 20, vertical: 10),
       child: Column(
         children: [
+          // TODO: Mihyar: loadingBubble instead
           Container(
             width: double.infinity,
             height: 40,
@@ -23,8 +24,9 @@ class LeagueScorersLoading extends StatelessWidget {
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: 6,
+            itemCount: 6, // TODO: Mihyar: increase it to fill the screen (make it scrollable) make it scrollable to not have an overFlow error
             itemBuilder: (BuildContext context, int index) {
+              // TODO: Mihyar: loadingBubble instead
               return Padding(
                 padding: const EdgeInsetsDirectional.symmetric(vertical: 5),
                 child: Container(

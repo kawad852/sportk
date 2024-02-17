@@ -1,33 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/my_theme.dart';
+import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
 
 class LeagueLoading extends StatelessWidget {
   const LeagueLoading({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsetsDirectional.only(bottom: 65),
+    return const Padding(
+      padding: EdgeInsetsDirectional.only(bottom: 65),
       child: Column(
         children: [
-          Container(
+          LoadingBubble(
             width: 100,
             height: 100,
-            decoration: BoxDecoration(
-              color: context.colorPalette.grey2F2,
-              borderRadius: BorderRadius.circular(20),
-            ),
+            radius: MyTheme.radiusSecondary,
           ),
-          const SizedBox(
+          SizedBox(
             height: 10,
           ),
-          Container(
+          LoadingBubble(
             width: 50,
             height: 20,
-            decoration: BoxDecoration(
-              color: context.colorPalette.grey2F2,
-              borderRadius: BorderRadius.circular(20),
-            ),
+            radius: 20,
           ),
         ],
       ),

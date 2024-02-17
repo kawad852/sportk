@@ -19,8 +19,7 @@ class _PenaltyState extends State<Penalty> {
   late Future<PlayerStatisticsModel> _playerStatisticsFuture;
 
   void _initializeFuture() {
-    _playerStatisticsFuture = _footBallProvider.fetchPlayerStatistics(
-        playerId: widget.playerId, seasonId: widget.seasonId);
+    _playerStatisticsFuture = _footBallProvider.fetchPlayerStatistics(playerId: widget.playerId, seasonId: widget.seasonId);
   }
 
   @override
@@ -42,6 +41,7 @@ class _PenaltyState extends State<Penalty> {
         onError: (snapshot) {
           return const SizedBox.shrink();
         },
+        // TODO: Mihyar: handle error
         onLoading: () {
           return ShimmerLoading(
             child: Row(

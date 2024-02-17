@@ -4,6 +4,7 @@ import 'package:sportk/utils/base_extensions.dart';
 
 const kEditorBottomPadding = 16.0;
 const kProductBubbleHeight = 70.0;
+const kBarLeadingWith = 500.0;
 
 class MyTheme {
   static const Color primaryLightColor = Color(0xFF1A73E8);
