@@ -15,6 +15,7 @@ import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/base/app_nav_bar.dart';
 import 'package:sportk/screens/intro/intro_screen.dart';
 import 'package:sportk/screens/registration/registration_screen.dart';
+import 'package:sportk/screens/test.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_theme.dart';
@@ -94,7 +95,7 @@ class _MyAppState extends State<MyApp> {
           locale: Locale(appProvider.appLocale.languageCode),
           theme: MyTheme().materialTheme(context, seedColorScheme),
           // home: _toggleRoute(context),
-          home: const IntroScreen(),
+          home: const SportMonksWidget(),
           // home: const LeagueInfoScreen(leagueId: 8),
         );
       },

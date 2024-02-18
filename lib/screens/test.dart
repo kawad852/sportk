@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -48,11 +46,8 @@ class _SportMonksWidgetState extends State<SportMonksWidget> {
           },
         ),
       )
-      ..loadRequest(Uri.dataFromString(
-        htmlContent,
-        mimeType: 'text/html',
-        encoding: Encoding.getByName('utf-8'),
-      ));
+      ..loadHtmlString(htmlContent);
+    controller.fil
   }
 
   @override
