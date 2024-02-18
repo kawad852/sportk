@@ -11,6 +11,7 @@ import 'package:sportk/providers/app_provider.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/base/app_nav_bar.dart';
+import 'package:sportk/screens/club/club_screen.dart';
 import 'package:sportk/screens/intro/intro_screen.dart';
 import 'package:sportk/screens/league_info/league_info_screen.dart';
 import 'package:sportk/screens/player/player_screen.dart';
@@ -95,7 +96,7 @@ class _MyAppState extends State<MyApp> {
           theme: MyTheme().materialTheme(context, seedColorScheme),
           // home: _toggleRoute(context),
           // home: const AppNavBar(),
-          home: const LeagueInfoScreen(leagueId: 8),
+          home: const ClubScreen(teamId: 9),
         );
       },
     );

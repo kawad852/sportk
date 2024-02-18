@@ -1,0 +1,31 @@
+import 'package:flutter/material.dart';
+import 'package:sportk/utils/my_theme.dart';
+import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
+
+class ClubLoading extends StatelessWidget {
+  const ClubLoading({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsetsDirectional.only(bottom: 65),
+      child: Column(
+        children: [
+          LoadingBubble(
+            width: 100,
+            height: 100,
+            radius: MyTheme.radiusSecondary,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          LoadingBubble(
+            width: 50,
+            height: 20,
+            radius: 20,
+          ),
+        ],
+      ),
+    );
+  }
+}

@@ -27,7 +27,6 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
   late TabController _controller;
   late FootBallProvider _footBallProvider;
   late Future<LeagueModel> _leagueFuture;
-  ScrollController scroll = ScrollController();
 
   void _initializeFuture() {
     _leagueFuture = _footBallProvider.fetchLeague(leagueId: widget.leagueId);
@@ -48,8 +47,7 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
         physics: const NeverScrollableScrollPhysics(),
         slivers: [
           SliverAppBar(
-            leadingWidth:
-                kBarLeadingWith,
+            leadingWidth: kBarLeadingWith,
             pinned: true,
             leading: CustomBack(
               color: context.colorPalette.white,

@@ -70,7 +70,7 @@ class _ClubStandingsState extends State<ClubStandings> {
               ),
             ),
           ),
-          const LeagueStandings(leagueId: 564),
+          const LeagueStandings(leagueId: 8),
         ],
       ),
     );

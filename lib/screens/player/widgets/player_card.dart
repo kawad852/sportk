@@ -99,28 +99,39 @@ class _PlayerCardState extends State<PlayerCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                PlayerTeam(
-                  teamId: player.data!.teams!.isEmpty ? null : player.data!.teams![0].teamId,
-                  jerseyNumber:
-                      player.data!.teams!.isEmpty ? null : player.data!.teams![0].jerseyNumber,
-                ),
-                Padding(
-                  padding: const EdgeInsetsDirectional.only(start: 20, end: 20),
-                  child: Column(
-                    children: [
-                      CustomNetworkImage(
-                        player.data!.imagePath!,
-                        width: 60,
-                        height: 60,
-                        radius: 5,
-                      ),
-                    ],
+                Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding: const EdgeInsetsDirectional.only(start: 50),
+                    child: PlayerTeam(
+                      teamId: player.data!.teams!.isEmpty ? null : player.data!.teams![0].teamId,
+                      jerseyNumber:
+                          player.data!.teams!.isEmpty ? null : player.data!.teams![0].jerseyNumber,
+                    ),
                   ),
                 ),
-                PlayerTeam(
-                  teamId: player.data!.teams!.length == 2 ? player.data!.teams![1].teamId : null,
-                  jerseyNumber:
-                      player.data!.teams!.length == 2 ? player.data!.teams![1].jerseyNumber : null,
+                Column(
+                  children: [
+                    CustomNetworkImage(
+                      player.data!.imagePath!,
+                      width: 60,
+                      height: 60,
+                      radius: 5,
+                    ),
+                  ],
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding: const EdgeInsetsDirectional.only(end: 50),
+                    child: PlayerTeam(
+                      teamId:
+                          player.data!.teams!.length == 2 ? player.data!.teams![1].teamId : null,
+                      jerseyNumber: player.data!.teams!.length == 2
+                          ? player.data!.teams![1].jerseyNumber
+                          : null,
+                    ),
+                  ),
                 ),
               ],
             ),

@@ -12,19 +12,17 @@ class _ClubNewsState extends State<ClubNews> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsetsDirectional.symmetric(horizontal: 10),
-        child: ListView.builder(
-          shrinkWrap: true,
-          scrollDirection: Axis.vertical,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: 10,
-          itemBuilder: (BuildContext context, int index) {
-            return const NewsCard(
-              isMessage: true,
-            );
-          },
-        ),
+      padding: const EdgeInsetsDirectional.symmetric(horizontal: 10),
+      child: ListView.builder(
+        shrinkWrap: true,
+        scrollDirection: Axis.vertical,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: 10,
+        itemBuilder: (BuildContext context, int index) {
+          return const NewsCard(
+            isMessage: true,
+          );
+        },
       ),
     );
   }
