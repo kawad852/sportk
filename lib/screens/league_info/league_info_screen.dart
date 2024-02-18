@@ -6,6 +6,8 @@ import 'package:sportk/screens/league_info/widgets/league_scorers.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_images.dart';
 import 'package:sportk/utils/my_theme.dart';
+import 'package:sportk/widgets/ads/google_banner.dart';
+import 'package:sportk/widgets/ads/google_rewarded.dart';
 import 'package:sportk/widgets/custom_back.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
@@ -151,6 +153,12 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
                 ),
               ],
             ),
+          ),
+          SliverToBoxAdapter(
+            child: const GoogleBanner(),
+          ),
+          SliverToBoxAdapter(
+            child: const GoogleRewarded(),
           ),
           // TODO: Mihyar: SliverFillRemaining removes the animation,
           SliverFillRemaining(
