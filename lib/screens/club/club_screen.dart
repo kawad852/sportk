@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/matches_card.dart';
 import 'package:sportk/screens/club/widgets/club_news.dart';
 import 'package:sportk/screens/club/widgets/club_players.dart';
@@ -19,12 +20,12 @@ class ClubScreen extends StatefulWidget {
 }
 
 class _ClubScreenState extends State<ClubScreen> with SingleTickerProviderStateMixin {
-  late TabController controller;
+  late TabController _controller;
 
   @override
   void initState() {
     super.initState();
-    controller = TabController(length: 4, vsync: this);
+    _controller = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -33,7 +34,7 @@ class _ClubScreenState extends State<ClubScreen> with SingleTickerProviderStateM
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            leadingWidth: 500,
+            leadingWidth: kBarLeadingWith,
             pinned: true,
             leading: CustomBack(
               color: context.colorPalette.white,
@@ -105,7 +106,7 @@ class _ClubScreenState extends State<ClubScreen> with SingleTickerProviderStateM
                         color: context.colorPalette.grey9E9,
                       ),
                       child: TabBar(
-                        controller: controller,
+                        controller: _controller,
                         indicatorColor: context.colorPalette.blueD4B,
                         labelColor: context.colorPalette.blueD4B,
                         labelPadding: const EdgeInsetsDirectional.symmetric(horizontal: 4),
@@ -125,7 +126,7 @@ class _ClubScreenState extends State<ClubScreen> with SingleTickerProviderStateM
           ),
           SliverFillRemaining(
             child: TabBarView(
-              controller: controller,
+              controller: _controller,
               children: const [
                 MatchesCard(),
                 ClubNews(),

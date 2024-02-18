@@ -6,9 +6,9 @@ import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 
 class PlayerTeam extends StatefulWidget {
-  const PlayerTeam({super.key, required this.teamId, required this.jerseyNumber});
   final int? teamId;
   final int? jerseyNumber;
+  const PlayerTeam({super.key, required this.teamId, required this.jerseyNumber});
 
   @override
   State<PlayerTeam> createState() => _PlayerTeamState();
@@ -46,7 +46,7 @@ class _PlayerTeamState extends State<PlayerTeam> {
             onError: (snapshot) {
               return const SizedBox.shrink();
             },
-            onComplete: ((context, snapshot) {
+            onComplete: (context, snapshot) {
               final team = snapshot.data!;
               return Column(
                 children: [
@@ -81,7 +81,7 @@ class _PlayerTeamState extends State<PlayerTeam> {
                   ),
                 ],
               );
-            }),
+            },
           );
   }
 }

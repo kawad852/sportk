@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/utils/my_images.dart';
+import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_back.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 import 'package:sportk/widgets/league_standings.dart';
@@ -18,12 +19,12 @@ class MatchInfoScreen extends StatefulWidget {
 }
 
 class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProviderStateMixin {
-  late TabController controller;
+  late TabController _controller;
 
   @override
   void initState() {
     super.initState();
-    controller = TabController(length: 4, vsync: this);
+    _controller = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -32,7 +33,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            leadingWidth: 500,
+            leadingWidth: kBarLeadingWith,
             pinned: true,
             leading: CustomBack(
               color: context.colorPalette.white,
@@ -85,7 +86,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                         color: context.colorPalette.grey9E9,
                       ),
                       child: TabBar(
-                        controller: controller,
+                        controller: _controller,
                         indicatorColor: context.colorPalette.blueD4B,
                         labelColor: context.colorPalette.blueD4B,
                         labelPadding: const EdgeInsetsDirectional.symmetric(horizontal: 4),
@@ -105,7 +106,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
           ),
           SliverFillRemaining(
             child: TabBarView(
-              controller: controller,
+              controller: _controller,
               children: const [
                 MatchEvents(),
                 TeamsPlan(),

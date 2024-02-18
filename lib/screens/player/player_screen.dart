@@ -4,12 +4,13 @@ import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/player/widgets/player_card.dart';
 import 'package:sportk/screens/player/widgets/player_statistics.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_back.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 
 class PlayerScreen extends StatefulWidget {
-  const PlayerScreen({super.key, required this.playerId});
   final int playerId;
+  const PlayerScreen({super.key, required this.playerId});
 
   @override
   State<PlayerScreen> createState() => _PlayerScreenState();
@@ -36,7 +37,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            leadingWidth: 500,
+            leadingWidth: kBarLeadingWith,
             pinned: true,
             leading: CustomBack(
               color: context.colorPalette.blueD4B,
@@ -77,11 +78,11 @@ class _PlayerScreenState extends State<PlayerScreen> {
                 onLoading: () {
                   return const SizedBox.shrink();
                 },
-                onComplete: ((context, snapshot) {
+                onComplete: (context, snapshot) {
                   return PlayerStatistics(
                     playerId: widget.playerId,
                   );
-                }),
+                },
               ),
             ),
           ),

@@ -3,15 +3,15 @@ import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 
 class StatisticsCard extends StatelessWidget {
+  final String icon;
+  final String title;
+  final String text;
   const StatisticsCard({
     super.key,
     required this.icon,
     required this.title,
     required this.text,
   });
-  final String icon;
-  final String title;
-  final String text;
 
   @override
   Widget build(BuildContext context) {

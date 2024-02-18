@@ -12,7 +12,7 @@ class ApiUrl {
   // static const String playerInfo = '/player/with_stat/list$auth';
   static const String countries = '/country/list$auth';
 
-  //test // TODO: Mihyar: place auth here at the end $auth
+  //test 
   static const String standings = '/football/standings/live/leagues';
   static const String teamInfo = '/football/teams';
   static const String league = '/football/leagues';
