@@ -23,4 +23,5 @@ class ApiUrl {
 
   ///weCan url
   static const String login = '/api/login';
+  static const String intro = '/api/introductions';
 }
