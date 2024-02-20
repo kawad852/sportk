@@ -125,8 +125,7 @@ class _PlayerCardState extends State<PlayerCard> {
                   child: Padding(
                     padding: const EdgeInsetsDirectional.only(end: 50),
                     child: PlayerTeam(
-                      teamId:
-                          player.data!.teams!.length == 2 ? player.data!.teams![1].teamId : null,
+                      teamId: player.data!.teams!.length > 1 ? player.data!.teams![1].teamId : null,
                       jerseyNumber: player.data!.teams!.length == 2
                           ? player.data!.teams![1].jerseyNumber
                           : null,
@@ -144,7 +143,7 @@ class _PlayerCardState extends State<PlayerCard> {
               teamId: player.data!.teams!.isEmpty ? null : player.data!.teams![0].teamId,
             ),
             TeamName(
-              teamId: player.data!.teams!.length == 2 ? player.data!.teams![1].teamId : null,
+              teamId: player.data!.teams!.length > 1 ? player.data!.teams![1].teamId : null,
             ),
             const SizedBox(
               height: 10,

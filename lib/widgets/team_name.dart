@@ -52,15 +52,17 @@ class _TeamNameState extends State<TeamName> {
               return const SizedBox.shrink();
             },
             onComplete: (context, snapshot) {
-              final team = snapshot.data!;
-              return Text(
-                team.data!.name!,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: context.colorPalette.blueD4B,
-                  fontSize: 10,
-                ),
-              );
+              final team = snapshot.data;
+              return team!.data == null
+                  ? const SizedBox.shrink()
+                  : Text(
+                      team.data!.name!,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: context.colorPalette.blueD4B,
+                        fontSize: 10,
+                      ),
+                    );
             },
           );
   }

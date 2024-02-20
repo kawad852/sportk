@@ -98,6 +98,8 @@
   "rightMidfield":"RM",
   "secondaryStriker":"SS",
   "coach":"Coach",
-  "noStatistics":"There are no statistics available"
+  "noStatistics":"There are no statistics available",
+  "groups":"Groups"
+  
   
 }

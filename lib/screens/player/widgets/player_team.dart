@@ -47,40 +47,43 @@ class _PlayerTeamState extends State<PlayerTeam> {
               return const SizedBox.shrink();
             },
             onComplete: (context, snapshot) {
-              final team = snapshot.data!;
-              return Column(
-                children: [
-                  Stack(
-                    children: [
-                      CustomNetworkImage(
-                        team.data!.imagePath!,
-                        width: 30,
-                        height: 30,
-                        radius: 0,
-                      ),
-                      if (widget.jerseyNumber != null)
-                        Padding(
-                          padding: const EdgeInsetsDirectional.only(top: 25, start: 5),
-                          child: Container(
-                            width: 20,
-                            height: 20,
-                            decoration: BoxDecoration(
-                              color: context.colorPalette.white,
-                              shape: BoxShape.circle,
+              final team = snapshot.data;
+
+              return team!.data == null
+                  ? const SizedBox.shrink()
+                  : Column(
+                      children: [
+                        Stack(
+                          children: [
+                            CustomNetworkImage(
+                              team.data!.imagePath!,
+                              width: 30,
+                              height: 30,
+                              radius: 0,
                             ),
-                            child: Text(
-                              widget.jerseyNumber.toString(),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: context.colorPalette.blueD4B,
+                            if (widget.jerseyNumber != null)
+                              Padding(
+                                padding: const EdgeInsetsDirectional.only(top: 25, start: 5),
+                                child: Container(
+                                  width: 20,
+                                  height: 20,
+                                  decoration: BoxDecoration(
+                                    color: context.colorPalette.white,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Text(
+                                    widget.jerseyNumber.toString(),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: context.colorPalette.blueD4B,
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
+                          ],
                         ),
-                    ],
-                  ),
-                ],
-              );
+                      ],
+                    );
             },
           );
   }

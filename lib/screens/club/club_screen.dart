@@ -45,6 +45,7 @@ class _ClubScreenState extends State<ClubScreen> with SingleTickerProviderStateM
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
+        physics: const NeverScrollableScrollPhysics(),
         slivers: [
           SliverAppBar(
             leadingWidth: kBarLeadingWith,

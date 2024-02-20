@@ -41,7 +41,7 @@ class _PlayerStatisticsState extends State<PlayerStatistics> {
         }).toSet();
       }
     }
-    if (team.data!.teams!.length == 2) {
+    if (team.data!.teams!.length > 1) {
       _seasonByTeam2Future =
           _footBallProvider.fetchSeasonsByTeam(teamId: team.data!.teams![1].teamId!);
       final season = await _seasonByTeam2Future;

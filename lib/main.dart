@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:sportk/providers/app_provider.dart';
 import 'package:sportk/providers/auth_provider.dart';
@@ -13,13 +15,14 @@ import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/base/app_nav_bar.dart';
 import 'package:sportk/screens/club/club_screen.dart';
 import 'package:sportk/screens/intro/intro_screen.dart';
-import 'package:sportk/screens/league_info/league_info_screen.dart';
-import 'package:sportk/screens/player/player_screen.dart';
 import 'package:sportk/screens/registration/registration_screen.dart';
+import 'package:sportk/screens/test.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/utils/shared_pref.dart';
+
+import 'screens/champions_league/champions_league_screen.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey(debugLabel: "Main Navigator");
 
@@ -33,6 +36,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await MySharedPreferences.init();
+  unawaited(MobileAds.instance.initialize());
   // MySharedPreferences.clearStorage();
   // MySharedPreferences.isPassedIntro = false;
   await SystemChrome.setPreferredOrientations(
@@ -87,17 +91,19 @@ class _MyAppState extends State<MyApp> {
           brightness: appProvider.appTheme == ThemeEnum.light ? Brightness.light : Brightness.dark,
         );
         return MaterialApp(
-          navigatorKey: navigatorKey,
-          builder: EasyLoading.init(),
-          debugShowCheckedModeBanner: false,
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          locale: Locale(appProvider.appLocale.languageCode),
-          theme: MyTheme().materialTheme(context, seedColorScheme),
-          // home: _toggleRoute(context),
-          // home: const AppNavBar(),
-          home: const ClubScreen(teamId: 9),
-        );
+            navigatorKey: navigatorKey,
+            builder: EasyLoading.init(),
+            debugShowCheckedModeBanner: false,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            locale: Locale(appProvider.appLocale.languageCode),
+            theme: MyTheme().materialTheme(context, seedColorScheme),
+            // home: _toggleRoute(context),
+            // home: const AppNavBar(),
+            home: const ChampionsLeagueScreen()
+            //const ClubScreen(teamId: 9),
+            // home: const LeagueInfoScreen(leagueId: 8),
+            );
       },
     );
   }
