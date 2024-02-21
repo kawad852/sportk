@@ -100,16 +100,17 @@ class _ChampionsLeagueScreenState extends State<ChampionsLeagueScreen>
                       ),
                       child: TabBar(
                         controller: _controller,
-                        indicatorColor: context.colorPalette.blueD4B,
-                        labelColor: context.colorPalette.blueD4B,
-                        labelPadding: const EdgeInsetsDirectional.symmetric(horizontal: 4),
-                        padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
+                        indicatorSize: TabBarIndicatorSize.label,
+                        labelColor: context.colorPalette.white,
+                        unselectedLabelColor: context.colorPalette.blueD4B,
+                        labelPadding: const EdgeInsetsDirectional.symmetric(horizontal: 0),
+                        indicator: BoxDecoration(
+                          color: context.colorPalette.blueD4B,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                         tabs: [
-                          Container(
-                            decoration: BoxDecoration(color: Colors.amber),
-                            child: Text(context.appLocalization.groups),
-                          ),
-                          Text(context.appLocalization.matches),
+                          Center(child: Text(context.appLocalization.groups)),
+                          Center(child: Text(context.appLocalization.matches)),
                         ],
                       ),
                     ),

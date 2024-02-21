@@ -91,19 +91,18 @@ class _MyAppState extends State<MyApp> {
           brightness: appProvider.appTheme == ThemeEnum.light ? Brightness.light : Brightness.dark,
         );
         return MaterialApp(
-            navigatorKey: navigatorKey,
-            builder: EasyLoading.init(),
-            debugShowCheckedModeBanner: false,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            locale: Locale(appProvider.appLocale.languageCode),
-            theme: MyTheme().materialTheme(context, seedColorScheme),
-            // home: _toggleRoute(context),
-            // home: const AppNavBar(),
-            home: const ChampionsLeagueScreen()
-            //const ClubScreen(teamId: 9),
-            // home: const LeagueInfoScreen(leagueId: 8),
-            );
+          navigatorKey: navigatorKey,
+          builder: EasyLoading.init(),
+          debugShowCheckedModeBanner: false,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          locale: Locale(appProvider.appLocale.languageCode),
+          theme: MyTheme().materialTheme(context, seedColorScheme),
+          // home: _toggleRoute(context),
+          // home: const AppNavBar(),
+          home: const ClubScreen(teamId: 9),
+          // home: const LeagueInfoScreen(leagueId: 8),
+        );
       },
     );
   }

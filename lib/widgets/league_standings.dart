@@ -11,7 +11,8 @@ import 'package:sportk/widgets/team_info.dart';
 
 class LeagueStandings extends StatefulWidget {
   final int leagueId;
-  const LeagueStandings({super.key, required this.leagueId});
+  final int? selectedTeamId;
+  const LeagueStandings({super.key, required this.leagueId, this.selectedTeamId});
 
   @override
   State<LeagueStandings> createState() => _LeagueStandingsState();
@@ -45,7 +46,7 @@ class _LeagueStandingsState extends State<LeagueStandings> {
         return const ShimmerLoading(
           child: LoadingBubble(
             width: double.infinity,
-            height: 200,
+            height: 500,
             radius: MyTheme.radiusTertiary,
             margin: EdgeInsetsDirectional.symmetric(horizontal: 20, vertical: 5),
           ),
@@ -53,6 +54,7 @@ class _LeagueStandingsState extends State<LeagueStandings> {
       },
       onComplete: (context, snapshot) {
         final standings = snapshot.data!;
+
         return SingleChildScrollView(
           padding: const EdgeInsetsDirectional.symmetric(horizontal: 20, vertical: 5),
           child: ClipRRect(
@@ -104,9 +106,12 @@ class _LeagueStandingsState extends State<LeagueStandings> {
                 ...standings.data!.map((element) {
                   return TableRow(
                     decoration: BoxDecoration(
-                      color: standings.data!.indexOf(element) % 2 == 0
-                          ? context.colorPalette.grey3F3
-                          : context.colorPalette.greyD9D,
+                      color: widget.selectedTeamId != null &&
+                              element.participantId == widget.selectedTeamId
+                          ? context.colorPalette.blueABB
+                          : standings.data!.indexOf(element) % 2 == 0
+                              ? context.colorPalette.grey3F3
+                              : context.colorPalette.greyD9D,
                     ),
                     children: [
                       Padding(

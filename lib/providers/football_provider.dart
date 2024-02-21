@@ -207,4 +207,15 @@ class FootBallProvider extends ChangeNotifier {
     );
     return snapshot;
   }
+  Future<TeamInfoModel> fetchTeamSeasons({
+    required int teamId,
+  }) {
+    final snapshot = ApiService<TeamInfoModel>().build(
+      sportsUrl: '${ApiUrl.teamInfo}/$teamId${ApiUrl.auth}&include=seasons',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: TeamInfoModel.fromJson,
+    );
+    return snapshot;
+  }
 }

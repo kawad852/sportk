@@ -156,7 +156,7 @@ class _ClubScreenState extends State<ClubScreen> with SingleTickerProviderStateM
               children: [
                 const MatchesCard(),
                 const ClubNews(),
-                const ClubStandings(),
+                ClubStandings(teamId: widget.teamId),
                 ClubPlayers(teamId: widget.teamId),
               ],
             ),
