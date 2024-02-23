@@ -1,6 +1,6 @@
 class ScheduleAndResultsSeasonModel {
   int? code;
-  Query? query;
+  RQuery? query;
   List<Result>? results;
   ResultsExtra? resultsExtra;
 
@@ -13,7 +13,7 @@ class ScheduleAndResultsSeasonModel {
 
   ScheduleAndResultsSeasonModel copyWith({
     int? code,
-    Query? query,
+    RQuery? query,
     List<Result>? results,
     ResultsExtra? resultsExtra,
   }) =>
@@ -26,7 +26,7 @@ class ScheduleAndResultsSeasonModel {
 
   factory ScheduleAndResultsSeasonModel.fromJson(Map<String, dynamic> json) => ScheduleAndResultsSeasonModel(
         code: json["code"],
-        query: json["query"] == null ? null : Query.fromJson(json["query"]),
+        query: json["query"] == null ? null : RQuery.fromJson(json["query"]),
         results: json["results"] == null ? [] : List<Result>.from(json["results"]!.map((x) => Result.fromJson(x))),
         resultsExtra: json["results_extra"] == null ? null : ResultsExtra.fromJson(json["results_extra"]),
       );
@@ -39,25 +39,25 @@ class ScheduleAndResultsSeasonModel {
       };
 }
 
-class Query {
+class RQuery {
   int? total;
   String? type;
 
-  Query({
+  RQuery({
     this.total,
     this.type,
   });
 
-  Query copyWith({
+  RQuery copyWith({
     int? total,
     String? type,
   }) =>
-      Query(
+      RQuery(
         total: total ?? this.total,
         type: type ?? this.type,
       );
 
-  factory Query.fromJson(Map<String, dynamic> json) => Query(
+  factory RQuery.fromJson(Map<String, dynamic> json) => RQuery(
         total: json["total"],
         type: json["type"],
       );

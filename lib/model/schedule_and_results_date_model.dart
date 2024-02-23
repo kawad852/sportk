@@ -1,6 +1,6 @@
 class ScheduleAndResultsDateModel {
   int? code;
-  Query? query;
+  SRQuery? query;
   List<Result>? results;
   ResultsExtra? resultsExtra;
 
@@ -13,7 +13,7 @@ class ScheduleAndResultsDateModel {
 
   ScheduleAndResultsDateModel copyWith({
     int? code,
-    Query? query,
+    SRQuery? query,
     List<Result>? results,
     ResultsExtra? resultsExtra,
   }) =>
@@ -26,7 +26,7 @@ class ScheduleAndResultsDateModel {
 
   factory ScheduleAndResultsDateModel.fromJson(Map<String, dynamic> json) => ScheduleAndResultsDateModel(
         code: json["code"],
-        query: json["query"] == null ? null : Query.fromJson(json["query"]),
+        query: json["query"] == null ? null : SRQuery.fromJson(json["query"]),
         results: json["results"] == null ? [] : List<Result>.from(json["results"]!.map((x) => Result.fromJson(x))),
         resultsExtra: json["results_extra"] == null ? null : ResultsExtra.fromJson(json["results_extra"]),
       );
@@ -39,25 +39,25 @@ class ScheduleAndResultsDateModel {
       };
 }
 
-class Query {
+class SRQuery {
   int? total;
   String? type;
 
-  Query({
+  SRQuery({
     this.total,
     this.type,
   });
 
-  Query copyWith({
+  SRQuery copyWith({
     int? total,
     String? type,
   }) =>
-      Query(
+      SRQuery(
         total: total ?? this.total,
         type: type ?? this.type,
       );
 
-  factory Query.fromJson(Map<String, dynamic> json) => Query(
+  factory SRQuery.fromJson(Map<String, dynamic> json) => SRQuery(
         total: json["total"],
         type: json["type"],
       );
