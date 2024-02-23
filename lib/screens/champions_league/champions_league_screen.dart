@@ -1,36 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
-import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/utils/my_images.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_back.dart';
-import 'package:sportk/widgets/custom_svg.dart';
-import 'package:sportk/widgets/league_standings.dart';
-import 'package:sportk/screens/match_info/widgets/match_card.dart';
-import 'package:sportk/screens/match_info/widgets/match_events.dart';
-import 'package:sportk/screens/match_info/widgets/match_statistics.dart';
-import 'package:sportk/screens/match_info/widgets/teams_plan.dart';
+import 'package:sportk/widgets/custom_network_image.dart';
 
-class MatchInfoScreen extends StatefulWidget {
-  const MatchInfoScreen({super.key});
+import 'widgets/champions_groups.dart';
+import 'widgets/champions_matches.dart';
+
+class ChampionsLeagueScreen extends StatefulWidget {
+  const ChampionsLeagueScreen({super.key});
 
   @override
-  State<MatchInfoScreen> createState() => _MatchInfoScreenState();
+  State<ChampionsLeagueScreen> createState() => _ChampionsLeagueScreenState();
 }
 
-class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProviderStateMixin {
+class _ChampionsLeagueScreenState extends State<ChampionsLeagueScreen>
+    with SingleTickerProviderStateMixin {
   late TabController _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = TabController(length: 4, vsync: this);
+    _controller = TabController(length: 2, vsync: this);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
+        physics: const NeverScrollableScrollPhysics(),
         slivers: [
           SliverAppBar(
             leadingWidth: kBarLeadingWith,
@@ -38,17 +38,29 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
             leading: CustomBack(
               color: context.colorPalette.white,
             ),
-            actions: [
-              IconButton(
-                onPressed: () {},
-                icon: const CustomSvg(MyIcons.notification),
-              ),
-            ],
-            bottom: const PreferredSize(
-              preferredSize: Size.fromHeight(200),
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(200),
               child: Padding(
-                padding: EdgeInsetsDirectional.only(bottom: 65),
-                child: MatchCard(),
+                padding: const EdgeInsetsDirectional.only(bottom: 65),
+                child: Column(
+                  children: [
+                    const CustomNetworkImage(
+                      kFakeImage,
+                      width: 100,
+                      height: 100,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "Champions League",
+                      style: TextStyle(
+                        color: context.colorPalette.blueD4B,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             flexibleSpace: Stack(
@@ -56,12 +68,13 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                 Image.asset(
                   MyImages.match,
                   height: 270,
+                  width: double.infinity,
                   fit: BoxFit.fill,
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
-                    height: 90,
+                    height: 270,
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
@@ -87,15 +100,17 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                       ),
                       child: TabBar(
                         controller: _controller,
-                        indicatorColor: context.colorPalette.blueD4B,
-                        labelColor: context.colorPalette.blueD4B,
-                        labelPadding: const EdgeInsetsDirectional.symmetric(horizontal: 4),
-                        padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
+                        indicatorSize: TabBarIndicatorSize.label,
+                        labelColor: context.colorPalette.white,
+                        unselectedLabelColor: context.colorPalette.blueD4B,
+                        labelPadding: const EdgeInsetsDirectional.symmetric(horizontal: 0),
+                        indicator: BoxDecoration(
+                          color: context.colorPalette.blueD4B,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                         tabs: [
-                          Text(context.appLocalization.matchEvents),
-                          Text(context.appLocalization.plan),
-                          Text(context.appLocalization.statistics),
-                          Text(context.appLocalization.standings),
+                          Center(child: Text(context.appLocalization.groups)),
+                          Center(child: Text(context.appLocalization.matches)),
                         ],
                       ),
                     ),
@@ -108,10 +123,8 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
             child: TabBarView(
               controller: _controller,
               children: const [
-                MatchEvents(),
-                TeamsPlan(),
-                MatchStatistics(),
-                LeagueStandings(leagueId: 564),
+                ChampionsGroups(),
+                ChampionsMatches(),
               ],
             ),
           ),

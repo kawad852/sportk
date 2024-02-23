@@ -8,6 +8,7 @@ import 'package:sportk/model/schedule_and_results_season_model.dart';
 import 'package:sportk/model/season_by_league_model.dart';
 import 'package:sportk/model/season_info_model.dart';
 import 'package:sportk/model/season_model.dart';
+import 'package:sportk/model/squads_model.dart';
 import 'package:sportk/model/standings_model.dart';
 import 'package:sportk/model/team_info_model.dart';
 import 'package:sportk/model/team_model.dart';
@@ -161,7 +162,8 @@ class FootBallProvider extends ChangeNotifier {
     required int seasonId,
   }) {
     final snapshot = ApiService<PlayerStatisticsModel>().build(
-      sportsUrl: '${ApiUrl.playerInfo}/$playerId${ApiUrl.auth}&include=statistics.details&filters=playerStatisticSeasons:$seasonId',
+      sportsUrl:
+          '${ApiUrl.playerInfo}/$playerId${ApiUrl.auth}&include=statistics.details&filters=playerStatisticSeasons:$seasonId',
       isPublic: true,
       apiType: ApiType.get,
       builder: PlayerStatisticsModel.fromJson,
@@ -173,7 +175,8 @@ class FootBallProvider extends ChangeNotifier {
     required int seasonId,
   }) {
     final snapshot = ApiService<TopScorersModel>().build(
-      sportsUrl: '${ApiUrl.topScorers}/$seasonId${ApiUrl.auth}&include=player&filters=seasonTopscorerTypes:208',
+      sportsUrl:
+          '${ApiUrl.topScorers}/$seasonId${ApiUrl.auth}&include=player&filters=seasonTopscorerTypes:208',
       isPublic: true,
       apiType: ApiType.get,
       builder: TopScorersModel.fromJson,
@@ -189,6 +192,29 @@ class FootBallProvider extends ChangeNotifier {
       isPublic: true,
       apiType: ApiType.get,
       builder: SeasonByLeagueModel.fromJson,
+    );
+    return snapshot;
+  }
+
+  Future<SquadsModel> fetchSquads({
+    required int teamId,
+  }) {
+    final snapshot = ApiService<SquadsModel>().build(
+      sportsUrl: '${ApiUrl.squads}/$teamId${ApiUrl.auth}&include=player',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: SquadsModel.fromJson,
+    );
+    return snapshot;
+  }
+  Future<TeamInfoModel> fetchTeamSeasons({
+    required int teamId,
+  }) {
+    final snapshot = ApiService<TeamInfoModel>().build(
+      sportsUrl: '${ApiUrl.teamInfo}/$teamId${ApiUrl.auth}&include=seasons',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: TeamInfoModel.fromJson,
     );
     return snapshot;
   }

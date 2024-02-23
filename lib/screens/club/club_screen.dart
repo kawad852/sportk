@@ -1,39 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/model/team_info_model.dart';
+import 'package:sportk/providers/football_provider.dart';
+import 'package:sportk/screens/club/widgets/club_loading.dart';
+import 'package:sportk/utils/my_theme.dart';
+import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/matches_card.dart';
 import 'package:sportk/screens/club/widgets/club_news.dart';
 import 'package:sportk/screens/club/widgets/club_players.dart';
 import 'package:sportk/screens/club/widgets/club_standings.dart';
-import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/utils/my_images.dart';
 import 'package:sportk/widgets/custom_back.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_svg.dart';
+import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 
 class ClubScreen extends StatefulWidget {
-  const ClubScreen({super.key});
+  final int teamId;
+  const ClubScreen({super.key, required this.teamId});
 
   @override
   State<ClubScreen> createState() => _ClubScreenState();
 }
 
 class _ClubScreenState extends State<ClubScreen> with SingleTickerProviderStateMixin {
-  late TabController controller;
+  late TabController _controller;
+  late FootBallProvider _footBallProvider;
+  late Future<TeamInfoModel> _teamFuture;
+
+  void _initializeFuture() {
+    _teamFuture = _footBallProvider.fetchTeamInfo(teamId: widget.teamId);
+  }
 
   @override
   void initState() {
     super.initState();
-    controller = TabController(length: 4, vsync: this);
+    _controller = TabController(length: 4, vsync: this);
+    _footBallProvider = context.footBallProvider;
+    _initializeFuture();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
+        physics: const NeverScrollableScrollPhysics(),
         slivers: [
           SliverAppBar(
-            leadingWidth: 500,
+            leadingWidth: kBarLeadingWith,
             pinned: true,
             leading: CustomBack(
               color: context.colorPalette.white,
@@ -46,29 +61,40 @@ class _ClubScreenState extends State<ClubScreen> with SingleTickerProviderStateM
             ],
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(200),
-              child: Padding(
-                padding: const EdgeInsetsDirectional.only(bottom: 65),
-                child: Column(
-                  children: [
-                    const CustomNetworkImage(
-                      kFakeImage,
-                      width: 100,
-                      height: 100,
-                      radius: 0,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Bayern Munich",
-                      style: TextStyle(
-                        color: context.colorPalette.white,
-                        fontWeight: FontWeight.w600,
+              child: CustomFutureBuilder(
+                  future: _teamFuture,
+                  onRetry: () {
+                    setState(() {
+                      _initializeFuture();
+                    });
+                  },
+                  onError: (snapshot) => const SizedBox.shrink(),
+                  onLoading: () => const ShimmerLoading(child: ClubLoading()),
+                  onComplete: (context, snapshot) {
+                    final team = snapshot.data!;
+                    return Padding(
+                      padding: const EdgeInsetsDirectional.only(bottom: 65),
+                      child: Column(
+                        children: [
+                          CustomNetworkImage(
+                            team.data!.imagePath!,
+                            width: 100,
+                            height: 100,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            team.data!.name!,
+                            style: TextStyle(
+                              color: context.colorPalette.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          )
+                        ],
                       ),
-                    )
-                  ],
-                ),
-              ),
+                    );
+                  }),
             ),
             flexibleSpace: Stack(
               children: [
@@ -76,6 +102,7 @@ class _ClubScreenState extends State<ClubScreen> with SingleTickerProviderStateM
                   MyImages.match,
                   height: 270,
                   fit: BoxFit.fill,
+                  width: double.infinity,
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
@@ -105,7 +132,7 @@ class _ClubScreenState extends State<ClubScreen> with SingleTickerProviderStateM
                         color: context.colorPalette.grey9E9,
                       ),
                       child: TabBar(
-                        controller: controller,
+                        controller: _controller,
                         indicatorColor: context.colorPalette.blueD4B,
                         labelColor: context.colorPalette.blueD4B,
                         labelPadding: const EdgeInsetsDirectional.symmetric(horizontal: 4),
@@ -125,12 +152,12 @@ class _ClubScreenState extends State<ClubScreen> with SingleTickerProviderStateM
           ),
           SliverFillRemaining(
             child: TabBarView(
-              controller: controller,
-              children: const [
-                MatchesCard(),
-                ClubNews(),
-                ClubStandings(),
-                ClubPlayers(),
+              controller: _controller,
+              children: [
+                const MatchesCard(),
+                const ClubNews(),
+                ClubStandings(teamId: widget.teamId),
+                ClubPlayers(teamId: widget.teamId),
               ],
             ),
           ),

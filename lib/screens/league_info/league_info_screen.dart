@@ -6,8 +6,6 @@ import 'package:sportk/screens/league_info/widgets/league_scorers.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_images.dart';
 import 'package:sportk/utils/my_theme.dart';
-import 'package:sportk/widgets/ads/google_banner.dart';
-import 'package:sportk/widgets/ads/google_rewarded.dart';
 import 'package:sportk/widgets/custom_back.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
@@ -18,15 +16,14 @@ import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 import 'widgets/league_loading.dart';
 
 class LeagueInfoScreen extends StatefulWidget {
-  const LeagueInfoScreen({super.key, required this.leagueId});
   final int leagueId;
+  const LeagueInfoScreen({super.key, required this.leagueId});
 
   @override
   State<LeagueInfoScreen> createState() => _LeagueInfoScreenState();
 }
 
 class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerProviderStateMixin {
-  // TODO: Mihyar: make this private
   late TabController _controller;
   late FootBallProvider _footBallProvider;
   late Future<LeagueModel> _leagueFuture;
@@ -50,7 +47,7 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
         physics: const NeverScrollableScrollPhysics(),
         slivers: [
           SliverAppBar(
-            leadingWidth: kBarLeadingWith, // TODO: Mihyar: place the 500 px in a variable (maybe in theme class since it's shared all cross the app)
+            leadingWidth: kBarLeadingWith,
             pinned: true,
             leading: CustomBack(
               color: context.colorPalette.white,
@@ -65,13 +62,10 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
                   });
                 },
                 onLoading: () {
-                  // TODO: Mihyar: make the radius same as CustomNetworkImage (use radius from theme class) or zero if it's zero
                   return const ShimmerLoading(child: LeagueLoading());
                 },
                 onError: (snapshot) => const SizedBox.shrink(),
-                // TODO: Mihyar: handle error
-                // TODO: Mihyar: there are two "((" here, remove the extra.
-                onComplete: ((context, snapshot) {
+                onComplete: (context, snapshot) {
                   final league = snapshot.data!;
                   return Padding(
                     padding: const EdgeInsetsDirectional.only(bottom: 65),
@@ -91,20 +85,19 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
                             color: context.colorPalette.blueD4B,
                             fontWeight: FontWeight.bold,
                           ),
-                        )
+                        ),
                       ],
                     ),
                   );
-                }),
+                },
               ),
             ),
-            // TODO: Mihyar: there is a cool animation we can make here instead of of making it a stack
-            // TODO: Mihyar: use bottom for the tabBar
             flexibleSpace: Stack(
               children: [
                 Image.asset(
                   MyImages.match,
                   height: 270,
+                  width: double.infinity,
                   fit: BoxFit.fill,
                 ),
                 Align(
@@ -129,7 +122,6 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
                     padding: const EdgeInsetsDirectional.symmetric(horizontal: 20),
                     child: Container(
                       height: 45,
-                      // TODO: Mihyar: need some margin from top
                       width: double.infinity,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
@@ -154,13 +146,6 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
               ],
             ),
           ),
-          SliverToBoxAdapter(
-            child: const GoogleBanner(),
-          ),
-          SliverToBoxAdapter(
-            child: const GoogleRewarded(),
-          ),
-          // TODO: Mihyar: SliverFillRemaining removes the animation,
           SliverFillRemaining(
             child: TabBarView(
               controller: _controller,

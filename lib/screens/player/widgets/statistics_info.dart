@@ -5,13 +5,15 @@ import 'package:sportk/screens/player/widgets/line_divider.dart';
 import 'package:sportk/screens/player/widgets/statistics_card.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
+import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
+import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 
 class StatisticsInfo extends StatefulWidget {
-  const StatisticsInfo({super.key, required this.playerId, required this.seasonId});
   final int playerId;
   final int seasonId;
+  const StatisticsInfo({super.key, required this.playerId, required this.seasonId});
 
   @override
   State<StatisticsInfo> createState() => _StatisticsInfoState();
@@ -43,16 +45,13 @@ class _StatisticsInfoState extends State<StatisticsInfo> {
         });
       },
       onLoading: () {
-        return ShimmerLoading(
+        return const ShimmerLoading(
           child: Padding(
-            padding: const EdgeInsetsDirectional.only(end: 15, top: 15, start: 8),
-            child: Container(
+            padding: EdgeInsetsDirectional.only(end: 15, top: 15, start: 8),
+            child: LoadingBubble(
               height: 128,
               width: double.infinity,
-              decoration: BoxDecoration(
-                color: context.colorPalette.grey3F3,
-                borderRadius: BorderRadius.circular(10),
-              ),
+              radius: MyTheme.radiusSecondary,
             ),
           ),
         );

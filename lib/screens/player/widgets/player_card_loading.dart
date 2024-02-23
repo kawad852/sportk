@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/my_theme.dart';
+import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
 
 class PlayerCardLoading extends StatelessWidget {
   const PlayerCardLoading({super.key});
@@ -8,19 +9,15 @@ class PlayerCardLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
+        const LoadingBubble(
           width: 60,
           height: 60,
-          decoration: BoxDecoration(
-            color: context.colorPalette.grey2F2,
-            borderRadius: BorderRadius.circular(20),
-          ),
+          radius: MyTheme.radiusPrimary,
         ),
-        Container(
+        const LoadingBubble(
           width: 80,
           height: 15,
-          margin: const EdgeInsetsDirectional.only(top: 5, bottom: 30),
-          color: context.colorPalette.grey2F2,
+          margin: EdgeInsetsDirectional.only(top: 5, bottom: 30),
         ),
         SizedBox(
           height: 50,
@@ -30,14 +27,11 @@ class PlayerCardLoading extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: 4,
             itemBuilder: (BuildContext context, int index) {
-              return Container(
+              return const LoadingBubble(
                 width: 80,
                 height: 50,
-                margin: const EdgeInsetsDirectional.only(start: 5, end: 5),
-                decoration: BoxDecoration(
-                  color: context.colorPalette.grey3F3,
-                  borderRadius: BorderRadius.circular(10),
-                ),
+                margin: EdgeInsetsDirectional.only(start: 5, end: 5),
+                radius: MyTheme.radiusSecondary,
               );
             },
           ),

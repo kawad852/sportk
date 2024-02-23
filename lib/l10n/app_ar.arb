@@ -98,5 +98,7 @@
   "rightMidfield":"وسط ايمن",
   "secondaryStriker":"مهاجم ثانوي",
   "coach":"مدرب",
-  "noStatistics":"لا يوجد احصائيات متوفرة"
+  "noStatistics":"لا يوجد احصائيات متوفرة",
+  "groups":"المجموعات"
+  
 }

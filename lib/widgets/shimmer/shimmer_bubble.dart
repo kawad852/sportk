@@ -25,7 +25,7 @@ class LoadingBubble extends StatelessWidget {
       height: height,
       width: width,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.black,
         borderRadius: BorderRadius.circular(radius),
       ),
     );
