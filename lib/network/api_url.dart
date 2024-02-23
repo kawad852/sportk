@@ -13,7 +13,7 @@ class ApiUrl {
   // static const String playerInfo = '/player/with_stat/list$auth';
   static const String countries = '/country/list$auth';
 
-  //test
+  //sportmonks
   static const String standings = '/football/standings/live/leagues';
   static const String teamInfo = '/football/teams';
   static const String league = '/football/leagues';
@@ -22,6 +22,8 @@ class ApiUrl {
   static const String seasonInfo = '/football/seasons/teams';
   static const String topScorers = '/football/topscorers/seasons';
   static const String squads = '/football/squads/teams';
+  static const String championsGroup = '/football/standings/seasons';
+
 
   ///weCan url
   static const String login = '/api/login';

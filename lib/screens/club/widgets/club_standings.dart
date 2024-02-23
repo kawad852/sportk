@@ -106,7 +106,11 @@ class _ClubStandingsState extends State<ClubStandings> {
                       return InkWell(
                         onTap: () {
                           leagues[index].data!.id == 2
-                              ? context.push(const ChampionsLeagueScreen())
+                              ? context.push(
+                                  ChampionsLeagueScreen(
+                                    teamId: widget.teamId,
+                                  ),
+                                )
                               : context.push(
                                   LeagueInfoScreen(
                                     leagueId: leagues[index].data!.id!,

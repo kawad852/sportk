@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:sportk/model/champions_groups_model.dart';
 import 'package:sportk/model/competition_model.dart';
 import 'package:sportk/model/country_info_model.dart';
+import 'package:sportk/model/groups_standing_model.dart';
 import 'package:sportk/model/league_model.dart';
 import 'package:sportk/model/player_model.dart';
 import 'package:sportk/model/player_statistics_model.dart';
@@ -207,6 +209,7 @@ class FootBallProvider extends ChangeNotifier {
     );
     return snapshot;
   }
+
   Future<TeamInfoModel> fetchTeamSeasons({
     required int teamId,
   }) {
@@ -215,6 +218,32 @@ class FootBallProvider extends ChangeNotifier {
       isPublic: true,
       apiType: ApiType.get,
       builder: TeamInfoModel.fromJson,
+    );
+    return snapshot;
+  }
+
+  Future<ChampionsGroupsModel> fetchChampionsGroup({
+    required int seasonId,
+  }) {
+    final snapshot = ApiService<ChampionsGroupsModel>().build(
+      sportsUrl: '${ApiUrl.championsGroup}/$seasonId${ApiUrl.auth}&include=group',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: ChampionsGroupsModel.fromJson,
+    );
+    return snapshot;
+  }
+
+  Future<GroupsStandingModel> fetchGroupStandings({
+    required int seasonId,
+    required int groupId,
+  }) {
+    final snapshot = ApiService<GroupsStandingModel>().build(
+      sportsUrl:
+          '${ApiUrl.championsGroup}/$seasonId${ApiUrl.auth}&include=group;details.type&filters=standingGroups:$groupId',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: GroupsStandingModel.fromJson,
     );
     return snapshot;
   }
