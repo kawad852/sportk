@@ -23,7 +23,8 @@ class ApiUrl {
   static const String topScorers = '/football/topscorers/seasons';
   static const String squads = '/football/squads/teams';
   static const String championsGroup = '/football/standings/seasons';
-
+  static const String match = '/football/fixtures/between';
+  static const String stage = '/football/stages';
 
   ///weCan url
   static const String login = '/api/login';

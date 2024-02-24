@@ -4,6 +4,7 @@ import 'package:sportk/model/competition_model.dart';
 import 'package:sportk/model/country_info_model.dart';
 import 'package:sportk/model/groups_standing_model.dart';
 import 'package:sportk/model/league_model.dart';
+import 'package:sportk/model/match_model.dart';
 import 'package:sportk/model/player_model.dart';
 import 'package:sportk/model/player_statistics_model.dart';
 import 'package:sportk/model/schedule_and_results_season_model.dart';
@@ -11,6 +12,7 @@ import 'package:sportk/model/season_by_league_model.dart';
 import 'package:sportk/model/season_info_model.dart';
 import 'package:sportk/model/season_model.dart';
 import 'package:sportk/model/squads_model.dart';
+import 'package:sportk/model/stage_model.dart';
 import 'package:sportk/model/standings_model.dart';
 import 'package:sportk/model/team_info_model.dart';
 import 'package:sportk/model/team_model.dart';
@@ -244,6 +246,33 @@ class FootBallProvider extends ChangeNotifier {
       isPublic: true,
       apiType: ApiType.get,
       builder: GroupsStandingModel.fromJson,
+    );
+    return snapshot;
+  }
+
+  Future<MatchModel> fetchMatchesBetweenTwoDate({
+    required String startDate,
+    required String endDate,
+    required int leagueId,
+  }) {
+    final snapshot = ApiService<MatchModel>().build(
+      sportsUrl:
+          '${ApiUrl.match}/$startDate/$endDate${ApiUrl.auth}&include=statistics;state;participants&filters=fixtureLeagues:$leagueId',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: MatchModel.fromJson,
+    );
+    return snapshot;
+  }
+
+  Future<StageModel> fetchStage({
+    required int stageId,
+  }) {
+    final snapshot = ApiService<StageModel>().build(
+      sportsUrl: '${ApiUrl.stage}/$stageId${ApiUrl.auth}',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: StageModel.fromJson,
     );
     return snapshot;
   }
