@@ -11,9 +11,9 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:sportk/providers/app_provider.dart';
 import 'package:sportk/providers/auth_provider.dart';
+import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/base/app_nav_bar.dart';
-import 'package:sportk/screens/chat/chat_tab.dart';
 import 'package:sportk/screens/intro/intro_screen.dart';
 import 'package:sportk/screens/registration/registration_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
@@ -44,6 +44,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (context) => AuthProvider()),
         ChangeNotifierProvider(create: (context) => AppProvider()),
         ChangeNotifierProvider(create: (context) => FootBallProvider()),
+        ChangeNotifierProvider(create: (context) => CommonProvider()),
       ],
       child: const MyApp(),
     ),
@@ -94,10 +95,10 @@ class _MyAppState extends State<MyApp> {
           supportedLocales: AppLocalizations.supportedLocales,
           locale: Locale(appProvider.appLocale.languageCode),
           theme: MyTheme().materialTheme(context, seedColorScheme),
-          // home: _toggleRoute(context),
+          home: _toggleRoute(context),
           // home: const AppNavBar(),
           // home: const ClubScreen(teamId: 9),
-          home: const ChatTab(),
+          // home: const ChatTab(),
         );
       },
     );

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sportk/alerts/loading/app_loading_indicators.dart';
+import 'package:sportk/network/api_url.dart';
 import 'package:sportk/providers/app_provider.dart';
 import 'package:sportk/providers/auth_provider.dart';
+import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/utils/app_routes.dart';
 import 'package:sportk/utils/color_palette.dart';
@@ -93,9 +96,27 @@ extension ProvidersExtension on BuildContext {
   AuthProvider get authProvider => read<AuthProvider>();
   AppProvider get appProvider => read<AppProvider>();
   FootBallProvider get footBallProvider => read<FootBallProvider>();
+  CommonProvider get commonProvider => read<CommonProvider>();
 }
 
 extension CommonExtensions on BuildContext {
   void unFocusKeyboard() => FocusManager.instance.primaryFocus?.unfocus();
   double get systemButtonHeight => Theme.of(this).buttonTheme.height;
+}
+
+extension ImageExtension on BuildContext {
+  String image(String url) {
+    return '${ApiUrl.weCanMailUrl}/$url';
+  }
+}
+
+extension DateExtension on String {
+  String formatDate(
+    BuildContext context, {
+    String pattern = 'dd-MM-yyyy',
+  }) {
+    final date = DateTime.parse(this);
+    var formattedDate = DateFormat(pattern, Localizations.localeOf(context).languageCode).format(date);
+    return formattedDate;
+  }
 }

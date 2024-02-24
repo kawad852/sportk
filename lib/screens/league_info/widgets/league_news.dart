@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/model/new_model.dart';
 import 'package:sportk/widgets/news_card.dart';
 
 class LeagueNews extends StatelessWidget {
@@ -15,8 +16,9 @@ class LeagueNews extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           itemCount: 10,
           itemBuilder: (BuildContext context, int index) {
-            return const NewsCard(
+            return NewsCard(
               isMessage: true,
+              newData: NewData(),
             );
           },
         ),
