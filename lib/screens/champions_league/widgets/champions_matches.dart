@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:sportk/model/match_model.dart';
 import 'package:sportk/providers/football_provider.dart';
+import 'package:sportk/screens/champions_league/widgets/matches_loading.dart';
 import 'package:sportk/screens/champions_league/widgets/stage_card.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/enums.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
@@ -20,7 +23,10 @@ class _ChampionsMatchesState extends State<ChampionsMatches> {
 
   void _initializeFuture() {
     _matchesFuture = _footBallProvider.fetchMatchesBetweenTwoDate(
-        startDate: "2024-02-23", endDate: "2024-03-23", leagueId: 2);
+      startDate: DateFormat("yyyy-MM-dd").format(DateTime.now()),
+      endDate: DateFormat("yyyy-MM-dd").format(DateTime.now().add(const Duration(days: 30))),
+      leagueId: 2,
+    );
   }
 
   @override
@@ -40,12 +46,7 @@ class _ChampionsMatchesState extends State<ChampionsMatches> {
         });
       },
       onLoading: () {
-        return ShimmerLoading(
-          child:Padding(
-            padding: const EdgeInsetsDirectional.symmetric(horizontal: 15, vertical: 10),
-            child: Column(),
-          )
-          );
+        return const ShimmerLoading(child: MatchesLoading());
       },
       onComplete: (context, snapshot) {
         final matches = snapshot.data!;
@@ -65,9 +66,27 @@ class _ChampionsMatchesState extends State<ChampionsMatches> {
               ),
               ...matches.data!.map(
                 (element) {
+                  int homeGoals = 0;
+                  int awayGoals = 0;
+                  element.statistics!.map(
+                    (e) {
+                      if (e.typeId == 52) {
+                        switch (e.location) {
+                          case LocationEnum.home:
+                            homeGoals = e.data!.value!;
+                          case LocationEnum.away:
+                            awayGoals = e.data!.value!;
+                        }
+                      }
+                    },
+                  ).toSet();
                   return Column(
                     children: [
-                      StageCard(stageId: element.stageId!),
+                      if (matches.data!.indexOf(element) == 0 ||
+                          (matches.data!.indexOf(element) > 0 &&
+                              matches.data![matches.data!.indexOf(element)].stageId !=
+                                  matches.data![matches.data!.indexOf(element) - 1].stageId))
+                        StageCard(stageId: element.stageId!),
                       Container(
                         width: double.infinity,
                         height: 55,
@@ -94,13 +113,36 @@ class _ChampionsMatchesState extends State<ChampionsMatches> {
                               width: 30,
                               height: 30,
                             ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.only(start: 5, end: 5),
-                              child: Text(
-                                "05/01/2024",
-                                style: TextStyle(
-                                  color: context.colorPalette.green057,
-                                  fontSize: 8,
+                            Expanded(
+                              flex: 1,
+                              child: Padding(
+                                padding: const EdgeInsetsDirectional.only(start: 5, end: 5),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    if (element.state!.id != 1) Text("$homeGoals   :   $awayGoals"),
+                                    Text(
+                                      element.state!.name!,
+                                      style: TextStyle(
+                                        color: context.colorPalette.green057,
+                                        fontSize: 8,
+                                      ),
+                                    ),
+                                    Text(
+                                      DateFormat("yyyy-MM-dd").format(element.startingAt!),
+                                      style: const TextStyle(
+                                        fontSize: 8,
+                                      ),
+                                    ),
+                                    if (element.state!.id == 1)
+                                      Text(
+                                        DateFormat("HH:mm").format(element.startingAt!),
+                                        style: const TextStyle(
+                                          fontSize: 8,
+                                        ),
+                                      ),
+                                  ],
                                 ),
                               ),
                             ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/model/groups_standing_model.dart';
 import 'package:sportk/providers/football_provider.dart';
+import 'package:sportk/screens/club/club_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
@@ -127,38 +128,43 @@ class _GroupsStandingsState extends State<GroupsStandings> {
                                   : context.colorPalette.greyD9D,
                         ),
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              if (standings.data!.indexOf(element) == 0 ||
-                                  standings.data!.indexOf(element) == 1 ||
-                                  standings.data!.indexOf(element) == 2)
-                                Container(
-                                  width: 5,
-                                  height: 20,
-                                  decoration: BoxDecoration(
-                                    color: standings.data!.indexOf(element) == 2
-                                        ? context.colorPalette.red000
-                                        : context.colorPalette.blue1F8,
+                          InkWell(
+                            onTap: widget.teamId != null && widget.teamId == element.participantId!
+                                ? null
+                                : () => context.push(ClubScreen(teamId: element.participantId!)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                if (standings.data!.indexOf(element) == 0 ||
+                                    standings.data!.indexOf(element) == 1 ||
+                                    standings.data!.indexOf(element) == 2)
+                                  Container(
+                                    width: 5,
+                                    height: 20,
+                                    decoration: BoxDecoration(
+                                      color: standings.data!.indexOf(element) == 2
+                                          ? context.colorPalette.red000
+                                          : context.colorPalette.blue1F8,
+                                    ),
+                                  ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 5),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        element.position?.toString() ?? "",
+                                        style: const TextStyle(
+                                          fontSize: 11,
+                                        ),
+                                      ),
+                                      TeamInfo(
+                                        teamId: element.participantId!,
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 5),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      element.position?.toString() ?? "",
-                                      style: const TextStyle(
-                                        fontSize: 11,
-                                      ),
-                                    ),
-                                    TeamInfo(
-                                      teamId: element.participantId!,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           TableText(
                             text: element.details?[0].value?.toString() ?? "",
