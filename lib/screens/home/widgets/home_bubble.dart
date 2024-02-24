@@ -31,7 +31,7 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
 
   Future<LeagueByDateModel> _fetchLeagueByDate() {
     final snapshot = ApiService<LeagueByDateModel>().build(
-      sportsUrl: '${ApiUrl.compoByDate}/${DateFormat('yyyy-MM-dd').format(widget.date)}?filters=fixtureLeagues:${widget.leagueId}&include=state;participants;statistics.type&${ApiUrl.auth}',
+      sportsUrl: '${ApiUrl.compoByDate}/${DateFormat('yyyy-MM-dd').format(widget.date)}${ApiUrl.auth}&filters=fixtureLeagues:${widget.leagueId}&include=state;participants;statistics.type',
       isPublic: true,
       apiType: ApiType.get,
       builder: LeagueByDateModel.fromJson,
