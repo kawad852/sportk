@@ -39,13 +39,13 @@ class _PlayerScreenState extends State<PlayerScreen> {
           SliverAppBar(
             leadingWidth: kBarLeadingWith,
             pinned: true,
+            collapsedHeight: 250,
             leading: CustomBack(
               color: context.colorPalette.blueD4B,
               fontWeight: FontWeight.bold,
             ),
             flexibleSpace: Container(
-              width: double.infinity,
-              height: 234.0,
+              alignment: Alignment.bottomCenter,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [context.colorPalette.blueD4B, context.colorPalette.white],
@@ -54,11 +54,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
                   stops: const [0.01, 1.0],
                 ),
               ),
-            ),
-            bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(200),
               child: Padding(
-                padding: const EdgeInsetsDirectional.only(bottom: 40),
+                padding: const EdgeInsetsDirectional.only(bottom: 30),
                 child: PlayerCard(playerId: widget.playerId),
               ),
             ),

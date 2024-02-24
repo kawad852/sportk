@@ -8,6 +8,7 @@ class PlayerCardLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         const LoadingBubble(
           width: 60,

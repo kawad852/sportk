@@ -4,11 +4,11 @@ import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/player/widgets/detalis_card.dart';
 import 'package:sportk/screens/player/widgets/player_card_loading.dart';
 import 'package:sportk/screens/player/widgets/player_team.dart';
-import 'package:sportk/widgets/team_name.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
+import 'package:sportk/widgets/team_name.dart';
 
 class PlayerCard extends StatefulWidget {
   final int playerId;
@@ -95,6 +95,7 @@ class _PlayerCardState extends State<PlayerCard> {
       onComplete: (context, snapshot) {
         final player = snapshot.data!;
         return Column(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -105,8 +106,7 @@ class _PlayerCardState extends State<PlayerCard> {
                     padding: const EdgeInsetsDirectional.only(start: 50),
                     child: PlayerTeam(
                       teamId: player.data!.teams!.isEmpty ? null : player.data!.teams![0].teamId,
-                      jerseyNumber:
-                          player.data!.teams!.isEmpty ? null : player.data!.teams![0].jerseyNumber,
+                      jerseyNumber: player.data!.teams!.isEmpty ? null : player.data!.teams![0].jerseyNumber,
                     ),
                   ),
                 ),
@@ -126,9 +126,7 @@ class _PlayerCardState extends State<PlayerCard> {
                     padding: const EdgeInsetsDirectional.only(end: 50),
                     child: PlayerTeam(
                       teamId: player.data!.teams!.length > 1 ? player.data!.teams![1].teamId : null,
-                      jerseyNumber: player.data!.teams!.length == 2
-                          ? player.data!.teams![1].jerseyNumber
-                          : null,
+                      jerseyNumber: player.data!.teams!.length == 2 ? player.data!.teams![1].jerseyNumber : null,
                     ),
                   ),
                 ),
@@ -160,21 +158,15 @@ class _PlayerCardState extends State<PlayerCard> {
                     title: context.appLocalization.position,
                   ),
                   DetalisCard(
-                    subTitle: player.data!.dateOfBirth == null
-                        ? context.appLocalization.unknown
-                        : "${getAeg(player.data!.dateOfBirth!)} ${context.appLocalization.year}",
+                    subTitle: player.data!.dateOfBirth == null ? context.appLocalization.unknown : "${getAeg(player.data!.dateOfBirth!)} ${context.appLocalization.year}",
                     title: context.appLocalization.age,
                   ),
                   DetalisCard(
-                    subTitle: player.data!.weight == null
-                        ? context.appLocalization.unknown
-                        : "${player.data!.weight} ${context.appLocalization.kg}",
+                    subTitle: player.data!.weight == null ? context.appLocalization.unknown : "${player.data!.weight} ${context.appLocalization.kg}",
                     title: context.appLocalization.weight,
                   ),
                   DetalisCard(
-                    subTitle: player.data!.height == null
-                        ? context.appLocalization.unknown
-                        : "${player.data!.height} ${context.appLocalization.cm}",
+                    subTitle: player.data!.height == null ? context.appLocalization.unknown : "${player.data!.height} ${context.appLocalization.cm}",
                     title: context.appLocalization.height,
                   ),
                 ],

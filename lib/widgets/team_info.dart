@@ -61,7 +61,7 @@ class _TeamInfoState extends State<TeamInfo> {
         );
       },
       onError: (snapshot) {
-        return const SizedBox.shrink();
+        return const Text("    - ");
       },
       onComplete: (context, snapshot) {
         final team = snapshot.data!;
