@@ -26,7 +26,7 @@ class HomeBubble extends StatefulWidget {
   State<HomeBubble> createState() => _HomeBubbleState();
 }
 
-class _HomeBubbleState extends State<HomeBubble> {
+class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMixin {
   late Future<LeagueByDateModel> _future;
 
   Future<LeagueByDateModel> _fetchLeagueByDate() {
@@ -51,6 +51,7 @@ class _HomeBubbleState extends State<HomeBubble> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return CustomFutureBuilder(
       future: _future,
       onRetry: () {
@@ -148,4 +149,7 @@ class _HomeBubbleState extends State<HomeBubble> {
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

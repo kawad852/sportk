@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/screens/home/widgets/home_bubble.dart';
+import 'package:sportk/screens/league_info/league_info_screen.dart';
 import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_svg.dart';
-import 'package:sportk/widgets/stretch_button.dart';
-
-import '../news/news_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -53,15 +51,6 @@ class _HomeScreenState extends State<HomeScreen> {
       onComplete: (context, snapshot) {
         final competitions = snapshot.data!;
         return Scaffold(
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {},
-          ),
-          bottomNavigationBar: BottomAppBar(
-            child: StretchedButton(
-              child: const Text("Save"),
-              onPressed: () {},
-            ),
-          ),
           body: CustomScrollView(
             slivers: [
               SliverAppBar(
@@ -72,9 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 actions: [
                   IconButton(
-                    onPressed: () {
-                      context.push(const NewsScreen());
-                    },
+                    onPressed: () {},
                     icon: const CustomSvg(MyIcons.search),
                   ),
                   IconButton(
@@ -103,13 +90,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemCount: competitions.length,
                   separatorBuilder: (context, index) => const SizedBox(height: 5),
                   itemBuilder: (context, index) {
-                    final competition = competitions[index];
+                    final leagueId = competitions[index];
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ListTile(
                           onTap: () {
-                            // context.push(const LeagueScreen());
+                            context.push(LeagueInfoScreen(leagueId: leagueId));
                           },
                           dense: true,
                           tileColor: context.colorPalette.grey2F2,
@@ -125,7 +112,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           // trailing: widget.trailing,
                         ),
-                        HomeBubble(date: DateTime.now(), leagueId: competition),
+                        HomeBubble(
+                          date: DateTime.now(),
+                          leagueId: leagueId,
+                        ),
                       ],
                     );
                   },
