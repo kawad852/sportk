@@ -11,69 +11,24 @@ import 'package:sportk/model/player_model.dart';
 import 'package:sportk/model/player_statistics_model.dart';
 import 'package:sportk/model/season_by_league_model.dart';
 import 'package:sportk/model/season_info_model.dart';
-import 'package:sportk/model/season_model.dart';
 import 'package:sportk/model/squads_model.dart';
 import 'package:sportk/model/stage_model.dart';
 import 'package:sportk/model/standings_model.dart';
 import 'package:sportk/model/team_info_model.dart';
-import 'package:sportk/model/team_model.dart';
 import 'package:sportk/model/top_scorers_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
 
 class FootBallProvider extends ChangeNotifier {
-  Future<CompetitionModel> fetchCompetitions({
-    int? page,
-    int? time,
-    String? uuid,
+  Future<LeagueByDateModel> fetchLeagueByDate({
+    required String date,
+    required int leagueId,
   }) {
-    final snapshot = ApiService<CompetitionModel>().build(
-      sportsUrl: '${ApiUrl.competitions}&page=$page&time=$time&uuid=$uuid',
+    final snapshot = ApiService<LeagueByDateModel>().build(
+      sportsUrl: '${ApiUrl.compoByDate}/$date?filters=fixtureLeagues:$leagueId&&include=participants;statistics.type',
       isPublic: true,
       apiType: ApiType.get,
-      builder: CompetitionModel.fromJson,
-    );
-    return snapshot;
-  }
-
-  Future<CompetitionModel> fetchPlayers({
-    int? page,
-    int? time,
-    String? uuid,
-  }) {
-    final snapshot = ApiService<CompetitionModel>().build(
-      sportsUrl: '${ApiUrl.competitions}&page=$page&time=$time&uuid=$uuid',
-      isPublic: true,
-      apiType: ApiType.get,
-      builder: CompetitionModel.fromJson,
-    );
-    return snapshot;
-  }
-
-  Future<SeasonModel> fetchSeasons({
-    int? page,
-    int? time,
-    String? uuid,
-  }) {
-    final snapshot = ApiService<SeasonModel>().build(
-      sportsUrl: '${ApiUrl.seasons}&page=$page&time=$time&uuid=$uuid',
-      isPublic: true,
-      apiType: ApiType.get,
-      builder: SeasonModel.fromJson,
-    );
-    return snapshot;
-  }
-
-  Future<TeamModel> fetchTeams({
-    int? page,
-    int? time,
-    String? uuid,
-  }) {
-    final snapshot = ApiService<TeamModel>().build(
-      sportsUrl: '${ApiUrl.teams}&page=$page&time=$time&uuid=$uuid',
-      isPublic: true,
-      apiType: ApiType.get,
-      builder: TeamModel.fromJson,
+      builder: PlayerModel.fromJson,
     );
     return snapshot;
   }
