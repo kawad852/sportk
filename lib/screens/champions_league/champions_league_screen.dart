@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:sportk/utils/app_constants.dart';
+import 'package:sportk/model/league_model.dart';
+import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_images.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_back.dart';
+import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
-
+import 'package:sportk/widgets/league_loading.dart';
+import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 import 'widgets/champions_groups.dart';
 import 'widgets/champions_matches.dart';
 
 class ChampionsLeagueScreen extends StatefulWidget {
-  const ChampionsLeagueScreen({super.key});
+  final int? teamId;
+  const ChampionsLeagueScreen({super.key, this.teamId});
 
   @override
   State<ChampionsLeagueScreen> createState() => _ChampionsLeagueScreenState();
@@ -19,11 +23,19 @@ class ChampionsLeagueScreen extends StatefulWidget {
 class _ChampionsLeagueScreenState extends State<ChampionsLeagueScreen>
     with SingleTickerProviderStateMixin {
   late TabController _controller;
+  late FootBallProvider _footBallProvider;
+  late Future<LeagueModel> _leagueFuture;
+
+  void _initializeFuture() {
+    _leagueFuture = _footBallProvider.fetchLeague(leagueId: 2);
+  }
 
   @override
   void initState() {
     super.initState();
     _controller = TabController(length: 2, vsync: this);
+    _footBallProvider = context.footBallProvider;
+    _initializeFuture();
   }
 
   @override
@@ -40,27 +52,40 @@ class _ChampionsLeagueScreenState extends State<ChampionsLeagueScreen>
             ),
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(200),
-              child: Padding(
-                padding: const EdgeInsetsDirectional.only(bottom: 65),
-                child: Column(
-                  children: [
-                    const CustomNetworkImage(
-                      kFakeImage,
-                      width: 100,
-                      height: 100,
+              child: CustomFutureBuilder(
+                future: _leagueFuture,
+                onRetry: () {
+                  setState(() {
+                    _initializeFuture();
+                  });
+                },
+                onLoading: () => const ShimmerLoading(child: LeagueLoading()),
+                onError: (snapshot) => const SizedBox.shrink(),
+                onComplete: (context, snapshot) {
+                  final league = snapshot.data!;
+                  return Padding(
+                    padding: const EdgeInsetsDirectional.only(bottom: 65),
+                    child: Column(
+                      children: [
+                        CustomNetworkImage(
+                          league.data!.imagePath!,
+                          width: 100,
+                          height: 100,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          league.data!.name!,
+                          style: TextStyle(
+                            color: context.colorPalette.blueD4B,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Champions League",
-                      style: TextStyle(
-                        color: context.colorPalette.blueD4B,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
+                  );
+                },
               ),
             ),
             flexibleSpace: Stack(
@@ -122,9 +147,9 @@ class _ChampionsLeagueScreenState extends State<ChampionsLeagueScreen>
           SliverFillRemaining(
             child: TabBarView(
               controller: _controller,
-              children: const [
-                ChampionsGroups(),
-                ChampionsMatches(),
+              children:  [
+                ChampionsGroups(teamId: widget.teamId),
+                const ChampionsMatches(),
               ],
             ),
           ),

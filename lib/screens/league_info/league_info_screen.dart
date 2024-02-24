@@ -13,7 +13,7 @@ import 'package:sportk/widgets/league_standings.dart';
 import 'package:sportk/widgets/matches_card.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 
-import 'widgets/league_loading.dart';
+import '../../widgets/league_loading.dart';
 
 class LeagueInfoScreen extends StatefulWidget {
   final int leagueId;

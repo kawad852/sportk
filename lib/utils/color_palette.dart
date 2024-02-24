@@ -27,6 +27,7 @@ class ColorPalette {
   Color get blue1AD4B => const Color(0x1A032D4B);
   Color get blueABB => const Color(0xFFABB8C1);
   Color get blueE2F => const Color(0x66E2F1FC);
+  Color get blue1F8 => const Color(0xFF1F85CD);
 
   ///red
   Color get red000 => const Color(0xFFCC0000);
