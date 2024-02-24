@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
 
 class LeagueLoading extends StatelessWidget {
@@ -14,7 +13,7 @@ class LeagueLoading extends StatelessWidget {
           LoadingBubble(
             width: 100,
             height: 100,
-            radius: MyTheme.radiusSecondary,
+            shape: BoxShape.circle,
           ),
           SizedBox(
             height: 10,

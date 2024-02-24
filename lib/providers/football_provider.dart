@@ -1,14 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:sportk/model/champions_groups_model.dart';
-import 'package:sportk/model/competition_model.dart';
 import 'package:sportk/model/country_info_model.dart';
 import 'package:sportk/model/groups_standing_model.dart';
-import 'package:sportk/model/country_info_model.dart';
 import 'package:sportk/model/league_by_date_model.dart';
 import 'package:sportk/model/league_model.dart';
 import 'package:sportk/model/match_model.dart';
 import 'package:sportk/model/player_model.dart';
 import 'package:sportk/model/player_statistics_model.dart';
+import 'package:sportk/model/round_model.dart';
 import 'package:sportk/model/season_by_league_model.dart';
 import 'package:sportk/model/season_info_model.dart';
 import 'package:sportk/model/squads_model.dart';
@@ -217,6 +216,18 @@ class FootBallProvider extends ChangeNotifier {
       isPublic: true,
       apiType: ApiType.get,
       builder: StageModel.fromJson,
+    );
+    return snapshot;
+  }
+
+  Future<RoundModel> fetchRound({
+    required int roundId,
+  }) {
+    final snapshot = ApiService<RoundModel>().build(
+      sportsUrl: '${ApiUrl.round}/$roundId${ApiUrl.auth}',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: RoundModel.fromJson,
     );
     return snapshot;
   }

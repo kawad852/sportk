@@ -109,6 +109,8 @@ class _PlayerStatisticsState extends State<PlayerStatistics> {
                         itemCount: _leagueIds.length,
                         itemBuilder: (BuildContext context, int index) {
                           return InkWell(
+                            highlightColor: Colors.transparent,
+                            splashColor: Colors.transparent,
                             onTap: () {
                               setState(() {
                                 _selectedIndex = index;

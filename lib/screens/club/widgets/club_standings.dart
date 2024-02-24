@@ -104,6 +104,8 @@ class _ClubStandingsState extends State<ClubStandings> {
                     itemCount: leagues.length,
                     itemBuilder: (BuildContext context, int index) {
                       return InkWell(
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
                         onTap: () {
                           leagues[index].data!.id == 2
                               ? context.push(

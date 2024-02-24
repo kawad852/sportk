@@ -5,10 +5,7 @@ import 'package:sportk/screens/player/widgets/line_divider.dart';
 import 'package:sportk/screens/player/widgets/statistics_card.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
-import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
-import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
-import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 
 class StatisticsInfo extends StatefulWidget {
   final int playerId;
@@ -54,27 +51,6 @@ class _StatisticsInfoState extends State<StatisticsInfo> {
           ),
         );
       },
-      // onLoading: () {
-      //   return Column(
-      //     mainAxisAlignment: MainAxisAlignment.center,
-      //     crossAxisAlignment: CrossAxisAlignment.center,
-      //     children: [
-      //       CircularProgressIndicator(
-      //         color: context.colorPalette.blueD4B,
-      //       ),
-      //     ],
-      //   );
-      //   // const ShimmerLoading(
-      //   //   child: Padding(
-      //   //     padding: EdgeInsetsDirectional.only(end: 15, top: 15, start: 8),
-      //   //     child: LoadingBubble(
-      //   //       height: 128,
-      //   //       width: double.infinity,
-      //   //       radius: MyTheme.radiusSecondary,
-      //   //     ),
-      //   //   ),
-      //   // );
-      // },
       onComplete: (context, snapshot) {
         final statistics = snapshot.data!;
         int goals = 0;

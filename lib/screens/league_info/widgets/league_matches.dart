@@ -2,22 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sportk/model/match_model.dart';
 import 'package:sportk/providers/football_provider.dart';
-import 'package:sportk/widgets/matches_loading.dart';
-import 'package:sportk/screens/champions_league/widgets/stage_card.dart';
+import 'package:sportk/screens/league_info/widgets/round_card.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
+import 'package:sportk/widgets/matches_loading.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 
-class ChampionsMatches extends StatefulWidget {
-  const ChampionsMatches({super.key});
+class LeagueMatches extends StatefulWidget {
+  final int leagueId;
+  const LeagueMatches({super.key, required this.leagueId});
 
   @override
-  State<ChampionsMatches> createState() => _ChampionsMatchesState();
+  State<LeagueMatches> createState() => _LeagueMatchesState();
 }
 
-class _ChampionsMatchesState extends State<ChampionsMatches> {
+class _LeagueMatchesState extends State<LeagueMatches> {
   late FootBallProvider _footBallProvider;
   late Future<MatchModel> _matchesFuture;
 
@@ -25,7 +26,7 @@ class _ChampionsMatchesState extends State<ChampionsMatches> {
     _matchesFuture = _footBallProvider.fetchMatchesBetweenTwoDate(
       startDate: DateFormat("yyyy-MM-dd").format(DateTime.now()),
       endDate: DateFormat("yyyy-MM-dd").format(DateTime.now().add(const Duration(days: 100))),
-      leagueId: 2,
+      leagueId: widget.leagueId,
     );
   }
 
@@ -90,9 +91,12 @@ class _ChampionsMatchesState extends State<ChampionsMatches> {
                       children: [
                         if (matches.data!.indexOf(element) == 0 ||
                             (matches.data!.indexOf(element) > 0 &&
-                                matches.data![matches.data!.indexOf(element)].stageId !=
-                                    matches.data![matches.data!.indexOf(element) - 1].stageId))
-                          StageCard(stageId: element.stageId!),
+                                matches.data![matches.data!.indexOf(element)].roundId !=
+                                    matches.data![matches.data!.indexOf(element) - 1].roundId))
+                          RoundCard(
+                            leagueId: widget.leagueId,
+                            roundId: element.roundId,
+                          ),
                         Container(
                           width: double.infinity,
                           height: 55,

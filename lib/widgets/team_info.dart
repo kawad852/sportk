@@ -48,7 +48,7 @@ class _TeamInfoState extends State<TeamInfo> {
               LoadingBubble(
                 width: 20,
                 height: 20,
-                radius: MyTheme.radiusPrimary,
+                shape: BoxShape.circle,
                 margin: EdgeInsets.only(left: 5, right: 5),
               ),
               LoadingBubble(

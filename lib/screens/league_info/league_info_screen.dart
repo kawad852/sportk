@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/model/league_model.dart';
 import 'package:sportk/providers/football_provider.dart';
+import 'package:sportk/screens/league_info/widgets/league_matches.dart';
 import 'package:sportk/screens/league_info/widgets/league_news.dart';
 import 'package:sportk/screens/league_info/widgets/league_scorers.dart';
 import 'package:sportk/utils/base_extensions.dart';
@@ -152,7 +153,7 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
               children: [
                 LeagueStandings(leagueId: widget.leagueId),
                 LeagueScorers(leagueId: widget.leagueId),
-                const MatchesCard(),
+                LeagueMatches(leagueId: widget.leagueId),
                 const LeagueNews(),
               ],
             ),

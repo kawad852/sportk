@@ -128,7 +128,7 @@ class _LeagueScorersState extends State<LeagueScorers> {
                                       element.player!.imagePath!,
                                       width: 35,
                                       height: 35,
-                                      radius: 20,
+                                      shape: BoxShape.circle,
                                     ),
                                     const SizedBox(
                                       width: 2,

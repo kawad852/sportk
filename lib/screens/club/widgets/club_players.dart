@@ -139,7 +139,7 @@ class _ClubPlayersState extends State<ClubPlayers> {
                                       players[index][myIndex].player!.imagePath!,
                                       width: 35.0,
                                       height: 35.0,
-                                      radius: 20,
+                                      shape: BoxShape.circle,
                                     ),
                                     const SizedBox(
                                       width: 8,
