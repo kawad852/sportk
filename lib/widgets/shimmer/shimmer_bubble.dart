@@ -7,6 +7,7 @@ class LoadingBubble extends StatelessWidget {
   final double? height;
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
+  final BoxShape shape;
 
   const LoadingBubble({
     super.key,
@@ -15,6 +16,7 @@ class LoadingBubble extends StatelessWidget {
     this.height,
     this.padding,
     this.margin,
+    this.shape = BoxShape.rectangle,
   });
 
   @override
@@ -27,6 +29,7 @@ class LoadingBubble extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(radius),
+        shape: shape,
       ),
     );
   }

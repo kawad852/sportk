@@ -3,7 +3,7 @@ import 'package:sportk/model/intro_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
 import 'package:sportk/screens/base/app_nav_bar.dart';
-import 'package:sportk/screens/wizard/follow_teams_screen.dart';
+import 'package:sportk/screens/registration/registration_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_images.dart';
 import 'package:sportk/utils/shared_pref.dart';
@@ -100,7 +100,8 @@ class _IntroScreenState extends State<IntroScreen> {
                 TextButton(
                   onPressed: () {
                     _passIntro();
-                    context.push(const FollowTeamsScreen());
+                    context.pushAndRemoveUntil(const RegistrationScreen());
+                    // context.push(const FollowTeamsScreen());
                   },
                   child: Text(context.appLocalization.next),
                 ),

@@ -105,7 +105,7 @@ class ApiService<T> {
       return builder(json);
     }).timeout(
       const Duration(seconds: 20),
-      onTimeout: () => throw TimeoutException(timeoutException),
+      onTimeout: () => throw Failure(type: timeoutException, code: ''),
     );
 
     return futureCallback;

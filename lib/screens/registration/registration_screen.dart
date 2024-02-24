@@ -111,28 +111,28 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              IconButton(
-                onPressed: () {
+              GestureDetector(
+                onTap: () {
                   _signInWithGoogle(context);
                 },
-                icon: Image.asset(
+                child: Image.asset(
                   MyImages.google,
                   width: 50,
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: IconButton(
-                  onPressed: () {},
-                  icon: Image.asset(
+                child: GestureDetector(
+                  onTap: () {},
+                  child: Image.asset(
                     MyImages.apple,
                     width: 50,
                   ),
                 ),
               ),
-              IconButton(
-                onPressed: () {},
-                icon: Image.asset(
+              GestureDetector(
+                onTap: () {},
+                child: Image.asset(
                   MyImages.facebook,
                   width: 50,
                 ),
