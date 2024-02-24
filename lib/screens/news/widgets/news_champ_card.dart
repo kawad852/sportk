@@ -21,6 +21,7 @@ class NewsChampCard extends StatelessWidget {
         radius: 0,
         width: 48,
         height: 30,
+        shape: BoxShape.circle,
       ),
     );
   }

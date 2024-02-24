@@ -99,34 +99,34 @@ class _NewsScreenState extends State<NewsScreen> {
                   future: _recommendedNewsFuture,
                   onRetry: () {
                     setState(() {
-                      _initializeCompoNews();
+                      _initializeRecommendedNews();
                     });
                   },
                   onLoading: () {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CarouselSlider.builder(
-                          itemCount: 10,
-                          options: CarouselOptions(
-                            viewportFraction: 0.9,
-                            enableInfiniteScroll: false,
-                            height: 280.0,
-                            onPageChanged: (index, reason) {
-                              setState(() {
-                                currentIndex = index;
-                              });
-                            },
-                          ),
-                          itemBuilder: (context, index, realIndex) {
-                            return const ShimmerLoading(
-                              child: LoadingBubble(
+                        ShimmerLoading(
+                          child: CarouselSlider.builder(
+                            itemCount: 10,
+                            options: CarouselOptions(
+                              viewportFraction: 0.9,
+                              enableInfiniteScroll: false,
+                              height: 280.0,
+                              onPageChanged: (index, reason) {
+                                setState(() {
+                                  currentIndex = index;
+                                });
+                              },
+                            ),
+                            itemBuilder: (context, index, realIndex) {
+                              return const LoadingBubble(
                                 height: 260,
                                 radius: 15,
                                 margin: EdgeInsets.all(8.0),
-                              ),
-                            );
-                          },
+                              );
+                            },
+                          ),
                         ),
                         const SizedBox(height: 20),
                       ],
@@ -202,20 +202,19 @@ class _NewsScreenState extends State<NewsScreen> {
                     child: CustomFutureBuilder(
                       future: _compoNewsFuture,
                       onLoading: () {
-                        return ListView.separated(
-                          separatorBuilder: (context, index) => const SizedBox(width: 6),
-                          scrollDirection: Axis.horizontal,
-                          padding: const EdgeInsetsDirectional.symmetric(vertical: 6.0),
-                          itemCount: 10,
-                          itemBuilder: (BuildContext context, int index) {
-                            return const ShimmerLoading(
-                              child: LoadingBubble(
-                                height: 260,
-                                radius: 15,
-                                margin: EdgeInsetsDirectional.all(8.0),
-                              ),
-                            );
-                          },
+                        return ShimmerLoading(
+                          child: ListView.separated(
+                            separatorBuilder: (context, index) => const SizedBox(width: 6),
+                            scrollDirection: Axis.horizontal,
+                            padding: const EdgeInsetsDirectional.symmetric(vertical: 6.0),
+                            itemCount: 12,
+                            itemBuilder: (BuildContext context, int index) {
+                              return const LoadingBubble(
+                                height: 60,
+                                width: 60,
+                              );
+                            },
+                          ),
                         );
                       },
                       onRetry: () {
@@ -223,6 +222,7 @@ class _NewsScreenState extends State<NewsScreen> {
                           _initializeCompoNews();
                         });
                       },
+                      onError: (snapshot) => const Center(child: Icon(Icons.error)),
                       onComplete: (context, snapshot) {
                         return ListView.separated(
                           separatorBuilder: (context, index) => const SizedBox(width: 6),
