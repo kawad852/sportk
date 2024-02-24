@@ -7,7 +7,6 @@ import 'package:sportk/model/league_model.dart';
 import 'package:sportk/model/match_model.dart';
 import 'package:sportk/model/player_model.dart';
 import 'package:sportk/model/player_statistics_model.dart';
-import 'package:sportk/model/schedule_and_results_season_model.dart';
 import 'package:sportk/model/season_by_league_model.dart';
 import 'package:sportk/model/season_info_model.dart';
 import 'package:sportk/model/season_model.dart';
@@ -59,18 +58,6 @@ class FootBallProvider extends ChangeNotifier {
       isPublic: true,
       apiType: ApiType.get,
       builder: SeasonModel.fromJson,
-    );
-    return snapshot;
-  }
-
-  Future<ScheduleAndResultsSeasonModel> fetchRescheduleAndResultsSeasons({
-    String? uuid,
-  }) {
-    final snapshot = ApiService<ScheduleAndResultsSeasonModel>().build(
-      sportsUrl: '${ApiUrl.scheduleAndResultsSeason}&uuid=$uuid',
-      isPublic: true,
-      apiType: ApiType.get,
-      builder: ScheduleAndResultsSeasonModel.fromJson,
     );
     return snapshot;
   }
@@ -166,8 +153,7 @@ class FootBallProvider extends ChangeNotifier {
     required int seasonId,
   }) {
     final snapshot = ApiService<PlayerStatisticsModel>().build(
-      sportsUrl:
-          '${ApiUrl.playerInfo}/$playerId${ApiUrl.auth}&include=statistics.details&filters=playerStatisticSeasons:$seasonId',
+      sportsUrl: '${ApiUrl.playerInfo}/$playerId${ApiUrl.auth}&include=statistics.details&filters=playerStatisticSeasons:$seasonId',
       isPublic: true,
       apiType: ApiType.get,
       builder: PlayerStatisticsModel.fromJson,
@@ -179,8 +165,7 @@ class FootBallProvider extends ChangeNotifier {
     required int seasonId,
   }) {
     final snapshot = ApiService<TopScorersModel>().build(
-      sportsUrl:
-          '${ApiUrl.topScorers}/$seasonId${ApiUrl.auth}&include=player&filters=seasonTopscorerTypes:208',
+      sportsUrl: '${ApiUrl.topScorers}/$seasonId${ApiUrl.auth}&include=player&filters=seasonTopscorerTypes:208',
       isPublic: true,
       apiType: ApiType.get,
       builder: TopScorersModel.fromJson,
@@ -241,8 +226,7 @@ class FootBallProvider extends ChangeNotifier {
     required int groupId,
   }) {
     final snapshot = ApiService<GroupsStandingModel>().build(
-      sportsUrl:
-          '${ApiUrl.championsGroup}/$seasonId${ApiUrl.auth}&include=group;details.type&filters=standingGroups:$groupId',
+      sportsUrl: '${ApiUrl.championsGroup}/$seasonId${ApiUrl.auth}&include=group;details.type&filters=standingGroups:$groupId',
       isPublic: true,
       apiType: ApiType.get,
       builder: GroupsStandingModel.fromJson,
@@ -256,8 +240,7 @@ class FootBallProvider extends ChangeNotifier {
     required int leagueId,
   }) {
     final snapshot = ApiService<MatchModel>().build(
-      sportsUrl:
-          '${ApiUrl.match}/$startDate/$endDate${ApiUrl.auth}&include=statistics;state;participants&filters=fixtureLeagues:$leagueId',
+      sportsUrl: '${ApiUrl.match}/$startDate/$endDate${ApiUrl.auth}&include=statistics;state;participants&filters=fixtureLeagues:$leagueId',
       isPublic: true,
       apiType: ApiType.get,
       builder: MatchModel.fromJson,
