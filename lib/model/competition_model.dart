@@ -1,6 +1,6 @@
 class CompetitionModel {
   int? code;
-  Query? query;
+  CompetitionQuery? query;
   List<Result>? results;
 
   CompetitionModel({
@@ -11,7 +11,7 @@ class CompetitionModel {
 
   CompetitionModel copyWith({
     int? code,
-    Query? query,
+    CompetitionQuery? query,
     List<Result>? results,
   }) =>
       CompetitionModel(
@@ -22,7 +22,7 @@ class CompetitionModel {
 
   factory CompetitionModel.fromJson(Map<String, dynamic> json) => CompetitionModel(
         code: json["code"],
-        query: json["query"] == null ? null : Query.fromJson(json["query"]),
+        query: json["query"] == null ? null : CompetitionQuery.fromJson(json["query"]),
         results: json["results"] == null ? [] : List<Result>.from(json["results"]!.map((x) => Result.fromJson(x))),
       );
 
@@ -33,29 +33,29 @@ class CompetitionModel {
       };
 }
 
-class Query {
+class CompetitionQuery {
   int? total;
   String? type;
   String? uuid;
 
-  Query({
+  CompetitionQuery({
     this.total,
     this.type,
     this.uuid,
   });
 
-  Query copyWith({
+  CompetitionQuery copyWith({
     int? total,
     String? type,
     String? uuid,
   }) =>
-      Query(
+      CompetitionQuery(
         total: total ?? this.total,
         type: type ?? this.type,
         uuid: uuid ?? this.uuid,
       );
 
-  factory Query.fromJson(Map<String, dynamic> json) => Query(
+  factory CompetitionQuery.fromJson(Map<String, dynamic> json) => CompetitionQuery(
         total: json["total"],
         type: json["type"],
         uuid: json["uuid"],

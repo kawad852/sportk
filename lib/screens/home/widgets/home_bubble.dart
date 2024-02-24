@@ -1,9 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:sportk/model/schedule_and_results_season_model.dart';
-import 'package:sportk/model/season_model.dart';
-import 'package:sportk/providers/football_provider.dart';
+import 'package:intl/intl.dart';
+import 'package:sportk/model/league_by_date_model.dart';
+import 'package:sportk/network/api_service.dart';
+import 'package:sportk/network/api_url.dart';
 import 'package:sportk/screens/home/widgets/team_widget.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_theme.dart';
@@ -11,52 +12,52 @@ import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 
-class TeamsTile extends StatefulWidget {
-  final String competitionId;
+class HomeBubble extends StatefulWidget {
+  final DateTime date;
+  final int leagueId;
 
-  const TeamsTile({
+  const HomeBubble({
     super.key,
-    required this.competitionId,
+    required this.date,
+    required this.leagueId,
   });
 
   @override
-  State<TeamsTile> createState() => _TeamsTileState();
+  State<HomeBubble> createState() => _HomeBubbleState();
 }
 
-class _TeamsTileState extends State<TeamsTile> {
-  late FootBallProvider _footBallProvider;
-  late Future<List<dynamic>> _futures;
+class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMixin {
+  late Future<LeagueByDateModel> _future;
 
-  Future<List<dynamic>> _initializeFutures() async {
-    final competitionFuture = _footBallProvider.fetchCompetitions(uuid: widget.competitionId);
-    final competitionModel = await competitionFuture;
-    final seasonId = competitionModel.results!.first.curSeasonId;
-    final seasonFuture = _footBallProvider.fetchSeasons(uuid: seasonId);
-    final seasonModel = await seasonFuture;
-    // final seasonId = seasonModel.query?.uuid;
-    print("seasonId::: $seasonId");
-    final scheduleAndResultsSeasonFuture = _footBallProvider.fetchRescheduleAndResultsSeasons(uuid: seasonId);
-    return Future.wait([seasonFuture, scheduleAndResultsSeasonFuture]);
+  Future<LeagueByDateModel> _fetchLeagueByDate() {
+    final snapshot = ApiService<LeagueByDateModel>().build(
+      sportsUrl: '${ApiUrl.compoByDate}/${DateFormat('yyyy-MM-dd').format(widget.date)}${ApiUrl.auth}&filters=fixtureLeagues:${widget.leagueId}&include=state;participants;statistics.type',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: LeagueByDateModel.fromJson,
+    );
+    return snapshot;
+  }
+
+  void _initializeFuture() {
+    _future = _fetchLeagueByDate();
   }
 
   @override
   void initState() {
     super.initState();
-    _footBallProvider = context.footBallProvider;
-    _futures = _initializeFutures();
+    _initializeFuture();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return CustomFutureBuilder(
-      future: _futures,
+      future: _future,
       onRetry: () {
         setState(() {
-          _initializeFutures();
+          _initializeFuture();
         });
-      },
-      onError: (snapshot) {
-        return const SizedBox.shrink();
       },
       onLoading: () {
         return ShimmerLoading(
@@ -75,17 +76,14 @@ class _TeamsTileState extends State<TeamsTile> {
         );
       },
       onComplete: (context, snapshot) {
-        final season = snapshot.data![0] as SeasonModel;
-        final scheduleAndResultsSeason = snapshot.data![1] as ScheduleAndResultsSeasonModel;
-        final list = scheduleAndResultsSeason.results!.take(5).toList();
         return ListView.separated(
-          itemCount: list.length,
+          itemCount: snapshot.data!.data!.length,
           separatorBuilder: (context, index) => const SizedBox(height: 5),
           shrinkWrap: true,
           padding: const EdgeInsets.symmetric(vertical: 5),
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            final result = list[index];
+            final data = snapshot.data!.data![index];
             return Container(
               height: 65,
               decoration: BoxDecoration(
@@ -96,22 +94,34 @@ class _TeamsTileState extends State<TeamsTile> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Spacer(),
-                  TeamWidget(
-                    teamId: result.homeTeamId!,
-                    reverse: false,
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TeamWidget(
+                          participant: data.participants![0],
+                          reverse: false,
+                        ),
+                        const Text("2"),
+                      ],
+                    ),
                   ),
-                  const Text("2"),
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 6),
                     child: CircleAvatar(),
                   ),
-                  const Text("2"),
-                  TeamWidget(
-                    teamId: result.awayTeamId!,
-                    reverse: true,
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const Text("2"),
+                        TeamWidget(
+                          participant: data.participants![1],
+                          reverse: true,
+                        ),
+                      ],
+                    ),
                   ),
-                  const Spacer(),
                   Transform.rotate(
                     angle: -pi / 2,
                     child: Container(
@@ -139,4 +149,7 @@ class _TeamsTileState extends State<TeamsTile> {
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

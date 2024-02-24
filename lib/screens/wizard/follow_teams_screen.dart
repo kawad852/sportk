@@ -3,11 +3,8 @@ import 'package:sportk/model/competition_model.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/registration/registration_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
-import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
-import 'package:sportk/widgets/custom_svg.dart';
 import 'package:sportk/widgets/league_bubble.dart';
-import 'package:sportk/widgets/league_tile.dart';
 import 'package:sportk/widgets/search_field.dart';
 import 'package:sportk/widgets/stretch_button.dart';
 
@@ -23,7 +20,7 @@ class _FollowTeamsScreenState extends State<FollowTeamsScreen> {
   late FootBallProvider _footBallProvider;
 
   void _initializeFutures() {
-    _competitionFuture = _footBallProvider.fetchCompetitions();
+    // _competitionFuture = _footBallProvider.fetchCompetitions();
   }
 
   @override
@@ -94,13 +91,14 @@ class _FollowTeamsScreenState extends State<FollowTeamsScreen> {
                   itemCount: 20,
                   separatorBuilder: (context, index) => const SizedBox(height: 5),
                   itemBuilder: (context, index) {
-                    return LeagueTile(
-                      competitionId: '',
-                      trailing: IconButton(
-                        onPressed: () {},
-                        icon: const CustomSvg(MyIcons.starFilled),
-                      ),
-                    );
+                    return SizedBox.shrink();
+                    // return LeagueTile(
+                    //   competitionId: '',
+                    //   trailing: IconButton(
+                    //     onPressed: () {},
+                    //     icon: const CustomSvg(MyIcons.starFilled),
+                    //   ),
+                    // );
                   },
                 ),
               ),

@@ -99,7 +99,8 @@
   "secondaryStriker":"SS",
   "coach":"Coach",
   "noStatistics":"There are no statistics available",
-  "groups":"Groups"
+  "groups":"Groups",
+  "chatHint": "Write your message"
   
   
 }

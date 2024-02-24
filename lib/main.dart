@@ -11,18 +11,15 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:sportk/providers/app_provider.dart';
 import 'package:sportk/providers/auth_provider.dart';
+import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/base/app_nav_bar.dart';
-import 'package:sportk/screens/club/club_screen.dart';
 import 'package:sportk/screens/intro/intro_screen.dart';
 import 'package:sportk/screens/registration/registration_screen.dart';
-import 'package:sportk/screens/test.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/utils/shared_pref.dart';
-
-import 'screens/champions_league/champions_league_screen.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey(debugLabel: "Main Navigator");
 
@@ -37,10 +34,9 @@ Future<void> main() async {
   await Firebase.initializeApp();
   await MySharedPreferences.init();
   unawaited(MobileAds.instance.initialize());
-  // MySharedPreferences.clearStorage();
-  // MySharedPreferences.isPassedIntro = false;
-  await SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  MySharedPreferences.clearStorage();
+  MySharedPreferences.isPassedIntro = false;
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   FirebaseMessaging.onBackgroundMessage(onBackgroundMessage);
   runApp(
     MultiProvider(
@@ -48,6 +44,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (context) => AuthProvider()),
         ChangeNotifierProvider(create: (context) => AppProvider()),
         ChangeNotifierProvider(create: (context) => FootBallProvider()),
+        ChangeNotifierProvider(create: (context) => CommonProvider()),
       ],
       child: const MyApp(),
     ),
@@ -98,10 +95,10 @@ class _MyAppState extends State<MyApp> {
           supportedLocales: AppLocalizations.supportedLocales,
           locale: Locale(appProvider.appLocale.languageCode),
           theme: MyTheme().materialTheme(context, seedColorScheme),
-          // home: _toggleRoute(context),
-          // home: const AppNavBar(),
-          home: const ClubScreen(teamId: 9),
-          // home: const LeagueInfoScreen(leagueId: 8),
+          home: _toggleRoute(context),
+          // home: const FollowTeamsScreen(),
+          // home: const ClubScreen(teamId: 9),
+          // home: const ChatTab(),
         );
       },
     );

@@ -99,6 +99,6 @@
   "secondaryStriker":"مهاجم ثانوي",
   "coach":"مدرب",
   "noStatistics":"لا يوجد احصائيات متوفرة",
-  "groups":"المجموعات"
-  
+  "groups":"المجموعات",
+  "chatHint": "اكتب رسالتك"
 }

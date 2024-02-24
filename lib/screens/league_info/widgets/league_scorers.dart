@@ -5,6 +5,7 @@ import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/league_info/widgets/league_scorers_cell.dart';
 import 'package:sportk/screens/league_info/widgets/league_scorers_loading.dart';
 import 'package:sportk/screens/league_info/widgets/penalty.dart';
+import 'package:sportk/screens/player/player_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
@@ -109,68 +110,71 @@ class _LeagueScorersState extends State<LeagueScorers> {
                       ),
                       child: Padding(
                         padding: const EdgeInsetsDirectional.symmetric(horizontal: 10),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Text(
-                                element.position.toString(),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 5,
-                              child: Row(
-                                children: [
-                                  CustomNetworkImage(
-                                    element.player!.imagePath!,
-                                    width: 35,
-                                    height: 35,
-                                    radius: 20,
-                                  ),
-                                  const SizedBox(
-                                    width: 2,
-                                  ),
-                                  Flexible(
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          element.player!.displayName!,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            color: context.colorPalette.blueD4B,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                        TeamName(
-                                          teamId: element.participantId,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: () => context.push(PlayerScreen(playerId: element.player!.id!)),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
                                 child: Text(
-                                  element.total.toString(),
-                                  style: TextStyle(
-                                    color: context.colorPalette.blueD4B,
+                                  element.position.toString(),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 5,
+                                child: Row(
+                                  children: [
+                                    CustomNetworkImage(
+                                      element.player!.imagePath!,
+                                      width: 35,
+                                      height: 35,
+                                      radius: 20,
+                                    ),
+                                    const SizedBox(
+                                      width: 2,
+                                    ),
+                                    Flexible(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            element.player!.displayName!,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              color: context.colorPalette.blueD4B,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                          TeamName(
+                                            teamId: element.participantId,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    element.total.toString(),
+                                    style: TextStyle(
+                                      color: context.colorPalette.blueD4B,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              flex: 4,
-                              child: Penalty(
-                                playerId: element.playerId!,
-                                seasonId: element.seasonId!,
+                              Expanded(
+                                flex: 4,
+                                child: Penalty(
+                                  playerId: element.playerId!,
+                                  seasonId: element.seasonId!,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),

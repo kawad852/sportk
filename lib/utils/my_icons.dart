@@ -25,9 +25,11 @@ class MyIcons {
   static const String football = '${_path}football.svg';
   static const String wallet = '${_path}wallet-money.svg';
   static const String documentText = '${_path}document-text.svg';
-  static const String goals='${_path}goals.svg';
-  static const String yellowCard='${_path}yellow_card.svg';
-  static const String redCard='${_path}red_card.svg';
-  static const String assist='${_path}assist.svg';
-  static const String starWhite='${_path}star_white.svg';
+  static const String goals = '${_path}goals.svg';
+  static const String yellowCard = '${_path}yellow_card.svg';
+  static const String redCard = '${_path}red_card.svg';
+  static const String assist = '${_path}assist.svg';
+  static const String starWhite = '${_path}star_white.svg';
+  static const String chat = '${_path}chat.svg';
+  static const String directUp = '${_path}direct-up.svg';
 }

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/model/new_model.dart';
+import 'package:sportk/screens/news/widgets/comment.dart';
+import 'package:sportk/screens/news/widgets/news_detalis_card.dart';
 import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/custom_back.dart';
-import 'package:sportk/widgets/news_card.dart';
-import 'package:sportk/screens/news/widgets/news_detalis_card.dart';
-import 'package:sportk/screens/news/widgets/comment.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_svg.dart';
+import 'package:sportk/widgets/news_card.dart';
 
 class NewsDetalisScreen extends StatefulWidget {
   const NewsDetalisScreen({super.key});
@@ -88,8 +89,7 @@ class _NewsDetalisScreenState extends State<NewsDetalisScreen> {
                                   child: TextFormField(
                                     decoration: InputDecoration(
                                       fillColor: context.colorPalette.white,
-                                      contentPadding: const EdgeInsetsDirectional.symmetric(
-                                          horizontal: 5, vertical: 15),
+                                      contentPadding: const EdgeInsetsDirectional.symmetric(horizontal: 5, vertical: 15),
                                       hintText: "اكتب تعليقك هنا",
                                     ),
                                   ),
@@ -165,8 +165,9 @@ class _NewsDetalisScreenState extends State<NewsDetalisScreen> {
                 separatorBuilder: (context, index) => const SizedBox(height: 5),
                 itemCount: 6,
                 itemBuilder: (context, index) {
-                  return const NewsCard(
+                  return NewsCard(
                     isMessage: true,
+                    newData: NewData(),
                   );
                 },
               ),

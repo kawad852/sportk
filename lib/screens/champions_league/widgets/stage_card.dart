@@ -3,6 +3,7 @@ import 'package:sportk/model/league_model.dart';
 import 'package:sportk/model/stage_model.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
@@ -51,6 +52,7 @@ class _StageCardState extends State<StageCard> {
           width: double.infinity,
           height: 35,
           margin: EdgeInsetsDirectional.only(bottom: 10),
+          radius: MyTheme.radiusPrimary,
         ),
       ),
       onError: (snapshot) => const SizedBox.shrink(),

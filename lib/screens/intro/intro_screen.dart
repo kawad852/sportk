@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:sportk/model/intro_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
+import 'package:sportk/screens/base/app_nav_bar.dart';
 import 'package:sportk/screens/wizard/follow_teams_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_images.dart';
+import 'package:sportk/utils/shared_pref.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_smoth_indicator.dart';
@@ -30,6 +32,8 @@ class _IntroScreenState extends State<IntroScreen> {
     );
     return snapshot;
   }
+
+  void _passIntro() => MySharedPreferences.isPassedIntro = true;
 
   void _initializeFuture() {
     _introFuture = fetchIntro();
@@ -70,7 +74,10 @@ class _IntroScreenState extends State<IntroScreen> {
               backgroundColor: Colors.transparent,
               actions: [
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _passIntro();
+                    context.pushAndRemoveUntil(const AppNavBar());
+                  },
                   child: Text(context.appLocalization.skip),
                 ),
               ],
@@ -92,6 +99,7 @@ class _IntroScreenState extends State<IntroScreen> {
                 const SizedBox(height: 10),
                 TextButton(
                   onPressed: () {
+                    _passIntro();
                     context.push(const FollowTeamsScreen());
                   },
                   child: Text(context.appLocalization.next),

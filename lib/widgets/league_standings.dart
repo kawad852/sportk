@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/model/standings_model.dart';
 import 'package:sportk/providers/football_provider.dart';
+import 'package:sportk/screens/club/club_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
-import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
-import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
-import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 import 'package:sportk/widgets/table_text.dart';
 import 'package:sportk/widgets/team_info.dart';
 
@@ -41,16 +39,6 @@ class _LeagueStandingsState extends State<LeagueStandings> {
         setState(() {
           _initializeFuture();
         });
-      },
-      onLoading: () {
-        return const ShimmerLoading(
-          child: LoadingBubble(
-            width: double.infinity,
-            height: 500,
-            radius: MyTheme.radiusTertiary,
-            margin: EdgeInsetsDirectional.symmetric(horizontal: 20, vertical: 5),
-          ),
-        );
       },
       onComplete: (context, snapshot) {
         final standings = snapshot.data!;
@@ -114,21 +102,31 @@ class _LeagueStandingsState extends State<LeagueStandings> {
                               : context.colorPalette.greyD9D,
                     ),
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              element.position?.toString() ?? "",
-                              style: const TextStyle(
-                                fontSize: 11,
+                      InkWell(
+                        onTap: widget.selectedTeamId != null &&
+                                widget.selectedTeamId == element.participantId!
+                            ? null
+                            : () => context.push(
+                                  ClubScreen(
+                                    teamId: element.participantId!,
+                                  ),
+                                ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 5),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                element.position?.toString() ?? "",
+                                style: const TextStyle(
+                                  fontSize: 11,
+                                ),
                               ),
-                            ),
-                            TeamInfo(
-                              teamId: element.participantId!,
-                            ),
-                          ],
+                              TeamInfo(
+                                teamId: element.participantId!,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       TableText(

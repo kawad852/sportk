@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:sportk/screens/home/widgets/teams_tile.dart';
+import 'package:sportk/screens/home/widgets/home_bubble.dart';
+import 'package:sportk/screens/league_info/league_info_screen.dart';
+import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
+import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_svg.dart';
-import 'package:sportk/widgets/league_tile.dart';
-import 'package:sportk/widgets/stretch_button.dart';
-
-import '../news/news_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,17 +16,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Future<List<String>> _fetchCompetitionsFuture;
+  late Future<List<int>> _fetchCompetitionsFuture;
+  final list = [
+    8,
+    564,
+    82,
+    72,
+    301,
+  ];
 
-  Future<List<String>> _initializeCompetitions() async {
-    // final data = ApiService<ScheduleAndResultsModel>().build(
-    //   sportsUrl: ApiUrl.scheduleAndResults,
-    //   isPublic: true,
-    //   apiType: ApiType.get,
-    //   builder: ScheduleAndResultsModel.fromJson,
-    // );
+  Future<List<int>> _initializeCompetitions() async {
     await Future.delayed(const Duration(seconds: 1));
-    final ids = Future.value(['jednm9whz0ryox8']);
+    final ids = Future.value(list);
     return ids;
   }
 
@@ -51,15 +51,6 @@ class _HomeScreenState extends State<HomeScreen> {
       onComplete: (context, snapshot) {
         final competitions = snapshot.data!;
         return Scaffold(
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {},
-          ),
-          bottomNavigationBar: BottomAppBar(
-            child: StretchedButton(
-              child: const Text("Save"),
-              onPressed: () {},
-            ),
-          ),
           body: CustomScrollView(
             slivers: [
               SliverAppBar(
@@ -70,9 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 actions: [
                   IconButton(
-                    onPressed: () {
-                      context.push(const NewsScreen());
-                    },
+                    onPressed: () {},
                     icon: const CustomSvg(MyIcons.search),
                   ),
                   IconButton(
@@ -94,25 +83,45 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
+              // mina
               SliverPadding(
                 padding: const EdgeInsets.all(20),
                 sliver: SliverList.separated(
                   itemCount: competitions.length,
                   separatorBuilder: (context, index) => const SizedBox(height: 5),
                   itemBuilder: (context, index) {
-                    final competition = competitions[index];
+                    final leagueId = competitions[index];
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        LeagueTile(competitionId: competition),
-                        TeamsTile(
-                          competitionId: competition,
+                        ListTile(
+                          onTap: () {
+                            context.push(LeagueInfoScreen(leagueId: leagueId));
+                          },
+                          dense: true,
+                          tileColor: context.colorPalette.grey2F2,
+                          leading: const CustomNetworkImage(
+                            kFakeImage,
+                            radius: 0,
+                            width: 25,
+                            height: 25,
+                          ),
+                          title: const Text(
+                            'Team Name',
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          // trailing: widget.trailing,
+                        ),
+                        HomeBubble(
+                          date: DateTime.now(),
+                          leagueId: leagueId,
                         ),
                       ],
                     );
                   },
                 ),
               ),
+              // montk
             ],
           ),
         );
