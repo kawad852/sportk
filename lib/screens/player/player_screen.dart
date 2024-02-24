@@ -4,6 +4,7 @@ import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/player/widgets/player_card.dart';
 import 'package:sportk/screens/player/widgets/player_statistics.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/my_images.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_back.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
@@ -46,12 +47,10 @@ class _PlayerScreenState extends State<PlayerScreen> {
             ),
             flexibleSpace: Container(
               alignment: Alignment.bottomCenter,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [context.colorPalette.blueD4B, context.colorPalette.white],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: const [0.01, 1.0],
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(MyImages.linearPlayer),
+                  fit: BoxFit.cover,
                 ),
               ),
               child: Padding(

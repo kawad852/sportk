@@ -7,36 +7,47 @@ class PlayerCardLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        const LoadingBubble(
+        LoadingBubble(
           width: 60,
           height: 60,
-          radius: MyTheme.radiusPrimary,
+          shape: BoxShape.circle,
         ),
-        const LoadingBubble(
+        LoadingBubble(
           width: 80,
           height: 15,
           margin: EdgeInsetsDirectional.only(top: 5, bottom: 30),
         ),
-        SizedBox(
-          height: 50,
-          child: ListView.builder(
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: 4,
-            itemBuilder: (BuildContext context, int index) {
-              return const LoadingBubble(
+        Padding(
+          padding: EdgeInsetsDirectional.symmetric(horizontal: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              LoadingBubble(
                 width: 80,
                 height: 50,
-                margin: EdgeInsetsDirectional.only(start: 5, end: 5),
                 radius: MyTheme.radiusSecondary,
-              );
-            },
+              ),
+              LoadingBubble(
+                width: 80,
+                height: 50,
+                radius: MyTheme.radiusSecondary,
+              ),
+              LoadingBubble(
+                width: 80,
+                height: 50,
+                radius: MyTheme.radiusSecondary,
+              ),
+              LoadingBubble(
+                width: 80,
+                height: 50,
+                radius: MyTheme.radiusSecondary,
+              ),
+            ],
           ),
-        )
+        ),
       ],
     );
   }

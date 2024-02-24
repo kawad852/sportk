@@ -45,17 +45,36 @@ class _StatisticsInfoState extends State<StatisticsInfo> {
         });
       },
       onLoading: () {
-        return const ShimmerLoading(
-          child: Padding(
-            padding: EdgeInsetsDirectional.only(end: 15, top: 15, start: 8),
-            child: LoadingBubble(
-              height: 128,
-              width: double.infinity,
-              radius: MyTheme.radiusSecondary,
+        return Padding(
+          padding: const EdgeInsetsDirectional.only(top: 50),
+          child: Center(
+            child: CircularProgressIndicator(
+              color: context.colorPalette.blueD4B,
             ),
           ),
         );
       },
+      // onLoading: () {
+      //   return Column(
+      //     mainAxisAlignment: MainAxisAlignment.center,
+      //     crossAxisAlignment: CrossAxisAlignment.center,
+      //     children: [
+      //       CircularProgressIndicator(
+      //         color: context.colorPalette.blueD4B,
+      //       ),
+      //     ],
+      //   );
+      //   // const ShimmerLoading(
+      //   //   child: Padding(
+      //   //     padding: EdgeInsetsDirectional.only(end: 15, top: 15, start: 8),
+      //   //     child: LoadingBubble(
+      //   //       height: 128,
+      //   //       width: double.infinity,
+      //   //       radius: MyTheme.radiusSecondary,
+      //   //     ),
+      //   //   ),
+      //   // );
+      // },
       onComplete: (context, snapshot) {
         final statistics = snapshot.data!;
         int goals = 0;

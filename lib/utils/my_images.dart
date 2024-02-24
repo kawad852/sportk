@@ -7,5 +7,7 @@ class MyImages {
   static const String apple = '${_path}apple.png';
   static const String facebook = '${_path}facebook.png';
   static const String match = '${_path}match.png';
+  static const String linearPlayer = '${_path}linear_player.png';
+
 
 }
