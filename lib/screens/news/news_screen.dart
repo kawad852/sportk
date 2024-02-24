@@ -1,11 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:sportk/model/new_model.dart';
 import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/screens/news/widgets/news_champ_card.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
-import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/ads/google_banner.dart';
 import 'package:sportk/widgets/custom_back.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
@@ -103,27 +103,33 @@ class _NewsScreenState extends State<NewsScreen> {
                     });
                   },
                   onLoading: () {
-                    return CarouselSlider.builder(
-                      itemCount: 10,
-                      options: CarouselOptions(
-                        viewportFraction: 0.9,
-                        enableInfiniteScroll: false,
-                        height: 280.0,
-                        onPageChanged: (index, reason) {
-                          setState(() {
-                            currentIndex = index;
-                          });
-                        },
-                      ),
-                      itemBuilder: (context, index, realIndex) {
-                        return const ShimmerLoading(
-                          child: LoadingBubble(
-                            height: 260,
-                            radius: 15,
-                            margin: EdgeInsetsDirectional.all(8.0),
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CarouselSlider.builder(
+                          itemCount: 10,
+                          options: CarouselOptions(
+                            viewportFraction: 0.9,
+                            enableInfiniteScroll: false,
+                            height: 280.0,
+                            onPageChanged: (index, reason) {
+                              setState(() {
+                                currentIndex = index;
+                              });
+                            },
                           ),
-                        );
-                      },
+                          itemBuilder: (context, index, realIndex) {
+                            return const ShimmerLoading(
+                              child: LoadingBubble(
+                                height: 260,
+                                radius: 15,
+                                margin: EdgeInsets.all(8.0),
+                              ),
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 20),
+                      ],
                     );
                   },
                   onComplete: (context, snapshot) {
@@ -160,10 +166,18 @@ class _NewsScreenState extends State<NewsScreen> {
               ],
             ),
           ),
-          const SliverPadding(
-            padding: EdgeInsetsDirectional.only(top: 20),
+          SliverPadding(
+            padding: const EdgeInsetsDirectional.only(top: 20),
             sliver: SliverToBoxAdapter(
-              child: GoogleBanner(),
+              child: GoogleBanner(
+                onLoading: ShimmerLoading(
+                  child: LoadingBubble(
+                    width: AdSize.banner.width.toDouble(),
+                    height: AdSize.banner.height.toDouble(),
+                    radius: 0,
+                  ),
+                ),
+              ),
             ),
           ),
           SliverPadding(
@@ -196,9 +210,9 @@ class _NewsScreenState extends State<NewsScreen> {
                           itemBuilder: (BuildContext context, int index) {
                             return const ShimmerLoading(
                               child: LoadingBubble(
-                                height: 60,
-                                width: 60,
-                                radius: MyTheme.radiusPrimary,
+                                height: 260,
+                                radius: 15,
+                                margin: EdgeInsetsDirectional.all(8.0),
                               ),
                             );
                           },
@@ -250,6 +264,25 @@ class _NewsScreenState extends State<NewsScreen> {
                 setState(() {
                   _initializeRecentNews();
                 });
+              },
+              onLoading: () {
+                return ShimmerLoading(
+                  child: ListView.separated(
+                    itemCount: 10,
+                    separatorBuilder: (context, index) => const SizedBox(height: 5),
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: const EdgeInsetsDirectional.symmetric(horizontal: 20),
+                    itemBuilder: (context, index) {
+                      return const ShimmerLoading(
+                        child: LoadingBubble(
+                          height: 260,
+                          radius: 15,
+                          margin: EdgeInsetsDirectional.all(8.0),
+                        ),
+                      );
+                    },
+                  ),
+                );
               },
               onComplete: (context, snapshot) {
                 return ListView.separated(
