@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/model/new_model.dart';
-import 'package:sportk/screens/news/news_detalis_screen.dart';
+import 'package:sportk/screens/news/news_details_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
