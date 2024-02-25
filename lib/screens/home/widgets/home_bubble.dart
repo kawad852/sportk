@@ -1,9 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:sportk/model/league_by_date_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
+import 'package:sportk/screens/home/widgets/live_bubble.dart';
 import 'package:sportk/screens/home/widgets/team_widget.dart';
 import 'package:sportk/screens/league_info/league_info_screen.dart';
 import 'package:sportk/utils/app_constants.dart';
@@ -144,25 +143,7 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
                           ],
                         ),
                       ),
-                      Transform.rotate(
-                        angle: -pi / 2,
-                        child: Container(
-                          height: 20,
-                          width: 40,
-                          padding: const EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                            color: context.colorPalette.red000,
-                            borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Live",
-                            style: context.textTheme.labelSmall!.copyWith(
-                              color: context.colorPalette.white,
-                            ),
-                          ),
-                        ),
-                      ),
+                      LiveBubble(leagueId: widget.leagueId),
                     ],
                   ),
                 ),

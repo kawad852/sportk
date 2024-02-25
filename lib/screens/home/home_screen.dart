@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/screens/home/widgets/home_bubble.dart';
+import 'package:sportk/screens/home/widgets/live_switch.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
@@ -13,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool _isLive = false;
   late DateTime _selectedDate;
   DateTime get _nowDate => DateTime.now();
   late Future<List<int>> _fetchCompetitionsFuture;
@@ -97,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         IconButton(
                           onPressed: () {
                             setState(() {
-                              _selectedDate = _selectedDate.add(const Duration(days: 1));
+                              _selectedDate = _selectedDate.subtract(const Duration(days: 1));
                             });
                           },
                           icon: const Icon(
@@ -113,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         IconButton(
                           onPressed: () {
                             setState(() {
-                              _selectedDate = _selectedDate.subtract(const Duration(days: 1));
+                              _selectedDate = _selectedDate.add(const Duration(days: 1));
                             });
                           },
                           icon: const Icon(
@@ -124,10 +126,20 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   const SizedBox(width: 5),
-                  Switch(
-                    value: true,
-                    onChanged: (value) {},
+                  LiveSwitch(
+                    active: _isLive,
+                    onTap: () {
+                      setState(() {
+                        _isLive = !_isLive;
+                      });
+                    },
+                    onChanged: (value) {
+                      setState(() {
+                        _isLive = value;
+                      });
+                    },
                   ),
+                  const SizedBox(width: 10),
                 ],
               ),
               // mina

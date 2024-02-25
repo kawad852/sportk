@@ -36,8 +36,9 @@ class _TeamWidgetState extends State<TeamWidget> {
       text,
       style: const TextStyle(
         fontSize: 10,
-        overflow: TextOverflow.ellipsis,
+        overflow: TextOverflow.fade,
       ),
+      maxLines: 2,
       textAlign: textAlign,
     );
   }
