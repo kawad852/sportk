@@ -10,11 +10,9 @@ import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_back.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
+import 'package:sportk/widgets/league_loading.dart';
 import 'package:sportk/widgets/league_standings.dart';
-import 'package:sportk/widgets/matches_card.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
-
-import '../../widgets/league_loading.dart';
 
 class LeagueInfoScreen extends StatefulWidget {
   final int leagueId;
@@ -49,77 +47,60 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
         slivers: [
           SliverAppBar(
             leadingWidth: kBarLeadingWith,
+            collapsedHeight: kBarCollapsedHeight,
             pinned: true,
             leading: CustomBack(
               color: context.colorPalette.white,
             ),
-            bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(200),
-              child: CustomFutureBuilder(
-                future: _leagueFuture,
-                onRetry: () {
-                  setState(() {
-                    _initializeFuture();
-                  });
-                },
-                onLoading: () {
-                  return const ShimmerLoading(child: LeagueLoading());
-                },
-                onError: (snapshot) => const SizedBox.shrink(),
-                onComplete: (context, snapshot) {
-                  final league = snapshot.data!;
-                  return Padding(
-                    padding: const EdgeInsetsDirectional.only(bottom: 65),
-                    child: Column(
-                      children: [
-                        CustomNetworkImage(
-                          league.data!.imagePath!,
-                          width: 100,
-                          height: 100,
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          league.data!.name!,
-                          style: TextStyle(
-                            color: context.colorPalette.blueD4B,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
+            flexibleSpace: Container(
+              alignment: Alignment.bottomCenter,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(MyImages.backgroundLeague),
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-            flexibleSpace: Stack(
-              children: [
-                Image.asset(
-                  MyImages.match,
-                  height: 270,
-                  width: double.infinity,
-                  fit: BoxFit.fill,
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    height: 270,
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: context.colorPalette.white.withOpacity(0.6),
-                          offset: const Offset(0, 0),
-                          blurRadius: 30,
-                          spreadRadius: 8,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  CustomFutureBuilder(
+                    future: _leagueFuture,
+                    onRetry: () {
+                      setState(() {
+                        _initializeFuture();
+                      });
+                    },
+                    onLoading: () {
+                      return const ShimmerLoading(child: LeagueLoading());
+                    },
+                    onError: (snapshot) => const SizedBox.shrink(),
+                    onComplete: (context, snapshot) {
+                      final league = snapshot.data!;
+                      return Padding(
+                        padding: const EdgeInsetsDirectional.only(bottom: 30),
+                        child: Column(
+                          children: [
+                            CustomNetworkImage(
+                              league.data!.imagePath!,
+                              width: 100,
+                              height: 100,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              league.data!.name!,
+                              style: TextStyle(
+                                color: context.colorPalette.blueD4B,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      );
+                    },
                   ),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
+                  Padding(
                     padding: const EdgeInsetsDirectional.symmetric(horizontal: 20),
                     child: Container(
                       height: 45,
@@ -143,8 +124,8 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           SliverFillRemaining(

@@ -7,8 +7,9 @@ class LeagueLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Padding(
-      padding: EdgeInsetsDirectional.only(bottom: 65),
+      padding: EdgeInsetsDirectional.only(bottom: 30),
       child: Column(
+         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           LoadingBubble(
             width: 100,

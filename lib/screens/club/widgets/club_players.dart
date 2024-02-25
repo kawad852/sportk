@@ -115,6 +115,8 @@ class _ClubPlayersState extends State<ClubPlayers> {
                     itemCount: players[index].length,
                     itemBuilder: (BuildContext context, int myIndex) {
                       return InkWell(
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
                         onTap: () {
                           context.push(PlayerScreen(
                             playerId: players[index][myIndex].playerId!,
