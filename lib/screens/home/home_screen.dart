@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/screens/home/widgets/home_bubble.dart';
-import 'package:sportk/screens/league_info/league_info_screen.dart';
-import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
-import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,6 +13,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late DateTime _selectedDate;
+  DateTime get _nowDate => DateTime.now();
   late Future<List<int>> _fetchCompetitionsFuture;
   final list = [
     8,
@@ -24,6 +23,20 @@ class _HomeScreenState extends State<HomeScreen> {
     72,
     301,
   ];
+
+  Future<void> _showDatePicker(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate,
+      firstDate: _nowDate,
+      lastDate: _nowDate.add(const Duration(days: 30)),
+    );
+    if (picked != null) {
+      setState(() {
+        _selectedDate = picked;
+      });
+    }
+  }
 
   Future<List<int>> _initializeCompetitions() async {
     await Future.delayed(const Duration(seconds: 1));
@@ -34,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    _selectedDate = _nowDate;
     _fetchCompetitionsFuture = _initializeCompetitions();
   }
 
@@ -53,70 +67,81 @@ class _HomeScreenState extends State<HomeScreen> {
         return Scaffold(
           body: CustomScrollView(
             slivers: [
-              SliverAppBar(
+              SliverAppBar.medium(
                 pinned: true,
                 leading: IconButton(
                   onPressed: () {},
                   icon: const CustomSvg(MyIcons.menu),
+                ),
+                title: Text(
+                  _selectedDate.formatDate(context, pattern: 'EEE, MMM d'),
+                  style: context.textTheme.labelLarge,
                 ),
                 actions: [
                   IconButton(
                     onPressed: () {},
                     icon: const CustomSvg(MyIcons.search),
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const CustomSvg(MyIcons.calender),
+                  Theme(
+                    data: Theme.of(context).copyWith(
+                      iconButtonTheme: const IconButtonThemeData(
+                        style: ButtonStyle(
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          padding: MaterialStatePropertyAll(EdgeInsets.zero),
+                        ),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _selectedDate = _selectedDate.add(const Duration(days: 1));
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.arrow_back_ios,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            _showDatePicker(context);
+                          },
+                          icon: const CustomSvg(MyIcons.calender),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _selectedDate = _selectedDate.subtract(const Duration(days: 1));
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.arrow_forward_ios,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
+                  const SizedBox(width: 5),
                   Switch(
                     value: true,
                     onChanged: (value) {},
                   ),
                 ],
               ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.all(20).copyWith(bottom: 0),
-                  child: Text(
-                    "Tuesday 12-12-2024",
-                    style: context.textTheme.labelMedium,
-                  ),
-                ),
-              ),
               // mina
               SliverPadding(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20).copyWith(top: 0),
                 sliver: SliverList.separated(
+                  key: ValueKey(_selectedDate.microsecondsSinceEpoch),
                   itemCount: competitions.length,
                   separatorBuilder: (context, index) => const SizedBox(height: 5),
                   itemBuilder: (context, index) {
                     final leagueId = competitions[index];
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ListTile(
-                          onTap: () {
-                            context.push(LeagueInfoScreen(leagueId: leagueId));
-                          },
-                          dense: true,
-                          tileColor: context.colorPalette.grey2F2,
-                          leading: const CustomNetworkImage(
-                            kFakeImage,
-                            radius: 0,
-                            width: 25,
-                            height: 25,
-                          ),
-                          title: const Text(
-                            'Team Name',
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          // trailing: widget.trailing,
-                        ),
-                        HomeBubble(
-                          date: DateTime.now(),
-                          leagueId: leagueId,
-                        ),
-                      ],
+                    return HomeBubble(
+                      date: _selectedDate,
+                      leagueId: leagueId,
                     );
                   },
                 ),
