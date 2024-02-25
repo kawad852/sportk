@@ -10,11 +10,11 @@ import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 
 class LiveBubble extends StatefulWidget {
-  final int leagueId;
+  final int matchId;
 
   const LiveBubble({
     super.key,
-    required this.leagueId,
+    required this.matchId,
   });
 
   @override
@@ -26,11 +26,15 @@ class _LiveBubbleState extends State<LiveBubble> {
 
   void _initializeFuture() {
     _future = ApiService<ShowLiveModel>().build(
-      weCanUrl: '${ApiUrl.showLive}/${widget.leagueId}',
+      weCanUrl: '${ApiUrl.showLive}/${widget.matchId}',
       isPublic: true,
       apiType: ApiType.get,
       builder: ShowLiveModel.fromJson,
     );
+  }
+
+  Widget _buildPlaceHolder() {
+    return const SizedBox(width: 20);
   }
 
   @override
@@ -44,10 +48,10 @@ class _LiveBubbleState extends State<LiveBubble> {
     return CustomFutureBuilder(
       future: _future,
       onRetry: () {},
-      onLoading: () => const SizedBox.shrink(),
-      onError: (snapshot) => const SizedBox.shrink(),
+      onLoading: () => _buildPlaceHolder(),
+      onError: (snapshot) => _buildPlaceHolder(),
       onComplete: (context, snapshot) {
-        return FadeIn(
+        return ZoomIn(
           child: Transform.rotate(
             angle: -pi / 2,
             child: Container(
