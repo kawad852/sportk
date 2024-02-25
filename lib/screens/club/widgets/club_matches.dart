@@ -2,31 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sportk/model/match_model.dart';
 import 'package:sportk/providers/football_provider.dart';
-import 'package:sportk/widgets/matches_loading.dart';
-import 'package:sportk/screens/champions_league/widgets/stage_card.dart';
+import 'package:sportk/screens/champions_league/champions_league_screen.dart';
+import 'package:sportk/screens/club/widgets/phase_card.dart';
+import 'package:sportk/screens/league_info/league_info_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
+import 'package:sportk/widgets/matches_loading.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 
-class ChampionsMatches extends StatefulWidget {
-  final int leagueId;
-  const ChampionsMatches({super.key, required this.leagueId});
+class ClubMatches extends StatefulWidget {
+  final int teamId;
+  const ClubMatches({super.key, required this.teamId});
 
   @override
-  State<ChampionsMatches> createState() => _ChampionsMatchesState();
+  State<ClubMatches> createState() => _ClubMatchesState();
 }
 
-class _ChampionsMatchesState extends State<ChampionsMatches> {
+class _ClubMatchesState extends State<ClubMatches> {
   late FootBallProvider _footBallProvider;
   late Future<MatchModel> _matchesFuture;
 
   void _initializeFuture() {
-    _matchesFuture = _footBallProvider.fetchMatchesBetweenTwoDate(
+    _matchesFuture = _footBallProvider.fetchTeamMatchesBetweenTwoDate(
       startDate: DateFormat("yyyy-MM-dd").format(DateTime.now()),
       endDate: DateFormat("yyyy-MM-dd").format(DateTime.now().add(const Duration(days: 100))),
-      leagueId: widget.leagueId,
+      teamId: widget.teamId,
     );
   }
 
@@ -89,11 +91,23 @@ class _ChampionsMatchesState extends State<ChampionsMatches> {
                     ).toSet();
                     return Column(
                       children: [
-                        if (matches.data!.indexOf(element) == 0 ||
-                            (matches.data!.indexOf(element) > 0 &&
-                                matches.data![matches.data!.indexOf(element)].stageId !=
-                                    matches.data![matches.data!.indexOf(element) - 1].stageId))
-                          StageCard(stageId: element.stageId!, leagueId: widget.leagueId),
+                        PhaseCard(
+                          onTap: () {
+                            element.leagueId == 2 || element.leagueId == 5
+                                ? context.push(ChampionsLeagueScreen(
+                                    leagueId: element.leagueId!,
+                                    teamId: widget.teamId,
+                                  ))
+                                : context.push(
+                                    LeagueInfoScreen(
+                                      leagueId: element.leagueId!,
+                                    ),
+                                  );
+                          },
+                          stageId: element.stageId!,
+                          leagueId: element.leagueId!,
+                          roundId: element.roundId,
+                        ),
                         Container(
                           width: double.infinity,
                           height: 55,

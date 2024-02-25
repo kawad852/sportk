@@ -14,7 +14,8 @@ import 'widgets/champions_matches.dart';
 
 class ChampionsLeagueScreen extends StatefulWidget {
   final int? teamId;
-  const ChampionsLeagueScreen({super.key, this.teamId});
+  final int leagueId;
+  const ChampionsLeagueScreen({super.key, this.teamId, required this.leagueId});
 
   @override
   State<ChampionsLeagueScreen> createState() => _ChampionsLeagueScreenState();
@@ -27,7 +28,7 @@ class _ChampionsLeagueScreenState extends State<ChampionsLeagueScreen>
   late Future<LeagueModel> _leagueFuture;
 
   void _initializeFuture() {
-    _leagueFuture = _footBallProvider.fetchLeague(leagueId: 2);
+    _leagueFuture = _footBallProvider.fetchLeague(leagueId: widget.leagueId);
   }
 
   @override
@@ -131,8 +132,11 @@ class _ChampionsLeagueScreenState extends State<ChampionsLeagueScreen>
             child: TabBarView(
               controller: _controller,
               children: [
-                ChampionsGroups(teamId: widget.teamId),
-                const ChampionsMatches(),
+                ChampionsGroups(
+                  teamId: widget.teamId,
+                  leagueId: widget.leagueId,
+                ),
+                ChampionsMatches(leagueId: widget.leagueId),
               ],
             ),
           ),

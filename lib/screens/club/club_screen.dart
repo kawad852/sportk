@@ -4,7 +4,7 @@ import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/club/widgets/club_loading.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
-import 'package:sportk/widgets/matches_card.dart';
+import 'package:sportk/screens/club/widgets/club_matches.dart';
 import 'package:sportk/screens/club/widgets/club_news.dart';
 import 'package:sportk/screens/club/widgets/club_players.dart';
 import 'package:sportk/screens/club/widgets/club_standings.dart';
@@ -138,7 +138,7 @@ class _ClubScreenState extends State<ClubScreen> with SingleTickerProviderStateM
             child: TabBarView(
               controller: _controller,
               children: [
-                const MatchesCard(),
+                 ClubMatches(teamId: widget.teamId),
                 const ClubNews(),
                 ClubStandings(teamId: widget.teamId),
                 ClubPlayers(teamId: widget.teamId),
