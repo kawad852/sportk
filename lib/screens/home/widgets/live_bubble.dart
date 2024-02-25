@@ -34,7 +34,7 @@ class _LiveBubbleState extends State<LiveBubble> {
   }
 
   Widget _buildPlaceHolder() {
-    return const SizedBox(width: 20);
+    return const SizedBox(width: 40);
   }
 
   @override
