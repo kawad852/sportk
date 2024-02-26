@@ -4,20 +4,22 @@ import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/champions_league/widgets/champions_matches.dart';
 import 'package:sportk/screens/league_info/widgets/league_matches.dart';
 import 'package:sportk/screens/league_info/widgets/league_news.dart';
-import 'package:sportk/screens/league_info/widgets/league_scorers.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_images.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_back.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/league_loading.dart';
+import 'package:sportk/widgets/league_scorers/league_scorers.dart';
 import 'package:sportk/widgets/league_standings.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 
 class LeagueInfoScreen extends StatefulWidget {
   final int leagueId;
-  const LeagueInfoScreen({super.key, required this.leagueId});
+  final String subType;
+  const LeagueInfoScreen({super.key, required this.leagueId, required this.subType});
 
   @override
   State<LeagueInfoScreen> createState() => _LeagueInfoScreenState();
@@ -35,7 +37,8 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
   @override
   void initState() {
     super.initState();
-    _controller = TabController(length: 4, vsync: this);
+    _controller =
+        TabController(length: widget.subType == LeagueTypeEnum.domestic ? 4 : 3, vsync: this);
     _footBallProvider = context.footBallProvider;
     _initializeFuture();
   }
@@ -117,7 +120,8 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
                         labelPadding: const EdgeInsetsDirectional.symmetric(horizontal: 4),
                         padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
                         tabs: [
-                          Text(context.appLocalization.standings),
+                          if (widget.subType == LeagueTypeEnum.domestic)
+                            Text(context.appLocalization.standings),
                           Text(context.appLocalization.scorers),
                           Text(context.appLocalization.table),
                           Text(context.appLocalization.news),
@@ -133,12 +137,12 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
             child: TabBarView(
               controller: _controller,
               children: [
-                LeagueStandings(leagueId: widget.leagueId),
+                if (widget.subType == LeagueTypeEnum.domestic)
+                  LeagueStandings(leagueId: widget.leagueId),
                 LeagueScorers(leagueId: widget.leagueId),
-                // ChampionsMatches(
-                //   leagueId: widget.leagueId,
-                // ),
-                LeagueMatches(leagueId: widget.leagueId),
+                widget.subType == LeagueTypeEnum.domestic
+                    ? LeagueMatches(leagueId: widget.leagueId)
+                    : ChampionsMatches(leagueId: widget.leagueId),
                 const LeagueNews(),
               ],
             ),

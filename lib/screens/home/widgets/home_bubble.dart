@@ -89,7 +89,7 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
               children: [
                 ListTile(
                   onTap: () {
-                    context.push(LeagueInfoScreen(leagueId: widget.leagueId));
+                    context.push(LeagueInfoScreen(leagueId: widget.leagueId,subType: "domestic",));
                   },
                   dense: true,
                   tileColor: context.colorPalette.grey2F2,

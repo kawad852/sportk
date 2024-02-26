@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:sportk/model/season_by_league_model.dart';
 import 'package:sportk/model/top_scorers_model.dart';
 import 'package:sportk/providers/football_provider.dart';
-import 'package:sportk/screens/league_info/widgets/league_scorers_cell.dart';
-import 'package:sportk/screens/league_info/widgets/league_scorers_loading.dart';
-import 'package:sportk/screens/league_info/widgets/penalty.dart';
 import 'package:sportk/screens/player/player_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
+import 'package:sportk/widgets/league_scorers/league_scorers_cell.dart';
+import 'package:sportk/widgets/league_scorers/league_scorers_loading.dart';
+import 'package:sportk/widgets/league_scorers/penalty.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 import 'package:sportk/widgets/team_name.dart';
 

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sportk/model/league_model.dart';
 import 'package:sportk/model/stage_model.dart';
 import 'package:sportk/providers/football_provider.dart';
+import 'package:sportk/screens/champions_league/champions_league_screen.dart';
+import 'package:sportk/screens/league_info/league_info_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
@@ -12,10 +14,16 @@ import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 class PhaseCard extends StatefulWidget {
   final int leagueId;
   final int stageId;
+  final int teamId;
   final int? roundId;
-  final VoidCallback? onTap;
-  const PhaseCard(
-      {super.key, required this.leagueId, required this.stageId, this.roundId, this.onTap});
+
+  const PhaseCard({
+    super.key,
+    required this.leagueId,
+    required this.stageId,
+    required this.teamId,
+    this.roundId,
+  });
 
   @override
   State<PhaseCard> createState() => _PhaseCardState();
@@ -29,7 +37,6 @@ class _PhaseCardState extends State<PhaseCard> {
 
   Future<List<dynamic>> _initializeFutures() async {
     _leagueFuture = _footBallProvider.fetchLeague(leagueId: widget.leagueId);
-
     _phaseFuture = widget.roundId != null
         ? _footBallProvider.fetchRound(roundId: widget.roundId!)
         : _footBallProvider.fetchStage(stageId: widget.stageId);
@@ -69,7 +76,19 @@ class _PhaseCardState extends State<PhaseCard> {
         final phase = snapshot.data![1] as StageModel;
 
         return InkWell(
-          onTap: widget.onTap,
+          onTap: () {
+            widget.leagueId == 2 || widget.leagueId == 5
+                ? context.push(ChampionsLeagueScreen(
+                    leagueId: widget.leagueId,
+                    teamId: widget.teamId,
+                  ))
+                : context.push(
+                    LeagueInfoScreen(
+                      leagueId: widget.leagueId,
+                      subType: league.data!.subType!,
+                    ),
+                  );
+          },
           highlightColor: Colors.transparent,
           splashColor: Colors.transparent,
           child: Container(

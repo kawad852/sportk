@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sportk/model/match_model.dart';
 import 'package:sportk/providers/football_provider.dart';
-import 'package:sportk/screens/champions_league/champions_league_screen.dart';
 import 'package:sportk/screens/club/widgets/phase_card.dart';
-import 'package:sportk/screens/league_info/league_info_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
@@ -92,18 +90,7 @@ class _ClubMatchesState extends State<ClubMatches> {
                     return Column(
                       children: [
                         PhaseCard(
-                          onTap: () {
-                            element.leagueId == 2 || element.leagueId == 5
-                                ? context.push(ChampionsLeagueScreen(
-                                    leagueId: element.leagueId!,
-                                    teamId: widget.teamId,
-                                  ))
-                                : context.push(
-                                    LeagueInfoScreen(
-                                      leagueId: element.leagueId!,
-                                    ),
-                                  );
-                          },
+                          teamId: widget.teamId,
                           stageId: element.stageId!,
                           leagueId: element.leagueId!,
                           roundId: element.roundId,
@@ -143,7 +130,7 @@ class _ClubMatchesState extends State<ClubMatches> {
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      if (element.state!.id != 1)
+                                      if (element.state!.id != 1 && element.state!.id != 13)
                                         Text("$homeGoals   :   $awayGoals"),
                                       Text(
                                         element.state!.name!,

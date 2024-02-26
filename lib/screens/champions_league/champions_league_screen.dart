@@ -8,6 +8,7 @@ import 'package:sportk/widgets/custom_back.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/league_loading.dart';
+import 'package:sportk/widgets/league_scorers/league_scorers.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 import 'widgets/champions_groups.dart';
 import 'widgets/champions_matches.dart';
@@ -34,7 +35,7 @@ class _ChampionsLeagueScreenState extends State<ChampionsLeagueScreen>
   @override
   void initState() {
     super.initState();
-    _controller = TabController(length: 2, vsync: this);
+    _controller = TabController(length: 3, vsync: this);
     _footBallProvider = context.footBallProvider;
     _initializeFuture();
   }
@@ -120,6 +121,7 @@ class _ChampionsLeagueScreenState extends State<ChampionsLeagueScreen>
                         tabs: [
                           Center(child: Text(context.appLocalization.groups)),
                           Center(child: Text(context.appLocalization.matches)),
+                          Center(child: Text(context.appLocalization.players)),
                         ],
                       ),
                     ),
@@ -132,11 +134,9 @@ class _ChampionsLeagueScreenState extends State<ChampionsLeagueScreen>
             child: TabBarView(
               controller: _controller,
               children: [
-                ChampionsGroups(
-                  teamId: widget.teamId,
-                  leagueId: widget.leagueId,
-                ),
+                ChampionsGroups(teamId: widget.teamId, leagueId: widget.leagueId),
                 ChampionsMatches(leagueId: widget.leagueId),
+                LeagueScorers(leagueId: widget.leagueId),
               ],
             ),
           ),

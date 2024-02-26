@@ -118,6 +118,7 @@ class _ClubStandingsState extends State<ClubStandings> {
                               : context.push(
                                   LeagueInfoScreen(
                                     leagueId: leagues[index].data!.id!,
+                                    subType: leagues[index].data!.subType! ,
                                   ),
                                 );
                         },

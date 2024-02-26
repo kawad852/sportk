@@ -7,7 +7,6 @@ import 'package:sportk/model/league_model.dart';
 import 'package:sportk/model/match_model.dart';
 import 'package:sportk/model/player_model.dart';
 import 'package:sportk/model/player_statistics_model.dart';
-import 'package:sportk/model/round_model.dart';
 import 'package:sportk/model/season_by_league_model.dart';
 import 'package:sportk/model/season_info_model.dart';
 import 'package:sportk/model/squads_model.dart';
