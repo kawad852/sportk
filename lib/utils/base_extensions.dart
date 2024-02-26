@@ -120,3 +120,13 @@ extension DateExtension on String {
     return formattedDate;
   }
 }
+
+extension DateTimeExtension on DateTime {
+  String formatDate(
+    BuildContext context, {
+    String pattern = 'dd-MM-yyyy',
+  }) {
+    var date = DateFormat(pattern).format(this);
+    return date;
+  }
+}

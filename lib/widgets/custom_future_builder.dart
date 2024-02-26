@@ -33,7 +33,6 @@ class CustomFutureBuilder<T> extends StatelessWidget {
             if (snapshot.hasData) {
               return onComplete(context, snapshot);
             } else {
-              debugPrint("SnapshotError:: ${snapshot.error}");
               return onError == null
                   ? AppErrorWidget(
                       error: snapshot.error,

@@ -66,6 +66,7 @@ dependencies:
   emoji_picker_flutter: ^2.0.0
   flutter_launcher_icons: ^0.13.1
   flutter_native_splash: ^2.3.6
+  animated_toggle_switch: ^0.8.1
 
   #firebase
 #  cloud_firestore: 4.12.2

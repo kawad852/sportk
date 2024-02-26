@@ -41,9 +41,10 @@ class _AppErrorWidgetState extends State<AppErrorWidget> {
   @override
   void initState() {
     super.initState();
-    // if (_failure != null) {
-    _failure = widget.error as Failure;
-    // }
+    if (widget.error is Failure) {
+      _failure = widget.error as Failure;
+    }
+    debugPrint("SnapshotError:: ${_failure?.type}");
   }
 
   @override
