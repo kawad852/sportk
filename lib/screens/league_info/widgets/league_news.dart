@@ -65,7 +65,7 @@ class _LeagueNewsState extends State<LeagueNews> {
           itemBuilder: (BuildContext context, int index) {
             final newData = snapshot.data!.data![index];
             return NewsCard(
-              isMessage: true,
+              showComment: true,
               newData: newData,
             );
           },

@@ -285,7 +285,7 @@ class _NewsScreenState extends State<NewsScreen> {
                     itemBuilder: (context, index) {
                       final newData = snapshot.docs[index] as NewData;
                       return NewsCard(
-                        isMessage: true,
+                        showComment: true,
                         newData: newData,
                       );
                     },

@@ -33,29 +33,36 @@ class _CommentsScreenState extends State<CommentsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: VexPaginator(
-        query: (pageKey) async => _commonProvider.fetchComments(_newId, pageKey),
-        onFetching: (snapshot) async => snapshot.data!,
-        pageSize: 10,
-        builder: (context, snapshot) {
-          return ListView.separated(
-            itemCount: snapshot.docs.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 5),
-            padding: const EdgeInsets.all(20),
-            itemBuilder: (context, index) {
-              if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
-                snapshot.fetchMore();
-                return const VexLoader();
-              }
+      // bottomSheet: BottomAppBar(
+      //   child: BaseEditor(
+      //     maxLines: null,
+      //   ),
+      // ),
+      body: SafeArea(
+        child: VexPaginator(
+          query: (pageKey) async => _commonProvider.fetchComments(_newId, pageKey),
+          onFetching: (snapshot) async => snapshot.data!,
+          pageSize: 10,
+          builder: (context, snapshot) {
+            return ListView.separated(
+              itemCount: snapshot.docs.length,
+              separatorBuilder: (context, index) => const SizedBox(height: 5),
+              padding: const EdgeInsets.all(20),
+              itemBuilder: (context, index) {
+                if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
+                  snapshot.fetchMore();
+                  return const VexLoader();
+                }
 
-              final comment = snapshot.docs[index] as CommentData;
-              return CommentBubble(
-                key: ValueKey(comment.id), //
-                comment: comment,
-              );
-            },
-          );
-        },
+                final comment = snapshot.docs[index] as CommentData;
+                return CommentBubble(
+                  key: ValueKey(comment.id), //
+                  comment: comment,
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }

@@ -21,7 +21,7 @@ class _ClubNewsState extends State<ClubNews> {
         itemCount: 10,
         itemBuilder: (BuildContext context, int index) {
           return NewsCard(
-            isMessage: true,
+            showComment: true,
             newData: NewData(),
           );
         },

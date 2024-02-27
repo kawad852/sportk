@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/alerts/feedback/app_feedback.dart';
 import 'package:sportk/model/new_model.dart';
+import 'package:sportk/screens/news/comments_screen.dart';
 import 'package:sportk/screens/news/news_details_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
@@ -7,12 +9,12 @@ import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 
 class NewsCard extends StatelessWidget {
-  final bool? isMessage;
+  final bool showComment;
   final NewData newData;
 
   const NewsCard({
     super.key,
-    this.isMessage = false,
+    this.showComment = false,
     required this.newData,
   });
 
@@ -114,9 +116,16 @@ class NewsCard extends StatelessWidget {
                         width: 25,
                       ),
                     ),
-                    if (isMessage == true)
+                    if (showComment)
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          context.showBottomSheet(
+                            context,
+                            builder: (context) {
+                              return CommentsScreen(newId: newData.id!);
+                            },
+                          );
+                        },
                         icon: const CustomSvg(
                           MyIcons.message,
                           width: 25,

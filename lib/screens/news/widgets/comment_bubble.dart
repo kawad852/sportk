@@ -51,56 +51,53 @@ class _CommentBubbleState extends State<CommentBubble> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) {
-    return FadeTransition(
-      opacity: _animation,
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: context.colorPalette.grey3F3,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Padding(
-          padding: const EdgeInsetsDirectional.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      const CustomNetworkImage(
-                        kFakeImage,
-                        radius: 20,
-                        width: 30,
-                        height: 30,
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: context.colorPalette.grey3F3,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Padding(
+        padding: const EdgeInsetsDirectional.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    const CustomNetworkImage(
+                      kFakeImage,
+                      radius: 20,
+                      width: 30,
+                      height: 30,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      "المهيار زهره",
+                      style: TextStyle(
+                        color: context.colorPalette.blueD4B,
+                        fontWeight: FontWeight.w600,
                       ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "المهيار زهره",
-                        style: TextStyle(
-                          color: context.colorPalette.blueD4B,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "209",
-                        style: TextStyle(color: context.colorPalette.red000),
-                      ),
-                      IconButton(onPressed: () {}, icon: const CustomSvg(MyIcons.heartEmpty))
-                    ],
-                  ),
-                ],
-              ),
-              Text(widget.comment.comment!),
-            ],
-          ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "209",
+                      style: TextStyle(color: context.colorPalette.red000),
+                    ),
+                    IconButton(onPressed: () {}, icon: const CustomSvg(MyIcons.heartEmpty))
+                  ],
+                ),
+              ],
+            ),
+            Text(widget.comment.comment!),
+          ],
         ),
       ),
     );
