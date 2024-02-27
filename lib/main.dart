@@ -98,7 +98,7 @@ class _MyAppState extends State<MyApp> {
           locale: Locale(appProvider.appLocale.languageCode),
           theme: MyTheme().materialTheme(context, seedColorScheme),
           home: _toggleRoute(context),
-          // home: const FollowTeamsScreen(),
+          // home: const PaginationTestScreen(),
           // home: const ClubScreen(teamId: 9),
           // home: const ChatTab(),
         );

@@ -32,4 +32,6 @@ class ApiUrl {
   static const String intro = '/api/introductions';
   static const String news = '/api/blogs';
   static const String showLive = '/api/lives/match';
+  static const String comments = '/api/comments';
+  static const String newComments = '/api/blogs/comments';
 }

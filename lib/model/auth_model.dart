@@ -1,5 +1,5 @@
 class AuthModel {
-  int? status;
+  bool? status;
   String? msg;
   Data? data;
 

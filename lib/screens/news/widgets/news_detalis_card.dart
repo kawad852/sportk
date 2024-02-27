@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:sportk/utils/app_constants.dart';
+import 'package:sportk/model/new_model.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 import 'package:sportk/widgets/stretch_button.dart';
 
-class NewsDetalisCard extends StatelessWidget {
-  const NewsDetalisCard({super.key});
+class NewsDetailsCard extends StatelessWidget {
+  final NewData newData;
+
+  const NewsDetailsCard({
+    super.key,
+    required this.newData,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const CustomNetworkImage(
-          kFakeImage,
+        CustomNetworkImage(
+          context.image(newData.image!),
           radius: 10,
           width: double.infinity,
           height: 200,
@@ -23,43 +28,35 @@ class NewsDetalisCard extends StatelessWidget {
         const SizedBox(
           height: 5,
         ),
-        const Row(
+        Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
-              "12/12/2023",
-              style: TextStyle(fontSize: 10),
+              newData.publicationTime!.formatDate(context),
+              style: const TextStyle(fontSize: 10),
             ),
-            Padding(
-              padding: EdgeInsetsDirectional.only(
-                start: 5,
-                end: 5,
-              ),
-              child: Text(
-                "9:41",
-                style: TextStyle(fontSize: 10),
-              ),
-            ),
-            CustomSvg(MyIcons.clock),
+            const SizedBox(width: 6),
+            const CustomSvg(MyIcons.clock),
           ],
         ),
         Text(
-          "بعد اصابته... أخبار سيئة بشأن نيمار",
+          newData.title!,
           style: TextStyle(
             color: context.colorPalette.blueD4B,
             fontWeight: FontWeight.w600,
           ),
         ),
-        const Padding(
-          padding: EdgeInsetsDirectional.only(top: 15, bottom: 15),
+        Padding(
+          padding: const EdgeInsetsDirectional.only(top: 15, bottom: 15),
           child: Text(
-            " وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف وصف ر وصف وصف وصف وصف وصف وصف وصف وصف وصف",
+            newData.content!,
           ),
         ),
         StretchedButton(
           onPressed: () {},
+          margin: const EdgeInsetsDirectional.only(bottom: 15),
           child: Text(
-            "قراءة الخبر من المصدر",
+            context.appLocalization.newReadSource,
             style: TextStyle(color: context.colorPalette.white),
           ),
         ),

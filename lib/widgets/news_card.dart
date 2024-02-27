@@ -33,7 +33,7 @@ class NewsCard extends StatelessWidget {
             child: CustomNetworkImage(
               context.image(newData.image!),
               onTap: () {
-                context.push(const NewsDetalisScreen());
+                context.push(NewsDetailsScreen(newId: newData.id!));
               },
               radius: 0,
               height: 153,

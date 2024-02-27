@@ -20,13 +20,11 @@ class ApiService<T> {
 
   final kAuthorizedHeader = {
     'Content-Type': 'application/json',
-    'App-Language': MySharedPreferences.language,
-    // 'Authorization': '${MySharedPreferences.accessToken}',
+    'Authorization': 'Bearer ${MySharedPreferences.accessToken}',
   };
 
   final kPublicHeader = {
     'Content-Type': 'application/json',
-    'Authorization': 'Basic ${base64Encode(utf8.encode('dooshfed77cef9b6a8382207b047604960e3c'))}',
   };
 
   Future<T> uploadFiles({

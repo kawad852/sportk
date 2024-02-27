@@ -101,5 +101,9 @@
   "noStatistics":"لا يوجد احصائيات متوفرة",
   "groups":"المجموعات",
   "chatHint": "اكتب رسالتك",
-  "week":"الاسبوع"
+  "week":"الاسبوع",
+  "newReadSource": "قراءة الخبر من المصدر",
+  "addCommentHere": "اضف تعليقك هنا",
+  "addComment": "اضف تعليق",
+  "allComments": "جميع التعليقات"
 }

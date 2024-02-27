@@ -47,8 +47,9 @@ class AuthProvider extends ChangeNotifier {
         return socialLoginFuture;
       },
       onComplete: (snapshot) {
-        if (snapshot.status == 200) {
+        if (snapshot.status == true) {
           context.pushAndRemoveUntil(const AppNavBar());
+          MySharedPreferences.accessToken = snapshot.data!.token!;
           updateUser(context, userModel: snapshot.data!.user);
         } else {
           context.showSnackBar(snapshot.msg!);
@@ -73,6 +74,7 @@ class AuthProvider extends ChangeNotifier {
 
   void logout(BuildContext context) {
     _firebaseAuth.signOut();
+    MySharedPreferences.clearStorage();
     updateUser(context, userModel: UserModel());
     context.pushAndRemoveUntil(const RegistrationScreen());
   }

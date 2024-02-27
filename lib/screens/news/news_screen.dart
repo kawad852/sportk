@@ -13,6 +13,7 @@ import 'package:sportk/widgets/custom_svg.dart';
 import 'package:sportk/widgets/news_card.dart';
 import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
+import 'package:sportk/widgets/vex/vex_paginator.dart';
 
 class NewsScreen extends StatefulWidget {
   const NewsScreen({super.key});
@@ -26,27 +27,25 @@ class _NewsScreenState extends State<NewsScreen> {
   late CommonProvider _commonProvider;
   late Future<NewModel> _recommendedNewsFuture;
   late Future<NewModel> _compoNewsFuture;
-  late Future<NewModel> _mostRecentNewsFuture;
 
-  void _initializeRecommendedNews() {
-    _recommendedNewsFuture = _commonProvider.fetchNews();
+  void _initializeRecommendedNews(int pageKey) {
+    _recommendedNewsFuture = _commonProvider.fetchNews(pageKey);
   }
 
-  void _initializeCompoNews() {
-    _compoNewsFuture = _commonProvider.fetchNews();
+  void _initializeCompoNews(int pageKey) {
+    _compoNewsFuture = _commonProvider.fetchNews(pageKey);
   }
 
-  void _initializeRecentNews() {
-    _mostRecentNewsFuture = _commonProvider.fetchNews();
+  Future<NewModel> _fetchRecentNews(int pageKey) {
+    return _commonProvider.fetchNews(pageKey);
   }
 
   @override
   void initState() {
     super.initState();
     _commonProvider = context.commonProvider;
-    _initializeRecommendedNews();
-    _initializeRecentNews();
-    _initializeCompoNews();
+    _initializeRecommendedNews(1);
+    _initializeCompoNews(1);
   }
 
   @override
@@ -95,7 +94,7 @@ class _NewsScreenState extends State<NewsScreen> {
                     future: _recommendedNewsFuture,
                     onRetry: () {
                       setState(() {
-                        _initializeRecommendedNews();
+                        _initializeRecommendedNews(1);
                       });
                     },
                     onLoading: () {
@@ -215,7 +214,7 @@ class _NewsScreenState extends State<NewsScreen> {
                         },
                         onRetry: () {
                           setState(() {
-                            _initializeCompoNews();
+                            _initializeCompoNews(1);
                           });
                         },
                         onError: (snapshot) => const Center(child: Icon(Icons.error)),
@@ -254,13 +253,10 @@ class _NewsScreenState extends State<NewsScreen> {
               ),
             ),
             SliverFillRemaining(
-              child: CustomFutureBuilder(
-                future: _mostRecentNewsFuture,
-                onRetry: () {
-                  setState(() {
-                    _initializeRecentNews();
-                  });
-                },
+              child: VexPaginator(
+                query: (pageKey) async => _fetchRecentNews(pageKey),
+                onFetching: (snapshot) async => snapshot.data!,
+                pageSize: 10,
                 onLoading: () {
                   return ShimmerLoading(
                     child: ListView.separated(
@@ -280,14 +276,14 @@ class _NewsScreenState extends State<NewsScreen> {
                     ),
                   );
                 },
-                onComplete: (context, snapshot) {
+                builder: (context, snapshot) {
                   return ListView.separated(
-                    itemCount: snapshot.data!.data!.length,
+                    itemCount: snapshot.docs.length,
                     separatorBuilder: (context, index) => const SizedBox(height: 5),
                     physics: const NeverScrollableScrollPhysics(),
                     padding: const EdgeInsetsDirectional.symmetric(horizontal: 20),
                     itemBuilder: (context, index) {
-                      final newData = snapshot.data!.data![index];
+                      final newData = snapshot.docs[index] as NewData;
                       return NewsCard(
                         isMessage: true,
                         newData: newData,

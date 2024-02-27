@@ -19,7 +19,7 @@ class _LeagueNewsState extends State<LeagueNews> {
   late Future<NewModel> _newsFuture;
 
   void _initializeNews() {
-    _newsFuture = _commonProvider.fetchNews();
+    _newsFuture = _commonProvider.fetchNews(1);
   }
 
   @override

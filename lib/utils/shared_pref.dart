@@ -12,6 +12,7 @@ class MySharedPreferences {
   }
 
   static void clearStorage() {
+    MySharedPreferences.accessToken = '';
     user = UserModel.fromJson(UserModel().toJson());
   }
 
@@ -31,6 +32,9 @@ class MySharedPreferences {
   static void saveUser(UserModel adminModel) {
     user = UserModel.fromJson(adminModel.toJson());
   }
+
+  static String get accessToken => _sharedPreferences.getString('accessToken') ?? '';
+  static set accessToken(String value) => _sharedPreferences.setString('accessToken', value);
 
   static String get language => _sharedPreferences.getString('language') ?? LanguageEnum.english;
   static set language(String value) => _sharedPreferences.setString('language', value);
