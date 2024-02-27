@@ -31,6 +31,8 @@ Future<void> onBackgroundMessage(RemoteMessage message) async {
   log("ReceivedNotification::\nType::onBackgroundMessage\nTitle:: ${data?.title}\nBody:: ${data?.body}\nData::${message.data}");
 }
 
+// before merge
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
