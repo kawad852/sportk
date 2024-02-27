@@ -53,6 +53,8 @@ class CustomNetworkImage extends StatelessWidget {
     );
   }
 
+  ImageProvider get _imagePlaceHolder => const AssetImage('assets/splash.png');
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -60,8 +62,8 @@ class CustomNetworkImage extends StatelessWidget {
       child: CachedNetworkImage(
         imageUrl: url,
         imageBuilder: (context, imageProvider) => _buildContainer(imageProvider: imageProvider),
-        placeholder: (context, url) => _buildContainer(color: context.colorScheme.surfaceVariant),
-        errorWidget: (context, url, error) => _buildContainer(color: context.colorScheme.surfaceVariant),
+        placeholder: (context, url) => _buildContainer(color: context.colorScheme.surfaceVariant, imageProvider: _imagePlaceHolder),
+        errorWidget: (context, url, error) => _buildContainer(color: context.colorScheme.surfaceVariant, imageProvider: _imagePlaceHolder),
       ),
     );
   }

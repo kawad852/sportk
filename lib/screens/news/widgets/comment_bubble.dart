@@ -6,7 +6,6 @@ import 'package:sportk/model/is_like_model.dart';
 import 'package:sportk/model/user_model.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/providers/common_provider.dart';
-import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
@@ -126,8 +125,8 @@ class _CommentBubbleState extends State<CommentBubble> with AutomaticKeepAliveCl
                     final user = snapshot.data!.data!;
                     return Row(
                       children: [
-                        const CustomNetworkImage(
-                          kFakeImage,
+                        CustomNetworkImage(
+                          user.profileImg!,
                           radius: 20,
                           width: 30,
                           height: 30,

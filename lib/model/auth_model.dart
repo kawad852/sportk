@@ -46,6 +46,7 @@ class UserData {
   int? id;
   String? name;
   String? email;
+  String? profileImg;
   String? invitationCode;
   int? points;
   List<Favorite>? favorites;
@@ -57,14 +58,16 @@ class UserData {
     this.invitationCode,
     this.points,
     this.favorites,
+    this.profileImg,
   });
 
   factory UserData.copy(UserData userModel) => UserData.fromJson(userModel.toJson());
 
   factory UserData.fromJson(Map<String, dynamic> json) => UserData(
         id: json["id"],
-        name: json["name"],
+        name: json["name"] ?? '',
         email: json["email"],
+        profileImg: json["profile_img"] ?? '',
         invitationCode: json["invitation_code"],
         points: json["points"],
         favorites: json["favorites"] == null ? [] : List<Favorite>.from(json["favorites"]!.map((x) => Favorite.fromJson(x))),
@@ -73,6 +76,7 @@ class UserData {
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
+        "profile_img": profileImg,
         "email": email,
         "invitation_code": invitationCode,
         "points": points,
