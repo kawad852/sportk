@@ -43,7 +43,18 @@ class _PenaltyState extends State<Penalty> {
         });
       },
       onError: (snapshot) {
-        return const SizedBox.shrink();
+        return const Row(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text("-"),
+            ),
+            Padding(
+              padding: EdgeInsetsDirectional.only(start: 40),
+              child: Text("-"),
+            ),
+          ],
+        );
       },
       onLoading: () {
         return const ShimmerLoading(
