@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:sportk/model/season_by_league_model.dart';
 import 'package:sportk/model/top_scorers_model.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/player/player_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
-import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/league_scorers/league_scorers_cell.dart';
 import 'package:sportk/widgets/league_scorers/league_scorers_loading.dart';
 import 'package:sportk/widgets/league_scorers/penalty.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 import 'package:sportk/widgets/team_name.dart';
+import 'package:sportk/widgets/vex/vex_loader.dart';
+import 'package:sportk/widgets/vex/vex_paginator.dart';
 
 class LeagueScorers extends StatefulWidget {
   final int leagueId;
@@ -23,40 +23,32 @@ class LeagueScorers extends StatefulWidget {
 class _LeagueScorersState extends State<LeagueScorers> {
   late Future<List<dynamic>> _futures;
   late FootBallProvider _footBallProvider;
-  late Future<TopScorersModel> _topScorersFuture;
-  late Future<SeasonByLeagueModel> _seasonFuture;
 
-  Future<List<dynamic>> _initializeFutures() async {
-    _seasonFuture = _footBallProvider.fetchSeasonByLeague(leagueId: widget.leagueId);
-    final season = await _seasonFuture;
-    _topScorersFuture =
-        _footBallProvider.fetchTopScorers(seasonId: season.data!.currentseason!.id!);
-    return Future.wait([_topScorersFuture]);
+  Future<TopScorersModel> _initializeFutures(int pageKey) async {
+    final seasonFuture = _footBallProvider.fetchSeasonByLeague(leagueId: widget.leagueId);
+    final season = await seasonFuture;
+    final topScorersFuture = _footBallProvider.fetchTopScorers(seasonId: season.data!.currentseason!.id!, pageKey: pageKey);
+    return topScorersFuture;
   }
 
   @override
   void initState() {
     super.initState();
     _footBallProvider = context.footBallProvider;
-    _futures = _initializeFutures();
   }
 
   @override
   Widget build(BuildContext context) {
-    return CustomFutureBuilder(
-      future: _futures,
-      onRetry: () {
-        setState(() {
-          _futures = _initializeFutures();
-        });
-      },
+    return VexPaginator(
+      query: (pageKey) async => _initializeFutures(pageKey),
+      onFetching: (snapshot) async => snapshot.data!,
+      pageSize: 25,
       onLoading: () {
         return const ShimmerLoading(
           child: LeagueScorersLoading(),
         );
       },
-      onComplete: (context, snapshot) {
-        final topScorers = snapshot.data![0] as TopScorersModel;
+      builder: (context, snapshot) {
         return SingleChildScrollView(
           padding: const EdgeInsetsDirectional.symmetric(horizontal: 20, vertical: 10),
           child: Column(
@@ -97,8 +89,17 @@ class _LeagueScorersState extends State<LeagueScorers> {
                   ),
                 ),
               ),
-              ...topScorers.data!.map(
-                (element) {
+              ListView.builder(
+                itemCount: snapshot.docs.length,
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                itemBuilder: (context, index) {
+                  if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
+                    snapshot.fetchMore();
+                    return const VexLoader();
+                  }
+                  final element = snapshot.docs[index] as TopScoreData;
                   return Padding(
                     padding: const EdgeInsetsDirectional.symmetric(vertical: 5),
                     child: Container(
@@ -180,7 +181,7 @@ class _LeagueScorersState extends State<LeagueScorers> {
                     ),
                   );
                 },
-              ).toList()
+              ),
             ],
           ),
         );
