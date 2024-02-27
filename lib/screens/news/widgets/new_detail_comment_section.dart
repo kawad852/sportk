@@ -5,6 +5,7 @@ import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/providers/common_provider.dart';
+import 'package:sportk/screens/news/comments_screen.dart';
 import 'package:sportk/screens/news/widgets/comment_bubble.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
@@ -140,6 +141,7 @@ class _NewDetailsCommentSectionState extends State<NewDetailsCommentSection> {
                                     snapshot.docs.insert(
                                       0,
                                       CommentData(
+                                        id: 999,
                                         userId: _authProvider.user.id,
                                         comment: _controller.text,
                                       ),
@@ -165,12 +167,26 @@ class _NewDetailsCommentSectionState extends State<NewDetailsCommentSection> {
               ),
             ),
             const SizedBox(height: 11),
-            Text(
-              context.appLocalization.allComments,
-              style: TextStyle(
-                color: context.colorPalette.blueD4B,
-                fontWeight: FontWeight.w600,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  context.appLocalization.allComments,
+                  style: TextStyle(
+                    color: context.colorPalette.blueD4B,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    context.push(CommentsScreen(newId: _newId));
+                  },
+                  icon: const Icon(
+                    Icons.arrow_forward_ios,
+                    size: 15,
+                  ),
+                ),
+              ],
             ),
             ListView.separated(
               itemCount: snapshot.docs.length,
@@ -181,6 +197,7 @@ class _NewDetailsCommentSectionState extends State<NewDetailsCommentSection> {
               itemBuilder: (context, index) {
                 final comment = snapshot.docs[index] as CommentData;
                 return CommentBubble(
+                  key: ValueKey(comment.id), //
                   comment: comment,
                 );
               },
