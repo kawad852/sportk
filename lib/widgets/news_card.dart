@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sportk/alerts/feedback/app_feedback.dart';
+import 'package:sportk/helper/ui_helper.dart';
 import 'package:sportk/model/new_model.dart';
-import 'package:sportk/screens/news/comments_screen.dart';
 import 'package:sportk/screens/news/news_details_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
@@ -119,12 +118,7 @@ class NewsCard extends StatelessWidget {
                     if (showComment)
                       IconButton(
                         onPressed: () {
-                          context.showBottomSheet(
-                            context,
-                            builder: (context) {
-                              return CommentsScreen(newId: newData.id!);
-                            },
-                          );
+                          UiHelper.showCommentsSheet(context, newData.id!);
                         },
                         icon: const CustomSvg(
                           MyIcons.message,

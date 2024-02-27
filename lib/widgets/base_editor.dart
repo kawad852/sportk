@@ -30,6 +30,8 @@ class BaseEditor extends StatelessWidget {
   final TextDirection? textDirection;
   final bool withIndicator;
   final Function()? onTapOutside;
+  final bool? filled;
+  final Color? fillColor;
 
   const BaseEditor({
     super.key,
@@ -60,6 +62,8 @@ class BaseEditor extends StatelessWidget {
     this.textDirection,
     this.withIndicator = true,
     this.onTapOutside,
+    this.filled,
+    this.fillColor,
   });
 
   @override
@@ -79,6 +83,8 @@ class BaseEditor extends StatelessWidget {
         maxLines: maxLines,
         textDirection: textDirection,
         decoration: InputDecoration(
+          filled: filled,
+          fillColor: fillColor,
           suffixText: suffixText,
           hintText: hintText,
           suffixIcon: suffixIcon,

@@ -88,6 +88,8 @@ extension AppFeedbacks on BuildContext {
       enableDrag: true,
       showDragHandle: true,
       useSafeArea: true,
+      backgroundColor: context.colorScheme.background,
+      elevation: 0,
       constraints: maxHeight == null ? null : BoxConstraints(maxHeight: maxHeight),
       builder: builder,
     ).then((value) => value);

@@ -22,6 +22,7 @@ class MyTheme {
   static InputDecorationTheme inputDecorationTheme(BuildContext context, ColorScheme colorScheme) => InputDecorationTheme(
         filled: true,
         isDense: true,
+        contentPadding: const EdgeInsetsDirectional.symmetric(horizontal: 5, vertical: 10),
         fillColor: context.colorPalette.blueD4B.withOpacity(0.10),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(radiusPrimary),
