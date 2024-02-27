@@ -46,4 +46,27 @@ class CommonProvider extends ChangeNotifier {
     );
     return snapshot;
   }
+
+  Future<IsLikeModel> like(int id) {
+    final snapshot = ApiService<IsLikeModel>().build(
+      weCanUrl: ApiUrl.like,
+      isPublic: false,
+      apiType: ApiType.post,
+      queryParams: {
+        'comment_id': id,
+      },
+      builder: IsLikeModel.fromJson,
+    );
+    return snapshot;
+  }
+
+  Future<IsLikeModel> disLike(int id) {
+    final snapshot = ApiService<IsLikeModel>().build(
+      weCanUrl: '${ApiUrl.like}/$id',
+      isPublic: false,
+      apiType: ApiType.get,
+      builder: IsLikeModel.fromJson,
+    );
+    return snapshot;
+  }
 }

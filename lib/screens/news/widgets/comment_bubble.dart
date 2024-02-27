@@ -73,7 +73,7 @@ class _CommentBubbleState extends State<CommentBubble> with AutomaticKeepAliveCl
 
   @override
   void dispose() {
-    _controller.dispose();
+    // _controller.dispose();
     super.dispose();
   }
 
@@ -180,8 +180,10 @@ class _CommentBubbleState extends State<CommentBubble> with AutomaticKeepAliveCl
                                       isLike.like = !isLike.like!;
                                       if (isLike.like!) {
                                         likeCount.like = likeCount.like! + 1;
+                                        _commonProvider.like(_comment.id!);
                                       } else {
                                         likeCount.like = likeCount.like! - 1;
+                                        _commonProvider.disLike(_comment.id!);
                                       }
                                     });
                                   },

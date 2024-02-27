@@ -36,5 +36,6 @@ class ApiUrl {
   static const String newComments = '/api/blogs/comments';
   static const String user = '/api/users';
   static const String commentLikes = '/api/likes/comments';
-  static const String isLike = '/api/likes/blogs/check';
+  static const String isLike = '/api/likes/comments/check';
+  static const String like = '/api/likes';
 }
