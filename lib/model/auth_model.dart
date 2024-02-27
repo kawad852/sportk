@@ -24,7 +24,7 @@ class AuthModel {
 
 class Data {
   String? token;
-  UserModel? user;
+  UserData? user;
 
   Data({
     this.token,
@@ -33,7 +33,7 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         token: json["token"],
-        user: json["user"] == null ? null : UserModel.fromJson(json["user"]),
+        user: json["user"] == null ? null : UserData.fromJson(json["user"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -42,7 +42,7 @@ class Data {
       };
 }
 
-class UserModel {
+class UserData {
   int? id;
   String? name;
   String? email;
@@ -50,7 +50,7 @@ class UserModel {
   int? points;
   List<Favorite>? favorites;
 
-  UserModel({
+  UserData({
     this.id,
     this.name,
     this.email,
@@ -59,9 +59,9 @@ class UserModel {
     this.favorites,
   });
 
-  factory UserModel.copy(UserModel userModel) => UserModel.fromJson(userModel.toJson());
+  factory UserData.copy(UserData userModel) => UserData.fromJson(userModel.toJson());
 
-  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
+  factory UserData.fromJson(Map<String, dynamic> json) => UserData(
         id: json["id"],
         name: json["name"],
         email: json["email"],

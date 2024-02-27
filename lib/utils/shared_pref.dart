@@ -13,24 +13,24 @@ class MySharedPreferences {
 
   static void clearStorage() {
     MySharedPreferences.accessToken = '';
-    user = UserModel.fromJson(UserModel().toJson());
+    user = UserData.fromJson(UserData().toJson());
   }
 
-  static UserModel get user {
+  static UserData get user {
     String value = _sharedPreferences.getString('userModel') ?? '';
-    var authModel = UserModel();
+    var authModel = UserData();
     if (value.isNotEmpty) {
-      authModel = UserModel.fromJson(jsonDecode(value));
+      authModel = UserData.fromJson(jsonDecode(value));
     }
     return authModel;
   }
 
-  static set user(UserModel value) {
+  static set user(UserData value) {
     _sharedPreferences.setString('userModel', jsonEncode(value.toJson()));
   }
 
-  static void saveUser(UserModel adminModel) {
-    user = UserModel.fromJson(adminModel.toJson());
+  static void saveUser(UserData adminModel) {
+    user = UserData.fromJson(adminModel.toJson());
   }
 
   static String get accessToken => _sharedPreferences.getString('accessToken') ?? '';

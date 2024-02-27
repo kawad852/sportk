@@ -5,6 +5,7 @@ import 'package:sportk/alerts/errors/app_error_feedback.dart';
 import 'package:sportk/alerts/feedback/app_feedback.dart';
 import 'package:sportk/model/auth_model.dart';
 import 'package:sportk/model/locale_model.dart';
+import 'package:sportk/model/user_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
 import 'package:sportk/screens/base/app_nav_bar.dart';
@@ -13,7 +14,7 @@ import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/shared_pref.dart';
 
 class AuthProvider extends ChangeNotifier {
-  var user = UserModel();
+  var user = UserData();
   late Future<String> countryCodeFuture;
 
   FirebaseAuth get _firebaseAuth => FirebaseAuth.instance;
@@ -21,7 +22,7 @@ class AuthProvider extends ChangeNotifier {
   bool get isAuthenticated => user.id != null;
 
   void initUser() {
-    user = UserModel.copy(MySharedPreferences.user);
+    user = UserData.copy(MySharedPreferences.user);
   }
 
   Future login(
@@ -61,10 +62,10 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> updateUser(
     BuildContext context, {
-    UserModel? userModel,
+    UserData? userModel,
     bool notify = true,
   }) async {
-    user = UserModel.copy(userModel ?? user);
+    user = UserData.copy(userModel ?? user);
     MySharedPreferences.saveUser(userModel ?? user);
     debugPrint("User:: ${user.toJson()}");
     if (notify) {
@@ -75,7 +76,7 @@ class AuthProvider extends ChangeNotifier {
   void logout(BuildContext context) {
     _firebaseAuth.signOut();
     MySharedPreferences.clearStorage();
-    updateUser(context, userModel: UserModel());
+    updateUser(context, userModel: UserData());
     context.pushAndRemoveUntil(const RegistrationScreen());
   }
 
@@ -110,5 +111,15 @@ class AuthProvider extends ChangeNotifier {
     } catch (e) {
       debugPrint("DeviceTokenError:: $e");
     }
+  }
+
+  Future<UserModel> getUserProfile(int id) {
+    final snapshot = ApiService<UserModel>().build(
+      weCanUrl: '${ApiUrl.user}/$id',
+      isPublic: false,
+      apiType: ApiType.get,
+      builder: UserModel.fromJson,
+    );
+    return snapshot;
   }
 }
