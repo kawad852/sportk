@@ -8,7 +8,8 @@ import 'package:sportk/widgets/custom_future_builder.dart';
 
 class ChampionsGroups extends StatefulWidget {
   final int? teamId;
-  const ChampionsGroups({super.key, this.teamId});
+  final int leagueId;
+  const ChampionsGroups({super.key, this.teamId, required this.leagueId});
 
   @override
   State<ChampionsGroups> createState() => _ChampionsGroupsState();
@@ -23,7 +24,7 @@ class _ChampionsGroupsState extends State<ChampionsGroups> {
   late int _seasonId;
 
   Future<List<dynamic>> _initializeFutures() async {
-    _seasonFuture = _footBallProvider.fetchSeasonByLeague(leagueId: 2);
+    _seasonFuture = _footBallProvider.fetchSeasonByLeague(leagueId: widget.leagueId);
     final season = await _seasonFuture;
     _seasonId = season.data!.currentseason!.id!;
     _groupsFuture = _footBallProvider.fetchChampionsGroup(seasonId: _seasonId);

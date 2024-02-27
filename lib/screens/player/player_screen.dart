@@ -40,7 +40,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
           SliverAppBar(
             leadingWidth: kBarLeadingWith,
             pinned: true,
-            collapsedHeight: 250,
+            collapsedHeight: kBarCollapsedHeight,
             leading: CustomBack(
               color: context.colorPalette.blueD4B,
               fontWeight: FontWeight.bold,

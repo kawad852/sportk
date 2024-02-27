@@ -11,7 +11,8 @@ import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 
 class StageCard extends StatefulWidget {
   final int stageId;
-  const StageCard({super.key, required this.stageId});
+  final int leagueId;
+  const StageCard({super.key, required this.stageId, required this.leagueId});
 
   @override
   State<StageCard> createState() => _StageCardState();
@@ -24,7 +25,7 @@ class _StageCardState extends State<StageCard> {
   late Future<StageModel> _stageFuture;
 
   Future<List<dynamic>> _initializeFutures() async {
-    _leagueFuture = _footBallProvider.fetchLeague(leagueId: 2);
+    _leagueFuture = _footBallProvider.fetchLeague(leagueId: widget.leagueId);
     _stageFuture = _footBallProvider.fetchStage(stageId: widget.stageId);
     return Future.wait([_leagueFuture, _stageFuture]);
   }

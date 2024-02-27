@@ -4,6 +4,7 @@ import 'package:sportk/model/team_info_model.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/champions_league/champions_league_screen.dart';
 import 'package:sportk/screens/league_info/league_info_screen.dart';
+import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/league_standings.dart';
@@ -86,7 +87,7 @@ class _ClubStandingsState extends State<ClubStandings> {
         int localLeagueId = 0;
         leagues.map(
           (e) async {
-            if (e.data!.subType == "domestic") {
+            if (e.data!.subType == LeagueTypeEnum.domestic) {
               localLeagueId = e.data!.id!;
             }
           },
@@ -107,15 +108,17 @@ class _ClubStandingsState extends State<ClubStandings> {
                         highlightColor: Colors.transparent,
                         splashColor: Colors.transparent,
                         onTap: () {
-                          leagues[index].data!.id == 2
+                          leagues[index].data!.id == 2 || leagues[index].data!.id == 5
                               ? context.push(
                                   ChampionsLeagueScreen(
+                                    leagueId: leagues[index].data!.id!,
                                     teamId: widget.teamId,
                                   ),
                                 )
                               : context.push(
                                   LeagueInfoScreen(
                                     leagueId: leagues[index].data!.id!,
+                                    subType: leagues[index].data!.subType! ,
                                   ),
                                 );
                         },

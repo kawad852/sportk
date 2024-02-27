@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/model/league_model.dart';
-import 'package:sportk/model/round_model.dart';
+import 'package:sportk/model/stage_model.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_theme.dart';
@@ -22,7 +22,7 @@ class _RoundCardState extends State<RoundCard> {
   late Future<List<dynamic>> _futures;
   late FootBallProvider _footBallProvider;
   late Future<LeagueModel> _leagueFuture;
-  late Future<RoundModel> _roundFuture;
+  late Future<StageModel> _roundFuture;
 
   Future<List<dynamic>> _initializeFutures() async {
     _leagueFuture = _footBallProvider.fetchLeague(leagueId: widget.leagueId);
@@ -59,7 +59,7 @@ class _RoundCardState extends State<RoundCard> {
       onError: (snapshot) => const SizedBox.shrink(),
       onComplete: (context, snapshot) {
         final league = snapshot.data![0] as LeagueModel;
-        final round = snapshot.data![1] as RoundModel;
+        final round = snapshot.data![1] as StageModel;
         return Container(
           width: double.infinity,
           height: 35,

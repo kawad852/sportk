@@ -132,7 +132,7 @@ class _LeagueMatchesState extends State<LeagueMatches> {
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      if (element.state!.id != 1)
+                                      if (element.state!.id != 1 && element.state!.id != 13)
                                         Text("$homeGoals   :   $awayGoals"),
                                       Text(
                                         element.state!.name!,

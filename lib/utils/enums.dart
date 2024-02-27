@@ -12,3 +12,8 @@ class LocationEnum {
   static const String home = 'home';
   static const String away = 'away';
 }
+
+class LeagueTypeEnum {
+  static const String domestic = 'domestic';
+  
+}
