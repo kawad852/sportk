@@ -167,6 +167,7 @@ class _NewsCardState extends State<NewsCard> {
                                     },
                                     child: Text(
                                       "${likeCount.numberOfLike}",
+                                      key: ValueKey<int>(likeCount.numberOfLike!),
                                       style: TextStyle(color: context.colorPalette.red000),
                                     ),
                                   ),
