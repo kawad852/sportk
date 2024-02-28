@@ -1,3 +1,5 @@
+// ignore_for_file: no_leading_underscores_for_local_identifiers
+
 import 'package:flutter/material.dart';
 import 'package:sportk/model/squads_model.dart';
 import 'package:sportk/providers/football_provider.dart';
@@ -16,28 +18,7 @@ class ClubPlayers extends StatefulWidget {
   State<ClubPlayers> createState() => _ClubPlayersState();
 }
 
-class _ClubPlayersState extends State<ClubPlayers> {
-  final List<Datum> _attackers = [], _midline = [], _defenders = [], _guards = [];
-
-  void checkPlayerPosition(Datum element) {
-    switch ([element.detailedPositionId, element.positionId]) {
-      case ([24, 24]):
-        _guards.add(element);
-
-      case ([25, 25] || [148, 25] || [154, 25] || [155, 25]):
-        _defenders.add(element);
-
-      case ([26, 26] || [149, 26] || [150, 26] || [153, 26] || [157, 26] || [158, 26]):
-        _midline.add(element);
-
-      case ([27, 27] || [151, 27] || [152, 27] || [156, 27] || [163, 27]):
-        _attackers.add(element);
-
-      default:
-        _midline.add(element);
-    }
-  }
-
+class _ClubPlayersState extends State<ClubPlayers> with AutomaticKeepAliveClientMixin {
   late FootBallProvider _footBallProvider;
   late Future<SquadsModel> _squadsFuture;
   void _initializeFuture() {
@@ -53,12 +34,34 @@ class _ClubPlayersState extends State<ClubPlayers> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     List<String> playersName = [
       context.appLocalization.attackers,
       context.appLocalization.midline,
       context.appLocalization.defenders,
       context.appLocalization.guards
     ];
+    final List<Datum> _attackers = [], _midline = [], _defenders = [], _guards = [];
+
+    void checkPlayerPosition(Datum element) {
+      switch ([element.detailedPositionId, element.positionId]) {
+        case ([24, 24]):
+          _guards.add(element);
+
+        case ([25, 25] || [148, 25] || [154, 25] || [155, 25]):
+          _defenders.add(element);
+
+        case ([26, 26] || [149, 26] || [150, 26] || [153, 26] || [157, 26] || [158, 26]):
+          _midline.add(element);
+
+        case ([27, 27] || [151, 27] || [152, 27] || [156, 27] || [163, 27]):
+          _attackers.add(element);
+
+        default:
+          _midline.add(element);
+      }
+    }
+
     return CustomFutureBuilder(
       future: _squadsFuture,
       onRetry: () {
@@ -185,4 +188,7 @@ class _ClubPlayersState extends State<ClubPlayers> {
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

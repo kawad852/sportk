@@ -121,7 +121,7 @@ class _ChampionsLeagueScreenState extends State<ChampionsLeagueScreen>
                         tabs: [
                           Center(child: Text(context.appLocalization.groups)),
                           Center(child: Text(context.appLocalization.matches)),
-                          Center(child: Text(context.appLocalization.players)),
+                          Center(child: Text(context.appLocalization.scorers)),
                         ],
                       ),
                     ),
