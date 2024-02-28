@@ -7,6 +7,7 @@ import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/base_editor.dart';
+import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 
 class CommentEditor extends StatefulWidget {
@@ -27,13 +28,14 @@ class CommentEditor extends StatefulWidget {
 class _CommentEditorState extends State<CommentEditor> {
   late CommonProvider _commonProvider;
   late TextEditingController _controller;
+  Future<CommentModel>? _commentFuture;
 
-  void _addComment() async {
-    await ApiFutureBuilder<CommentModel>().fetch(
+  Future<void> _addComment() async {
+    ApiFutureBuilder<CommentModel>().fetch(
       context,
       withOverlayLoader: false,
       future: () {
-        final snapshot = ApiService<CommentModel>().build(
+        _commentFuture = ApiService<CommentModel>().build(
           weCanUrl: ApiUrl.comments,
           isPublic: false,
           apiType: ApiType.post,
@@ -43,10 +45,22 @@ class _CommentEditorState extends State<CommentEditor> {
           },
           builder: CommentModel.fromJson,
         );
-        return snapshot;
+        return _commentFuture!;
       },
-      onComplete: (snapshot) {},
-      onError: (failure) => AppErrorFeedback.show(context, failure),
+      onComplete: (snapshot) {
+        setState(() {
+          _commentFuture = null;
+        });
+        _controller.clear();
+
+        widget.onAdd(snapshot.data!);
+      },
+      onError: (failure) {
+        setState(() {
+          _commentFuture = null;
+        });
+        AppErrorFeedback.show(context, failure);
+      },
     );
   }
 
@@ -85,17 +99,10 @@ class _CommentEditorState extends State<CommentEditor> {
         ),
         IconButton.filled(
           onPressed: _controller.text.isNotEmpty
-              ? () {
-                  final commentData = CommentData(
-                    id: 999,
-                    blogId: widget.newId,
-                    // user: newda,
-
-                    comment: _controller.text,
-                  );
-                  widget.onAdd(commentData);
-                  _controller.clear();
-                  _addComment();
+              ? () async {
+                  setState(() {
+                    _addComment();
+                  });
                 }
               : null,
           style: IconButton.styleFrom(
@@ -103,9 +110,28 @@ class _CommentEditorState extends State<CommentEditor> {
               borderRadius: BorderRadius.circular(10.0),
             ),
           ),
-          icon: const CustomSvg(
-            MyIcons.send,
-          ),
+          icon: _commentFuture == null
+              ? const CustomSvg(
+                  MyIcons.send,
+                )
+              : CustomFutureBuilder(
+                  future: _commentFuture!,
+                  onRetry: () {},
+                  onError: (snapshot) => const SizedBox.shrink(),
+                  onLoading: () => SizedBox(
+                    height: 15.0,
+                    width: 15.0,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 1.8,
+                      color: context.colorScheme.onPrimary,
+                    ),
+                  ),
+                  onComplete: (context, index) {
+                    return const CustomSvg(
+                      MyIcons.send,
+                    );
+                  },
+                ),
         ),
       ],
     );

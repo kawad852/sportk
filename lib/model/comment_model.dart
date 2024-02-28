@@ -2,7 +2,7 @@ class CommentModel {
   bool? status;
   int? code;
   String? msg;
-  List<CommentData>? data;
+  CommentData? data;
 
   CommentModel({
     this.status,
@@ -15,14 +15,14 @@ class CommentModel {
         status: json["status"],
         code: json["code"],
         msg: json["msg"],
-        data: json["data"] == null ? [] : List<CommentData>.from(json["data"]!.map((x) => CommentData.fromJson(x))),
+        data: json["data"] == null ? null : CommentData.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
         "code": code,
         "msg": msg,
-        "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
+        "data": data?.toJson(),
       };
 }
 
