@@ -26,8 +26,6 @@ class ApiUrl {
   static const String stage = '/football/stages';
   static const String compoByDate = '/football/fixtures/date';
   static const String round = '/football/rounds';
- 
-
 
   ///weCan url
   static const String login = '/api/login';
@@ -38,6 +36,8 @@ class ApiUrl {
   static const String newComments = '/api/blogs/comments';
   static const String user = '/api/users';
   static const String commentLikes = '/api/likes/comments';
-  static const String isLike = '/api/likes/comments/check';
+  static const String commentLkeCheck = '/api/likes/comments/check';
   static const String like = '/api/likes';
+  static const String newLikes = '/api/likes/blogs';
+  static const String newLikeCheck = '/api/likes/blogs/check';
 }

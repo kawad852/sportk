@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:sportk/model/new_model.dart';
 import 'package:sportk/providers/common_provider.dart';
+import 'package:sportk/screens/news/widgets/news_card.dart';
 import 'package:sportk/screens/news/widgets/news_champ_card.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
@@ -10,7 +11,6 @@ import 'package:sportk/widgets/ads/google_banner.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_smoth_indicator.dart';
 import 'package:sportk/widgets/custom_svg.dart';
-import 'package:sportk/widgets/news_card.dart';
 import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 import 'package:sportk/widgets/vex/vex_paginator.dart';
@@ -285,7 +285,6 @@ class _NewsScreenState extends State<NewsScreen> {
                     itemBuilder: (context, index) {
                       final newData = snapshot.docs[index] as NewData;
                       return NewsCard(
-                        showComment: true,
                         newData: newData,
                       );
                     },

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/model/new_model.dart';
 import 'package:sportk/providers/common_provider.dart';
+import 'package:sportk/screens/news/widgets/news_card.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
-import 'package:sportk/widgets/news_card.dart';
 import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 
@@ -65,7 +65,6 @@ class _LeagueNewsState extends State<LeagueNews> {
           itemBuilder: (BuildContext context, int index) {
             final newData = snapshot.data!.data![index];
             return NewsCard(
-              showComment: true,
               newData: newData,
             );
           },

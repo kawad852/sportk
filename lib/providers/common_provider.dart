@@ -39,7 +39,7 @@ class CommonProvider extends ChangeNotifier {
 
   Future<IsLikeModel> fetchIsLike(int id) {
     final snapshot = ApiService<IsLikeModel>().build(
-      weCanUrl: '${ApiUrl.isLike}/$id',
+      weCanUrl: '${ApiUrl.commentLkeCheck}/$id',
       isPublic: false,
       apiType: ApiType.get,
       builder: IsLikeModel.fromJson,
@@ -47,14 +47,21 @@ class CommonProvider extends ChangeNotifier {
     return snapshot;
   }
 
-  Future<IsLikeModel> like(int id) {
+  Future<IsLikeModel> like(
+    int id, {
+    required bool isComment,
+  }) {
+    Map<String, dynamic> queryParams = {};
+    if (isComment) {
+      queryParams['comment_id'] = id;
+    } else {
+      queryParams['blog_id'] = id;
+    }
     final snapshot = ApiService<IsLikeModel>().build(
       weCanUrl: ApiUrl.like,
       isPublic: false,
       apiType: ApiType.post,
-      queryParams: {
-        'comment_id': id,
-      },
+      queryParams: queryParams,
       builder: IsLikeModel.fromJson,
     );
     return snapshot;

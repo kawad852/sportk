@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/model/new_model.dart';
-import 'package:sportk/widgets/news_card.dart';
+import 'package:sportk/screens/news/widgets/news_card.dart';
 
 class ClubNews extends StatefulWidget {
   const ClubNews({super.key});
@@ -21,7 +21,6 @@ class _ClubNewsState extends State<ClubNews> {
         itemCount: 10,
         itemBuilder: (BuildContext context, int index) {
           return NewsCard(
-            showComment: true,
             newData: NewData(),
           );
         },
