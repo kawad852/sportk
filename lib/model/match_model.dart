@@ -1,5 +1,5 @@
 class MatchModel {
-    List<Datum>? data;
+    List<MatchData>? data;
     List<Subscription>? subscription;
     RateLimit? rateLimit;
     String? timezone;
@@ -12,7 +12,7 @@ class MatchModel {
     });
 
     factory MatchModel.fromJson(Map<String, dynamic> json) => MatchModel(
-        data: json["data"] == null ? [] : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+        data: json["data"] == null ? [] : List<MatchData>.from(json["data"]!.map((x) => MatchData.fromJson(x))),
         subscription: json["subscription"] == null ? [] : List<Subscription>.from(json["subscription"]!.map((x) => Subscription.fromJson(x))),
         rateLimit: json["rate_limit"] == null ? null : RateLimit.fromJson(json["rate_limit"]),
         timezone: json["timezone"],
@@ -26,7 +26,7 @@ class MatchModel {
     };
 }
 
-class Datum {
+class MatchData {
     int? id;
     int? sportId;
     int? leagueId;
@@ -50,7 +50,7 @@ class Datum {
     States? state;
     List<Participant>? participants;
 
-    Datum({
+    MatchData({
         this.id,
         this.sportId,
         this.leagueId,
@@ -75,7 +75,7 @@ class Datum {
         this.participants,
     });
 
-    factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+    factory MatchData.fromJson(Map<String, dynamic> json) => MatchData(
         id: json["id"],
         sportId: json["sport_id"],
         leagueId: json["league_id"],

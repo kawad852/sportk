@@ -27,6 +27,7 @@ class _ChampionsMatchesState extends State<ChampionsMatches> {
       startDate: DateFormat("yyyy-MM-dd").format(DateTime.now()),
       endDate: DateFormat("yyyy-MM-dd").format(DateTime.now().add(const Duration(days: 100))),
       leagueId: widget.leagueId,
+      pageKey: 1
     );
   }
 
