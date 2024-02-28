@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/screens/home/widgets/arrow_button.dart';
 import 'package:sportk/screens/home/widgets/home_bubble.dart';
 import 'package:sportk/screens/home/widgets/live_switch.dart';
 import 'package:sportk/utils/base_extensions.dart';
@@ -109,40 +110,41 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        IconButton(
-                          onPressed: _reachedMaxDate(_minDate)
+                        ArrowButton(
+                          iconData: Icons.arrow_back_ios,
+                          onTap: _reachedMaxDate(_minDate)
                               ? null
                               : () {
                                   setState(() {
                                     _selectedDate = _selectedDate.subtract(const Duration(days: 1));
                                   });
                                 },
-                          icon: const Icon(
-                            Icons.arrow_back_ios,
-                          ),
                         ),
                         IconButton(
+                          padding: EdgeInsets.zero,
+                          style: IconButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
                           onPressed: () {
                             _showDatePicker(context);
                           },
                           icon: const CustomSvg(MyIcons.calender),
                         ),
-                        IconButton(
-                          onPressed: _reachedMaxDate(_maxDate)
+                        ArrowButton(
+                          iconData: Icons.arrow_forward_ios,
+                          onTap: _reachedMaxDate(_maxDate)
                               ? null
                               : () {
                                   setState(() {
                                     _selectedDate = _selectedDate.add(const Duration(days: 1));
                                   });
                                 },
-                          icon: const Icon(
-                            Icons.arrow_forward_ios,
-                          ),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(width: 5),
+                  const SizedBox(width: 10),
                   LiveSwitch(
                     active: _isLive,
                     onTap: () {
