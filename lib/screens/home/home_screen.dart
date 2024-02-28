@@ -26,12 +26,16 @@ class _HomeScreenState extends State<HomeScreen> {
     301,
   ];
 
+  int get _maxDuration => 30;
+  DateTime get _minDate => _nowDate.subtract(Duration(days: _maxDuration));
+  DateTime get _maxDate => _nowDate.add(Duration(days: _maxDuration));
+
   Future<void> _showDatePicker(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: _selectedDate,
-      firstDate: _nowDate,
-      lastDate: _nowDate.add(const Duration(days: 30)),
+      firstDate: _minDate,
+      lastDate: _maxDate,
     );
     if (picked != null) {
       setState(() {
@@ -44,6 +48,15 @@ class _HomeScreenState extends State<HomeScreen> {
     await Future.delayed(const Duration(seconds: 1));
     final ids = Future.value(list);
     return ids;
+  }
+
+  bool _reachedMaxDate(DateTime targetDate) {
+    final selected = DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day);
+    final target = DateTime(targetDate.year, targetDate.month, targetDate.day);
+    if (selected.isAtSameMomentAs(target)) {
+      return true;
+    }
+    return false;
   }
 
   @override
@@ -97,11 +110,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _selectedDate = _selectedDate.subtract(const Duration(days: 1));
-                            });
-                          },
+                          onPressed: _reachedMaxDate(_minDate)
+                              ? null
+                              : () {
+                                  setState(() {
+                                    _selectedDate = _selectedDate.subtract(const Duration(days: 1));
+                                  });
+                                },
                           icon: const Icon(
                             Icons.arrow_back_ios,
                           ),
@@ -113,11 +128,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: const CustomSvg(MyIcons.calender),
                         ),
                         IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _selectedDate = _selectedDate.add(const Duration(days: 1));
-                            });
-                          },
+                          onPressed: _reachedMaxDate(_maxDate)
+                              ? null
+                              : () {
+                                  setState(() {
+                                    _selectedDate = _selectedDate.add(const Duration(days: 1));
+                                  });
+                                },
                           icon: const Icon(
                             Icons.arrow_forward_ios,
                           ),
