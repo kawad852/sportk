@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class SportMonksWidget extends StatefulWidget {
-  const SportMonksWidget({super.key});
+class WebViewScreen extends StatefulWidget {
+  const WebViewScreen({super.key});
 
   @override
-  State<SportMonksWidget> createState() => _SportMonksWidgetState();
+  State<WebViewScreen> createState() => _WebViewScreenState();
 }
 
-class _SportMonksWidgetState extends State<SportMonksWidget> {
+class _WebViewScreenState extends State<WebViewScreen> {
   late WebViewController controller;
 
   String htmlContent = '''
@@ -47,7 +47,6 @@ class _SportMonksWidgetState extends State<SportMonksWidget> {
         ),
       )
       ..loadHtmlString(htmlContent);
-   // controller.fil;
   }
 
   @override
@@ -60,7 +59,7 @@ class _SportMonksWidgetState extends State<SportMonksWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sport Monks Widget'),
+        title: const Text('Sport Monks Widget'),
       ),
       body: WebViewWidget(
         controller: controller,
