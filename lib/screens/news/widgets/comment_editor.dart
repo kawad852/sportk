@@ -52,7 +52,6 @@ class _CommentEditorState extends State<CommentEditor> {
           _commentFuture = null;
         });
         _controller.clear();
-
         widget.onAdd(snapshot.data!);
       },
       onError: (failure) {
