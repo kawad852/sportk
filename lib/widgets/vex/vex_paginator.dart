@@ -21,10 +21,10 @@ class VexPaginator<T> extends StatefulWidget {
   });
 
   @override
-  State<VexPaginator<T>> createState() => _VexPaginatorState<T>();
+  State<VexPaginator<T>> createState() => VexPaginatorState<T>();
 }
 
-class _VexPaginatorState<T> extends State<VexPaginator<T>> {
+class VexPaginatorState<T> extends State<VexPaginator<T>> {
   late Future<T> _future;
   late VexPaginatorModel<T> _firePaginator;
   int get _pageSize => widget.pageSize;
@@ -55,6 +55,10 @@ class _VexPaginatorState<T> extends State<VexPaginator<T>> {
       }
       _firePaginator.isFetchingMore = false;
     });
+  }
+
+  void refresh() {
+    _fetch();
   }
 
   @override
