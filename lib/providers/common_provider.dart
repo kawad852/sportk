@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:sportk/model/comment_like_model.dart';
 import 'package:sportk/model/comments_model.dart';
 import 'package:sportk/model/is_like_model.dart';
 import 'package:sportk/model/new_model.dart';
@@ -23,26 +22,6 @@ class CommonProvider extends ChangeNotifier {
       isPublic: false,
       apiType: ApiType.get,
       builder: CommentsModel.fromJson,
-    );
-    return snapshot;
-  }
-
-  Future<CommentLikeModel> fetchCommentLikes(int id) {
-    final snapshot = ApiService<CommentLikeModel>().build(
-      weCanUrl: '${ApiUrl.commentLikes}/$id',
-      isPublic: false,
-      apiType: ApiType.get,
-      builder: CommentLikeModel.fromJson,
-    );
-    return snapshot;
-  }
-
-  Future<IsLikeModel> fetchIsLike(int id) {
-    final snapshot = ApiService<IsLikeModel>().build(
-      weCanUrl: '${ApiUrl.commentLkeCheck}/$id',
-      isPublic: false,
-      apiType: ApiType.get,
-      builder: IsLikeModel.fromJson,
     );
     return snapshot;
   }

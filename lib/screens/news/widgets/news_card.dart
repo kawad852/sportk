@@ -1,17 +1,12 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:sportk/helper/ui_helper.dart';
-import 'package:sportk/model/is_like_model.dart';
-import 'package:sportk/model/new_like_model.dart';
 import 'package:sportk/model/new_model.dart';
-import 'package:sportk/network/api_service.dart';
-import 'package:sportk/network/api_url.dart';
 import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/screens/news/news_details_screen.dart';
 import 'package:sportk/screens/news/widgets/like_button.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
-import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 
@@ -28,30 +23,14 @@ class NewsCard extends StatefulWidget {
 }
 
 class _NewsCardState extends State<NewsCard> {
-  late Future<List<dynamic>> _likeFuture;
   late CommonProvider _commonProvider;
 
-  void _initializeLikesFuture() {
-    final isLikeFuture = ApiService<IsLikeModel>().build(
-      weCanUrl: '${ApiUrl.newLikeCheck}/${widget.newData.id}',
-      isPublic: false,
-      apiType: ApiType.get,
-      builder: IsLikeModel.fromJson,
-    );
-    final likeCountFuture = ApiService<NewLikeModel>().build(
-      weCanUrl: '${ApiUrl.newLikes}/${widget.newData.id}',
-      isPublic: false,
-      apiType: ApiType.get,
-      builder: NewLikeModel.fromJson,
-    );
-    _likeFuture = Future.wait([isLikeFuture, likeCountFuture]);
-  }
+  NewData get _newData => widget.newData;
 
   @override
   void initState() {
     super.initState();
     _commonProvider = context.commonProvider;
-    _initializeLikesFuture();
   }
 
   @override
@@ -69,9 +48,9 @@ class _NewsCardState extends State<NewsCard> {
           ClipRRect(
             borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
             child: CustomNetworkImage(
-              context.image(widget.newData.image!),
+              context.image(_newData.image!),
               onTap: () {
-                context.push(NewsDetailsScreen(newId: widget.newData.id!));
+                context.push(NewsDetailsScreen(newId: _newData.id!));
               },
               radius: 0,
               height: 153,
@@ -82,7 +61,7 @@ class _NewsCardState extends State<NewsCard> {
             child: Column(
               children: [
                 Text(
-                  widget.newData.title!,
+                  _newData.title!,
                   maxLines: 2,
                   style: const TextStyle(
                     fontSize: 10,
@@ -95,7 +74,7 @@ class _NewsCardState extends State<NewsCard> {
                 Row(
                   children: [
                     CustomNetworkImage(
-                      context.image(widget.newData.image!),
+                      context.image(_newData.image!),
                       radius: 5,
                       width: 20,
                       height: 20,
@@ -104,7 +83,7 @@ class _NewsCardState extends State<NewsCard> {
                       width: 5,
                     ),
                     Text(
-                      "${widget.newData.source} - ${widget.newData.publicationTime!.formatDate(context)}",
+                      "${_newData.source} - ${_newData.publicationTime!.formatDate(context)}",
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: context.colorPalette.blueD4B,
@@ -127,54 +106,44 @@ class _NewsCardState extends State<NewsCard> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    CustomFutureBuilder(
-                      future: _likeFuture,
-                      onRetry: () {},
-                      onLoading: () => const SizedBox(width: 60),
-                      onError: (snapshot) => const SizedBox(width: 60),
-                      onComplete: (context, snapshot) {
-                        final isLike = snapshot.data![0] as IsLikeModel;
-                        final likeCount = snapshot.data![1] as NewLikeModel;
-                        return StatefulBuilder(
-                          builder: (context, setState) {
-                            return Row(
-                              children: [
-                                ZoomIn(
-                                  child: LikeButton(
-                                    isLike: isLike.like!,
-                                    onPressed: () {
-                                      setState(() {
-                                        isLike.like = !isLike.like!;
-                                        if (isLike.like!) {
-                                          likeCount.numberOfLike = likeCount.numberOfLike! + 1;
-                                          _commonProvider.like(widget.newData.id!, isComment: false);
-                                        } else {
-                                          likeCount.numberOfLike = likeCount.numberOfLike! - 1;
-                                          _commonProvider.disLike(widget.newData.id!);
-                                        }
-                                      });
-                                    },
-                                  ),
+                    StatefulBuilder(
+                      builder: (context, setState) {
+                        return Row(
+                          children: [
+                            ZoomIn(
+                              child: LikeButton(
+                                isLike: _newData.isLiked!,
+                                onPressed: () {
+                                  setState(() {
+                                    _newData.isLiked = !_newData.isLiked!;
+                                    if (_newData.isLiked!) {
+                                      _newData.numberOfLikes = _newData.numberOfLikes! + 1;
+                                      _commonProvider.like(_newData.id!, isComment: false);
+                                    } else {
+                                      _newData.numberOfLikes = _newData.numberOfLikes! - 1;
+                                      _commonProvider.disLike(_newData.id!);
+                                    }
+                                  });
+                                },
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            ZoomIn(
+                              child: AnimatedSwitcher(
+                                duration: const Duration(milliseconds: 350),
+                                transitionBuilder: (Widget child, Animation<double> animation) {
+                                  return ScaleTransition(scale: animation, child: child);
+                                },
+                                child: Text(
+                                  "${_newData.numberOfLikes}",
+                                  key: ValueKey<int>(_newData.numberOfLikes!),
+                                  style: TextStyle(color: context.colorPalette.red000),
                                 ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                ZoomIn(
-                                  child: AnimatedSwitcher(
-                                    duration: const Duration(milliseconds: 350),
-                                    transitionBuilder: (Widget child, Animation<double> animation) {
-                                      return ScaleTransition(scale: animation, child: child);
-                                    },
-                                    child: Text(
-                                      "${likeCount.numberOfLike}",
-                                      key: ValueKey<int>(likeCount.numberOfLike!),
-                                      style: TextStyle(color: context.colorPalette.red000),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
+                              ),
+                            ),
+                          ],
                         );
                       },
                     ),
@@ -187,7 +156,7 @@ class _NewsCardState extends State<NewsCard> {
                     ),
                     IconButton(
                       onPressed: () {
-                        UiHelper.showCommentsSheet(context, widget.newData.id!);
+                        UiHelper.showCommentsSheet(context, _newData.id!);
                       },
                       icon: const CustomSvg(
                         MyIcons.message,

@@ -1,18 +1,12 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:sportk/model/comment_like_model.dart';
 import 'package:sportk/model/comment_model.dart';
-import 'package:sportk/model/is_like_model.dart';
-import 'package:sportk/model/user_model.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
-import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_svg.dart';
-import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
-import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 
 class CommentBubble extends StatefulWidget {
   final CommentData comment;
@@ -31,28 +25,14 @@ class _CommentBubbleState extends State<CommentBubble> with AutomaticKeepAliveCl
   late final Animation<double> _animation;
   late AuthProvider _authProvider;
   late CommonProvider _commonProvider;
-  late Future<UserModel> _userFuture;
-  late Future<List<dynamic>> _likeFuture;
 
   CommentData get _comment => widget.comment;
-
-  void _initializeUserFuture() {
-    _userFuture = _authProvider.getUserProfile(_comment.userId!);
-  }
-
-  void _initializeLikeFuture() {
-    final isLikeFuture = _commonProvider.fetchIsLike(_comment.id!);
-    final likeCountFuture = _commonProvider.fetchCommentLikes(_comment.id!);
-    _likeFuture = Future.wait([isLikeFuture, likeCountFuture]);
-  }
 
   @override
   void initState() {
     super.initState();
     _authProvider = context.authProvider;
     _commonProvider = context.commonProvider;
-    _initializeUserFuture();
-    _initializeLikeFuture();
     // _controller = AnimationController(
     //   duration: const Duration(seconds: 1),
     //   vsync: this,
@@ -93,108 +73,63 @@ class _CommentBubbleState extends State<CommentBubble> with AutomaticKeepAliveCl
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomFutureBuilder(
-                  future: _userFuture,
-                  onRetry: () {},
-                  onLoading: () {
-                    return const ShimmerLoading(
-                      child: Row(
-                        children: [
-                          CircleAvatar(radius: 15),
-                          LoadingBubble(
-                            height: 20,
-                            width: 100,
-                            radius: 30,
-                            margin: EdgeInsetsDirectional.only(start: 10),
-                          ),
-                        ],
+                Row(
+                  children: [
+                    CustomNetworkImage(
+                      _comment.user!.profileImg!,
+                      radius: 20,
+                      width: 30,
+                      height: 30,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      _comment.user!.name!,
+                      style: TextStyle(
+                        color: context.colorPalette.blueD4B,
+                        fontWeight: FontWeight.w600,
                       ),
-                    );
-                  },
-                  onError: (snapshot) {
-                    return const Row(
-                      children: [
-                        CircleAvatar(radius: 15),
-                        Text(
-                          "    -   ",
-                        ),
-                      ],
-                    );
-                  },
-                  onComplete: (context, snapshot) {
-                    final user = snapshot.data!.data!;
+                    ),
+                  ],
+                ),
+                StatefulBuilder(
+                  builder: (context, setState) {
                     return Row(
                       children: [
-                        CustomNetworkImage(
-                          user.profileImg!,
-                          radius: 20,
-                          width: 30,
-                          height: 30,
+                        ZoomIn(
+                          child: AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 350),
+                            transitionBuilder: (Widget child, Animation<double> animation) {
+                              return ScaleTransition(scale: animation, child: child);
+                            },
+                            child: Text(
+                              '${_comment.numberOfLikes}',
+                              key: ValueKey<int>(_comment.numberOfLikes!),
+                              style: TextStyle(color: context.colorPalette.red000),
+                            ),
+                          ),
                         ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          user.name!,
-                          style: TextStyle(
-                            color: context.colorPalette.blueD4B,
-                            fontWeight: FontWeight.w600,
+                        ZoomIn(
+                          child: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _comment.isLiked = !_comment.isLiked!;
+                                if (_comment.isLiked!) {
+                                  _comment.numberOfLikes = _comment.numberOfLikes! + 1;
+                                  _commonProvider.like(_comment.id!, isComment: true);
+                                } else {
+                                  _comment.numberOfLikes = _comment.numberOfLikes! - 1;
+                                  _commonProvider.disLike(_comment.id!);
+                                }
+                              });
+                            },
+                            icon: CustomSvg(_comment.isLiked! ? MyIcons.heart : MyIcons.heartEmpty),
                           ),
                         ),
                       ],
                     );
                   },
-                ),
-                SizedBox(
-                  height: 50,
-                  child: CustomFutureBuilder(
-                    future: _likeFuture,
-                    onRetry: () {},
-                    onLoading: () => const SizedBox(width: 30),
-                    onError: (snapshot) => const SizedBox(width: 30),
-                    onComplete: (context, snapshot) {
-                      final isLike = snapshot.data![0] as IsLikeModel;
-                      final likeCount = snapshot.data![1] as CommentLikeModel;
-                      return StatefulBuilder(
-                        builder: (context, setState) {
-                          return Row(
-                            children: [
-                              ZoomIn(
-                                child: AnimatedSwitcher(
-                                  duration: const Duration(milliseconds: 350),
-                                  transitionBuilder: (Widget child, Animation<double> animation) {
-                                    return ScaleTransition(scale: animation, child: child);
-                                  },
-                                  child: Text(
-                                    '${likeCount.like}',
-                                    key: ValueKey<int>(likeCount.like!),
-                                    style: TextStyle(color: context.colorPalette.red000),
-                                  ),
-                                ),
-                              ),
-                              ZoomIn(
-                                child: IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      isLike.like = !isLike.like!;
-                                      if (isLike.like!) {
-                                        likeCount.like = likeCount.like! + 1;
-                                        _commonProvider.like(_comment.id!, isComment: true);
-                                      } else {
-                                        likeCount.like = likeCount.like! - 1;
-                                        _commonProvider.disLike(_comment.id!);
-                                      }
-                                    });
-                                  },
-                                  icon: CustomSvg(isLike.like! ? MyIcons.heart : MyIcons.heartEmpty),
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                  ),
                 ),
               ],
             ),

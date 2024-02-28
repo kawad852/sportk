@@ -11,6 +11,7 @@ import 'package:sportk/widgets/custom_svg.dart';
 
 class CommentEditor extends StatefulWidget {
   final int newId;
+
   final Function(CommentData comment) onAdd;
 
   const CommentEditor({
@@ -88,7 +89,8 @@ class _CommentEditorState extends State<CommentEditor> {
                   final commentData = CommentData(
                     id: 999,
                     blogId: widget.newId,
-                    userId: context.authProvider.user.id,
+                    // user: newda,
+
                     comment: _controller.text,
                   );
                   widget.onAdd(commentData);

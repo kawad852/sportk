@@ -35,6 +35,8 @@ class NewData {
   String? source;
   String? publicationTime;
   List<Tag>? tags;
+  bool? isLiked;
+  int? numberOfLikes;
 
   NewData({
     this.id,
@@ -45,6 +47,8 @@ class NewData {
     this.source,
     this.publicationTime,
     this.tags,
+    this.isLiked,
+    this.numberOfLikes,
   });
 
   factory NewData.fromJson(Map<String, dynamic> json) => NewData(
@@ -56,6 +60,8 @@ class NewData {
         source: json["source"],
         publicationTime: json["publication_time"],
         tags: json["tags"] == null ? [] : List<Tag>.from(json["tags"]!.map((x) => Tag.fromJson(x))),
+        isLiked: json["is_liked"],
+        numberOfLikes: json["number_of_likes"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -67,6 +73,8 @@ class NewData {
         "source": source,
         "publication_time": publicationTime,
         "tags": tags == null ? [] : List<dynamic>.from(tags!.map((x) => x.toJson())),
+        "is_liked": isLiked,
+        "number_of_likes": numberOfLikes,
       };
 }
 
