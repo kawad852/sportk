@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sportk/widgets/league_bubble.dart';
+import 'package:sportk/model/matches/our_teams_model.dart';
+import 'package:sportk/widgets/team_bubble.dart';
 
 class LeagueScreen extends StatefulWidget {
   const LeagueScreen({super.key});
@@ -25,7 +26,7 @@ class _LeagueScreenState extends State<LeagueScreen> {
         itemCount: 30,
         padding: const EdgeInsets.all(20),
         itemBuilder: (context, index) {
-          return const LeagueBubble();
+          return TeamBubble(team: TeamData());
         },
       ),
     );
