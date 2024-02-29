@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/model/matches/our_league_model.dart';
 import 'package:sportk/model/matches/our_teams_model.dart';
+import 'package:sportk/model/teams_by_season_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
 import 'package:sportk/screens/registration/registration_screen.dart';
@@ -25,18 +26,8 @@ class FollowTeamsScreen extends StatefulWidget {
 }
 
 class _FollowTeamsScreenState extends State<FollowTeamsScreen> {
-  final List<String> _selectedTeams = [];
+  final List<int> _selectedTeams = [];
   final List<String> _selectedLeagues = [];
-
-  void _addToFavorites(bool isTeams, String id) {
-    setState(() {
-      if (isTeams) {
-        _selectedTeams.add(id);
-      } else {
-        _selectedLeagues.add(id);
-      }
-    });
-  }
 
   Future<OurTeamsModel> _fetchTeams(int pageKey) {
     final snapshot = ApiService<OurTeamsModel>().build(
@@ -121,7 +112,7 @@ class _FollowTeamsScreenState extends State<FollowTeamsScreen> {
                             return const VexLoader();
                           }
 
-                          final team = snapshot.docs[index] as TeamData;
+                          final team = snapshot.docs[index] as TeamBySeasonData;
                           final id = team.id!;
                           return StatefulBuilder(
                             builder: (context, setState) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/model/matches/our_league_model.dart';
+import 'package:sportk/screens/wizard/leagues_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 
@@ -17,7 +18,7 @@ class LeagueTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        // context.push(LeagueInfoScreen(leagueId: widget.leagueId,subType: "domestic",));
+        context.push(LeaguesScreen(leagueId: league.id!));
       },
       dense: true,
       tileColor: context.colorPalette.grey2F2,

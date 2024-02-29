@@ -16,6 +16,7 @@ class ApiUrl {
   static const String standings = '/football/standings/live/leagues';
   static const String teamInfo = '/football/teams';
   static const String league = '/football/leagues';
+  static const String teamsBySeason = '/football/teams/seasons';
   static const String playerInfo = '/football/players';
   static const String countryInfo = '/core/countries';
   static const String seasonInfo = '/football/seasons/teams';
