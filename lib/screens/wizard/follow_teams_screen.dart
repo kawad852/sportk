@@ -123,26 +123,28 @@ class _FollowTeamsScreenState extends State<FollowTeamsScreen> {
 
                           final team = snapshot.docs[index] as TeamData;
                           final id = team.id!;
-                          return StatefulBuilder(builder: (context, setState) {
-                            return TeamBubble(
-                              team: team,
-                              onTap: () {
-                                setState(() {
-                                  if (_selectedTeams.contains(id)) {
-                                    _selectedTeams.remove(id);
-                                  } else {
-                                    _selectedTeams.add(id);
-                                  }
-                                });
-                              },
-                              border: _selectedTeams.contains(id)
-                                  ? Border.all(
-                                      width: 3,
-                                      color: context.colorScheme.primary,
-                                    )
-                                  : null,
-                            );
-                          });
+                          return StatefulBuilder(
+                            builder: (context, setState) {
+                              return TeamBubble(
+                                team: team,
+                                onTap: () {
+                                  setState(() {
+                                    if (_selectedTeams.contains(id)) {
+                                      _selectedTeams.remove(id);
+                                    } else {
+                                      _selectedTeams.add(id);
+                                    }
+                                  });
+                                },
+                                border: _selectedTeams.contains(id)
+                                    ? Border.all(
+                                        width: 3,
+                                        color: context.colorScheme.primary,
+                                      )
+                                    : null,
+                              );
+                            },
+                          );
                         },
                       ),
                     );

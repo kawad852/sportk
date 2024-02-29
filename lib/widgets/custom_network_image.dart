@@ -16,6 +16,7 @@ class CustomNetworkImage extends StatelessWidget {
   final AlignmentGeometry alignment;
   final VoidCallback? onTap;
   final BoxBorder? border;
+  final Color? backgroundColor;
 
   const CustomNetworkImage(
     this.url, {
@@ -31,6 +32,7 @@ class CustomNetworkImage extends StatelessWidget {
     this.alignment = Alignment.center,
     this.onTap,
     this.border,
+    this.backgroundColor,
   });
 
   Widget _buildContainer({ImageProvider? imageProvider, Color? color}) {
@@ -64,7 +66,7 @@ class CustomNetworkImage extends StatelessWidget {
       onTap: onTap,
       child: CachedNetworkImage(
         imageUrl: url,
-        imageBuilder: (context, imageProvider) => _buildContainer(imageProvider: imageProvider),
+        imageBuilder: (context, imageProvider) => _buildContainer(color: backgroundColor, imageProvider: imageProvider),
         placeholder: (context, url) => _buildContainer(color: context.colorScheme.surfaceVariant, imageProvider: _imagePlaceHolder),
         errorWidget: (context, url, error) => _buildContainer(color: context.colorScheme.surfaceVariant, imageProvider: _imagePlaceHolder),
       ),

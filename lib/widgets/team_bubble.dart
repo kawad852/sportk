@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/model/matches/our_teams_model.dart';
+import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 
 class TeamBubble extends StatelessWidget {
@@ -24,6 +25,7 @@ class TeamBubble extends StatelessWidget {
             team.logo!,
             height: 100,
             width: 100,
+            backgroundColor: context.colorPalette.grey3F1,
             border: border,
           ),
           Text(
