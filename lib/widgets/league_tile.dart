@@ -7,18 +7,31 @@ import 'package:sportk/widgets/custom_network_image.dart';
 class LeagueTile extends StatelessWidget {
   final OurLeagueData league;
   final Widget trailing;
+  final List<int> selectedTeams;
+  final Function(dynamic value)? onBack;
 
   const LeagueTile({
     super.key,
     required this.league,
     required this.trailing,
+    this.selectedTeams = const [],
+    this.onBack,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        context.push(LeaguesScreen(leagueId: league.id!));
+        context
+            .push(
+          LeaguesScreen(
+            leagueId: league.id!,
+            selectedTeams: selectedTeams,
+          ),
+        )
+            .then((value) {
+          onBack!(value);
+        });
       },
       dense: true,
       tileColor: context.colorPalette.grey2F2,

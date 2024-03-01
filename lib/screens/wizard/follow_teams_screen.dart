@@ -127,12 +127,7 @@ class _FollowTeamsScreenState extends State<FollowTeamsScreen> {
                                     }
                                   });
                                 },
-                                border: _selectedTeams.contains(id)
-                                    ? Border.all(
-                                        width: 3,
-                                        color: context.colorScheme.primary,
-                                      )
-                                    : null,
+                                selected: _selectedTeams.contains(id),
                               );
                             },
                           );
@@ -185,6 +180,10 @@ class _FollowTeamsScreenState extends State<FollowTeamsScreen> {
                     final id = league.id!;
                     return LeagueTile(
                       league: league,
+                      onBack: (value) {
+                        setState(() {});
+                      },
+                      selectedTeams: _selectedTeams,
                       trailing: StatefulBuilder(
                         builder: (context, setState) {
                           return IconButton(

@@ -6,13 +6,13 @@ import 'package:sportk/widgets/custom_network_image.dart';
 class TeamBubble extends StatelessWidget {
   final TeamBySeasonData team;
   final VoidCallback? onTap;
-  final BoxBorder? border;
+  final bool selected;
 
   const TeamBubble({
     super.key,
     required this.team,
     this.onTap,
-    this.border,
+    this.selected = false,
   });
 
   @override
@@ -26,7 +26,12 @@ class TeamBubble extends StatelessWidget {
             height: 100,
             width: 100,
             backgroundColor: context.colorPalette.grey3F1,
-            border: border,
+            border: selected
+                ? Border.all(
+                    width: 3,
+                    color: context.colorScheme.primary,
+                  )
+                : null,
           ),
           Text(
             team.name!,

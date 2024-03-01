@@ -7,10 +7,12 @@ import 'package:sportk/widgets/team_bubble.dart';
 
 class LeaguesScreen extends StatefulWidget {
   final String leagueId;
+  final List<int> selectedTeams;
 
   const LeaguesScreen({
     super.key,
     required this.leagueId,
+    this.selectedTeams = const [],
   });
 
   @override
@@ -20,6 +22,7 @@ class LeaguesScreen extends StatefulWidget {
 class _LeaguesScreenState extends State<LeaguesScreen> {
   late FootBallProvider _footBallProvider;
   late Future<TeamsBySeasonModel> _teamsFuture;
+  late List<int> _selectedTeams;
 
   Future<TeamsBySeasonModel> _initializeLeagues() async {
     final seasonFuture = _footBallProvider.fetchSeasonByLeague(leagueId: int.parse(widget.leagueId));
@@ -32,6 +35,7 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
   void initState() {
     super.initState();
     _footBallProvider = context.footBallProvider;
+    _selectedTeams = widget.selectedTeams;
     _teamsFuture = _initializeLeagues();
   }
 
@@ -41,29 +45,51 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
       appBar: AppBar(
         title: const Text("League"),
       ),
+      // floatingActionButton: _selectedTeams.length != widget.selectedTeams.length
+      //     ? FilledButton(
+      //         onPressed: () {
+      //           Navigator.pop(context, _selectedTeams);
+      //         },
+      //         child: Text("Save"),
+      //       )
+      //     : null,
       body: CustomFutureBuilder(
-          future: _teamsFuture,
-          onRetry: () {
-            setState(() {
-              _teamsFuture = _initializeLeagues();
-            });
-          },
-          onComplete: (context, snapshot) {
-            return GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-                crossAxisSpacing: 5,
-                mainAxisSpacing: 10,
-                childAspectRatio: 0.7,
-              ),
-              itemCount: snapshot.data!.data!.length,
-              padding: const EdgeInsets.all(20),
-              itemBuilder: (context, index) {
-                final team = snapshot.data!.data![index];
-                return TeamBubble(team: team);
-              },
-            );
-          }),
+        future: _teamsFuture,
+        onRetry: () {
+          setState(() {
+            _teamsFuture = _initializeLeagues();
+          });
+        },
+        onComplete: (context, snapshot) {
+          return GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 4,
+              crossAxisSpacing: 5,
+              mainAxisSpacing: 10,
+              childAspectRatio: 0.7,
+            ),
+            itemCount: snapshot.data!.data!.length,
+            padding: const EdgeInsets.all(20),
+            itemBuilder: (context, index) {
+              final team = snapshot.data!.data![index];
+              final id = team.id!;
+              return TeamBubble(
+                team: team,
+                onTap: () {
+                  setState(() {
+                    if (_selectedTeams.contains(id)) {
+                      _selectedTeams.remove(id);
+                    } else {
+                      _selectedTeams.add(id);
+                    }
+                  });
+                },
+                selected: widget.selectedTeams.contains(id),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }
