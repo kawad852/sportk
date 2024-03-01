@@ -45,14 +45,6 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
       appBar: AppBar(
         title: const Text("League"),
       ),
-      // floatingActionButton: _selectedTeams.length != widget.selectedTeams.length
-      //     ? FilledButton(
-      //         onPressed: () {
-      //           Navigator.pop(context, _selectedTeams);
-      //         },
-      //         child: Text("Save"),
-      //       )
-      //     : null,
       body: CustomFutureBuilder(
         future: _teamsFuture,
         onRetry: () {

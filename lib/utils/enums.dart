@@ -15,5 +15,10 @@ class LocationEnum {
 
 class LeagueTypeEnum {
   static const String domestic = 'domestic';
-  
+}
+
+class CompoTypeEnum {
+  static const String teams = '1';
+  static const String competitions = '2';
+  static const String blogs = '3';
 }

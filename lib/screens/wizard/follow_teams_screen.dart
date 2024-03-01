@@ -4,6 +4,7 @@ import 'package:sportk/model/matches/our_teams_model.dart';
 import 'package:sportk/model/teams_by_season_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
+import 'package:sportk/screens/base/app_nav_bar.dart';
 import 'package:sportk/screens/registration/registration_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
@@ -56,7 +57,9 @@ class _FollowTeamsScreenState extends State<FollowTeamsScreen> {
         title: Text(context.appLocalization.followYourTeam),
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              context.pushAndRemoveUntil(const AppNavBar());
+            },
             child: Text(context.appLocalization.skip),
           ),
         ],
@@ -65,7 +68,10 @@ class _FollowTeamsScreenState extends State<FollowTeamsScreen> {
         child: Center(
           child: StretchedButton(
             onPressed: () {
-              context.push(const RegistrationScreen());
+              context.push(RegistrationScreen(
+                selectedTeams: _selectedTeams,
+                selectedLeagues: _selectedLeagues,
+              ));
             },
             child: Text(context.appLocalization.next),
           ),
