@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/model/league_by_date_model.dart';
+import 'package:sportk/model/matches/live_matches_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
 import 'package:sportk/screens/home/widgets/live_bubble.dart';
@@ -16,11 +17,13 @@ import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 class HomeBubble extends StatefulWidget {
   final DateTime date;
   final int leagueId;
+  final List<LiveData> lives;
 
   const HomeBubble({
     super.key,
     required this.date,
     required this.leagueId,
+    required this.lives,
   });
 
   @override
@@ -85,6 +88,7 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             final data = snapshot.data!.data![index];
+            final liveMatch = widget.lives.singleWhere((element) => element.matchId == '$data', orElse: () => LiveData());
             return Column(
               children: [
                 ListTile(
@@ -146,8 +150,7 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
                           ],
                         ),
                       ),
-                      // data.id, match id
-                      LiveBubble(matchId: widget.leagueId == 82 ? 18842533 : data.id!),
+                      if (liveMatch.id != null) LiveBubble(liveData: liveMatch),
                     ],
                   ),
                 ),

@@ -161,11 +161,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   separatorBuilder: (context, index) => const SizedBox(height: 5),
                   itemBuilder: (context, index) {
                     final leagueId = competitions[index];
+                    final liveLeagues = lives.data!.where((element) => element.competitionId == '$leagueId').toList();
                     return Column(
                       children: [
                         HomeBubble(
                           date: _selectedDate,
                           leagueId: leagueId,
+                          lives: liveLeagues,
                         ),
                         if (index != 0 && index % 2 == 0) const GoogleBanner(),
                       ],

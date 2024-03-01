@@ -2,7 +2,7 @@ class LivesMatchesModel {
   bool? status;
   int? code;
   String? msg;
-  List<Datum>? data;
+  List<LiveData>? data;
 
   LivesMatchesModel({
     this.status,
@@ -15,7 +15,7 @@ class LivesMatchesModel {
         status: json["status"],
         code: json["code"],
         msg: json["msg"],
-        data: json["data"] == null ? [] : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+        data: json["data"] == null ? [] : List<LiveData>.from(json["data"]!.map((x) => LiveData.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -26,7 +26,7 @@ class LivesMatchesModel {
       };
 }
 
-class Datum {
+class LiveData {
   int? id;
   String? link;
   String? name;
@@ -34,7 +34,7 @@ class Datum {
   String? matchId;
   String? competitionId;
 
-  Datum({
+  LiveData({
     this.id,
     this.link,
     this.name,
@@ -43,7 +43,7 @@ class Datum {
     this.competitionId,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory LiveData.fromJson(Map<String, dynamic> json) => LiveData(
         id: json["id"],
         link: json["link"],
         name: json["name"],
