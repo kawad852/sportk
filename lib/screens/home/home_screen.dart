@@ -4,6 +4,7 @@ import 'package:sportk/screens/home/widgets/home_bubble.dart';
 import 'package:sportk/screens/home/widgets/live_switch.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
+import 'package:sportk/widgets/ads/google_banner.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 
@@ -170,9 +171,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   separatorBuilder: (context, index) => const SizedBox(height: 5),
                   itemBuilder: (context, index) {
                     final leagueId = competitions[index];
-                    return HomeBubble(
-                      date: _selectedDate,
-                      leagueId: leagueId,
+                    return Column(
+                      children: [
+                        HomeBubble(
+                          date: _selectedDate,
+                          leagueId: leagueId,
+                        ),
+                        if (index != 0 && index % 2 == 0) const GoogleBanner(),
+                      ],
                     );
                   },
                 ),
