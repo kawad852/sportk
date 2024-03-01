@@ -92,7 +92,7 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
       },
       onComplete: (context, snapshot) {
         final league = snapshot.data![0] as LeagueModel;
-        final teams = snapshot.data![1] as LeagueByDateModel;
+        final matches = snapshot.data![1] as LeagueByDateModel;
         return Column(
           children: [
             LeagueTile(
@@ -105,14 +105,14 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
               },
             ),
             ListView.separated(
-              itemCount: teams.data!.length,
+              itemCount: matches.data!.length,
               separatorBuilder: (context, index) => const SizedBox(height: 5),
               shrinkWrap: true,
               padding: const EdgeInsets.symmetric(vertical: 5),
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                final data = teams.data![index];
-                final liveMatch = widget.lives.singleWhere((element) => element.matchId == '$data', orElse: () => LiveData());
+                final match = matches.data![index];
+                final liveMatch = widget.lives.singleWhere((element) => element.matchId == '${match.id}', orElse: () => LiveData());
                 return Container(
                   height: 65,
                   decoration: BoxDecoration(
@@ -128,7 +128,7 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             TeamWidget(
-                              participant: data.participants![0],
+                              participant: match.participants![0],
                               reverse: false,
                             ),
                             const Text("2"),
@@ -145,7 +145,7 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
                           children: [
                             const Text("2"),
                             TeamWidget(
-                              participant: data.participants![1],
+                              participant: match.participants![1],
                               reverse: true,
                             ),
                           ],

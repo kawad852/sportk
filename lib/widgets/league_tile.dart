@@ -25,7 +25,7 @@ class LeagueTile extends StatelessWidget {
       tileColor: context.colorPalette.grey2F2,
       leading: CustomNetworkImage(
         league.logo ?? league.imagePath!,
-        radius: 0,
+        shape: BoxShape.circle,
         width: 25,
         height: 25,
       ),

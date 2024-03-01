@@ -162,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   separatorBuilder: (context, index) => const SizedBox(height: 5),
                   itemBuilder: (context, index) {
                     final leagueId = allCompetitions[index];
-                    final liveLeagues = lives.data!.where((element) => element.competitionId == '$leagueId').toList();
+                    final liveLeagues = lives.data!.where((element) => element.competitionId == leagueId).toList();
                     return Column(
                       children: [
                         HomeBubble(
