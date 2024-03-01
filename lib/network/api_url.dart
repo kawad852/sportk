@@ -16,6 +16,7 @@ class ApiUrl {
   static const String standings = '/football/standings/live/leagues';
   static const String teamInfo = '/football/teams';
   static const String league = '/football/leagues';
+  static const String teamsBySeason = '/football/teams/seasons';
   static const String playerInfo = '/football/players';
   static const String countryInfo = '/core/countries';
   static const String seasonInfo = '/football/seasons/teams';
@@ -36,4 +37,6 @@ class ApiUrl {
   static const String newComments = '/api/blogs/comments';
   static const String user = '/api/users';
   static const String like = '/api/likes';
+  static const String ourTeams = '/api/teams';
+  static const String ourLeagues = '/api/competitions';
 }

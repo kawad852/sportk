@@ -13,6 +13,7 @@ import 'package:sportk/model/squads_model.dart';
 import 'package:sportk/model/stage_model.dart';
 import 'package:sportk/model/standings_model.dart';
 import 'package:sportk/model/team_info_model.dart';
+import 'package:sportk/model/teams_by_season_model.dart';
 import 'package:sportk/model/top_scorers_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
@@ -141,6 +142,18 @@ class FootBallProvider extends ChangeNotifier {
     return snapshot;
   }
 
+  Future<TeamsBySeasonModel> fetchTeamsBySeason({
+    required int seasonId,
+  }) {
+    final snapshot = ApiService<TeamsBySeasonModel>().build(
+      sportsUrl: '${ApiUrl.teamsBySeason}/$seasonId${ApiUrl.auth}',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: TeamsBySeasonModel.fromJson,
+    );
+    return snapshot;
+  }
+
   Future<SquadsModel> fetchSquads({
     required int teamId,
   }) {
@@ -190,12 +203,7 @@ class FootBallProvider extends ChangeNotifier {
     return snapshot;
   }
 
-  Future<MatchModel> fetchMatchesBetweenTwoDate({
-    required String startDate,
-    required String endDate,
-    required int leagueId,
-    required int pageKey
-  }) {
+  Future<MatchModel> fetchMatchesBetweenTwoDate({required String startDate, required String endDate, required int leagueId, required int pageKey}) {
     final snapshot = ApiService<MatchModel>().build(
       sportsUrl: '${ApiUrl.match}/$startDate/$endDate${ApiUrl.auth}&include=statistics;state;participants&filters=fixtureLeagues:$leagueId&page=$pageKey',
       isPublic: true,

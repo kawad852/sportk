@@ -11,6 +11,7 @@ import 'package:sportk/network/api_url.dart';
 import 'package:sportk/screens/base/app_nav_bar.dart';
 import 'package:sportk/screens/registration/registration_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/shared_pref.dart';
 
 class AuthProvider extends ChangeNotifier {
@@ -29,7 +30,21 @@ class AuthProvider extends ChangeNotifier {
     BuildContext context, {
     required String? displayName,
     required String? email,
+    required List<int> selectedTeams,
+    required List<String> selectedLeagues,
   }) async {
+    final teams = selectedTeams.map((e) {
+      return {
+        'type': CompoTypeEnum.teams,
+        'favoritable_id': e,
+      };
+    }).toList();
+    final leagues = selectedTeams.map((e) {
+      return {
+        'type': CompoTypeEnum.competitions,
+        'favoritable_id': e,
+      };
+    }).toList();
     await ApiFutureBuilder<AuthModel>().fetch(
       context,
       withOverlayLoader: false,
@@ -41,7 +56,7 @@ class AuthProvider extends ChangeNotifier {
           queryParams: {
             "name": displayName,
             "email": email,
-            "favorites": [],
+            "favorites": [...teams, ...leagues],
           },
           builder: AuthModel.fromJson,
         );

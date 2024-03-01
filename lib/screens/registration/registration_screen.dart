@@ -11,7 +11,14 @@ import 'package:sportk/utils/my_images.dart';
 import 'package:sportk/widgets/title/medium_title.dart';
 
 class RegistrationScreen extends StatefulWidget {
-  const RegistrationScreen({super.key});
+  final List<int> selectedTeams;
+  final List<String> selectedLeagues;
+
+  const RegistrationScreen({
+    super.key,
+    this.selectedTeams = const [],
+    this.selectedLeagues = const [],
+  });
 
   @override
   State<RegistrationScreen> createState() => _RegistrationScreenState();
@@ -41,7 +48,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
       final auth = await _firebaseAuth.signInWithCredential(credential);
       if (context.mounted) {
-        await _authProvider.login(context, displayName: auth.user?.displayName, email: auth.user?.email);
+        await _authProvider.login(
+          context,
+          displayName: auth.user?.displayName,
+          email: auth.user?.email,
+          selectedTeams: widget.selectedTeams,
+          selectedLeagues: widget.selectedLeagues,
+        );
       }
     } on PlatformException catch (e) {
       AppOverlayLoader.hide();
