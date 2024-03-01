@@ -8,6 +8,7 @@ import 'package:sportk/screens/league_info/league_info_screen.dart';
 import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_theme.dart';
+import 'package:sportk/web_view_screen.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
@@ -32,7 +33,8 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
 
   Future<LeagueByDateModel> _fetchLeagueByDate() {
     final snapshot = ApiService<LeagueByDateModel>().build(
-      sportsUrl: '${ApiUrl.compoByDate}/${widget.date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&filters=fixtureLeagues:${widget.leagueId}&include=state;participants;statistics.type',
+      sportsUrl:
+          '${ApiUrl.compoByDate}/${widget.date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&filters=fixtureLeagues:${widget.leagueId}&include=state;participants;statistics.type',
       isPublic: true,
       apiType: ApiType.get,
       builder: LeagueByDateModel.fromJson,
@@ -89,7 +91,10 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
               children: [
                 ListTile(
                   onTap: () {
-                    context.push(LeagueInfoScreen(leagueId: widget.leagueId,subType: "domestic",));
+                    context.push(LeagueInfoScreen(
+                      leagueId: widget.leagueId,
+                      subType: "domestic",
+                    ));
                   },
                   dense: true,
                   tileColor: context.colorPalette.grey2F2,
@@ -105,47 +110,52 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
                   ),
                   // trailing: widget.trailing,
                 ),
-                Container(
-                  height: 65,
-                  decoration: BoxDecoration(
-                    color: context.colorPalette.blue1FC,
-                    borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
-                  ),
-                  margin: const EdgeInsets.symmetric(vertical: 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            TeamWidget(
-                              participant: data.participants![0],
-                              reverse: false,
-                            ),
-                            const Text("2"),
-                          ],
+                InkWell(
+                  onTap: () {
+                    context.push(const WebViewScreen());
+                  },
+                  child: Container(
+                    height: 65,
+                    decoration: BoxDecoration(
+                      color: context.colorPalette.blue1FC,
+                      borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
+                    ),
+                    margin: const EdgeInsets.symmetric(vertical: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              TeamWidget(
+                                participant: data.participants![0],
+                                reverse: false,
+                              ),
+                              const Text("2"),
+                            ],
+                          ),
                         ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 6),
-                        child: CircleAvatar(),
-                      ),
-                      Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            const Text("2"),
-                            TeamWidget(
-                              participant: data.participants![1],
-                              reverse: true,
-                            ),
-                          ],
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 6),
+                          child: CircleAvatar(),
                         ),
-                      ),
-                      // data.id, match id
-                      LiveBubble(matchId: 18842533),
-                    ],
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              const Text("2"),
+                              TeamWidget(
+                                participant: data.participants![1],
+                                reverse: true,
+                              ),
+                            ],
+                          ),
+                        ),
+                        // data.id, match id
+                        LiveBubble(matchId: 18842533),
+                      ],
+                    ),
                   ),
                 ),
               ],
