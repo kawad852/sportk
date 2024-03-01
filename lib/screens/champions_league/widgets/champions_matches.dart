@@ -6,9 +6,10 @@ import 'package:sportk/widgets/matches_loading.dart';
 import 'package:sportk/screens/champions_league/widgets/stage_card.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
-import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
+import 'package:sportk/widgets/vex/vex_loader.dart';
+import 'package:sportk/widgets/vex/vex_paginator.dart';
 
 class ChampionsMatches extends StatefulWidget {
   final int leagueId;
@@ -18,47 +19,46 @@ class ChampionsMatches extends StatefulWidget {
   State<ChampionsMatches> createState() => _ChampionsMatchesState();
 }
 
-class _ChampionsMatchesState extends State<ChampionsMatches> {
+class _ChampionsMatchesState extends State<ChampionsMatches> with AutomaticKeepAliveClientMixin {
   late FootBallProvider _footBallProvider;
   late Future<MatchModel> _matchesFuture;
+  final _vexKey = GlobalKey<VexPaginatorState>();
 
-  void _initializeFuture() {
+  Future<MatchModel> _initializeFuture(int pageKey) {
     _matchesFuture = _footBallProvider.fetchMatchesBetweenTwoDate(
       startDate: DateFormat("yyyy-MM-dd").format(DateTime.now()),
       endDate: DateFormat("yyyy-MM-dd").format(DateTime.now().add(const Duration(days: 100))),
       leagueId: widget.leagueId,
-      pageKey: 1
+      pageKey: pageKey,
     );
+    return _matchesFuture;
   }
 
   @override
   void initState() {
     super.initState();
     _footBallProvider = context.footBallProvider;
-    _initializeFuture();
   }
 
   @override
   Widget build(BuildContext context) {
-    return CustomFutureBuilder(
-      future: _matchesFuture,
-      onRetry: () {
+    super.build(context);
+    return RefreshIndicator(
+      onRefresh: () async {
         setState(() {
-          _initializeFuture();
+          _vexKey.currentState!.refresh();
         });
       },
-      onLoading: () {
-        return const ShimmerLoading(child: MatchesLoading());
-      },
-      onComplete: (context, snapshot) {
-        final matches = snapshot.data!;
-        return RefreshIndicator(
-          onRefresh: () async {
-            setState(() {
-              _initializeFuture();
-            });
-          },
-          child: SingleChildScrollView(
+      child: VexPaginator(
+        key: _vexKey,
+        query: (pageKey) async => _initializeFuture(pageKey),
+        onFetching: (snapshot) async => snapshot.data!,
+        pageSize: 25,
+        onLoading: () {
+          return const ShimmerLoading(child: MatchesLoading());
+        },
+        builder: (context, snapshot) {
+          return SingleChildScrollView(
             padding: const EdgeInsetsDirectional.symmetric(horizontal: 15, vertical: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,8 +72,18 @@ class _ChampionsMatchesState extends State<ChampionsMatches> {
                 const SizedBox(
                   height: 5,
                 ),
-                ...matches.data!.map(
-                  (element) {
+                ListView.builder(
+                  itemCount: snapshot.docs.length,
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  itemBuilder: (context, index) {
+                    if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
+                      snapshot.fetchMore();
+                      return const VexLoader();
+                    }
+                    final matches = snapshot.docs as List<MatchData>;
+                    final element = matches[index];
                     int homeGoals = 0;
                     int awayGoals = 0;
                     element.statistics!.map(
@@ -90,10 +100,8 @@ class _ChampionsMatchesState extends State<ChampionsMatches> {
                     ).toSet();
                     return Column(
                       children: [
-                        if (matches.data!.indexOf(element) == 0 ||
-                            (matches.data!.indexOf(element) > 0 &&
-                                matches.data![matches.data!.indexOf(element)].stageId !=
-                                    matches.data![matches.data!.indexOf(element) - 1].stageId))
+                        if (index == 0 ||
+                            (index > 0 && matches[index].stageId != matches[index - 1].stageId))
                           StageCard(stageId: element.stageId!, leagueId: widget.leagueId),
                         Container(
                           width: double.infinity,
@@ -130,7 +138,9 @@ class _ChampionsMatchesState extends State<ChampionsMatches> {
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      if (element.state!.id != 1 && element.state!.id != 13)
+                                      if (element.state!.id != 1 &&
+                                          element.state!.id != 13 &&
+                                          element.state!.id != 10)
                                         Text("$homeGoals   :   $awayGoals"),
                                       Text(
                                         element.state!.name!,
@@ -178,12 +188,15 @@ class _ChampionsMatchesState extends State<ChampionsMatches> {
                       ],
                     );
                   },
-                ).toList(),
+                ),
               ],
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

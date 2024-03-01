@@ -20,7 +20,7 @@ class GroupsStandings extends StatefulWidget {
   State<GroupsStandings> createState() => _GroupsStandingsState();
 }
 
-class _GroupsStandingsState extends State<GroupsStandings> {
+class _GroupsStandingsState extends State<GroupsStandings> with AutomaticKeepAliveClientMixin {
   late FootBallProvider _footBallProvider;
   late Future<GroupsStandingModel> _groupStandingFuture;
 
@@ -38,6 +38,7 @@ class _GroupsStandingsState extends State<GroupsStandings> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return CustomFutureBuilder(
       future: _groupStandingFuture,
       onRetry: () {
@@ -199,4 +200,7 @@ class _GroupsStandingsState extends State<GroupsStandings> {
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -22,7 +22,7 @@ class LeagueMatches extends StatefulWidget {
 class _LeagueMatchesState extends State<LeagueMatches> with AutomaticKeepAliveClientMixin {
   late FootBallProvider _footBallProvider;
   late Future<MatchModel> _matchesFuture;
-  int pageKey = 1;
+
   final _vexKey = GlobalKey<VexPaginatorState>();
 
   Future<MatchModel> _initializeFuture(int pageKey) {
@@ -46,7 +46,9 @@ class _LeagueMatchesState extends State<LeagueMatches> with AutomaticKeepAliveCl
     super.build(context);
     return RefreshIndicator(
       onRefresh: () async {
-        _vexKey.currentState!.refresh();
+        setState(() {
+          _vexKey.currentState!.refresh();
+        });
       },
       child: VexPaginator(
         key: _vexKey,
@@ -99,7 +101,8 @@ class _LeagueMatchesState extends State<LeagueMatches> with AutomaticKeepAliveCl
                     ).toSet();
                     return Column(
                       children: [
-                        if (index == 0 || (index > 0 && matches[index].roundId != matches[index - 1].roundId))
+                        if (index == 0 ||
+                            (index > 0 && matches[index].roundId != matches[index - 1].roundId))
                           RoundCard(
                             leagueId: widget.leagueId,
                             roundId: element.roundId,
@@ -139,7 +142,10 @@ class _LeagueMatchesState extends State<LeagueMatches> with AutomaticKeepAliveCl
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      if (element.state!.id != 1 && element.state!.id != 13) Text("$homeGoals   :   $awayGoals"),
+                                      if (element.state!.id != 1 &&
+                                          element.state!.id != 13 &&
+                                          element.state!.id != 10)
+                                        Text("$homeGoals   :   $awayGoals"),
                                       Text(
                                         element.state!.name!,
                                         style: TextStyle(
