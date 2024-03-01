@@ -105,6 +105,8 @@
   "newReadSource": "Read from source",
   "addCommentHere": "Add your comment here",
   "addComment": "Add a comment",
-  "allComments": "All comments"
+  "allComments": "All comments",
+  "newsTitleEmpty": "No Football News Available",
+  "newsBodyEmpty": "Check back soon for the latest updates."
   
 }

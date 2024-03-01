@@ -1,3 +1,5 @@
+import 'package:sportk/utils/shared_pref.dart';
+
 class LanguageEnum {
   static const String english = 'en';
   static const String arabic = 'ar';
@@ -21,4 +23,11 @@ class CompoTypeEnum {
   static const String teams = '1';
   static const String competitions = '2';
   static const String blogs = '3';
+}
+
+class BlogsType {
+  static String recommended = 'user?locale=${MySharedPreferences.language}';
+  static const mostRecent = 'blogs';
+  static String teams(int id) => 'teams/$id?locale=${MySharedPreferences.language}';
+  static String competitions(int id) => 'tags/$id?locale=${MySharedPreferences.language}';
 }

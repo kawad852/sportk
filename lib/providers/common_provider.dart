@@ -4,12 +4,16 @@ import 'package:sportk/model/is_like_model.dart';
 import 'package:sportk/model/new_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
+import 'package:sportk/utils/enums.dart';
 
 class CommonProvider extends ChangeNotifier {
-  Future<NewModel> fetchNews(int pageKey) {
+  Future<NewModel> fetchNews(
+    int pageKey,
+    String type,
+  ) {
     final snapshot = ApiService<NewModel>().build(
-      weCanUrl: '${ApiUrl.news}?page=$pageKey',
-      isPublic: true,
+      weCanUrl: type != BlogsType.mostRecent ? '${ApiUrl.news}/$type?page=$pageKey' : '${ApiUrl.news}?page=$pageKey',
+      isPublic: type != BlogsType.recommended,
       apiType: ApiType.get,
       builder: NewModel.fromJson,
     );

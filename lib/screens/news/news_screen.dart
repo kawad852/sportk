@@ -2,10 +2,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:sportk/model/new_model.dart';
+import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/screens/news/widgets/news_card.dart';
 import 'package:sportk/screens/news/widgets/news_champ_card.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/ads/google_banner.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
@@ -25,26 +27,30 @@ class NewsScreen extends StatefulWidget {
 class _NewsScreenState extends State<NewsScreen> {
   int currentIndex = 0;
   late CommonProvider _commonProvider;
+  late AuthProvider _authProvider;
   late Future<NewModel> _recommendedNewsFuture;
   late Future<NewModel> _compoNewsFuture;
 
   void _initializeRecommendedNews(int pageKey) {
-    _recommendedNewsFuture = _commonProvider.fetchNews(pageKey);
+    _recommendedNewsFuture = _commonProvider.fetchNews(pageKey, BlogsType.recommended);
   }
 
   void _initializeCompoNews(int pageKey) {
-    _compoNewsFuture = _commonProvider.fetchNews(pageKey);
+    _compoNewsFuture = _commonProvider.fetchNews(pageKey, BlogsType.competitions(1));
   }
 
   Future<NewModel> _fetchRecentNews(int pageKey) {
-    return _commonProvider.fetchNews(pageKey);
+    return _commonProvider.fetchNews(pageKey, BlogsType.mostRecent);
   }
 
   @override
   void initState() {
     super.initState();
     _commonProvider = context.commonProvider;
-    _initializeRecommendedNews(1);
+    _authProvider = context.authProvider;
+    if (_authProvider.isAuthenticated) {
+      _initializeRecommendedNews(1);
+    }
     _initializeCompoNews(1);
   }
 
@@ -54,84 +60,22 @@ class _NewsScreenState extends State<NewsScreen> {
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      const Padding(
-                        padding: EdgeInsetsDirectional.only(start: 10, end: 10),
-                        child: CustomSvg(
-                          MyIcons.location,
-                        ),
-                      ),
-                      Text(
-                        "اخبار تهمك",
-                        style: TextStyle(
-                          color: context.colorPalette.blueD4B,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Container(
-                        width: 131,
-                        height: 35,
-                        margin: const EdgeInsetsDirectional.only(start: 6),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: context.colorPalette.red000,
-                        ),
-                        child: Text(
-                          "اخبار جديدة",
-                          style: TextStyle(color: context.colorPalette.white, fontSize: 18),
-                        ),
-                      ),
-                    ],
-                  ),
-                  CustomFutureBuilder(
-                    future: _recommendedNewsFuture,
-                    onRetry: () {
-                      setState(() {
-                        _initializeRecommendedNews(1);
-                      });
-                    },
-                    onLoading: () {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ShimmerLoading(
-                            child: CarouselSlider.builder(
-                              itemCount: 10,
-                              options: CarouselOptions(
-                                viewportFraction: 0.9,
-                                enableInfiniteScroll: false,
-                                height: 280.0,
-                                onPageChanged: (index, reason) {
-                                  setState(() {
-                                    currentIndex = index;
-                                  });
-                                },
-                              ),
-                              itemBuilder: (context, index, realIndex) {
-                                return const LoadingBubble(
-                                  height: 260,
-                                  radius: 15,
-                                  margin: EdgeInsets.all(8.0),
-                                );
-                              },
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                        ],
-                      );
-                    },
-                    onComplete: (context, snapshot) {
-                      return Column(
-                        children: [
-                          CarouselSlider.builder(
-                            itemCount: snapshot.data!.data!.length,
+            if (_authProvider.isAuthenticated)
+              SliverToBoxAdapter(
+                child: CustomFutureBuilder(
+                  future: _recommendedNewsFuture,
+                  onRetry: () {
+                    setState(() {
+                      _initializeRecommendedNews(1);
+                    });
+                  },
+                  onLoading: () {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ShimmerLoading(
+                          child: CarouselSlider.builder(
+                            itemCount: 10,
                             options: CarouselOptions(
                               viewportFraction: 0.9,
                               enableInfiniteScroll: false,
@@ -143,24 +87,90 @@ class _NewsScreenState extends State<NewsScreen> {
                               },
                             ),
                             itemBuilder: (context, index, realIndex) {
-                              final newsData = snapshot.data!.data![index];
-                              return NewsCard(
-                                newData: newsData,
+                              return const LoadingBubble(
+                                height: 260,
+                                radius: 15,
+                                margin: EdgeInsets.all(8.0),
                               );
                             },
                           ),
-                          const SizedBox(height: 10),
-                          CustomSmoothIndicator(
-                            count: snapshot.data!.data!.length,
-                            index: currentIndex,
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                ],
+                        ),
+                        const SizedBox(height: 20),
+                      ],
+                    );
+                  },
+                  onComplete: (context, snapshot) {
+                    if (snapshot.data!.data!.isEmpty) {
+                      return const SizedBox.shrink();
+                    }
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 20),
+                        Row(
+                          children: [
+                            const Padding(
+                              padding: EdgeInsetsDirectional.only(start: 10, end: 10),
+                              child: CustomSvg(
+                                MyIcons.location,
+                              ),
+                            ),
+                            Text(
+                              "اخبار تهمك",
+                              style: TextStyle(
+                                color: context.colorPalette.blueD4B,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Container(
+                              width: 131,
+                              height: 35,
+                              margin: const EdgeInsetsDirectional.only(start: 6),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: context.colorPalette.red000,
+                              ),
+                              child: Text(
+                                "اخبار جديدة",
+                                style: TextStyle(color: context.colorPalette.white, fontSize: 18),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            CarouselSlider.builder(
+                              itemCount: snapshot.data!.data!.length,
+                              options: CarouselOptions(
+                                viewportFraction: 0.9,
+                                enableInfiniteScroll: false,
+                                height: 280.0,
+                                onPageChanged: (index, reason) {
+                                  setState(() {
+                                    currentIndex = index;
+                                  });
+                                },
+                              ),
+                              itemBuilder: (context, index, realIndex) {
+                                final newsData = snapshot.data!.data![index];
+                                return NewsCard(
+                                  newData: newsData,
+                                );
+                              },
+                            ),
+                            const SizedBox(height: 10),
+                            CustomSmoothIndicator(
+                              count: snapshot.data!.data!.length,
+                              index: currentIndex,
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  },
+                ),
               ),
-            ),
             SliverPadding(
               padding: const EdgeInsetsDirectional.only(top: 20),
               sliver: SliverToBoxAdapter(
