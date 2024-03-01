@@ -58,7 +58,7 @@ class LeagueData {
   });
 
   factory LeagueData.fromJson(Map<String, dynamic> json) => LeagueData(
-        id: json["id"],
+        id: int.parse(json["id"].toString()),
         sportId: json["sport_id"],
         countryId: json["country_id"],
         name: json["name"],
