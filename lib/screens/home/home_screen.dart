@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/model/matches/live_matches_model.dart';
+import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/screens/home/widgets/arrow_button.dart';
 import 'package:sportk/screens/home/widgets/home_bubble.dart';
 import 'package:sportk/screens/home/widgets/live_switch.dart';
@@ -16,17 +18,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late CommonProvider _commonProvider;
   bool _isLive = false;
   late DateTime _selectedDate;
   DateTime get _nowDate => DateTime.now();
-  late Future<List<int>> _fetchCompetitionsFuture;
-  final list = [
-    8,
-    564,
-    82,
-    72,
-    301,
-  ];
 
   int get _maxDuration => 30;
   DateTime get _minDate => _nowDate.subtract(Duration(days: _maxDuration));
@@ -46,12 +41,6 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Future<List<int>> _initializeCompetitions() async {
-    await Future.delayed(const Duration(seconds: 1));
-    final ids = Future.value(list);
-    return ids;
-  }
-
   bool _reachedMaxDate(DateTime targetDate) {
     final selected = DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day);
     final target = DateTime(targetDate.year, targetDate.month, targetDate.day);
@@ -64,23 +53,24 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    _commonProvider = context.commonProvider;
     _selectedDate = _nowDate;
-    _fetchCompetitionsFuture = _initializeCompetitions();
   }
 
   @override
   Widget build(BuildContext context) {
     return CustomFutureBuilder(
-      future: _fetchCompetitionsFuture,
+      future: _commonProvider.leaguesAndLivesFutures,
       withBackgroundColor: true,
       onRetry: () {
         setState(() {
-          _initializeCompetitions();
+          _commonProvider.initializeLeaguesAndLives();
         });
       },
       onError: (snapshot) => const SizedBox.shrink(),
       onComplete: (context, snapshot) {
-        final competitions = snapshot.data!;
+        final competitions = snapshot.data![0] as List<int>;
+        final lives = snapshot.data![1] as LivesMatchesModel;
         return Scaffold(
           body: CustomScrollView(
             slivers: [

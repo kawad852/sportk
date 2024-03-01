@@ -1,12 +1,36 @@
 import 'package:flutter/foundation.dart';
 import 'package:sportk/model/comments_model.dart';
 import 'package:sportk/model/is_like_model.dart';
+import 'package:sportk/model/matches/live_matches_model.dart';
 import 'package:sportk/model/new_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
 import 'package:sportk/utils/enums.dart';
 
 class CommonProvider extends ChangeNotifier {
+  late Future<List<int>> leaguesFuture;
+  late Future<LivesMatchesModel> liveMatchesFuture;
+  late Future<List<dynamic>> leaguesAndLivesFutures;
+
+  void fetchLeagues() {
+    leaguesFuture = Future.value(<int>[8, 564, 82, 72, 301]);
+  }
+
+  void fetchLives() {
+    liveMatchesFuture = ApiService<LivesMatchesModel>().build(
+      weCanUrl: ApiUrl.livesMatches,
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: LivesMatchesModel.fromJson,
+    );
+  }
+
+  void initializeLeaguesAndLives() {
+    fetchLeagues();
+    fetchLives();
+    leaguesAndLivesFutures = Future.wait([leaguesFuture, liveMatchesFuture]);
+  }
+
   Future<NewModel> fetchNews(
     int pageKey,
     String type,

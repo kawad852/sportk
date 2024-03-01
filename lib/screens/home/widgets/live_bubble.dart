@@ -51,6 +51,9 @@ class _LiveBubbleState extends State<LiveBubble> {
       onLoading: () => _buildPlaceHolder(),
       onError: (snapshot) => _buildPlaceHolder(),
       onComplete: (context, snapshot) {
+        if (snapshot.data!.code == 500) {
+          return const SizedBox.shrink();
+        }
         return ZoomIn(
           child: Transform.rotate(
             angle: -pi / 2,

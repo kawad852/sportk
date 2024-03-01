@@ -63,8 +63,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  late AuthProvider _authProvider;
+  late CommonProvider _commonProvider;
+
   Widget _toggleRoute(BuildContext context) {
-    if (context.authProvider.user.id != null) {
+    if (_authProvider.user.id != null) {
       return const AppNavBar();
     } else {
       if (MySharedPreferences.isPassedIntro) {
@@ -78,8 +81,11 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    context.authProvider.initializeLocale(context);
-    context.authProvider.initUser();
+    _authProvider = context.authProvider;
+    _commonProvider = context.commonProvider;
+    _authProvider.initializeLocale(context);
+    _authProvider.initUser();
+    _commonProvider.initializeLeaguesAndLives();
   }
 
   @override

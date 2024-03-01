@@ -89,7 +89,10 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
               children: [
                 ListTile(
                   onTap: () {
-                    context.push(LeagueInfoScreen(leagueId: widget.leagueId,subType: "domestic",));
+                    context.push(LeagueInfoScreen(
+                      leagueId: widget.leagueId,
+                      subType: "domestic",
+                    ));
                   },
                   dense: true,
                   tileColor: context.colorPalette.grey2F2,
@@ -144,7 +147,7 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
                         ),
                       ),
                       // data.id, match id
-                      LiveBubble(matchId: 18842533),
+                      LiveBubble(matchId: widget.leagueId == 82 ? 18842533 : data.id!),
                     ],
                   ),
                 ),
