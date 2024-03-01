@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/model/home_competitions_model.dart';
 import 'package:sportk/model/matches/live_matches_model.dart';
 import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/screens/home/widgets/arrow_button.dart';
@@ -69,8 +70,9 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       onError: (snapshot) => const SizedBox.shrink(),
       onComplete: (context, snapshot) {
-        final competitions = snapshot.data![0] as List<int>;
+        final competitions = snapshot.data![0] as HomeCompetitionsModel;
         final lives = snapshot.data![1] as LivesMatchesModel;
+        final allCompetitions = [...competitions.favsCompetitions!, ...competitions.competitions!];
         return Scaffold(
           body: CustomScrollView(
             slivers: [
@@ -152,15 +154,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(width: 10),
                 ],
               ),
-              // mina
               SliverPadding(
                 padding: const EdgeInsets.all(20).copyWith(top: 0),
                 sliver: SliverList.separated(
                   key: ValueKey(_selectedDate.microsecondsSinceEpoch),
-                  itemCount: competitions.length,
+                  itemCount: allCompetitions.length,
                   separatorBuilder: (context, index) => const SizedBox(height: 5),
                   itemBuilder: (context, index) {
-                    final leagueId = competitions[index];
+                    final leagueId = allCompetitions[index];
                     final liveLeagues = lives.data!.where((element) => element.competitionId == '$leagueId').toList();
                     return Column(
                       children: [
@@ -175,7 +176,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ),
-              // montk
             ],
           ),
         );

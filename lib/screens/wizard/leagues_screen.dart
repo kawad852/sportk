@@ -6,7 +6,7 @@ import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/team_bubble.dart';
 
 class LeaguesScreen extends StatefulWidget {
-  final String leagueId;
+  final int leagueId;
   final List<int> selectedTeams;
 
   const LeaguesScreen({
@@ -25,7 +25,7 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
   late List<int> _selectedTeams;
 
   Future<TeamsBySeasonModel> _initializeLeagues() async {
-    final seasonFuture = _footBallProvider.fetchSeasonByLeague(leagueId: int.parse(widget.leagueId));
+    final seasonFuture = _footBallProvider.fetchSeasonByLeague(leagueId: widget.leagueId);
     final season = await seasonFuture;
     final teamsFuture = _footBallProvider.fetchTeamsBySeason(seasonId: season.data!.id!);
     return teamsFuture;

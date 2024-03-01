@@ -31,7 +31,7 @@ class AuthProvider extends ChangeNotifier {
     required String? displayName,
     required String? email,
     required List<int> selectedTeams,
-    required List<String> selectedLeagues,
+    required List<int> selectedLeagues,
   }) async {
     final teams = selectedTeams.map((e) {
       return {

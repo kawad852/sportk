@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/model/league_model.dart';
 import 'package:sportk/model/matches/our_league_model.dart';
 import 'package:sportk/model/matches/our_teams_model.dart';
 import 'package:sportk/model/teams_by_season_model.dart';
@@ -6,6 +7,7 @@ import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
 import 'package:sportk/screens/base/app_nav_bar.dart';
 import 'package:sportk/screens/registration/registration_screen.dart';
+import 'package:sportk/screens/wizard/leagues_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/utils/my_theme.dart';
@@ -28,7 +30,7 @@ class FollowTeamsScreen extends StatefulWidget {
 
 class _FollowTeamsScreenState extends State<FollowTeamsScreen> {
   final List<int> _selectedTeams = [];
-  final List<String> _selectedLeagues = [];
+  final List<int> _selectedLeagues = [];
 
   Future<OurTeamsModel> _fetchTeams(int pageKey) {
     final snapshot = ApiService<OurTeamsModel>().build(
@@ -182,12 +184,21 @@ class _FollowTeamsScreenState extends State<FollowTeamsScreen> {
                       snapshot.fetchMore();
                       return const VexLoader();
                     }
-                    final league = snapshot.docs[index] as OurLeagueData;
+                    final league = snapshot.docs[index] as LeagueData;
                     final id = league.id!;
                     return LeagueTile(
                       league: league,
-                      onBack: (value) {
-                        setState(() {});
+                      onTap: () {
+                        context
+                            .push(
+                          LeaguesScreen(
+                            leagueId: league.id!,
+                            selectedTeams: _selectedTeams,
+                          ),
+                        )
+                            .then((value) {
+                          setState(() {});
+                        });
                       },
                       selectedTeams: _selectedTeams,
                       trailing: StatefulBuilder(

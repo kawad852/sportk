@@ -1,19 +1,24 @@
 import 'package:flutter/foundation.dart';
 import 'package:sportk/model/comments_model.dart';
+import 'package:sportk/model/home_competitions_model.dart';
 import 'package:sportk/model/is_like_model.dart';
 import 'package:sportk/model/matches/live_matches_model.dart';
 import 'package:sportk/model/new_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
-import 'package:sportk/utils/enums.dart';
 
 class CommonProvider extends ChangeNotifier {
-  late Future<List<int>> leaguesFuture;
+  late Future<HomeCompetitionsModel> leaguesFuture;
   late Future<LivesMatchesModel> liveMatchesFuture;
   late Future<List<dynamic>> leaguesAndLivesFutures;
 
   void fetchLeagues() {
-    leaguesFuture = Future.value(<int>[8, 564, 82, 72, 301]);
+    leaguesFuture = ApiService<HomeCompetitionsModel>().build(
+      weCanUrl: ApiUrl.homeComp,
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: HomeCompetitionsModel.fromJson,
+    );
   }
 
   void fetchLives() {
@@ -36,8 +41,8 @@ class CommonProvider extends ChangeNotifier {
     String type,
   ) {
     final snapshot = ApiService<NewModel>().build(
-      weCanUrl: type != BlogsType.mostRecent ? '${ApiUrl.news}/$type?page=$pageKey' : '${ApiUrl.news}?page=$pageKey',
-      isPublic: type != BlogsType.recommended,
+      weCanUrl: '${ApiUrl.news}/$type?page=$pageKey',
+      isPublic: false,
       apiType: ApiType.get,
       builder: NewModel.fromJson,
     );

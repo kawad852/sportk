@@ -27,7 +27,7 @@ class CompoTypeEnum {
 
 class BlogsType {
   static String recommended = 'user?locale=${MySharedPreferences.language}';
-  static const mostRecent = 'blogs';
+  static String mostRecent = '?locale=${MySharedPreferences.language}';
   static String teams(int id) => 'teams/$id?locale=${MySharedPreferences.language}';
   static String competitions(int id) => 'tags/$id?locale=${MySharedPreferences.language}';
 }

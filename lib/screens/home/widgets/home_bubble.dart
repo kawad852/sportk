@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/model/league_by_date_model.dart';
+import 'package:sportk/model/league_model.dart';
 import 'package:sportk/model/matches/live_matches_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
+import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/home/widgets/live_bubble.dart';
 import 'package:sportk/screens/home/widgets/team_widget.dart';
 import 'package:sportk/screens/league_info/league_info_screen.dart';
-import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
-import 'package:sportk/widgets/custom_network_image.dart';
+import 'package:sportk/widgets/league_tile.dart';
 import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 
 class HomeBubble extends StatefulWidget {
   final DateTime date;
-  final int leagueId;
+  final String leagueId;
   final List<LiveData> lives;
 
   const HomeBubble({
@@ -32,6 +33,8 @@ class HomeBubble extends StatefulWidget {
 
 class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMixin {
   late Future<LeagueByDateModel> _future;
+  late Future<List<dynamic>> _futures;
+  late FootBallProvider _footBallProvider;
 
   Future<LeagueByDateModel> _fetchLeagueByDate() {
     final snapshot = ApiService<LeagueByDateModel>().build(
@@ -43,30 +46,38 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
     return snapshot;
   }
 
-  void _initializeFuture() {
-    _future = _fetchLeagueByDate();
+  Future<List<dynamic>> _initializeFutures() {
+    final leagueFuture = _footBallProvider.fetchLeague(leagueId: int.parse(widget.leagueId));
+    final teamsFuture = ApiService<LeagueByDateModel>().build(
+      sportsUrl: '${ApiUrl.compoByDate}/${widget.date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&filters=fixtureLeagues:${widget.leagueId}&include=state;participants;statistics.type',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: LeagueByDateModel.fromJson,
+    );
+    return Future.wait([leagueFuture, teamsFuture]);
   }
 
   @override
   void initState() {
     super.initState();
-    _initializeFuture();
+    _footBallProvider = context.footBallProvider;
+    _futures = _initializeFutures();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return CustomFutureBuilder(
-      future: _future,
+      future: _futures,
       onRetry: () {
         setState(() {
-          _initializeFuture();
+          _futures = _initializeFutures();
         });
       },
       onLoading: () {
         return ShimmerLoading(
           child: ListView.separated(
-            itemCount: 5,
+            itemCount: 3,
             separatorBuilder: (context, index) => const SizedBox(height: 5),
             shrinkWrap: true,
             padding: const EdgeInsets.symmetric(vertical: 5),
@@ -80,39 +91,29 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
         );
       },
       onComplete: (context, snapshot) {
-        return ListView.separated(
-          itemCount: snapshot.data!.data!.length,
-          separatorBuilder: (context, index) => const SizedBox(height: 5),
-          shrinkWrap: true,
-          padding: const EdgeInsets.symmetric(vertical: 5),
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            final data = snapshot.data!.data![index];
-            final liveMatch = widget.lives.singleWhere((element) => element.matchId == '$data', orElse: () => LiveData());
-            return Column(
-              children: [
-                ListTile(
-                  onTap: () {
-                    context.push(LeagueInfoScreen(
-                      leagueId: widget.leagueId,
-                      subType: "domestic",
-                    ));
-                  },
-                  dense: true,
-                  tileColor: context.colorPalette.grey2F2,
-                  leading: const CustomNetworkImage(
-                    kFakeImage,
-                    radius: 0,
-                    width: 25,
-                    height: 25,
-                  ),
-                  title: const Text(
-                    'Team Name',
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  // trailing: widget.trailing,
-                ),
-                Container(
+        final league = snapshot.data![0] as LeagueModel;
+        final teams = snapshot.data![1] as LeagueByDateModel;
+        return Column(
+          children: [
+            LeagueTile(
+              league: league.data!,
+              onTap: () {
+                context.push(LeagueInfoScreen(
+                  leagueId: int.parse(widget.leagueId),
+                  subType: "domestic",
+                ));
+              },
+            ),
+            ListView.separated(
+              itemCount: teams.data!.length,
+              separatorBuilder: (context, index) => const SizedBox(height: 5),
+              shrinkWrap: true,
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                final data = teams.data![index];
+                final liveMatch = widget.lives.singleWhere((element) => element.matchId == '$data', orElse: () => LiveData());
+                return Container(
                   height: 65,
                   decoration: BoxDecoration(
                     color: context.colorPalette.blue1FC,
@@ -153,10 +154,10 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
                       if (liveMatch.id != null) LiveBubble(liveData: liveMatch),
                     ],
                   ),
-                ),
-              ],
-            );
-          },
+                );
+              },
+            ),
+          ],
         );
       },
     );

@@ -28,7 +28,7 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
   void _initializeNew() {
     _newFuture = ApiService<NewDetailsModel>().build(
       weCanUrl: '${ApiUrl.news}/$_newId',
-      isPublic: true,
+      isPublic: false,
       apiType: ApiType.get,
       builder: NewDetailsModel.fromJson,
     );

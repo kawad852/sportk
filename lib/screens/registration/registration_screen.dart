@@ -12,7 +12,7 @@ import 'package:sportk/widgets/title/medium_title.dart';
 
 class RegistrationScreen extends StatefulWidget {
   final List<int> selectedTeams;
-  final List<String> selectedLeagues;
+  final List<int> selectedLeagues;
 
   const RegistrationScreen({
     super.key,
