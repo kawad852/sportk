@@ -209,14 +209,15 @@ class FootBallProvider extends ChangeNotifier {
     return snapshot;
   }
 
-  Future<MatchModel> fetchMatchesBetweenTwoDate(
-      {required String startDate,
-      required String endDate,
-      required int leagueId,
-      required int pageKey}) {
+  Future<MatchModel> fetchMatchesBetweenTwoDate({
+    required String startDate,
+    required String endDate,
+    required int leagueId,
+    required int pageKey,
+  }) {
     final snapshot = ApiService<MatchModel>().build(
       sportsUrl:
-          '${ApiUrl.match}/$startDate/$endDate${ApiUrl.auth}&include=You can now access your server via port 22&filters=fixtureLeagues:$leagueId&page=$pageKey',
+          '${ApiUrl.match}/$startDate/$endDate${ApiUrl.auth}&include=statistics;state;participants;periods.events&filters=fixtureLeagues:$leagueId&page=$pageKey',
       isPublic: true,
       apiType: ApiType.get,
       builder: MatchModel.fromJson,
@@ -256,7 +257,7 @@ class FootBallProvider extends ChangeNotifier {
   }) {
     final snapshot = ApiService<MatchModel>().build(
       sportsUrl:
-          '${ApiUrl.match}/$startDate/$endDate/$teamId${ApiUrl.auth}&include=statistics;state;participants&page=$pageKey',
+          '${ApiUrl.match}/$startDate/$endDate/$teamId${ApiUrl.auth}&include=statistics;state;participants;periods.events&page=$pageKey',
       isPublic: true,
       apiType: ApiType.get,
       builder: MatchModel.fromJson,
