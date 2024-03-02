@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sportk/model/home_competitions_model.dart';
 import 'package:sportk/model/matches/live_matches_model.dart';
 import 'package:sportk/providers/common_provider.dart';
-import 'package:sportk/screens/home/my_circle.dart';
 import 'package:sportk/screens/home/widgets/arrow_button.dart';
 import 'package:sportk/screens/home/widgets/home_bubble.dart';
 import 'package:sportk/screens/home/widgets/live_switch.dart';
@@ -160,21 +159,22 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(width: 10),
                 ],
               ),
-              SliverToBoxAdapter(
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(100),
-                    child: ClockCircles(
-                      circleRadius: 60,
-                      numberOfCircles: 14,
-                      circleSpacing: 5,
-                      circleColor: Colors.blue,
-                      smallCircleRadius: 10,
-                      smallCircleColor: Colors.red,
-                    ),
-                  ),
-                ),
-              ),
+              // SliverToBoxAdapter(
+              //   child: Center(
+              //     child: Padding(
+              //       padding: const EdgeInsets.all(100),
+              //       child: ClockCircles(
+              //         circleRadius: 60,
+              //         numberOfCircles: 9,
+              //         circleSpacing: 5,
+              //         circleColor: Colors.blue,
+              //         smallCircleRadius: 5,
+              //         smallCircleColor: Colors.red,
+              //         startSide: StartSide.right,
+              //       ),
+              //     ),
+              //   ),
+              // ),
               SliverPadding(
                 padding: const EdgeInsets.all(20).copyWith(top: 0),
                 sliver: SliverList.separated(
