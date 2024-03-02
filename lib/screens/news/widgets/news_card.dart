@@ -121,7 +121,7 @@ class _NewsCardState extends State<NewsCard> {
                                       _commonProvider.like(_newData.id!, isComment: false);
                                     } else {
                                       _newData.numberOfLikes = _newData.numberOfLikes! - 1;
-                                      _commonProvider.disLike(_newData.id!);
+                                      _commonProvider.disLike(_newData.id!, false);
                                     }
                                   });
                                 },

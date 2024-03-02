@@ -120,7 +120,7 @@ class _CommentBubbleState extends State<CommentBubble> with AutomaticKeepAliveCl
                                   _commonProvider.like(_comment.id!, isComment: true);
                                 } else {
                                   _comment.numberOfLikes = _comment.numberOfLikes! - 1;
-                                  _commonProvider.disLike(_comment.id!);
+                                  _commonProvider.disLike(_comment.id!, true);
                                 }
                               });
                             },

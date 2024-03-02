@@ -79,9 +79,9 @@ class CommonProvider extends ChangeNotifier {
     return snapshot;
   }
 
-  Future<IsLikeModel> disLike(int id) {
+  Future<IsLikeModel> disLike(int id, bool isComment) {
     final snapshot = ApiService<IsLikeModel>().build(
-      weCanUrl: '${ApiUrl.like}/$id',
+      weCanUrl: isComment ? '${ApiUrl.dislikeComment}/$id' : '${ApiUrl.dislikeBlog}/$id',
       isPublic: false,
       apiType: ApiType.get,
       builder: IsLikeModel.fromJson,
