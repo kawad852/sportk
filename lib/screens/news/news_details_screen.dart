@@ -66,7 +66,7 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
               SliverPadding(
                 padding: const EdgeInsetsDirectional.symmetric(horizontal: 10),
                 sliver: SliverToBoxAdapter(
-                  child: NewsDetailsCard(newData: newData),
+                  child: NewsDetailsCard(newData: newData, source: newData.source),
                 ),
               ),
               SliverPadding(
@@ -82,7 +82,7 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                     bottom: 5,
                   ),
                   child: Text(
-                    "المزيد من الاخبار",
+                    context.appLocalization.moreNews,
                     style: TextStyle(
                       color: context.colorPalette.blueD4B,
                       fontWeight: FontWeight.w600,

@@ -16,6 +16,13 @@ class WebViewScreen extends StatefulWidget {
 
 class _WebViewScreenState extends State<WebViewScreen> {
   late WebViewController controller;
+  int _loadingValue = 0;
+
+  void _updateLoading(int value) {
+    setState(() {
+      _loadingValue = value;
+    });
+  }
   //late final WebViewCookieManager cookieManager = WebViewCookieManager();
   //18850171
 
@@ -39,9 +46,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
       ..setBackgroundColor(const Color(0x00000000))
       ..setNavigationDelegate(
         NavigationDelegate(
-          onProgress: (int progress) {
-            // Update loading bar.
-          },
+          onProgress: _updateLoading,
           onPageStarted: (String url) {},
           onPageFinished: (String url) {},
           onWebResourceError: (WebResourceError error) {
@@ -71,7 +76,14 @@ class _WebViewScreenState extends State<WebViewScreen> {
       appBar: AppBar(
         title: const Text('Sport Monks Widget'),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
+      floatingActionButton: _loadingValue < 100
+          ? const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: LinearProgressIndicator(),
+            )
+          : null,
+      bottomSheet: FilledButton(
         onPressed: () {
           context.push(ChatScreen(matchId: widget.matchId));
         },

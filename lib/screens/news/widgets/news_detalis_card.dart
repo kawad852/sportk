@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/helper/lanucher_helper.dart';
 import 'package:sportk/model/new_model.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
@@ -8,10 +9,12 @@ import 'package:sportk/widgets/stretch_button.dart';
 
 class NewsDetailsCard extends StatelessWidget {
   final NewData newData;
+  final String? source;
 
   const NewsDetailsCard({
     super.key,
     required this.newData,
+    this.source,
   });
 
   @override
@@ -24,6 +27,22 @@ class NewsDetailsCard extends StatelessWidget {
           radius: 10,
           width: double.infinity,
           height: 200,
+          alignment: AlignmentDirectional.bottomStart,
+          child: source != null
+              ? Padding(
+                  padding: const EdgeInsetsDirectional.only(start: 6),
+                  child: Chip(
+                    backgroundColor: context.colorPalette.red000,
+                    labelStyle: TextStyle(
+                      color: context.colorPalette.white,
+                    ),
+                    side: BorderSide.none,
+                    label: Text(
+                      source!,
+                    ),
+                  ),
+                )
+              : null,
         ),
         const SizedBox(
           height: 5,
@@ -52,14 +71,17 @@ class NewsDetailsCard extends StatelessWidget {
             newData.content!,
           ),
         ),
-        StretchedButton(
-          onPressed: () {},
-          margin: const EdgeInsetsDirectional.only(bottom: 15),
-          child: Text(
-            context.appLocalization.newReadSource,
-            style: TextStyle(color: context.colorPalette.white),
+        if (newData.link != null)
+          StretchedButton(
+            onPressed: () {
+              LauncherHelper.lunch(context, newData.link!);
+            },
+            margin: const EdgeInsetsDirectional.only(bottom: 15),
+            child: Text(
+              context.appLocalization.newReadSource,
+              style: TextStyle(color: context.colorPalette.white),
+            ),
           ),
-        ),
       ],
     );
   }
