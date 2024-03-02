@@ -5,10 +5,12 @@ import 'package:sportk/model/matches/live_matches_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
 import 'package:sportk/providers/football_provider.dart';
+import 'package:sportk/screens/champions_league/champions_league_screen.dart';
 import 'package:sportk/screens/home/widgets/live_bubble.dart';
 import 'package:sportk/screens/home/widgets/team_widget.dart';
 import 'package:sportk/screens/league_info/league_info_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/web_view_screen.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
@@ -41,7 +43,8 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
 
   Future<LeagueByDateModel> _fetchLeagueByDate() {
     final snapshot = ApiService<LeagueByDateModel>().build(
-      sportsUrl: '${ApiUrl.compoByDate}/${widget.date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&filters=fixtureLeagues:${widget.leagueId}&include=state;participants;statistics.type',
+      sportsUrl:
+          '${ApiUrl.compoByDate}/${widget.date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&filters=fixtureLeagues:${widget.leagueId}&include=state;participants;statistics.type',
       isPublic: true,
       apiType: ApiType.get,
       builder: LeagueByDateModel.fromJson,
@@ -52,7 +55,8 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
   Future<List<dynamic>> _initializeFutures() {
     final leagueFuture = _footBallProvider.fetchLeague(leagueId: int.parse(widget.leagueId));
     final teamsFuture = ApiService<LeagueByDateModel>().build(
-      sportsUrl: '${ApiUrl.compoByDate}/${widget.date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&filters=fixtureLeagues:${widget.leagueId}&include=state;participants;statistics.type',
+      sportsUrl:
+          '${ApiUrl.compoByDate}/${widget.date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&filters=fixtureLeagues:${widget.leagueId}&include=state;participants;statistics.type',
       isPublic: true,
       apiType: ApiType.get,
       builder: LeagueByDateModel.fromJson,
@@ -99,7 +103,8 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
         List<MatchData> matches = [];
         if (widget.isLive) {
           final liveMatches = widget.lives.map((e) => e.matchId).toList();
-          matches = matchModel.data!.where((element) => liveMatches.contains('${element.id}')).toList();
+          matches =
+              matchModel.data!.where((element) => liveMatches.contains('${element.id}')).toList();
         } else {
           matches = matchModel.data!;
         }
@@ -112,10 +117,20 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
             LeagueTile(
               league: league.data!,
               onTap: () {
-                context.push(LeagueInfoScreen(
-                  leagueId: int.parse(widget.leagueId),
-                  subType: "domestic",
-                ));
+                if (league.data!.subType == LeagueTypeEnum.cubInternational) {
+                  context.push(
+                    ChampionsLeagueScreen(leagueId: int.parse(widget.leagueId)),
+                  );
+                } else {
+                  context.push(
+                    LeagueInfoScreen(
+                        leagueId: int.parse(widget.leagueId), subType: league.data!.subType!),
+                  );
+                }
+                // context.push(LeagueInfoScreen(
+                //   leagueId: int.parse(widget.leagueId),
+                //   subType: "domestic",
+                // ));
               },
             ),
             ListView.separated(
@@ -126,7 +141,9 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 final match = matches[index];
-                final liveMatch = widget.lives.singleWhere((element) => element.matchId == '${match.id}', orElse: () => LiveData());
+                final liveMatch = widget.lives.singleWhere(
+                    (element) => element.matchId == '${match.id}',
+                    orElse: () => LiveData());
                 return GestureDetector(
                   onTap: () {
                     context.push(WebViewScreen(matchId: match.id!));

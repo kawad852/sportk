@@ -53,19 +53,23 @@ class _ChampionsGroupsState extends State<ChampionsGroups> {
         );
       },
       onComplete: (context, snapshot) {
-        return ListView.builder(
-          padding: EdgeInsets.zero,
-          shrinkWrap: true,
-          scrollDirection: Axis.vertical,
-          itemCount: _groups.length,
-          itemBuilder: (BuildContext context, int index) {
-            return GroupsStandings(
-              groupId: _groups.elementAt(index),
-              seasonId: _seasonId,
-              teamId: widget.teamId,
-            );
-          },
-        );
+        return _groups.isEmpty
+            ? Center(
+                child: Text("لا يوجد معلومات متوفرة عن المجموعات في الوقت الحالي"),
+              )
+            : ListView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                itemCount: _groups.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return GroupsStandings(
+                    groupId: _groups.elementAt(index),
+                    seasonId: _seasonId,
+                    teamId: widget.teamId,
+                  );
+                },
+              );
       },
     );
   }

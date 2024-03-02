@@ -5,6 +5,7 @@ import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/champions_league/champions_league_screen.dart';
 import 'package:sportk/screens/league_info/league_info_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
@@ -77,11 +78,13 @@ class _PhaseCardState extends State<PhaseCard> {
 
         return InkWell(
           onTap: () {
-            widget.leagueId == 2 || widget.leagueId == 5
-                ? context.push(ChampionsLeagueScreen(
-                    leagueId: widget.leagueId,
-                    teamId: widget.teamId,
-                  ))
+            league.data!.subType == LeagueTypeEnum.cubInternational
+                ? context.push(
+                    ChampionsLeagueScreen(
+                      leagueId: widget.leagueId,
+                      teamId: widget.teamId,
+                    ),
+                  )
                 : context.push(
                     LeagueInfoScreen(
                       leagueId: widget.leagueId,

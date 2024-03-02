@@ -17,6 +17,7 @@ class LocationEnum {
 
 class LeagueTypeEnum {
   static const String domestic = 'domestic';
+  static const String cubInternational = 'cup_international';
 }
 
 class CompoTypeEnum {
