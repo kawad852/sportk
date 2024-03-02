@@ -109,6 +109,7 @@
   "newsTitleEmpty": "No Football News Available",
   "newsBodyEmpty": "Check back soon for the latest updates.",
   "chat": "Chat",
-  "moreNews": "More News"
-  
+  "moreNews": "More News",
+  "noMatchesAtTheMoment":"There are no matches scheduled at the moment",
+  "save": "Save"
 }
