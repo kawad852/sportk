@@ -108,7 +108,7 @@ class _ClubStandingsState extends State<ClubStandings> {
                         highlightColor: Colors.transparent,
                         splashColor: Colors.transparent,
                         onTap: () {
-                          leagues[index].data!.id == 2 || leagues[index].data!.id == 5
+                          leagues[index].data!.subType == LeagueTypeEnum.cubInternational
                               ? context.push(
                                   ChampionsLeagueScreen(
                                     leagueId: leagues[index].data!.id!,
@@ -118,7 +118,7 @@ class _ClubStandingsState extends State<ClubStandings> {
                               : context.push(
                                   LeagueInfoScreen(
                                     leagueId: leagues[index].data!.id!,
-                                    subType: leagues[index].data!.subType! ,
+                                    subType: leagues[index].data!.subType!,
                                   ),
                                 );
                         },

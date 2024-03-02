@@ -87,6 +87,12 @@ class _LeagueMatchesState extends State<LeagueMatches> with AutomaticKeepAliveCl
                     final element = matches[index];
                     int homeGoals = 0;
                     int awayGoals = 0;
+                    int? minute;
+                    element.periods!.map((period) {
+                      if (period.hasTimer!) {
+                        minute = period.minutes;
+                      }
+                    }).toSet();
                     element.statistics!.map(
                       (e) {
                         if (e.typeId == 52) {
@@ -125,7 +131,10 @@ class _LeagueMatchesState extends State<LeagueMatches> with AutomaticKeepAliveCl
                                   textAlign: TextAlign.center,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
-                                  style: TextStyle(color: context.colorPalette.blueD4B),
+                                  style: TextStyle(
+                                    color: context.colorPalette.blueD4B,
+                                    fontSize: 11,
+                                  ),
                                 ),
                               ),
                               CustomNetworkImage(
@@ -137,35 +146,61 @@ class _LeagueMatchesState extends State<LeagueMatches> with AutomaticKeepAliveCl
                               Expanded(
                                 flex: 1,
                                 child: Padding(
-                                  padding: const EdgeInsetsDirectional.only(start: 5, end: 5),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                  padding: const EdgeInsetsDirectional.only(start: 15, end: 5),
+                                  child: Row(
                                     children: [
-                                      if (element.state!.id != 1 &&
-                                          element.state!.id != 13 &&
-                                          element.state!.id != 10)
-                                        Text("$homeGoals   :   $awayGoals"),
-                                      Text(
-                                        element.state!.name!,
-                                        style: TextStyle(
-                                          color: context.colorPalette.green057,
-                                          fontSize: 8,
-                                        ),
-                                      ),
-                                      Text(
-                                        DateFormat("yyyy-MM-dd").format(element.startingAt!),
-                                        style: const TextStyle(
-                                          fontSize: 8,
-                                        ),
-                                      ),
-                                      if (element.state!.id == 1)
-                                        Text(
-                                          DateFormat("HH:mm").format(element.startingAt!),
-                                          style: const TextStyle(
-                                            fontSize: 8,
-                                          ),
-                                        ),
+                                      element.state!.id != 1 &&
+                                              element.state!.id != 13 &&
+                                              element.state!.id != 10
+                                          ? Padding(
+                                              padding: const EdgeInsetsDirectional.only(end: 5),
+                                              child: Text("$homeGoals"),
+                                            )
+                                          : const SizedBox(
+                                              width: 6,
+                                            ),
+                                      minute != null
+                                          ? CircleAvatar(
+                                              child: Text("$minute"),
+                                            )
+                                          : Column(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  element.state!.name!,
+                                                  style: TextStyle(
+                                                    color: context.colorPalette.green057,
+                                                    fontSize: 8,
+                                                  ),
+                                                ),
+                                                if (element.state!.id == 1)
+                                                  Text(
+                                                    DateFormat("yyyy-MM-dd")
+                                                        .format(element.startingAt!),
+                                                    style: const TextStyle(
+                                                      fontSize: 8,
+                                                    ),
+                                                  ),
+                                                if (element.state!.id == 1)
+                                                  Text(
+                                                    DateFormat("HH:mm").format(element.startingAt!),
+                                                    style: const TextStyle(
+                                                      fontSize: 8,
+                                                    ),
+                                                  ),
+                                              ],
+                                            ),
+                                      element.state!.id != 1 &&
+                                              element.state!.id != 13 &&
+                                              element.state!.id != 10
+                                          ? Padding(
+                                              padding: const EdgeInsetsDirectional.only(start: 5),
+                                              child: Text("$awayGoals"),
+                                            )
+                                          : const SizedBox(
+                                              width: 8,
+                                            )
                                     ],
                                   ),
                                 ),
@@ -183,7 +218,10 @@ class _LeagueMatchesState extends State<LeagueMatches> with AutomaticKeepAliveCl
                                   textAlign: TextAlign.center,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
-                                  style: TextStyle(color: context.colorPalette.blueD4B),
+                                  style: TextStyle(
+                                    color: context.colorPalette.blueD4B,
+                                    fontSize: 11,
+                                  ),
                                 ),
                               ),
                             ],

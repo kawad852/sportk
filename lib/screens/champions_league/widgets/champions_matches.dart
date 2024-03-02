@@ -58,140 +58,154 @@ class _ChampionsMatchesState extends State<ChampionsMatches> with AutomaticKeepA
           return const ShimmerLoading(child: MatchesLoading());
         },
         builder: (context, snapshot) {
-          return SingleChildScrollView(
-            padding: const EdgeInsetsDirectional.symmetric(horizontal: 15, vertical: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  context.appLocalization.nextMatches,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w600,
+          final matches = snapshot.docs as List<MatchData>;
+
+          return matches.isEmpty
+              ? Center(
+                  child: Text(
+                    context.appLocalization.noMatchesAtTheMoment,
+                    style: TextStyle(
+                      color: context.colorPalette.blueD4B,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                ListView.builder(
-                  itemCount: snapshot.docs.length,
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  itemBuilder: (context, index) {
-                    if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
-                      snapshot.fetchMore();
-                      return const VexLoader();
-                    }
-                    final matches = snapshot.docs as List<MatchData>;
-                    final element = matches[index];
-                    int homeGoals = 0;
-                    int awayGoals = 0;
-                    element.statistics!.map(
-                      (e) {
-                        if (e.typeId == 52) {
-                          switch (e.location) {
-                            case LocationEnum.home:
-                              homeGoals = e.data!.value!;
-                            case LocationEnum.away:
-                              awayGoals = e.data!.value!;
+                )
+              : SingleChildScrollView(
+                  padding: const EdgeInsetsDirectional.symmetric(horizontal: 15, vertical: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        context.appLocalization.nextMatches,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      ListView.builder(
+                        itemCount: snapshot.docs.length,
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        padding: EdgeInsets.zero,
+                        itemBuilder: (context, index) {
+                          if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
+                            snapshot.fetchMore();
+                            return const VexLoader();
                           }
-                        }
-                      },
-                    ).toSet();
-                    return Column(
-                      children: [
-                        if (index == 0 ||
-                            (index > 0 && matches[index].stageId != matches[index - 1].stageId))
-                          StageCard(stageId: element.stageId!, leagueId: widget.leagueId),
-                        Container(
-                          width: double.infinity,
-                          height: 55,
-                          margin: const EdgeInsetsDirectional.only(bottom: 10),
-                          decoration: BoxDecoration(
-                            color: context.colorPalette.blueE2F,
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+
+                          final element = matches[index];
+                          int homeGoals = 0;
+                          int awayGoals = 0;
+                          element.statistics!.map(
+                            (e) {
+                              if (e.typeId == 52) {
+                                switch (e.location) {
+                                  case LocationEnum.home:
+                                    homeGoals = e.data!.value!;
+                                  case LocationEnum.away:
+                                    awayGoals = e.data!.value!;
+                                }
+                              }
+                            },
+                          ).toSet();
+
+                          return Column(
                             children: [
-                              Expanded(
-                                flex: 1,
-                                child: Text(
-                                  element.participants![0].name!,
-                                  textAlign: TextAlign.center,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
-                                  style: TextStyle(color: context.colorPalette.blueD4B),
+                              if (index == 0 ||
+                                  (index > 0 &&
+                                      matches[index].stageId != matches[index - 1].stageId))
+                                StageCard(stageId: element.stageId!, leagueId: widget.leagueId),
+                              Container(
+                                width: double.infinity,
+                                height: 55,
+                                margin: const EdgeInsetsDirectional.only(bottom: 10),
+                                decoration: BoxDecoration(
+                                  color: context.colorPalette.blueE2F,
+                                  borderRadius: BorderRadius.circular(5),
                                 ),
-                              ),
-                              CustomNetworkImage(
-                                element.participants![0].imagePath!,
-                                width: 30,
-                                height: 30,
-                                shape: BoxShape.circle,
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.only(start: 5, end: 5),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      if (element.state!.id != 1 &&
-                                          element.state!.id != 13 &&
-                                          element.state!.id != 10)
-                                        Text("$homeGoals   :   $awayGoals"),
-                                      Text(
-                                        element.state!.name!,
-                                        style: TextStyle(
-                                          color: context.colorPalette.green057,
-                                          fontSize: 8,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: Text(
+                                        element.participants![0].name!,
+                                        textAlign: TextAlign.center,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                        style: TextStyle(color: context.colorPalette.blueD4B),
+                                      ),
+                                    ),
+                                    CustomNetworkImage(
+                                      element.participants![0].imagePath!,
+                                      width: 30,
+                                      height: 30,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Padding(
+                                        padding: const EdgeInsetsDirectional.only(start: 5, end: 5),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            if (element.state!.id != 1 &&
+                                                element.state!.id != 13 &&
+                                                element.state!.id != 10)
+                                              Text("$homeGoals   :   $awayGoals"),
+                                            Text(
+                                              element.state!.name!,
+                                              style: TextStyle(
+                                                color: context.colorPalette.green057,
+                                                fontSize: 8,
+                                              ),
+                                            ),
+                                            Text(
+                                              DateFormat("yyyy-MM-dd").format(element.startingAt!),
+                                              style: const TextStyle(
+                                                fontSize: 8,
+                                              ),
+                                            ),
+                                            if (element.state!.id == 1)
+                                              Text(
+                                                DateFormat("HH:mm").format(element.startingAt!),
+                                                style: const TextStyle(
+                                                  fontSize: 8,
+                                                ),
+                                              ),
+                                          ],
                                         ),
                                       ),
-                                      Text(
-                                        DateFormat("yyyy-MM-dd").format(element.startingAt!),
-                                        style: const TextStyle(
-                                          fontSize: 8,
-                                        ),
+                                    ),
+                                    CustomNetworkImage(
+                                      element.participants![1].imagePath!,
+                                      width: 30,
+                                      height: 30,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Text(
+                                        element.participants![1].name!,
+                                        textAlign: TextAlign.center,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                        style: TextStyle(color: context.colorPalette.blueD4B),
                                       ),
-                                      if (element.state!.id == 1)
-                                        Text(
-                                          DateFormat("HH:mm").format(element.startingAt!),
-                                          style: const TextStyle(
-                                            fontSize: 8,
-                                          ),
-                                        ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              CustomNetworkImage(
-                                element.participants![1].imagePath!,
-                                width: 30,
-                                height: 30,
-                                shape: BoxShape.circle,
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Text(
-                                  element.participants![1].name!,
-                                  textAlign: TextAlign.center,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
-                                  style: TextStyle(color: context.colorPalette.blueD4B),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              ],
-            ),
-          );
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                );
         },
       ),
     );
