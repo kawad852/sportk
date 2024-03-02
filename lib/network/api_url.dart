@@ -27,7 +27,8 @@ class ApiUrl {
   static const String stage = '/football/stages';
   static const String compoByDate = '/football/fixtures/date';
   static const String round = '/football/rounds';
-  static const String leagueSearch = '/football/teams/search/';
+  static const String leagueSearch = '/football/leagues/search';
+  static const String teamsSearch = '/football/teams/search';
 
   ///weCan url
   static const String login = '/api/login';

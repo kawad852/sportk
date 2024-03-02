@@ -4,6 +4,7 @@ import 'package:sportk/model/country_info_model.dart';
 import 'package:sportk/model/groups_standing_model.dart';
 import 'package:sportk/model/league_by_date_model.dart';
 import 'package:sportk/model/league_model.dart';
+import 'package:sportk/model/league_search_model.dart';
 import 'package:sportk/model/match_model.dart';
 import 'package:sportk/model/player_model.dart';
 import 'package:sportk/model/player_statistics_model.dart';
@@ -13,6 +14,7 @@ import 'package:sportk/model/squads_model.dart';
 import 'package:sportk/model/stage_model.dart';
 import 'package:sportk/model/standings_model.dart';
 import 'package:sportk/model/team_info_model.dart';
+import 'package:sportk/model/team_search_model.dart';
 import 'package:sportk/model/teams_by_season_model.dart';
 import 'package:sportk/model/top_scorers_model.dart';
 import 'package:sportk/network/api_service.dart';
@@ -248,6 +250,30 @@ class FootBallProvider extends ChangeNotifier {
       isPublic: true,
       apiType: ApiType.get,
       builder: MatchModel.fromJson,
+    );
+    return snapshot;
+  }
+
+  Future<LeagueSearchModel> searchLeagues({
+    required String query,
+  }) {
+    final snapshot = ApiService<LeagueSearchModel>().build(
+      sportsUrl: '${ApiUrl.leagueSearch}/$query${ApiUrl.auth}',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: LeagueSearchModel.fromJson,
+    );
+    return snapshot;
+  }
+
+  Future<TeamSearchModel> searchTeams({
+    required String query,
+  }) {
+    final snapshot = ApiService<TeamSearchModel>().build(
+      sportsUrl: '${ApiUrl.teamsSearch}/$query${ApiUrl.auth}',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: TeamSearchModel.fromJson,
     );
     return snapshot;
   }

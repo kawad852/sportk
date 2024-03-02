@@ -8,6 +8,7 @@ import 'package:sportk/network/api_url.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/screens/base/app_nav_bar.dart';
 import 'package:sportk/screens/registration/registration_screen.dart';
+import 'package:sportk/screens/search/search_screen.dart';
 import 'package:sportk/screens/wizard/leagues_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
@@ -163,7 +164,10 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                     onChanged: (value) {},
                     readOnly: true,
                     onTap: () {
-                      // context.push(const SearchScreen());
+                      context.push(SearchScreen(
+                        selectedLeagues: _selectedLeagues,
+                        selectedTeams: _selectedTeams,
+                      ));
                     },
                     hintText: context.appLocalization.clubSearchHint,
                   ),

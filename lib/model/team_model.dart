@@ -1,7 +1,7 @@
 class TeamModel {
   int? code;
   Query? query;
-  List<Result>? results;
+  List<TeamData>? results;
 
   TeamModel({
     this.code,
@@ -12,7 +12,7 @@ class TeamModel {
   factory TeamModel.fromJson(Map<String, dynamic> json) => TeamModel(
         code: json["code"],
         query: json["query"] == null ? null : Query.fromJson(json["query"]),
-        results: json["results"] == null ? [] : List<Result>.from(json["results"]!.map((x) => Result.fromJson(x))),
+        results: json["results"] == null ? [] : List<TeamData>.from(json["results"]!.map((x) => TeamData.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -46,7 +46,7 @@ class Query {
       };
 }
 
-class Result {
+class TeamData {
   String? id;
   String? competitionId;
   String? countryId;
@@ -66,7 +66,7 @@ class Result {
   int? nationalPlayers;
   int? updatedAt;
 
-  Result({
+  TeamData({
     this.id,
     this.competitionId,
     this.countryId,
@@ -87,7 +87,7 @@ class Result {
     this.updatedAt,
   });
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory TeamData.fromJson(Map<String, dynamic> json) => TeamData(
         id: json["id"],
         competitionId: json["competition_id"],
         countryId: json["country_id"],
