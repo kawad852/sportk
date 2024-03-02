@@ -107,6 +107,7 @@
   "addComment": "Add a comment",
   "allComments": "All comments",
   "newsTitleEmpty": "No Football News Available",
-  "newsBodyEmpty": "Check back soon for the latest updates."
+  "newsBodyEmpty": "Check back soon for the latest updates.",
+  "chat": "Chat"
   
 }

@@ -52,6 +52,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           context,
           displayName: auth.user?.displayName,
           email: auth.user?.email,
+          photoURL: auth.user?.photoURL,
           selectedTeams: widget.selectedTeams,
           selectedLeagues: widget.selectedLeagues,
         );

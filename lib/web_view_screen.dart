@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/screens/chat/chat_screen.dart';
+import 'package:sportk/utils/base_extensions.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewScreen extends StatefulWidget {
-  const WebViewScreen({super.key});
+  final int matchId;
+  const WebViewScreen({
+    super.key,
+    required this.matchId,
+  });
 
   @override
   State<WebViewScreen> createState() => _WebViewScreenState();
@@ -64,6 +70,12 @@ class _WebViewScreenState extends State<WebViewScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sport Monks Widget'),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.push(ChatScreen(matchId: widget.matchId));
+        },
+        child: Text("Chat"),
       ),
       body: WebViewWidget(
         controller: controller,

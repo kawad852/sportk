@@ -30,6 +30,7 @@ class AuthProvider extends ChangeNotifier {
     BuildContext context, {
     required String? displayName,
     required String? email,
+    required String? photoURL,
     required List<int> selectedTeams,
     required List<int> selectedLeagues,
   }) async {
@@ -56,6 +57,7 @@ class AuthProvider extends ChangeNotifier {
           queryParams: {
             "name": displayName,
             "email": email,
+            "profile_img": photoURL,
             "favorites": [...teams, ...leagues],
           },
           builder: AuthModel.fromJson,

@@ -6,32 +6,47 @@ import 'package:sportk/model/chat_model.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/screens/chat/widgets/chat_bubble.dart';
 import 'package:sportk/screens/chat/widgets/chat_editor.dart';
-import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_firestore_query_builder.dart';
 
-class ChatTab extends StatefulWidget {
-  const ChatTab({super.key});
+class ChatScreen extends StatefulWidget {
+  final int matchId;
+  const ChatScreen({
+    super.key,
+    required this.matchId,
+  });
 
   @override
-  State<ChatTab> createState() => _ChatTabState();
+  State<ChatScreen> createState() => _ChatScreenState();
 }
 
-class _ChatTabState extends State<ChatTab> {
+class _ChatScreenState extends State<ChatScreen> {
   late AuthProvider _authProvider;
   late Query<ChatModel> _chatQuery;
   FirebaseFirestore get _firebaseFirestore => FirebaseFirestore.instance;
   late TextEditingController _controller;
   bool _isEmojiShown = false;
 
-  CollectionReference get _chatRef => _firebaseFirestore.collection('chat');
+  int get _matchId => widget.matchId;
+
+  CollectionReference get _chatRef => _firebaseFirestore.collection('chats').doc('$_matchId').collection('messages');
+
+  void _createMatchDocument() async {
+    final documentRef = _firebaseFirestore.collection('chats').doc('$_matchId');
+    final documentSnapshot = await documentRef.get();
+    if (!documentSnapshot.exists) {
+      documentRef.set({
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+    }
+  }
 
   void _sendMessage() {
     var chatJson = ChatModel(
       message: _controller.text,
       userId: _authProvider.user.id,
-      photoURL: kFakeImage,
+      photoURL: _authProvider.user.profileImg,
     ).toJson();
     chatJson['createdAt'] = FieldValue.serverTimestamp();
     _chatRef.doc().set(chatJson);
@@ -66,6 +81,7 @@ class _ChatTabState extends State<ChatTab> {
         setState(() {});
       }
     });
+    _createMatchDocument();
     _initializeQuery();
   }
 
@@ -78,11 +94,15 @@ class _ChatTabState extends State<ChatTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(context.appLocalization.chat),
+      ),
       body: Column(
         children: [
           Expanded(
             child: Container(
               margin: const EdgeInsets.all(20).copyWith(bottom: 5),
+              alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: context.colorPalette.grey3F3,
                 borderRadius: BorderRadius.circular(MyTheme.radiusPrimary),

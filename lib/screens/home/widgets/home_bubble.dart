@@ -10,6 +10,7 @@ import 'package:sportk/screens/home/widgets/team_widget.dart';
 import 'package:sportk/screens/league_info/league_info_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_theme.dart';
+import 'package:sportk/web_view_screen.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/league_tile.dart';
 import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
@@ -113,46 +114,51 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
               itemBuilder: (context, index) {
                 final match = matches.data![index];
                 final liveMatch = widget.lives.singleWhere((element) => element.matchId == '${match.id}', orElse: () => LiveData());
-                return Container(
-                  height: 65,
-                  decoration: BoxDecoration(
-                    color: context.colorPalette.blue1FC,
-                    borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
-                  ),
-                  margin: const EdgeInsets.symmetric(vertical: 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            TeamWidget(
-                              participant: match.participants![0],
-                              reverse: false,
-                            ),
-                            const Text("2"),
-                          ],
+                return GestureDetector(
+                  onTap: () {
+                    context.push(WebViewScreen(matchId: match.id!));
+                  },
+                  child: Container(
+                    height: 65,
+                    decoration: BoxDecoration(
+                      color: context.colorPalette.blue1FC,
+                      borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
+                    ),
+                    margin: const EdgeInsets.symmetric(vertical: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              TeamWidget(
+                                participant: match.participants![0],
+                                reverse: false,
+                              ),
+                              const Text("2"),
+                            ],
+                          ),
                         ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 6),
-                        child: CircleAvatar(),
-                      ),
-                      Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            const Text("2"),
-                            TeamWidget(
-                              participant: match.participants![1],
-                              reverse: true,
-                            ),
-                          ],
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 6),
+                          child: CircleAvatar(),
                         ),
-                      ),
-                      if (liveMatch.id != null) LiveBubble(liveData: liveMatch),
-                    ],
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              const Text("2"),
+                              TeamWidget(
+                                participant: match.participants![1],
+                                reverse: true,
+                              ),
+                            ],
+                          ),
+                        ),
+                        if (liveMatch.id != null) LiveBubble(liveData: liveMatch),
+                      ],
+                    ),
                   ),
                 );
               },
