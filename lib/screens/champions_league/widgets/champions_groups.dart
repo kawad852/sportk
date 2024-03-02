@@ -55,7 +55,14 @@ class _ChampionsGroupsState extends State<ChampionsGroups> {
       onComplete: (context, snapshot) {
         return _groups.isEmpty
             ? Center(
-                child: Text("لا يوجد معلومات متوفرة عن المجموعات في الوقت الحالي"),
+                child: Text(
+                  context.appLocalization.noGroupsAtThisTime,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: context.colorPalette.blueD4B,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               )
             : ListView.builder(
                 padding: EdgeInsets.zero,

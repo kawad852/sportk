@@ -159,6 +159,22 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(width: 10),
                 ],
               ),
+              // SliverToBoxAdapter(
+              //   child: Center(
+              //     child: Padding(
+              //       padding: const EdgeInsets.all(100),
+              //       child: ClockCircles(
+              //         circleRadius: 60,
+              //         numberOfCircles: 9,
+              //         circleSpacing: 5,
+              //         circleColor: Colors.blue,
+              //         smallCircleRadius: 5,
+              //         smallCircleColor: Colors.red,
+              //         startSide: StartSide.right,
+              //       ),
+              //     ),
+              //   ),
+              // ),
               SliverPadding(
                 padding: const EdgeInsets.all(20).copyWith(top: 0),
                 sliver: SliverList.separated(
@@ -176,7 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           lives: liveLeagues,
                           isLive: _isLive,
                         ),
-                        if (index != 0 && index % 2 == 0) const GoogleBanner(),
+                        if ((index != 0 && index % 2 == 0) || (index + 1 == allCompetitions.length)) const GoogleBanner(),
                       ],
                     );
                   },

@@ -1,30 +1,31 @@
 class LeagueByDateModel {
   List<MatchData>? data;
-  Pagination? pagination;
   List<Subscription>? subscription;
   RateLimit? rateLimit;
   String? timezone;
 
   LeagueByDateModel({
     this.data,
-    this.pagination,
     this.subscription,
     this.rateLimit,
     this.timezone,
   });
 
   factory LeagueByDateModel.fromJson(Map<String, dynamic> json) => LeagueByDateModel(
-        data: json["data"] == null ? [] : List<MatchData>.from(json["data"]!.map((x) => MatchData.fromJson(x))),
-        pagination: json["pagination"] == null ? null : Pagination.fromJson(json["pagination"]),
-        subscription: json["subscription"] == null ? [] : List<Subscription>.from(json["subscription"]!.map((x) => Subscription.fromJson(x))),
+        data: json["data"] == null
+            ? []
+            : List<MatchData>.from(json["data"]!.map((x) => MatchData.fromJson(x))),
+        subscription: json["subscription"] == null
+            ? []
+            : List<Subscription>.from(json["subscription"]!.map((x) => Subscription.fromJson(x))),
         rateLimit: json["rate_limit"] == null ? null : RateLimit.fromJson(json["rate_limit"]),
         timezone: json["timezone"],
       );
 
   Map<String, dynamic> toJson() => {
         "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
-        "pagination": pagination?.toJson(),
-        "subscription": subscription == null ? [] : List<dynamic>.from(subscription!.map((x) => x.toJson())),
+        "subscription":
+            subscription == null ? [] : List<dynamic>.from(subscription!.map((x) => x.toJson())),
         "rate_limit": rateLimit?.toJson(),
         "timezone": timezone,
       };
@@ -37,21 +38,23 @@ class MatchData {
   int? seasonId;
   int? stageId;
   dynamic groupId;
-  dynamic aggregateId;
-  int? roundId;
+  int? aggregateId;
+  dynamic roundId;
   int? stateId;
-  int? venueId;
+  dynamic venueId;
   String? name;
-  String? startingAt;
-  String? resultInfo;
+  DateTime? startingAt;
+  dynamic resultInfo;
   String? leg;
   dynamic details;
   int? length;
   bool? placeholder;
   bool? hasOdds;
   int? startingAtTimestamp;
-  List<Participant>? participants;
   List<Statistic>? statistics;
+  States? state;
+  List<Participant>? participants;
+  List<Period>? periods;
 
   MatchData({
     this.id,
@@ -73,8 +76,10 @@ class MatchData {
     this.placeholder,
     this.hasOdds,
     this.startingAtTimestamp,
-    this.participants,
     this.statistics,
+    this.state,
+    this.participants,
+    this.periods,
   });
 
   factory MatchData.fromJson(Map<String, dynamic> json) => MatchData(
@@ -89,7 +94,7 @@ class MatchData {
         stateId: json["state_id"],
         venueId: json["venue_id"],
         name: json["name"],
-        startingAt: json["starting_at"],
+        startingAt: json["starting_at"] == null ? null : DateTime.parse(json["starting_at"]),
         resultInfo: json["result_info"],
         leg: json["leg"],
         details: json["details"],
@@ -97,8 +102,16 @@ class MatchData {
         placeholder: json["placeholder"],
         hasOdds: json["has_odds"],
         startingAtTimestamp: json["starting_at_timestamp"],
-        participants: json["participants"] == null ? [] : List<Participant>.from(json["participants"]!.map((x) => Participant.fromJson(x))),
-        statistics: json["statistics"] == null ? [] : List<Statistic>.from(json["statistics"]!.map((x) => Statistic.fromJson(x))),
+        statistics: json["statistics"] == null
+            ? []
+            : List<Statistic>.from(json["statistics"]!.map((x) => Statistic.fromJson(x))),
+        state: json["state"] == null ? null : States.fromJson(json["state"]),
+        participants: json["participants"] == null
+            ? []
+            : List<Participant>.from(json["participants"]!.map((x) => Participant.fromJson(x))),
+        periods: json["periods"] == null
+            ? []
+            : List<Period>.from(json["periods"]!.map((x) => Period.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -113,7 +126,7 @@ class MatchData {
         "state_id": stateId,
         "venue_id": venueId,
         "name": name,
-        "starting_at": startingAt,
+        "starting_at": startingAt?.toIso8601String(),
         "result_info": resultInfo,
         "leg": leg,
         "details": details,
@@ -121,8 +134,13 @@ class MatchData {
         "placeholder": placeholder,
         "has_odds": hasOdds,
         "starting_at_timestamp": startingAtTimestamp,
-        "participants": participants == null ? [] : List<dynamic>.from(participants!.map((x) => x.toJson())),
-        "statistics": statistics == null ? [] : List<dynamic>.from(statistics!.map((x) => x.toJson())),
+        "statistics":
+            statistics == null ? [] : List<dynamic>.from(statistics!.map((x) => x.toJson())),
+        "state": state?.toJson(),
+        "participants":
+            participants == null ? [] : List<dynamic>.from(participants!.map((x) => x.toJson())),
+        "periods":
+            participants == null ? [] : List<dynamic>.from(participants!.map((x) => x.toJson())),
       };
 }
 
@@ -138,7 +156,7 @@ class Participant {
   int? founded;
   String? type;
   bool? placeholder;
-  String? lastPlayedAt;
+  DateTime? lastPlayedAt;
   ParticipantMeta? meta;
 
   Participant({
@@ -169,7 +187,8 @@ class Participant {
         founded: json["founded"],
         type: json["type"],
         placeholder: json["placeholder"],
-        lastPlayedAt: json["last_played_at"],
+        lastPlayedAt:
+            json["last_played_at"] == null ? null : DateTime.parse(json["last_played_at"]),
         meta: json["meta"] == null ? null : ParticipantMeta.fromJson(json["meta"]),
       );
 
@@ -185,13 +204,13 @@ class Participant {
         "founded": founded,
         "type": type,
         "placeholder": placeholder,
-        "last_played_at": lastPlayedAt,
+        "last_played_at": lastPlayedAt?.toIso8601String(),
         "meta": meta?.toJson(),
       };
 }
 
 class ParticipantMeta {
-  Location? location;
+  String? location;
   bool? winner;
   int? position;
 
@@ -202,21 +221,211 @@ class ParticipantMeta {
   });
 
   factory ParticipantMeta.fromJson(Map<String, dynamic> json) => ParticipantMeta(
-        location: locationValues.map[json["location"]]!,
+        location: json["location"],
         winner: json["winner"],
         position: json["position"],
       );
 
   Map<String, dynamic> toJson() => {
-        "location": locationValues.reverse[location],
+        "location": location,
         "winner": winner,
         "position": position,
       };
 }
 
-enum Location { AWAY, HOME }
+class Period {
+  int? id;
+  int? fixtureId;
+  int? typeId;
+  int? started;
+  int? ended;
+  int? countsFrom;
+  bool? ticking;
+  int? sortOrder;
+  String? description;
+  int? timeAdded;
+  int? periodLength;
+  dynamic minutes;
+  dynamic seconds;
+  bool? hasTimer;
+  List<Event>? events;
 
-final locationValues = EnumValues({"away": Location.AWAY, "home": Location.HOME});
+  Period({
+    this.id,
+    this.fixtureId,
+    this.typeId,
+    this.started,
+    this.ended,
+    this.countsFrom,
+    this.ticking,
+    this.sortOrder,
+    this.description,
+    this.timeAdded,
+    this.periodLength,
+    this.minutes,
+    this.seconds,
+    this.hasTimer,
+    this.events,
+  });
+
+  factory Period.fromJson(Map<String, dynamic> json) => Period(
+        id: json["id"],
+        fixtureId: json["fixture_id"],
+        typeId: json["type_id"],
+        started: json["started"],
+        ended: json["ended"],
+        countsFrom: json["counts_from"],
+        ticking: json["ticking"],
+        sortOrder: json["sort_order"],
+        description: json["description"],
+        timeAdded: json["time_added"],
+        periodLength: json["period_length"],
+        minutes: json["minutes"],
+        seconds: json["seconds"],
+        hasTimer: json["has_timer"],
+        events: json["events"] == null
+            ? []
+            : List<Event>.from(json["events"]!.map((x) => Event.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "fixture_id": fixtureId,
+        "type_id": typeId,
+        "started": started,
+        "ended": ended,
+        "counts_from": countsFrom,
+        "ticking": ticking,
+        "sort_order": sortOrder,
+        "description": description,
+        "time_added": timeAdded,
+        "period_length": periodLength,
+        "minutes": minutes,
+        "seconds": seconds,
+        "has_timer": hasTimer,
+        "events": events == null ? [] : List<dynamic>.from(events!.map((x) => x.toJson())),
+      };
+}
+
+class Event {
+  int? id;
+  int? fixtureId;
+  int? periodId;
+  int? participantId;
+  int? typeId;
+  String? section;
+  int? playerId;
+  int? relatedPlayerId;
+  String? playerName;
+  String? relatedPlayerName;
+  String? result;
+  String? info;
+  String? addition;
+  int? minute;
+  dynamic extraMinute;
+  bool? injured;
+  bool? onBench;
+  dynamic coachId;
+  int? subTypeId;
+
+  Event({
+    this.id,
+    this.fixtureId,
+    this.periodId,
+    this.participantId,
+    this.typeId,
+    this.section,
+    this.playerId,
+    this.relatedPlayerId,
+    this.playerName,
+    this.relatedPlayerName,
+    this.result,
+    this.info,
+    this.addition,
+    this.minute,
+    this.extraMinute,
+    this.injured,
+    this.onBench,
+    this.coachId,
+    this.subTypeId,
+  });
+
+  factory Event.fromJson(Map<String, dynamic> json) => Event(
+        id: json["id"],
+        fixtureId: json["fixture_id"],
+        periodId: json["period_id"],
+        participantId: json["participant_id"],
+        typeId: json["type_id"],
+        section: json["section"],
+        playerId: json["player_id"],
+        relatedPlayerId: json["related_player_id"],
+        playerName: json["player_name"],
+        relatedPlayerName: json["related_player_name"],
+        result: json["result"],
+        info: json["info"],
+        addition: json["addition"],
+        minute: json["minute"],
+        extraMinute: json["extra_minute"],
+        injured: json["injured"],
+        onBench: json["on_bench"],
+        coachId: json["coach_id"],
+        subTypeId: json["sub_type_id"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "fixture_id": fixtureId,
+        "period_id": periodId,
+        "participant_id": participantId,
+        "type_id": typeId,
+        "section": section,
+        "player_id": playerId,
+        "related_player_id": relatedPlayerId,
+        "player_name": playerName,
+        "related_player_name": relatedPlayerName,
+        "result": result,
+        "info": info,
+        "addition": addition,
+        "minute": minute,
+        "extra_minute": extraMinute,
+        "injured": injured,
+        "on_bench": onBench,
+        "coach_id": coachId,
+        "sub_type_id": subTypeId,
+      };
+}
+
+class States {
+  int? id;
+  String? state;
+  String? name;
+  String? shortName;
+  String? developerName;
+
+  States({
+    this.id,
+    this.state,
+    this.name,
+    this.shortName,
+    this.developerName,
+  });
+
+  factory States.fromJson(Map<String, dynamic> json) => States(
+        id: json["id"],
+        state: json["state"],
+        name: json["name"],
+        shortName: json["short_name"],
+        developerName: json["developer_name"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "state": state,
+        "name": name,
+        "short_name": shortName,
+        "developer_name": developerName,
+      };
+}
 
 class Statistic {
   int? id;
@@ -224,8 +433,7 @@ class Statistic {
   int? typeId;
   int? participantId;
   Data? data;
-  Location? location;
-  Type? type;
+  String? location;
 
   Statistic({
     this.id,
@@ -234,7 +442,6 @@ class Statistic {
     this.participantId,
     this.data,
     this.location,
-    this.type,
   });
 
   factory Statistic.fromJson(Map<String, dynamic> json) => Statistic(
@@ -243,8 +450,7 @@ class Statistic {
         typeId: json["type_id"],
         participantId: json["participant_id"],
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
-        location: locationValues.map[json["location"]]!,
-        type: json["type"] == null ? null : Type.fromJson(json["type"]),
+        location: json["location"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -253,8 +459,7 @@ class Statistic {
         "type_id": typeId,
         "participant_id": participantId,
         "data": data?.toJson(),
-        "location": locationValues.reverse[location],
-        "type": type?.toJson(),
+        "location": location,
       };
 }
 
@@ -271,82 +476,6 @@ class Data {
 
   Map<String, dynamic> toJson() => {
         "value": value,
-      };
-}
-
-class Type {
-  int? id;
-  String? name;
-  String? code;
-  String? developerName;
-  ModelType? modelType;
-  StatGroup? statGroup;
-
-  Type({
-    this.id,
-    this.name,
-    this.code,
-    this.developerName,
-    this.modelType,
-    this.statGroup,
-  });
-
-  factory Type.fromJson(Map<String, dynamic> json) => Type(
-        id: json["id"],
-        name: json["name"],
-        code: json["code"],
-        developerName: json["developer_name"],
-        modelType: modelTypeValues.map[json["model_type"]]!,
-        statGroup: statGroupValues.map[json["stat_group"]]!,
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "code": code,
-        "developer_name": developerName,
-        "model_type": modelTypeValues.reverse[modelType],
-        "stat_group": statGroupValues.reverse[statGroup],
-      };
-}
-
-enum ModelType { STATISTIC }
-
-final modelTypeValues = EnumValues({"statistic": ModelType.STATISTIC});
-
-enum StatGroup { DEFENSIVE, OFFENSIVE, OVERALL }
-
-final statGroupValues = EnumValues({"defensive": StatGroup.DEFENSIVE, "offensive": StatGroup.OFFENSIVE, "overall": StatGroup.OVERALL});
-
-class Pagination {
-  int? count;
-  int? perPage;
-  int? currentPage;
-  dynamic nextPage;
-  bool? hasMore;
-
-  Pagination({
-    this.count,
-    this.perPage,
-    this.currentPage,
-    this.nextPage,
-    this.hasMore,
-  });
-
-  factory Pagination.fromJson(Map<String, dynamic> json) => Pagination(
-        count: json["count"],
-        perPage: json["per_page"],
-        currentPage: json["current_page"],
-        nextPage: json["next_page"],
-        hasMore: json["has_more"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "count": count,
-        "per_page": perPage,
-        "current_page": currentPage,
-        "next_page": nextPage,
-        "has_more": hasMore,
       };
 }
 
@@ -377,8 +506,8 @@ class RateLimit {
 class Subscription {
   SubscriptionMeta? meta;
   List<Plan>? plans;
-  List<dynamic>? addOns;
-  List<SubWidget>? widgets;
+  List<AddOn>? addOns;
+  List<Widgets>? widgets;
 
   Subscription({
     this.meta,
@@ -389,22 +518,52 @@ class Subscription {
 
   factory Subscription.fromJson(Map<String, dynamic> json) => Subscription(
         meta: json["meta"] == null ? null : SubscriptionMeta.fromJson(json["meta"]),
-        plans: json["plans"] == null ? [] : List<Plan>.from(json["plans"]!.map((x) => Plan.fromJson(x))),
-        addOns: json["add_ons"] == null ? [] : List<dynamic>.from(json["add_ons"]!.map((x) => x)),
-        widgets: json["widgets"] == null ? [] : List<SubWidget>.from(json["widgets"]!.map((x) => SubWidget.fromJson(x))),
+        plans: json["plans"] == null
+            ? []
+            : List<Plan>.from(json["plans"]!.map((x) => Plan.fromJson(x))),
+        addOns: json["add_ons"] == null
+            ? []
+            : List<AddOn>.from(json["add_ons"]!.map((x) => AddOn.fromJson(x))),
+        widgets: json["widgets"] == null
+            ? []
+            : List<Widgets>.from(json["widgets"]!.map((x) => Widgets.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "meta": meta?.toJson(),
         "plans": plans == null ? [] : List<dynamic>.from(plans!.map((x) => x.toJson())),
-        "add_ons": addOns == null ? [] : List<dynamic>.from(addOns!.map((x) => x)),
+        "add_ons": addOns == null ? [] : List<dynamic>.from(addOns!.map((x) => x.toJson())),
         "widgets": widgets == null ? [] : List<dynamic>.from(widgets!.map((x) => x.toJson())),
       };
 }
 
+class AddOn {
+  String? addOn;
+  String? sport;
+  String? category;
+
+  AddOn({
+    this.addOn,
+    this.sport,
+    this.category,
+  });
+
+  factory AddOn.fromJson(Map<String, dynamic> json) => AddOn(
+        addOn: json["add_on"],
+        sport: json["sport"],
+        category: json["category"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "add_on": addOn,
+        "sport": sport,
+        "category": category,
+      };
+}
+
 class SubscriptionMeta {
-  String? trialEndsAt;
-  String? endsAt;
+  DateTime? trialEndsAt;
+  DateTime? endsAt;
   int? currentTimestamp;
 
   SubscriptionMeta({
@@ -414,14 +573,14 @@ class SubscriptionMeta {
   });
 
   factory SubscriptionMeta.fromJson(Map<String, dynamic> json) => SubscriptionMeta(
-        trialEndsAt: json["trial_ends_at"],
-        endsAt: json["ends_at"],
+        trialEndsAt: json["trial_ends_at"] == null ? null : DateTime.parse(json["trial_ends_at"]),
+        endsAt: json["ends_at"] == null ? null : DateTime.parse(json["ends_at"]),
         currentTimestamp: json["current_timestamp"],
       );
 
   Map<String, dynamic> toJson() => {
-        "trial_ends_at": trialEndsAt,
-        "ends_at": endsAt,
+        "trial_ends_at": trialEndsAt?.toIso8601String(),
+        "ends_at": endsAt?.toIso8601String(),
         "current_timestamp": currentTimestamp,
       };
 }
@@ -450,16 +609,16 @@ class Plan {
       };
 }
 
-class SubWidget {
+class Widgets {
   String? widget;
   String? sport;
 
-  SubWidget({
+  Widgets({
     this.widget,
     this.sport,
   });
 
-  factory SubWidget.fromJson(Map<String, dynamic> json) => SubWidget(
+  factory Widgets.fromJson(Map<String, dynamic> json) => Widgets(
         widget: json["widget"],
         sport: json["sport"],
       );
@@ -468,16 +627,4 @@ class SubWidget {
         "widget": widget,
         "sport": sport,
       };
-}
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }

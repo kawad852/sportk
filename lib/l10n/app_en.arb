@@ -111,6 +111,7 @@
   "chat": "Chat",
   "moreNews": "More News",
   "noMatchesAtTheMoment":"There are no matches scheduled at the moment",
-  "noGroupsAtThisTime":"There is no information available about the groups at this time"
+  "noGroupsAtThisTime":"There is no information available about the groups at this time",
+  "save": "Save"
   
 }

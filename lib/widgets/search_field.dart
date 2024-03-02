@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/widgets/base_editor.dart';
 
 class SearchTextField extends StatefulWidget {
   final Function(String? value) onChanged;
   final String hintText;
+  final bool readOnly;
+  final VoidCallback? onTap;
 
   const SearchTextField({
     super.key,
     required this.onChanged,
     required this.hintText,
+    this.readOnly = false,
+    this.onTap,
   });
 
   @override
@@ -20,17 +24,14 @@ class _SearchTextFieldState extends State<SearchTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      onTapOutside: (value) {
-        context.unFocusKeyboard();
-      },
-      decoration: InputDecoration(
-        hintText: widget.hintText,
-        prefixIcon: const Icon(
-          Icons.search,
-          size: 28,
-        ),
+    return BaseEditor(
+      hintText: widget.hintText,
+      prefixIcon: const Icon(
+        Icons.search,
+        size: 28,
       ),
+      readOnly: widget.readOnly,
+      onTap: widget.onTap,
       onChanged: (value) {
         setState(() {
           if (value.isEmpty) {

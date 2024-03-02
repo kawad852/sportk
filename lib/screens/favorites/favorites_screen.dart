@@ -5,8 +5,10 @@ import 'package:sportk/model/matches/our_teams_model.dart';
 import 'package:sportk/model/teams_by_season_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
+import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/screens/base/app_nav_bar.dart';
 import 'package:sportk/screens/registration/registration_screen.dart';
+import 'package:sportk/screens/search/search_screen.dart';
 import 'package:sportk/screens/wizard/leagues_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
@@ -21,14 +23,15 @@ import 'package:sportk/widgets/team_bubble.dart';
 import 'package:sportk/widgets/vex/vex_loader.dart';
 import 'package:sportk/widgets/vex/vex_paginator.dart';
 
-class FollowTeamsScreen extends StatefulWidget {
-  const FollowTeamsScreen({super.key});
+class FavoritesScreen extends StatefulWidget {
+  const FavoritesScreen({super.key});
 
   @override
-  State<FollowTeamsScreen> createState() => _FollowTeamsScreenState();
+  State<FavoritesScreen> createState() => _FavoritesScreenState();
 }
 
-class _FollowTeamsScreenState extends State<FollowTeamsScreen> {
+class _FavoritesScreenState extends State<FavoritesScreen> {
+  late AuthProvider _authProvider;
   final List<int> _selectedTeams = [];
   final List<int> _selectedLeagues = [];
 
@@ -53,6 +56,12 @@ class _FollowTeamsScreenState extends State<FollowTeamsScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _authProvider = context.authProvider;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -68,15 +77,20 @@ class _FollowTeamsScreenState extends State<FollowTeamsScreen> {
       ),
       bottomNavigationBar: BottomAppBar(
         child: Center(
-          child: StretchedButton(
-            onPressed: () {
-              context.push(RegistrationScreen(
-                selectedTeams: _selectedTeams,
-                selectedLeagues: _selectedLeagues,
-              ));
-            },
-            child: Text(context.appLocalization.next),
-          ),
+          child: _authProvider.isAuthenticated
+              ? StretchedButton(
+                  onPressed: () {},
+                  child: Text(context.appLocalization.save),
+                )
+              : StretchedButton(
+                  onPressed: () {
+                    context.push(RegistrationScreen(
+                      selectedTeams: _selectedTeams,
+                      selectedLeagues: _selectedLeagues,
+                    ));
+                  },
+                  child: Text(context.appLocalization.next),
+                ),
         ),
       ),
       body: Column(
@@ -148,6 +162,13 @@ class _FollowTeamsScreenState extends State<FollowTeamsScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: SearchTextField(
                     onChanged: (value) {},
+                    readOnly: true,
+                    onTap: () {
+                      context.push(SearchScreen(
+                        selectedLeagues: _selectedLeagues,
+                        selectedTeams: _selectedTeams,
+                      ));
+                    },
                     hintText: context.appLocalization.clubSearchHint,
                   ),
                 ),
