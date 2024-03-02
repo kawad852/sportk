@@ -103,6 +103,10 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
         } else {
           matches = matchModel.data!;
         }
+        if (matches.isEmpty) {
+          return const SizedBox.shrink();
+        }
+
         return Column(
           children: [
             LeagueTile(
