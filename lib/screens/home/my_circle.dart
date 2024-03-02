@@ -25,7 +25,10 @@ class ClockCircles extends StatelessWidget {
     List<Widget> smallCircles = [];
     final double angle = 2 * pi / numberOfCircles;
     for (int i = 0; i < numberOfCircles; i++) {
-      final double hourAngle = -(pi / 3) + ((i / 2) * angle);
+      //-1.5
+      // 3
+
+      final double hourAngle = -(pi / 3) + ((i / 1) * angle);
       final double x = circleRadius * cos(hourAngle);
       final double y = circleRadius * sin(hourAngle);
       smallCircles.add(

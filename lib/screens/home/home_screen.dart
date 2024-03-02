@@ -166,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.all(100),
                     child: ClockCircles(
                       circleRadius: 60,
-                      numberOfCircles: 4,
+                      numberOfCircles: 14,
                       circleSpacing: 5,
                       circleColor: Colors.blue,
                       smallCircleRadius: 10,
