@@ -242,7 +242,6 @@ class FootBallProvider extends ChangeNotifier {
     required String endDate,
     required int teamId,
     required int pageKey,
-
   }) {
     final snapshot = ApiService<MatchModel>().build(
       sportsUrl: '${ApiUrl.match}/$startDate/$endDate/$teamId${ApiUrl.auth}&include=statistics;state;participants&page=$pageKey',

@@ -73,16 +73,17 @@ class _NewsCardState extends State<NewsCard> {
                 ),
                 Row(
                   children: [
-                    if (_newData.source != null)
+                    if (_newData.source != null) ...[
                       CustomNetworkImage(
                         context.image(_newData.image!),
                         radius: 5,
                         width: 20,
                         height: 20,
                       ),
-                    const SizedBox(
-                      width: 5,
-                    ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                    ],
                     Text(
                       "${_newData.source != null ? '${_newData.source} -' : ''}${_newData.publicationTime!.formatDate(context)}",
                       style: TextStyle(

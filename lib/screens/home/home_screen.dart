@@ -192,7 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           lives: liveLeagues,
                           isLive: _isLive,
                         ),
-                        if (index != 0 && index % 2 == 0) const GoogleBanner(),
+                        if ((index != 0 && index % 2 == 0) || (index + 1 == allCompetitions.length)) const GoogleBanner(),
                       ],
                     );
                   },
