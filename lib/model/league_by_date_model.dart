@@ -1,5 +1,5 @@
 class LeagueByDateModel {
-  List<Datum>? data;
+  List<MatchData>? data;
   Pagination? pagination;
   List<Subscription>? subscription;
   RateLimit? rateLimit;
@@ -14,7 +14,7 @@ class LeagueByDateModel {
   });
 
   factory LeagueByDateModel.fromJson(Map<String, dynamic> json) => LeagueByDateModel(
-        data: json["data"] == null ? [] : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+        data: json["data"] == null ? [] : List<MatchData>.from(json["data"]!.map((x) => MatchData.fromJson(x))),
         pagination: json["pagination"] == null ? null : Pagination.fromJson(json["pagination"]),
         subscription: json["subscription"] == null ? [] : List<Subscription>.from(json["subscription"]!.map((x) => Subscription.fromJson(x))),
         rateLimit: json["rate_limit"] == null ? null : RateLimit.fromJson(json["rate_limit"]),
@@ -30,7 +30,7 @@ class LeagueByDateModel {
       };
 }
 
-class Datum {
+class MatchData {
   int? id;
   int? sportId;
   int? leagueId;
@@ -53,7 +53,7 @@ class Datum {
   List<Participant>? participants;
   List<Statistic>? statistics;
 
-  Datum({
+  MatchData({
     this.id,
     this.sportId,
     this.leagueId,
@@ -77,7 +77,7 @@ class Datum {
     this.statistics,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory MatchData.fromJson(Map<String, dynamic> json) => MatchData(
         id: json["id"],
         sportId: json["sport_id"],
         leagueId: json["league_id"],

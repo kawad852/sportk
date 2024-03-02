@@ -56,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _commonProvider = context.commonProvider;
     _selectedDate = _nowDate;
+    _commonProvider.initializeLeaguesAndLives();
   }
 
   @override
@@ -72,7 +73,11 @@ class _HomeScreenState extends State<HomeScreen> {
       onComplete: (context, snapshot) {
         final competitions = snapshot.data![0] as HomeCompetitionsModel;
         final lives = snapshot.data![1] as LivesMatchesModel;
-        final allCompetitions = [...competitions.favsCompetitions!, ...competitions.competitions!];
+        List<String> allCompetitions = [...competitions.favsCompetitions!, ...competitions.competitions!];
+        if (_isLive) {
+          final liveIds = lives.data!.map((e) => e.competitionId).toList();
+          allCompetitions = allCompetitions.where((element) => liveIds.contains(element)).toList();
+        }
         return Scaffold(
           body: CustomScrollView(
             slivers: [
@@ -157,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
               SliverPadding(
                 padding: const EdgeInsets.all(20).copyWith(top: 0),
                 sliver: SliverList.separated(
-                  key: ValueKey(_selectedDate.microsecondsSinceEpoch),
+                  key: ValueKey('${_selectedDate.microsecondsSinceEpoch}$_isLive'),
                   itemCount: allCompetitions.length,
                   separatorBuilder: (context, index) => const SizedBox(height: 5),
                   itemBuilder: (context, index) {
@@ -169,6 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           date: _selectedDate,
                           leagueId: leagueId,
                           lives: liveLeagues,
+                          isLive: _isLive,
                         ),
                         if (index != 0 && index % 2 == 0) const GoogleBanner(),
                       ],

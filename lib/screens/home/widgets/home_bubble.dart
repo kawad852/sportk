@@ -20,12 +20,14 @@ class HomeBubble extends StatefulWidget {
   final DateTime date;
   final String leagueId;
   final List<LiveData> lives;
+  final bool isLive;
 
   const HomeBubble({
     super.key,
     required this.date,
     required this.leagueId,
     required this.lives,
+    required this.isLive,
   });
 
   @override
@@ -93,7 +95,14 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
       },
       onComplete: (context, snapshot) {
         final league = snapshot.data![0] as LeagueModel;
-        final matches = snapshot.data![1] as LeagueByDateModel;
+        final matchModel = snapshot.data![1] as LeagueByDateModel;
+        List<MatchData> matches = [];
+        if (widget.isLive) {
+          final liveMatches = widget.lives.map((e) => e.matchId).toList();
+          matches = matchModel.data!.where((element) => liveMatches.contains('${element.id}')).toList();
+        } else {
+          matches = matchModel.data!;
+        }
         return Column(
           children: [
             LeagueTile(
@@ -106,13 +115,13 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
               },
             ),
             ListView.separated(
-              itemCount: matches.data!.length,
+              itemCount: matches.length,
               separatorBuilder: (context, index) => const SizedBox(height: 5),
               shrinkWrap: true,
               padding: const EdgeInsets.symmetric(vertical: 5),
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                final match = matches.data![index];
+                final match = matches[index];
                 final liveMatch = widget.lives.singleWhere((element) => element.matchId == '${match.id}', orElse: () => LiveData());
                 return GestureDetector(
                   onTap: () {

@@ -85,7 +85,6 @@ class _MyAppState extends State<MyApp> {
     _commonProvider = context.commonProvider;
     _authProvider.initializeLocale(context);
     _authProvider.initUser();
-    _commonProvider.initializeLeaguesAndLives();
   }
 
   @override
