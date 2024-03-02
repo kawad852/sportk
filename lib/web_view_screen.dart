@@ -10,6 +10,8 @@ class WebViewScreen extends StatefulWidget {
 
 class _WebViewScreenState extends State<WebViewScreen> {
   late WebViewController controller;
+  //late final WebViewCookieManager cookieManager = WebViewCookieManager();
+  //18850171
 
   String htmlContent = '''
     <!DOCTYPE html>
@@ -18,13 +20,14 @@ class _WebViewScreenState extends State<WebViewScreen> {
     <link rel="stylesheet" href="https://widgets.sportmonks.com/css/app.css">
     </head>
     <body>
-    <div id="sportmonks-widget" data-widget="match-centre" data-info="d3SsOc6u9GrLIJZYys+ePudJ1mGrVTF8tJcIO8xTZPBOcT0onbEXbQrjz/T+DwtiyuISruCto3MxniUEoixm/m0hw/Al1u6xa6kTl9t0+ph+S34pwTvfSuf/D/iV8JXMc56LCjisajuqgChRp0K08StEsOgUe+HSxs3gQXX/g9bpvSue3+12IIcnMrDTWviN34tb/JvoK+2sSI4nTXbHv8dzfMKVn9JBWsaZSQZpZdJ3iALHOV0BgWkzVEIc+0Hv8S7VtMBZwS9Nie2S5YUu/VFVEB6mbK/KG3kJXjJ2/UT+ZrpoQJBzyIssugIUZ30jLQe2jACTTxcwsC/l/usALZ1wCJGKguHJ+kag1wcwr8xSona7QaDCY70W1NCM98q52vXCzyBN8JgeUctLh6oPYbVbM2UisUP8eorKJiL+b6jNHMp4ZFTW2ENwCQioXIyKc+rv4e180hiVb5OmjKam4wh+xliCfSEX/lojHNt1g3ViuMIL67Y9Axatg28RUR8UQStZqFvxlhGTeKkcKyumfNtuemhy6h3kP1yiqT6GT82IPPmYvYWESaXg4BhmSlj5KjV32ZAJR4aEutTxaX8F1V5BST9Ti51YYD1OFld534h4bdfX75H0KgJRHmN7PrjgAE1aF8+95Cxu5j1Vk/wfe++RDp4fZ7FT1yWjhuWphOc=" data-fixture="18841659" data-colors="#010028,#1893C1,#D0D0D9,#343353" ></div>
-    <script type="text/javascript" src="https://widgets.sportmonks.com/js/livescore/match-centre.js"></script>
+    <div id="sportmonks-widget" data-widget="match-centre" data-info="znWv0HaPer7HH0/xNVsk+LvPd6hIs1dKP5hbnsRQ0FnSGdzy3X9gPWO16bQvsy4oyi0EDpuKQ3FSaRlb2ddmyRNauOFOm5au3TsIMarlcFOE46yVsqZnKYCHUn32usAX0sJ9LELqn1K7YmVDBGpjx9QR/Y6qJ0xrLdC0Xij5qE+8NMqFW8z6MSmPMrq2n7edEQCgQeGgpjt+CH6wmLsXUwEqSYOd4psDWxPBVZ5COhm2LA8sIxBwILTJ8z331xgyD5zxEoE9oWKEzGgyiBeFOu45OhFHO9IZOuq2JGeYwX8p1VyHYrcOIV9iT+6otqs9tBEJ7pwpodpHPxaSwewuGgvkV1t9TpX2YJA1p/OiYN4VTrFOo08u4wmrY6rCrGSLzcHqA//h7ANNtK/U+AsUsFePjHqa3457E5NUFhpM2FYqg0Qnt8GgTNMldOwvNBYHPloTP60lm/ZHbYX/6ycASkLb6tJUXyoV8E7CKt05vmJDL9M3nqAJSLLiFXKxUhPAo+brvQwkYPyUDyI2fg+v2vHxhRJRkhhhoxG1D1SEqWvgtCpGkXpY4jHg8/tt7OFBDkXUKKSoAp/61SN7bWZKVV14SxQDILcdrHwpCvLSURBzxf8my3kvWFcaOW5cFde1y46i44HVIDeoemaY9abQXF10v2OKvLtzKp0MO5rPLPI=" data-fixture="18847968" data-colors="#032D4B,#6DB9EF,#F2F2F2,#CC0000" data-brand="http://thesportk.com/logo.png" data-tz="America/Maceio" data-lang="ar" ></div>
+    <script type="text/javascript"
+                src="https://widgets.sportmonks.com/js/livescore/match-centre.js"></script>
     </body>
     </html>
     ''';
 
-  void _initialize() {
+  void _initialize() async {
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0x00000000))
@@ -46,12 +49,13 @@ class _WebViewScreenState extends State<WebViewScreen> {
           },
         ),
       )
-      ..loadHtmlString(htmlContent);
+      ..loadHtmlString(htmlContent, baseUrl: "https://test.thesportk.com");
   }
 
   @override
   void initState() {
     super.initState();
+
     _initialize();
   }
 
@@ -67,3 +71,14 @@ class _WebViewScreenState extends State<WebViewScreen> {
     );
   }
 }
+// final _cookieManager = CookieManager();
+//   const WebViewCookie(
+//     name: "test",
+//     value: "value",
+//     domain: ".posstree.com",
+//   ),
+// );
+// cookies = await _webViewController.runJavascriptReturningResult(
+//   'document.cookie',
+// );
+// print(cookies);
