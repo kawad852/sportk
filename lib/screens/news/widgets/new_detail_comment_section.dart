@@ -43,6 +43,7 @@ class _NewDetailsCommentSectionState extends State<NewDetailsCommentSection> {
         padding: const EdgeInsets.only(top: 50),
         child: context.loaders.circular(isSmall: true),
       ),
+      onError: (snapshot) => const SizedBox.shrink(),
       pageSize: 10,
       builder: (context, snapshot) {
         return Column(
