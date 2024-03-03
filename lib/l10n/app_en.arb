@@ -115,6 +115,16 @@
   "save": "Save",
   "leagues": "Leagues",
   "teams": "Teams",
-  "favRemoveMsg": "Would you like to remove {name} from your favorites ?"
+  "favRemoveMsg": "Would you like to remove {name} from your favorites ?",
+  "myWallet":"My Wallet",
+  "watchAd":"Watch an ad for",
+  "sportk":"sportk",
+  "recordPoints":"Record points",
+  "replacementRequests":"Swap requests",
+  "copiedInvitionCode":"The invitation code has been copied to the clipboard",
+  "shareAppWithFriends":"Share the application with your friends and get ",
+  "everyRegistration":" for every registration",
+  "coupons":"Coupons",
+  "winners":"Winners"
   
 }

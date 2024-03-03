@@ -53,7 +53,8 @@ class _MatchCardState extends State<MatchCard> {
                 maxLines: 2,
                 style: TextStyle(
                   color: context.colorPalette.blueD4B,
-                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
                 ),
               ),
             ),
@@ -139,7 +140,8 @@ class _MatchCardState extends State<MatchCard> {
                 maxLines: 2,
                 style: TextStyle(
                   color: context.colorPalette.blueD4B,
-                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
                 ),
               ),
             ),

@@ -32,4 +32,9 @@ class MyIcons {
   static const String starWhite = '${_path}star_white.svg';
   static const String chat = '${_path}chat.svg';
   static const String directUp = '${_path}direct-up.svg';
+  static const String copyCode = '${_path}copy_code.svg';
+  static const String coupons = '${_path}coupons.svg';
+
+
+
 }
