@@ -1,4 +1,5 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:sportk/model/comments_model.dart';
 import 'package:sportk/model/home_competitions_model.dart';
 import 'package:sportk/model/is_like_model.dart';
@@ -6,6 +7,7 @@ import 'package:sportk/model/matches/live_matches_model.dart';
 import 'package:sportk/model/new_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
+import 'package:sportk/providers/favorite_provider.dart';
 
 class CommonProvider extends ChangeNotifier {
   late Future<HomeCompetitionsModel> leaguesFuture;
@@ -30,10 +32,12 @@ class CommonProvider extends ChangeNotifier {
     );
   }
 
-  void initializeLeaguesAndLives() {
+  void initializeHome(BuildContext context) {
+    final favoritesProvider = context.read<FavoriteProvider>();
     fetchLeagues();
     fetchLives();
-    leaguesAndLivesFutures = Future.wait([leaguesFuture, liveMatchesFuture]);
+    favoritesProvider.fetchFavs(context);
+    leaguesAndLivesFutures = Future.wait([favoritesProvider.favFuture!, leaguesFuture, liveMatchesFuture]);
   }
 
   Future<NewModel> fetchNews(

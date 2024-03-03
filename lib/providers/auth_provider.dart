@@ -44,7 +44,12 @@ class AuthProvider extends ChangeNotifier {
             "name": displayName,
             "email": email,
             "profile_img": photoURL,
-            "favorites": favoritesProvider.favorites.map((e) => e.toJson()).toList(),
+            "favorites": favoritesProvider.favorites
+                .map((e) => {
+                      'favoritable_id': e.favoritableId,
+                      'type': e.type,
+                    })
+                .toList(),
           },
           builder: AuthModel.fromJson,
         );

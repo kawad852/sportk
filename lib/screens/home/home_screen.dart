@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/model/favorite_model.dart';
 import 'package:sportk/model/home_competitions_model.dart';
 import 'package:sportk/model/matches/live_matches_model.dart';
 import 'package:sportk/providers/common_provider.dart';
@@ -56,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _commonProvider = context.commonProvider;
     _selectedDate = _nowDate;
-    _commonProvider.initializeLeaguesAndLives();
+    _commonProvider.initializeHome(context);
   }
 
   @override
@@ -66,13 +67,14 @@ class _HomeScreenState extends State<HomeScreen> {
       withBackgroundColor: true,
       onRetry: () {
         setState(() {
-          _commonProvider.initializeLeaguesAndLives();
+          _commonProvider.initializeHome(context);
         });
       },
       onError: (snapshot) => const SizedBox.shrink(),
       onComplete: (context, snapshot) {
-        final competitions = snapshot.data![0] as HomeCompetitionsModel;
-        final lives = snapshot.data![1] as LivesMatchesModel;
+        final favorites = snapshot.data![0] as FavoriteModel;
+        final competitions = snapshot.data![1] as HomeCompetitionsModel;
+        final lives = snapshot.data![2] as LivesMatchesModel;
         List<String> allCompetitions = [...competitions.favsCompetitions!, ...competitions.competitions!];
         if (_isLive) {
           final liveIds = lives.data!.map((e) => e.competitionId).toList();
