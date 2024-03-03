@@ -40,6 +40,7 @@ class LeagueData {
   DateTime? lastPlayedAt;
   int? category;
   bool? hasJerseys;
+  int? favoritableId;
 
   LeagueData({
     this.id,
@@ -55,6 +56,7 @@ class LeagueData {
     this.lastPlayedAt,
     this.category,
     this.hasJerseys,
+    this.favoritableId,
   });
 
   factory LeagueData.fromJson(Map<String, dynamic> json) => LeagueData(
@@ -62,6 +64,7 @@ class LeagueData {
         sportId: json["sport_id"],
         countryId: json["country_id"],
         name: json["name"],
+        favoritableId: json["favoritable_id"] == null ? null : int.parse(json["favoritable_id"].toString()),
         active: json["active"],
         shortCode: json["short_code"],
         imagePath: json["image_path"],
@@ -77,6 +80,7 @@ class LeagueData {
         "id": id,
         "sport_id": sportId,
         "country_id": countryId,
+        "favoritable_id": favoritableId,
         "name": name,
         "active": active,
         "short_code": shortCode,

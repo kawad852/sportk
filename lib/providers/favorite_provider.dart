@@ -3,6 +3,7 @@ import 'package:sportk/alerts/errors/app_error_feedback.dart';
 import 'package:sportk/alerts/feedback/app_feedback.dart';
 import 'package:sportk/main.dart';
 import 'package:sportk/model/favorite_model.dart';
+import 'package:sportk/model/matches/our_league_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
 import 'package:sportk/utils/base_extensions.dart';
@@ -40,27 +41,28 @@ class FavoriteProvider extends ChangeNotifier {
     return false;
   }
 
-  void fetchFavs(BuildContext context) {
-    if (favFuture != null) return;
+  Future<FavoriteModel?> fetchFavs(BuildContext context) async {
+    // if (favFuture != null) return null;
     final authProvider = context.authProvider;
     if (authProvider.isAuthenticated) {
-      favFuture = ApiService<FavoriteModel>()
-          .build(
+      favFuture = ApiService<FavoriteModel>().build(
         weCanUrl: ApiUrl.favorites,
         isPublic: false,
         apiType: ApiType.get,
         builder: FavoriteModel.fromJson,
-      )
-          .then((value) {
-        favorites = value.data!;
-        return value;
-      });
+      );
+      final data = await favFuture;
+      favorites = data!.data!;
     } else {
       favFuture = Future.value(FavoriteModel(
         code: 200,
         data: [],
       ));
+      final data = await favFuture;
+      favorites = data!.data!;
     }
+    final favModel = await favFuture!;
+    return favModel;
   }
 
   Future<dynamic> _showDialog(BuildContext context, String name) {
@@ -76,15 +78,15 @@ class FavoriteProvider extends ChangeNotifier {
     required int id,
   }) async {
     final ctx = navigatorKey.currentState!.context;
-    await ApiFutureBuilder<FavoriteModel>().fetch(
+    await ApiFutureBuilder<OurLeaguesModel>().fetch(
       ctx,
       withOverlayLoader: false,
       future: () {
-        final socialLoginFuture = ApiService<FavoriteModel>().build(
+        final socialLoginFuture = ApiService<OurLeaguesModel>().build(
           weCanUrl: '${ApiUrl.removeFavorites}/$id',
           isPublic: false,
           apiType: ApiType.get,
-          builder: FavoriteModel.fromJson,
+          builder: OurLeaguesModel.fromJson,
         );
         return socialLoginFuture;
       },
