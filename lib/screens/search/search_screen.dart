@@ -6,6 +6,8 @@ import 'package:sportk/model/league_search_model.dart';
 import 'package:sportk/model/team_search_model.dart';
 import 'package:sportk/providers/favorite_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
+import 'package:sportk/screens/club/club_screen.dart';
+import 'package:sportk/screens/league_info/league_info_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
@@ -16,8 +18,10 @@ import 'package:sportk/widgets/search_field.dart';
 import 'package:sportk/widgets/team_bubble.dart';
 
 class SearchScreen extends StatefulWidget {
+  final bool canAddToFav;
   const SearchScreen({
     super.key,
+    this.canAddToFav = false,
   });
 
   @override
@@ -30,6 +34,8 @@ class _SearchScreenState extends State<SearchScreen> {
   late Future<List<dynamic>> _searchFuture;
   String? _query;
   Timer? _debounce;
+
+  bool get _canAddToFav => widget.canAddToFav;
 
   _onSearchChanged(String? query) {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
@@ -104,7 +110,11 @@ class _SearchScreenState extends State<SearchScreen> {
                                       return TeamBubble(
                                         team: team,
                                         onTap: () {
-                                          _favoriteProvider.toggleFavorites(id, CompoTypeEnum.teams, team.name!);
+                                          if (_canAddToFav) {
+                                            _favoriteProvider.toggleFavorites(id, CompoTypeEnum.teams, team.name!);
+                                          } else {
+                                            context.push(ClubScreen(teamId: id));
+                                          }
                                         },
                                         selected: _favoriteProvider.isFav(id, CompoTypeEnum.teams),
                                       );
@@ -129,19 +139,27 @@ class _SearchScreenState extends State<SearchScreen> {
                                 final id = league.id!;
                                 return LeagueTile(
                                   league: league,
-                                  onTap: () {},
-                                  trailing: StatefulBuilder(
-                                    builder: (context, setState) {
-                                      return IconButton(
-                                        onPressed: () {
-                                          _favoriteProvider.toggleFavorites(id, CompoTypeEnum.competitions, league.name!);
-                                        },
-                                        icon: CustomSvg(
-                                          _favoriteProvider.isFav(id, CompoTypeEnum.competitions) ? MyIcons.starFilled : MyIcons.starOutlined,
-                                        ),
-                                      );
-                                    },
-                                  ),
+                                  onTap: () {
+                                    context.push(
+                                      LeagueInfoScreen(leagueId: id, subType: league.subType!),
+                                    );
+
+                                    /// navigate to league info screen
+                                  },
+                                  trailing: _canAddToFav
+                                      ? StatefulBuilder(
+                                          builder: (context, setState) {
+                                            return IconButton(
+                                              onPressed: () {
+                                                _favoriteProvider.toggleFavorites(id, CompoTypeEnum.competitions, league.name!);
+                                              },
+                                              icon: CustomSvg(
+                                                _favoriteProvider.isFav(id, CompoTypeEnum.competitions) ? MyIcons.starFilled : MyIcons.starOutlined,
+                                              ),
+                                            );
+                                          },
+                                        )
+                                      : null,
                                 );
                               },
                             ),

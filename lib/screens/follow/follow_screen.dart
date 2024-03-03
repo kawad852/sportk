@@ -149,7 +149,7 @@ class _FollowScreenState extends State<FollowScreen> with AutomaticKeepAliveClie
                         onChanged: (value) {},
                         readOnly: true,
                         onTap: () {
-                          context.push(const SearchScreen());
+                          context.push(const SearchScreen(canAddToFav: true));
                         },
                         hintText: context.appLocalization.clubSearchHint,
                       ),

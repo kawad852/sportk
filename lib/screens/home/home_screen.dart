@@ -6,6 +6,7 @@ import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/screens/home/widgets/arrow_button.dart';
 import 'package:sportk/screens/home/widgets/home_bubble.dart';
 import 'package:sportk/screens/home/widgets/live_switch.dart';
+import 'package:sportk/screens/search/search_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
@@ -99,7 +100,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 actions: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.push(const SearchScreen());
+                    },
                     icon: const CustomSvg(MyIcons.search),
                   ),
                   Theme(

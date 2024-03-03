@@ -27,7 +27,6 @@ class FavoriteProvider extends ChangeNotifier {
       if (result != null) {
         final favId = favorites.firstWhere((element) => element.type == type && element.favoritableId == id).id!;
         removeFromFav(id: favId);
-
         favorites.removeWhere((element) => element.type == type && element.favoritableId == id);
         notifyListeners();
         return true;
