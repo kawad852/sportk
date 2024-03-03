@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sportk/model/match_model.dart';
 import 'package:sportk/providers/football_provider.dart';
+import 'package:sportk/widgets/match_card.dart';
 import 'package:sportk/widgets/matches_loading.dart';
 import 'package:sportk/screens/champions_league/widgets/stage_card.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
-import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 import 'package:sportk/widgets/vex/vex_loader.dart';
 import 'package:sportk/widgets/vex/vex_paginator.dart';
@@ -64,6 +64,7 @@ class _ChampionsMatchesState extends State<ChampionsMatches> with AutomaticKeepA
               ? Center(
                   child: Text(
                     context.appLocalization.noMatchesAtTheMoment,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       color: context.colorPalette.blueD4B,
                       fontWeight: FontWeight.bold,
@@ -98,6 +99,12 @@ class _ChampionsMatchesState extends State<ChampionsMatches> with AutomaticKeepA
                           final element = matches[index];
                           int homeGoals = 0;
                           int awayGoals = 0;
+                          int? minute;
+                          element.periods!.map((period) {
+                            if (period.hasTimer!) {
+                              minute = period.minutes;
+                            }
+                          }).toSet();
                           element.statistics!.map(
                             (e) {
                               if (e.typeId == 52) {
@@ -117,88 +124,12 @@ class _ChampionsMatchesState extends State<ChampionsMatches> with AutomaticKeepA
                                   (index > 0 &&
                                       matches[index].stageId != matches[index - 1].stageId))
                                 StageCard(stageId: element.stageId!, leagueId: widget.leagueId),
-                              Container(
-                                width: double.infinity,
-                                height: 55,
-                                margin: const EdgeInsetsDirectional.only(bottom: 10),
-                                decoration: BoxDecoration(
-                                  color: context.colorPalette.blueE2F,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Expanded(
-                                      flex: 1,
-                                      child: Text(
-                                        element.participants![0].name!,
-                                        textAlign: TextAlign.center,
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 2,
-                                        style: TextStyle(color: context.colorPalette.blueD4B),
-                                      ),
-                                    ),
-                                    CustomNetworkImage(
-                                      element.participants![0].imagePath!,
-                                      width: 30,
-                                      height: 30,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    Expanded(
-                                      flex: 1,
-                                      child: Padding(
-                                        padding: const EdgeInsetsDirectional.only(start: 5, end: 5),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            if (element.state!.id != 1 &&
-                                                element.state!.id != 13 &&
-                                                element.state!.id != 10)
-                                              Text("$homeGoals   :   $awayGoals"),
-                                            Text(
-                                              element.state!.name!,
-                                              style: TextStyle(
-                                                color: context.colorPalette.green057,
-                                                fontSize: 8,
-                                              ),
-                                            ),
-                                            Text(
-                                              DateFormat("yyyy-MM-dd").format(element.startingAt!),
-                                              style: const TextStyle(
-                                                fontSize: 8,
-                                              ),
-                                            ),
-                                            if (element.state!.id == 1)
-                                              Text(
-                                                DateFormat("HH:mm").format(element.startingAt!),
-                                                style: const TextStyle(
-                                                  fontSize: 8,
-                                                ),
-                                              ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    CustomNetworkImage(
-                                      element.participants![1].imagePath!,
-                                      width: 30,
-                                      height: 30,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    Expanded(
-                                      flex: 1,
-                                      child: Text(
-                                        element.participants![1].name!,
-                                        textAlign: TextAlign.center,
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 2,
-                                        style: TextStyle(color: context.colorPalette.blueD4B),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              MatchCard(
+                                element: element,
+                                awayGoals: awayGoals,
+                                homeGoals: homeGoals,
+                                minute: minute,
+                              )
                             ],
                           );
                         },

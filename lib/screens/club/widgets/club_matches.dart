@@ -5,7 +5,7 @@ import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/club/widgets/phase_card.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
-import 'package:sportk/widgets/custom_network_image.dart';
+import 'package:sportk/widgets/match_card.dart';
 import 'package:sportk/widgets/matches_loading.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 import 'package:sportk/widgets/vex/vex_loader.dart';
@@ -58,143 +58,85 @@ class _ClubMatchesState extends State<ClubMatches> with AutomaticKeepAliveClient
           return const ShimmerLoading(child: MatchesLoading());
         },
         builder: (context, snapshot) {
-          return SingleChildScrollView(
-            padding: const EdgeInsetsDirectional.symmetric(horizontal: 15, vertical: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  context.appLocalization.nextMatches,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w600,
+          final matches = snapshot.docs as List<MatchData>;
+          return matches.isEmpty
+              ? Center(
+                  child: Text(
+                    context.appLocalization.noMatchesAtTheMoment,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: context.colorPalette.blueD4B,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                ListView.builder(
-                  itemCount: snapshot.docs.length,
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  itemBuilder: (context, index) {
-                    if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
-                      snapshot.fetchMore();
-                      return const VexLoader();
-                    }
-                    final matches = snapshot.docs as List<MatchData>;
-                    final element = matches[index];
-                    int homeGoals = 0;
-                    int awayGoals = 0;
-                    element.statistics!.map(
-                      (e) {
-                        if (e.typeId == 52) {
-                          switch (e.location) {
-                            case LocationEnum.home:
-                              homeGoals = e.data!.value!;
-                            case LocationEnum.away:
-                              awayGoals = e.data!.value!;
+                )
+              : SingleChildScrollView(
+                  padding: const EdgeInsetsDirectional.symmetric(horizontal: 15, vertical: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        context.appLocalization.nextMatches,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      ListView.builder(
+                        itemCount: snapshot.docs.length,
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        padding: EdgeInsets.zero,
+                        itemBuilder: (context, index) {
+                          if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
+                            snapshot.fetchMore();
+                            return const VexLoader();
                           }
-                        }
-                      },
-                    ).toSet();
-                    return Column(
-                      children: [
-                        PhaseCard(
-                          teamId: widget.teamId,
-                          stageId: element.stageId!,
-                          leagueId: element.leagueId!,
-                          roundId: element.roundId,
-                        ),
-                        Container(
-                          width: double.infinity,
-                          height: 55,
-                          margin: const EdgeInsetsDirectional.only(bottom: 10),
-                          decoration: BoxDecoration(
-                            color: context.colorPalette.blueE2F,
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+
+                          final element = matches[index];
+                          int homeGoals = 0;
+                          int awayGoals = 0;
+                          int? minute;
+                          element.periods!.map((period) {
+                            if (period.hasTimer!) {
+                              minute = period.minutes;
+                            }
+                          }).toSet();
+                          element.statistics!.map(
+                            (e) {
+                              if (e.typeId == 52) {
+                                switch (e.location) {
+                                  case LocationEnum.home:
+                                    homeGoals = e.data!.value!;
+                                  case LocationEnum.away:
+                                    awayGoals = e.data!.value!;
+                                }
+                              }
+                            },
+                          ).toSet();
+                          return Column(
                             children: [
-                              Expanded(
-                                flex: 1,
-                                child: Text(
-                                  element.participants![0].name!,
-                                  textAlign: TextAlign.center,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
-                                  style: TextStyle(color: context.colorPalette.blueD4B),
-                                ),
+                              PhaseCard(
+                                teamId: widget.teamId,
+                                stageId: element.stageId!,
+                                leagueId: element.leagueId!,
+                                roundId: element.roundId,
                               ),
-                              CustomNetworkImage(
-                                element.participants![0].imagePath!,
-                                width: 30,
-                                height: 30,
-                                shape: BoxShape.circle,
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.only(start: 5, end: 5),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      if (element.state!.id != 1 &&
-                                          element.state!.id != 13 &&
-                                          element.state!.id != 10)
-                                        Text("$homeGoals   :   $awayGoals"),
-                                      Text(
-                                        element.state!.name!,
-                                        style: TextStyle(
-                                          color: context.colorPalette.green057,
-                                          fontSize: 8,
-                                        ),
-                                      ),
-                                      Text(
-                                        DateFormat("yyyy-MM-dd").format(element.startingAt!),
-                                        style: const TextStyle(
-                                          fontSize: 8,
-                                        ),
-                                      ),
-                                      if (element.state!.id == 1)
-                                        Text(
-                                          DateFormat("HH:mm").format(element.startingAt!),
-                                          style: const TextStyle(
-                                            fontSize: 8,
-                                          ),
-                                        ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              CustomNetworkImage(
-                                element.participants![1].imagePath!,
-                                width: 30,
-                                height: 30,
-                                shape: BoxShape.circle,
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Text(
-                                  element.participants![1].name!,
-                                  textAlign: TextAlign.center,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
-                                  style: TextStyle(color: context.colorPalette.blueD4B),
-                                ),
-                              ),
+                              MatchCard(
+                                element: element,
+                                awayGoals: awayGoals,
+                                homeGoals: homeGoals,
+                                minute: minute,
+                              )
                             ],
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              ],
-            ),
-          );
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                );
         },
       ),
     );
