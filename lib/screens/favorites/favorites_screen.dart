@@ -12,6 +12,7 @@ import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/utils/my_theme.dart';
+import 'package:sportk/widgets/builders/league_builder.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 import 'package:sportk/widgets/league_tile.dart';
@@ -187,33 +188,38 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
                             }
                             final league = snapshot.docs[index] as LeagueData;
                             final id = league.id!;
-                            return LeagueTile(
-                              league: league,
-                              onTap: () {
-                                context
-                                    .push(
-                                  LeaguesScreen(
-                                    leagueId: league.id!,
-                                    leagueName: league.name!,
-                                  ),
-                                )
-                                    .then((value) {
-                                  setState(() {});
-                                });
-                              },
-                              trailing: IconButton(
-                                onPressed: () async {
-                                  final result = await _favoriteProvider.toggleFavorites(id, CompoTypeEnum.competitions, league.name!);
-                                  if (result && _authProvider.isAuthenticated) {
-                                    setState(() {
-                                      snapshot.docs.removeAt(index);
+                            return LeagueBuilder(
+                              leagueId: id,
+                              builder: (BuildContext context, LeagueModel leagueModel) {
+                                return LeagueTile(
+                                  league: league,
+                                  onTap: () {
+                                    context
+                                        .push(
+                                      LeaguesScreen(
+                                        leagueId: league.id!,
+                                        leagueName: league.name!,
+                                      ),
+                                    )
+                                        .then((value) {
+                                      setState(() {});
                                     });
-                                  }
-                                },
-                                icon: CustomSvg(
-                                  _favoriteProvider.isFav(id, CompoTypeEnum.competitions) ? MyIcons.starFilled : MyIcons.starOutlined,
-                                ),
-                              ),
+                                  },
+                                  trailing: IconButton(
+                                    onPressed: () async {
+                                      final result = await _favoriteProvider.toggleFavorites(id, CompoTypeEnum.competitions, league.name!);
+                                      if (result && _authProvider.isAuthenticated) {
+                                        setState(() {
+                                          snapshot.docs.removeAt(index);
+                                        });
+                                      }
+                                    },
+                                    icon: CustomSvg(
+                                      _favoriteProvider.isFav(id, CompoTypeEnum.competitions) ? MyIcons.starFilled : MyIcons.starOutlined,
+                                    ),
+                                  ),
+                                );
+                              },
                             );
                           },
                         );

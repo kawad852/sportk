@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/model/league_model.dart';
 import 'package:sportk/providers/football_provider.dart';
-import 'package:sportk/screens/champions_league/champions_league_screen.dart';
-import 'package:sportk/screens/league_info/league_info_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
-import 'package:sportk/utils/enums.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
-import 'package:sportk/widgets/league_tile.dart';
 import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 
 class LeagueBuilder extends StatefulWidget {
   final int leagueId;
+  final Widget Function(BuildContext context, LeagueModel snapshot) builder;
 
   const LeagueBuilder({
     super.key,
     required this.leagueId,
+    required this.builder,
   });
 
   @override
@@ -55,20 +53,7 @@ class _LeagueBuilderState extends State<LeagueBuilder> {
       },
       onComplete: (context, snapshot) {
         final league = snapshot.data!;
-        return LeagueTile(
-          league: league.data!,
-          onTap: () {
-            if (league.data!.subType == LeagueTypeEnum.cubInternational) {
-              context.push(
-                ChampionsLeagueScreen(leagueId: widget.leagueId),
-              );
-            } else {
-              context.push(
-                LeagueInfoScreen(leagueId: widget.leagueId, subType: league.data!.subType!),
-              );
-            }
-          },
-        );
+        return widget.builder(context, league);
       },
     );
   }

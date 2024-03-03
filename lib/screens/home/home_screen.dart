@@ -194,7 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         HomeBubble(
                           date: _selectedDate,
-                          leagueId: competition.favoritableId.toString(),
+                          leagueId: competition.favoritableId!,
                           type: competition.type!,
                           lives: liveLeagues,
                           isLive: _isLive,

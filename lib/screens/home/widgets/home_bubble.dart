@@ -5,7 +5,9 @@ import 'package:sportk/model/matches/live_matches_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
 import 'package:sportk/providers/football_provider.dart';
+import 'package:sportk/screens/champions_league/champions_league_screen.dart';
 import 'package:sportk/screens/home/widgets/live_bubble.dart';
+import 'package:sportk/screens/league_info/league_info_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_theme.dart';
@@ -13,12 +15,13 @@ import 'package:sportk/web_view_screen.dart';
 import 'package:sportk/widgets/builders/league_builder.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
+import 'package:sportk/widgets/league_tile.dart';
 import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 
 class HomeBubble extends StatefulWidget {
   final DateTime date;
-  final String leagueId;
+  final int leagueId;
   final String type;
   final List<LiveData> lives;
   final bool isLive;
@@ -72,7 +75,25 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
     super.build(context);
     return Column(
       children: [
-        LeagueBuilder(leagueId: int.parse(widget.leagueId)),
+        LeagueBuilder(
+          leagueId: widget.leagueId,
+          builder: (context, league) {
+            return LeagueTile(
+              league: league.data!,
+              onTap: () {
+                if (league.data!.subType == LeagueTypeEnum.cubInternational) {
+                  context.push(
+                    ChampionsLeagueScreen(leagueId: widget.leagueId),
+                  );
+                } else {
+                  context.push(
+                    LeagueInfoScreen(leagueId: widget.leagueId, subType: league.data!.subType!),
+                  );
+                }
+              },
+            );
+          },
+        ),
         CustomFutureBuilder(
           future: _teamsFuture,
           onRetry: () {
