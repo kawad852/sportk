@@ -8,7 +8,6 @@ import 'package:sportk/network/api_url.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/champions_league/champions_league_screen.dart';
 import 'package:sportk/screens/home/widgets/live_bubble.dart';
-import 'package:sportk/screens/home/widgets/team_widget.dart';
 import 'package:sportk/screens/league_info/league_info_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
@@ -23,6 +22,7 @@ import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 class HomeBubble extends StatefulWidget {
   final DateTime date;
   final String leagueId;
+  final String type;
   final List<LiveData> lives;
   final bool isLive;
 
@@ -32,6 +32,7 @@ class HomeBubble extends StatefulWidget {
     required this.leagueId,
     required this.lives,
     required this.isLive,
+    required this.type,
   });
 
   @override
@@ -45,8 +46,7 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
 
   Future<LeagueByDateModel> _fetchLeagueByDate() {
     final snapshot = ApiService<LeagueByDateModel>().build(
-      sportsUrl:
-          '${ApiUrl.compoByDate}/${widget.date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&filters=fixtureLeagues:${widget.leagueId}&include=state;participants;statistics.type',
+      sportsUrl: '${ApiUrl.compoByDate}/${widget.date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&filters=fixtureLeagues:${widget.leagueId}&include=state;participants;statistics.type',
       isPublic: true,
       apiType: ApiType.get,
       builder: LeagueByDateModel.fromJson,
@@ -57,8 +57,7 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
   Future<List<dynamic>> _initializeFutures() {
     final leagueFuture = _footBallProvider.fetchLeague(leagueId: int.parse(widget.leagueId));
     final teamsFuture = ApiService<LeagueByDateModel>().build(
-      sportsUrl:
-          '${ApiUrl.compoByDate}/${widget.date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&filters=fixtureLeagues:${widget.leagueId}&include=statistics;state;participants;periods.events',
+      sportsUrl: '${ApiUrl.compoByDate}/${widget.date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&filters=fixtureLeagues:${widget.leagueId}&include=statistics;state;participants;periods.events',
       isPublic: true,
       apiType: ApiType.get,
       builder: LeagueByDateModel.fromJson,
@@ -105,8 +104,7 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
         List<MatchData> matches = [];
         if (widget.isLive) {
           final liveMatches = widget.lives.map((e) => e.matchId).toList();
-          matches =
-              matchModel.data!.where((element) => liveMatches.contains('${element.id}')).toList();
+          matches = matchModel.data!.where((element) => liveMatches.contains('${element.id}')).toList();
         } else {
           matches = matchModel.data!;
         }
@@ -125,8 +123,7 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
                   );
                 } else {
                   context.push(
-                    LeagueInfoScreen(
-                        leagueId: int.parse(widget.leagueId), subType: league.data!.subType!),
+                    LeagueInfoScreen(leagueId: int.parse(widget.leagueId), subType: league.data!.subType!),
                   );
                 }
               },
@@ -139,9 +136,7 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 final match = matches[index];
-                final liveMatch = widget.lives.singleWhere(
-                    (element) => element.matchId == '${match.id}',
-                    orElse: () => LiveData());
+                final liveMatch = widget.lives.singleWhere((element) => element.matchId == '${match.id}', orElse: () => LiveData());
                 final element = matches[index];
                 int homeGoals = 0;
                 int awayGoals = 0;
@@ -202,9 +197,7 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
                             padding: const EdgeInsetsDirectional.only(start: 10, end: 5),
                             child: Row(
                               children: [
-                                element.state!.id != 1 &&
-                                        element.state!.id != 13 &&
-                                        element.state!.id != 10
+                                element.state!.id != 1 && element.state!.id != 13 && element.state!.id != 10
                                     ? Padding(
                                         padding: const EdgeInsetsDirectional.only(end: 5),
                                         child: Text("$homeGoals"),
@@ -243,9 +236,7 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
                                             ),
                                         ],
                                       ),
-                                element.state!.id != 1 &&
-                                        element.state!.id != 13 &&
-                                        element.state!.id != 10
+                                element.state!.id != 1 && element.state!.id != 13 && element.state!.id != 10
                                     ? Padding(
                                         padding: const EdgeInsetsDirectional.only(start: 3),
                                         child: Text("$awayGoals"),

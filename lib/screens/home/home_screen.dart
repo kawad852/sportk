@@ -7,6 +7,7 @@ import 'package:sportk/screens/home/widgets/arrow_button.dart';
 import 'package:sportk/screens/home/widgets/home_bubble.dart';
 import 'package:sportk/screens/home/widgets/live_switch.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/ads/google_banner.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
@@ -75,10 +76,13 @@ class _HomeScreenState extends State<HomeScreen> {
         final favorites = snapshot.data![0] as FavoriteModel;
         final competitions = snapshot.data![1] as HomeCompetitionsModel;
         final lives = snapshot.data![2] as LivesMatchesModel;
-        List<String> allCompetitions = [...competitions.favsCompetitions!, ...competitions.competitions!];
+        // List<String> allCompetitions = [...favorites.data!.map((e) => '${e.favoritableId}').toList(), ...competitions.competitions!];
+        List<FavoriteData> allCompetitions = [...favorites.data!, ...competitions.competitions!.map((e) => FavoriteData(favoritableId: int.parse(e), type: CompoTypeEnum.teams)).toList()];
         if (_isLive) {
           final liveIds = lives.data!.map((e) => e.competitionId).toList();
-          allCompetitions = allCompetitions.where((element) => liveIds.contains(element)).toList();
+          // final leagues = allCompetitions.where((element) => element.type == CompoTypeEnum.competitions).toList();
+          // final ll = leagues.map((e) => e.favoritableId!).toList();
+          allCompetitions = allCompetitions.where((element) => liveIds.contains('${element.favoritableId}')).toList();
         }
         return Scaffold(
           body: CustomScrollView(
@@ -184,13 +188,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemCount: allCompetitions.length,
                   separatorBuilder: (context, index) => const SizedBox(height: 5),
                   itemBuilder: (context, index) {
-                    final leagueId = allCompetitions[index];
-                    final liveLeagues = lives.data!.where((element) => element.competitionId == leagueId).toList();
+                    final competition = allCompetitions[index];
+                    final liveLeagues = lives.data!.where((element) => element.competitionId == '${competition.favoritableId}').toList();
                     return Column(
                       children: [
                         HomeBubble(
                           date: _selectedDate,
-                          leagueId: leagueId,
+                          leagueId: competition.favoritableId.toString(),
+                          type: competition.type!,
                           lives: liveLeagues,
                           isLive: _isLive,
                         ),

@@ -33,12 +33,17 @@ class FavoriteProvider extends ChangeNotifier {
     if (favFuture != null) return;
     final authProvider = context.authProvider;
     if (authProvider.isAuthenticated) {
-      favFuture = ApiService<FavoriteModel>().build(
+      favFuture = ApiService<FavoriteModel>()
+          .build(
         weCanUrl: ApiUrl.favorites,
         isPublic: false,
         apiType: ApiType.get,
         builder: FavoriteModel.fromJson,
-      );
+      )
+          .then((value) {
+        favorites = value.data!;
+        return value;
+      });
     } else {
       favFuture = Future.value(FavoriteModel(
         code: 200,
