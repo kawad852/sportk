@@ -104,7 +104,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                       return TeamBubble(
                                         team: team,
                                         onTap: () {
-                                          _favoriteProvider.toggleFavorites(id, CompoTypeEnum.teams);
+                                          _favoriteProvider.toggleFavorites(id, CompoTypeEnum.teams, team.name!);
                                         },
                                         selected: _favoriteProvider.isFav(id, CompoTypeEnum.teams),
                                       );
@@ -134,7 +134,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                     builder: (context, setState) {
                                       return IconButton(
                                         onPressed: () {
-                                          _favoriteProvider.toggleFavorites(id, CompoTypeEnum.competitions);
+                                          _favoriteProvider.toggleFavorites(id, CompoTypeEnum.competitions, league.name!);
                                         },
                                         icon: CustomSvg(
                                           _favoriteProvider.isFav(id, CompoTypeEnum.competitions) ? MyIcons.starFilled : MyIcons.starOutlined,

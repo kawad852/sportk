@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/widgets/stretch_button.dart';
 
 extension AppFeedbacks on BuildContext {
   void showToast(String msg) {
@@ -41,26 +42,40 @@ extension AppFeedbacks on BuildContext {
         return Opacity(
           opacity: a1.value,
           child: AlertDialog(
-            title: titleWidget ?? Text(titleText!),
-            content: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: maxWidth ?? 400),
-              child: bodyWidget ?? Text(bodyText!),
-            ),
+            titlePadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            title: titleWidget ??
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: 25,
+                      height: 25,
+                      child: IconButton.outlined(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        padding: EdgeInsets.zero,
+                        icon: const Center(child: Icon(Icons.close)),
+                      ),
+                    ),
+                    Text(titleText!),
+                    const SizedBox(width: 25),
+                  ],
+                ),
+            content: bodyWidget ?? Text(bodyText!, textAlign: TextAlign.center),
             actions: actions ??
                 [
-                  TextButton(
-                    onPressed: () {
-                      context.pop();
-                    },
-                    style: TextButton.styleFrom(
-                      foregroundColor: cancelButtonForegroundColor ?? (warning ? context.colorScheme.onSurface : null),
-                    ),
-                    child: Text(context.appLocalization.cancel),
-                  ),
-                  FilledButton(
-                    style: FilledButton.styleFrom(
-                      backgroundColor: confirmButtonBackgroundColor ?? (warning ? context.colorScheme.error : null),
-                    ),
+                  // TextButton(
+                  //   onPressed: () {
+                  //     context.pop();
+                  //   },
+                  //   style: TextButton.styleFrom(
+                  //     foregroundColor: cancelButtonForegroundColor ?? (warning ? context.colorScheme.onSurface : null),
+                  //   ),
+                  //   child: Text(context.appLocalization.cancel),
+                  // ),
+                  StretchedButton(
+                    backgroundColor: confirmButtonBackgroundColor ?? (warning ? context.colorScheme.error : context.colorPalette.blue19A),
                     onPressed: () {
                       context.pop(true);
                     },

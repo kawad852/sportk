@@ -114,6 +114,7 @@
   "noGroupsAtThisTime":"There is no information available about the groups at this time",
   "save": "Save",
   "leagues": "Leagues",
-  "teams": "Teams"
+  "teams": "Teams",
+  "favRemoveMsg": "Would you like to remove {name} from your favorites ?"
   
 }

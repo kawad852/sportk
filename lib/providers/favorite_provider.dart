@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/alerts/errors/app_error_feedback.dart';
+import 'package:sportk/alerts/feedback/app_feedback.dart';
+import 'package:sportk/main.dart';
 import 'package:sportk/model/favorite_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
@@ -15,11 +18,18 @@ class FavoriteProvider extends ChangeNotifier {
     return inFav;
   }
 
-  void toggleFavorites(int id, String type) {
+  Future<bool> toggleFavorites(int id, String type, String name) async {
     final favs = favorites.where((element) => element.type == type).toList();
     final ids = favs.map((e) => e.favoritableId).toList();
     if (ids.contains(id)) {
-      favorites.removeWhere((element) => element.type == type && element.favoritableId == id);
+      final result = await _showDialog(navigatorKey.currentState!.context, name);
+      if (result != null) {
+        final favId = favorites.firstWhere((element) => element.type == type && element.favoritableId == id).id!;
+        removeFromFav(id: favId);
+        favorites.removeWhere((element) => element.type == type && element.favoritableId == id);
+        notifyListeners();
+        return true;
+      }
     } else {
       favorites.add(FavoriteData(
         favoritableId: id,
@@ -27,6 +37,7 @@ class FavoriteProvider extends ChangeNotifier {
       ));
     }
     notifyListeners();
+    return false;
   }
 
   void fetchFavs(BuildContext context) {
@@ -50,5 +61,35 @@ class FavoriteProvider extends ChangeNotifier {
         data: [],
       ));
     }
+  }
+
+  Future<dynamic> _showDialog(BuildContext context, String name) {
+    return context
+        .showDialog(
+          titleText: '',
+          bodyText: context.appLocalization.favRemoveMsg(name),
+        )
+        .then((value) => value);
+  }
+
+  Future removeFromFav({
+    required int id,
+  }) async {
+    final ctx = navigatorKey.currentState!.context;
+    await ApiFutureBuilder<FavoriteModel>().fetch(
+      ctx,
+      withOverlayLoader: false,
+      future: () {
+        final socialLoginFuture = ApiService<FavoriteModel>().build(
+          weCanUrl: '${ApiUrl.removeFavorites}/$id',
+          isPublic: false,
+          apiType: ApiType.get,
+          builder: FavoriteModel.fromJson,
+        );
+        return socialLoginFuture;
+      },
+      onComplete: (snapshot) {},
+      onError: (failure) => AppErrorFeedback.show(ctx, failure),
+    );
   }
 }
