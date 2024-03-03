@@ -1,5 +1,7 @@
+import 'package:sportk/model/team_info_model.dart';
+
 class TeamsBySeasonModel {
-  List<TeamBySeasonData>? data;
+  List<TeamInfoData>? data;
   List<Subscription>? subscription;
   RateLimit? rateLimit;
   String? timezone;
@@ -12,7 +14,7 @@ class TeamsBySeasonModel {
   });
 
   factory TeamsBySeasonModel.fromJson(Map<String, dynamic> json) => TeamsBySeasonModel(
-        data: json["data"] == null ? [] : List<TeamBySeasonData>.from(json["data"]!.map((x) => TeamBySeasonData.fromJson(x))),
+        data: json["data"] == null ? [] : List<TeamInfoData>.from(json["data"]!.map((x) => TeamInfoData.fromJson(x))),
         subscription: json["subscription"] == null ? [] : List<Subscription>.from(json["subscription"]!.map((x) => Subscription.fromJson(x))),
         rateLimit: json["rate_limit"] == null ? null : RateLimit.fromJson(json["rate_limit"]),
         timezone: json["timezone"],

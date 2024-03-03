@@ -1,5 +1,5 @@
 class TeamInfoModel {
-  Data? data;
+  TeamInfoData? data;
   List<Subscription>? subscription;
   RateLimit? rateLimit;
   String? timezone;
@@ -12,24 +12,21 @@ class TeamInfoModel {
   });
 
   factory TeamInfoModel.fromJson(Map<String, dynamic> json) => TeamInfoModel(
-        data: json["data"] == null ? null : Data.fromJson(json["data"]),
-        subscription: json["subscription"] == null
-            ? []
-            : List<Subscription>.from(json["subscription"]!.map((x) => Subscription.fromJson(x))),
+        data: json["data"] == null ? null : TeamInfoData.fromJson(json["data"]),
+        subscription: json["subscription"] == null ? [] : List<Subscription>.from(json["subscription"]!.map((x) => Subscription.fromJson(x))),
         rateLimit: json["rate_limit"] == null ? null : RateLimit.fromJson(json["rate_limit"]),
         timezone: json["timezone"],
       );
 
   Map<String, dynamic> toJson() => {
         "data": data?.toJson(),
-        "subscription":
-            subscription == null ? [] : List<dynamic>.from(subscription!.map((x) => x.toJson())),
+        "subscription": subscription == null ? [] : List<dynamic>.from(subscription!.map((x) => x.toJson())),
         "rate_limit": rateLimit?.toJson(),
         "timezone": timezone,
       };
 }
 
-class Data {
+class TeamInfoData {
   int? id;
   int? sportId;
   int? countryId;
@@ -38,17 +35,19 @@ class Data {
   String? name;
   String? shortCode;
   String? imagePath;
+  String? logo;
   int? founded;
   String? type;
   bool? placeholder;
   DateTime? lastPlayedAt;
   List<Season>? seasons;
 
-  Data({
+  TeamInfoData({
     this.id,
     this.sportId,
     this.countryId,
     this.venueId,
+    this.logo,
     this.gender,
     this.name,
     this.shortCode,
@@ -60,11 +59,12 @@ class Data {
     this.seasons,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-        id: json["id"],
+  factory TeamInfoData.fromJson(Map<String, dynamic> json) => TeamInfoData(
+        id: int.parse(json["id"].toString()),
         sportId: json["sport_id"],
         countryId: json["country_id"],
         venueId: json["venue_id"],
+        logo: json["logo"],
         gender: json["gender"],
         name: json["name"],
         shortCode: json["short_code"],
@@ -72,11 +72,8 @@ class Data {
         founded: json["founded"],
         type: json["type"],
         placeholder: json["placeholder"],
-        lastPlayedAt:
-            json["last_played_at"] == null ? null : DateTime.parse(json["last_played_at"]),
-        seasons: json["seasons"] == null
-            ? []
-            : List<Season>.from(json["seasons"]!.map((x) => Season.fromJson(x))),
+        lastPlayedAt: json["last_played_at"] == null ? null : DateTime.parse(json["last_played_at"]),
+        seasons: json["seasons"] == null ? [] : List<Season>.from(json["seasons"]!.map((x) => Season.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -85,6 +82,7 @@ class Data {
         "country_id": countryId,
         "venue_id": venueId,
         "gender": gender,
+        "logo": logo,
         "name": name,
         "short_code": shortCode,
         "image_path": imagePath,
@@ -136,9 +134,7 @@ class Season {
         isCurrent: json["is_current"],
         startingAt: json["starting_at"] == null ? null : DateTime.parse(json["starting_at"]),
         endingAt: json["ending_at"] == null ? null : DateTime.parse(json["ending_at"]),
-        standingsRecalculatedAt: json["standings_recalculated_at"] == null
-            ? null
-            : DateTime.parse(json["standings_recalculated_at"]),
+        standingsRecalculatedAt: json["standings_recalculated_at"] == null ? null : DateTime.parse(json["standings_recalculated_at"]),
         gamesInCurrentWeek: json["games_in_current_week"],
       );
 
@@ -151,10 +147,8 @@ class Season {
         "finished": finished,
         "pending": pending,
         "is_current": isCurrent,
-        "starting_at":
-            "${startingAt!.year.toString().padLeft(4, '0')}-${startingAt!.month.toString().padLeft(2, '0')}-${startingAt!.day.toString().padLeft(2, '0')}",
-        "ending_at":
-            "${endingAt!.year.toString().padLeft(4, '0')}-${endingAt!.month.toString().padLeft(2, '0')}-${endingAt!.day.toString().padLeft(2, '0')}",
+        "starting_at": "${startingAt!.year.toString().padLeft(4, '0')}-${startingAt!.month.toString().padLeft(2, '0')}-${startingAt!.day.toString().padLeft(2, '0')}",
+        "ending_at": "${endingAt!.year.toString().padLeft(4, '0')}-${endingAt!.month.toString().padLeft(2, '0')}-${endingAt!.day.toString().padLeft(2, '0')}",
         "standings_recalculated_at": standingsRecalculatedAt?.toIso8601String(),
         "games_in_current_week": gamesInCurrentWeek,
       };
@@ -199,15 +193,9 @@ class Subscription {
 
   factory Subscription.fromJson(Map<String, dynamic> json) => Subscription(
         meta: json["meta"] == null ? null : Meta.fromJson(json["meta"]),
-        plans: json["plans"] == null
-            ? []
-            : List<Plan>.from(json["plans"]!.map((x) => Plan.fromJson(x))),
-        addOns: json["add_ons"] == null
-            ? []
-            : List<AddOn>.from(json["add_ons"]!.map((x) => AddOn.fromJson(x))),
-        widgets: json["widgets"] == null
-            ? []
-            : List<Widgets>.from(json["widgets"]!.map((x) => Widgets.fromJson(x))),
+        plans: json["plans"] == null ? [] : List<Plan>.from(json["plans"]!.map((x) => Plan.fromJson(x))),
+        addOns: json["add_ons"] == null ? [] : List<AddOn>.from(json["add_ons"]!.map((x) => AddOn.fromJson(x))),
+        widgets: json["widgets"] == null ? [] : List<Widgets>.from(json["widgets"]!.map((x) => Widgets.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {

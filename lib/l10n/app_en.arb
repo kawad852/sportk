@@ -115,6 +115,7 @@
   "save": "Save",
   "leagues": "Leagues",
   "teams": "Teams",
-  "favRemoveMsg": "Would you like to remove {name} from your favorites ?"
+  "favRemoveMsg": "Would you like to remove {name} from your favorites ?",
+  "favorites": "Favorites"
   
 }

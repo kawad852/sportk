@@ -28,6 +28,7 @@ class VexPaginatorState<T> extends State<VexPaginator<T>> {
   late Future<T> _future;
   late VexPaginatorModel<T> _firePaginator;
   int get _pageSize => widget.pageSize;
+  late Future<T> Function(int) _query;
 
   void _fetch() async {
     _firePaginator = VexPaginatorModel(
@@ -37,7 +38,7 @@ class VexPaginatorState<T> extends State<VexPaginator<T>> {
       hasMore: true,
       isFetchingMore: false,
     );
-    _future = widget.query(1);
+    _future = _query(1);
     var querySnapshot = await widget.onFetching(await _future);
     _firePaginator.docs = querySnapshot;
   }
@@ -45,7 +46,7 @@ class VexPaginatorState<T> extends State<VexPaginator<T>> {
   void _fetchMore() async {
     _firePaginator.isFetchingMore = true;
     _firePaginator.pageKey++;
-    var querySnapshot = await widget.onFetching(await widget.query(_firePaginator.pageKey));
+    var querySnapshot = await widget.onFetching(await _query(_firePaginator.pageKey));
     Future.microtask(() {
       setState(() {
         _firePaginator.docs.addAll(querySnapshot);
@@ -64,6 +65,7 @@ class VexPaginatorState<T> extends State<VexPaginator<T>> {
   @override
   void initState() {
     super.initState();
+    _query = widget.query;
     _fetch();
   }
 

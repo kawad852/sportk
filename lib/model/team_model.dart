@@ -53,6 +53,7 @@ class TeamData {
   String? name;
   String? shortName;
   String? logo;
+  String? imagePath;
   int? national;
   String? countryLogo;
   int? foundationTime;
@@ -73,6 +74,7 @@ class TeamData {
     this.name,
     this.shortName,
     this.logo,
+    this.imagePath,
     this.national,
     this.countryLogo,
     this.foundationTime,
@@ -98,6 +100,7 @@ class TeamData {
         countryLogo: json["country_logo"],
         foundationTime: json["foundation_time"],
         website: json["website"],
+        imagePath: json["imagePath"],
         coachId: json["coach_id"],
         venueId: json["venue_id"],
         marketValue: json["market_value"],
@@ -115,6 +118,7 @@ class TeamData {
         "name": name,
         "short_name": shortName,
         "logo": logo,
+        "imagePath": imagePath,
         "national": national,
         "country_logo": countryLogo,
         "foundation_time": foundationTime,

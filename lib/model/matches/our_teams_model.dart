@@ -1,10 +1,10 @@
-import 'package:sportk/model/teams_by_season_model.dart';
+import 'package:sportk/model/team_info_model.dart';
 
 class OurTeamsModel {
   bool? status;
   int? code;
   String? msg;
-  List<TeamBySeasonData>? data;
+  List<TeamInfoData>? data;
 
   OurTeamsModel({
     this.status,
@@ -17,7 +17,7 @@ class OurTeamsModel {
         status: json["status"],
         code: json["code"],
         msg: json["msg"],
-        data: json["data"] == null ? [] : List<TeamBySeasonData>.from(json["data"]!.map((x) => TeamBySeasonData.fromJson(x))),
+        data: json["data"] == null ? [] : List<TeamInfoData>.from(json["data"]!.map((x) => TeamInfoData.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sportk/model/teams_by_season_model.dart';
+import 'package:sportk/model/team_info_model.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 
 class TeamBubble extends StatelessWidget {
-  final TeamBySeasonData team;
+  final TeamInfoData team;
   final VoidCallback? onTap;
   final bool selected;
 

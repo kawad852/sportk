@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:sportk/model/league_model.dart';
+import 'package:sportk/model/team_info_model.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 
-class LeagueBuilder extends StatefulWidget {
-  final int leagueId;
-  final Widget Function(BuildContext context, LeagueModel snapshot) builder;
+class TeamBuilder extends StatefulWidget {
+  final int teamId;
+  final Widget Function(BuildContext context, TeamInfoData snapshot) builder;
 
-  const LeagueBuilder({
+  const TeamBuilder({
     super.key,
-    required this.leagueId,
+    required this.teamId,
     required this.builder,
   });
 
   @override
-  State<LeagueBuilder> createState() => _LeagueBuilderState();
+  State<TeamBuilder> createState() => _TeamBuilderState();
 }
 
-class _LeagueBuilderState extends State<LeagueBuilder> with AutomaticKeepAliveClientMixin {
-  late Future<LeagueModel> _leagueFuture;
+class _TeamBuilderState extends State<TeamBuilder> with AutomaticKeepAliveClientMixin {
+  late Future<TeamInfoModel> _teamFuture;
   late FootBallProvider _footBallProvider;
 
   void _fetchLeagueByDate() {
-    _leagueFuture = _footBallProvider.fetchLeague(leagueId: widget.leagueId);
+    _teamFuture = _footBallProvider.fetchTeamInfo(teamId: widget.teamId);
   }
 
   @override
@@ -39,7 +39,7 @@ class _LeagueBuilderState extends State<LeagueBuilder> with AutomaticKeepAliveCl
   Widget build(BuildContext context) {
     super.build(context);
     return CustomFutureBuilder(
-      future: _leagueFuture,
+      future: _teamFuture,
       onRetry: () {
         setState(() {
           _fetchLeagueByDate();
@@ -53,7 +53,7 @@ class _LeagueBuilderState extends State<LeagueBuilder> with AutomaticKeepAliveCl
         );
       },
       onComplete: (context, snapshot) {
-        final league = snapshot.data!;
+        final league = snapshot.data!.data!;
         return widget.builder(context, league);
       },
     );

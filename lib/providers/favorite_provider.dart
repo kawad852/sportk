@@ -27,6 +27,7 @@ class FavoriteProvider extends ChangeNotifier {
       if (result != null) {
         final favId = favorites.firstWhere((element) => element.type == type && element.favoritableId == id).id!;
         removeFromFav(id: favId);
+
         favorites.removeWhere((element) => element.type == type && element.favoritableId == id);
         notifyListeners();
         return true;
@@ -41,12 +42,12 @@ class FavoriteProvider extends ChangeNotifier {
     return false;
   }
 
-  Future<FavoriteModel?> fetchFavs(BuildContext context) async {
+  Future<FavoriteModel?> fetchFavs(BuildContext context, int pageKey) async {
     // if (favFuture != null) return null;
     final authProvider = context.authProvider;
     if (authProvider.isAuthenticated) {
       favFuture = ApiService<FavoriteModel>().build(
-        weCanUrl: ApiUrl.favorites,
+        weCanUrl: '${ApiUrl.favorites}?page=$pageKey',
         isPublic: false,
         apiType: ApiType.get,
         builder: FavoriteModel.fromJson,
@@ -78,6 +79,7 @@ class FavoriteProvider extends ChangeNotifier {
     required int id,
   }) async {
     final ctx = navigatorKey.currentState!.context;
+    if (!ctx.authProvider.isAuthenticated) return;
     await ApiFutureBuilder<OurLeaguesModel>().fetch(
       ctx,
       withOverlayLoader: false,
