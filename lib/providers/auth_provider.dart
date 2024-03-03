@@ -80,6 +80,7 @@ class AuthProvider extends ChangeNotifier {
     _firebaseAuth.signOut();
     MySharedPreferences.clearStorage();
     updateUser(context, userModel: UserData());
+    context.favoriteProvider.favorites.clear();
     context.pushAndRemoveUntil(const RegistrationScreen());
   }
 
