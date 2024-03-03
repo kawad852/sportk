@@ -1,14 +1,14 @@
-import 'package:sportk/model/team_model.dart';
+import 'package:sportk/model/teams_by_season_model.dart';
 
 class TeamSearchModel {
-  List<TeamData>? data;
+  List<TeamBySeasonData>? data;
 
   TeamSearchModel({
     this.data,
   });
 
   factory TeamSearchModel.fromJson(Map<String, dynamic> json) => TeamSearchModel(
-        data: json["data"] == null ? [] : List<TeamData>.from(json["data"]!.map((x) => TeamData.fromJson(x))),
+        data: json["data"] == null ? [] : List<TeamBySeasonData>.from(json["data"]!.map((x) => TeamBySeasonData.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {

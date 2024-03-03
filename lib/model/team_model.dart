@@ -47,9 +47,9 @@ class Query {
 }
 
 class TeamData {
-  String? id;
+  int? id;
   String? competitionId;
-  String? countryId;
+  int? countryId;
   String? name;
   String? shortName;
   String? logo;
@@ -88,9 +88,9 @@ class TeamData {
   });
 
   factory TeamData.fromJson(Map<String, dynamic> json) => TeamData(
-        id: json["id"],
+        id: int.parse(json["id"].toString()),
         competitionId: json["competition_id"],
-        countryId: json["country_id"],
+        countryId: int.parse(json["country_id"].toString()),
         name: json["name"],
         shortName: json["short_name"],
         logo: json["logo"],

@@ -10,6 +10,7 @@ import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 import 'package:sportk/widgets/league_tile.dart';
 import 'package:sportk/widgets/search_field.dart';
+import 'package:sportk/widgets/team_bubble.dart';
 
 class SearchScreen extends StatefulWidget {
   final List<int> selectedLeagues;
@@ -85,44 +86,82 @@ class _SearchScreenState extends State<SearchScreen> {
               onComplete: (context, snapshot) {
                 final leagueModel = snapshot.data![0] as LeagueSearchModel;
                 final teamModel = snapshot.data![1] as TeamSearchModel;
-                return Column(
+                return ListView(
                   children: [
-                    ListTile(
-                      title: Text("Leagues"),
-                    ),
-                    ListView.separated(
-                      itemCount: leagueModel.data!.length,
-                      padding: const EdgeInsets.all(20),
-                      shrinkWrap: true,
-                      separatorBuilder: (context, index) => const SizedBox(height: 5),
-                      itemBuilder: (context, index) {
-                        final league = leagueModel.data![index];
-                        final id = league.id!;
-                        return LeagueTile(
-                          league: league,
-                          onTap: () {},
-                          selectedTeams: _selectedTeams,
-                          trailing: StatefulBuilder(
-                            builder: (context, setState) {
-                              return IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    if (_selectedLeagues.contains(id)) {
-                                      _selectedLeagues.remove(id);
-                                    } else {
-                                      _selectedLeagues.add(id);
-                                    }
-                                  });
-                                },
-                                icon: CustomSvg(
-                                  _selectedLeagues.contains(id) ? MyIcons.starFilled : MyIcons.starOutlined,
-                                ),
-                              );
-                            },
-                          ),
-                        );
-                      },
-                    ),
+                    if (teamModel.data!.isNotEmpty) ...[
+                      ListTile(
+                        title: Text(context.appLocalization.teams),
+                      ),
+                      SizedBox(
+                        height: 130,
+                        child: ListView.separated(
+                          itemCount: teamModel.data!.length,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          separatorBuilder: (context, index) => const SizedBox(width: 5),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            final team = teamModel.data![index];
+                            final id = team.id!;
+                            return StatefulBuilder(
+                              builder: (context, setState) {
+                                return TeamBubble(
+                                  team: team,
+                                  onTap: () {
+                                    setState(() {
+                                      if (_selectedTeams.contains(id)) {
+                                        _selectedTeams.remove(id);
+                                      } else {
+                                        _selectedTeams.add(id);
+                                      }
+                                    });
+                                  },
+                                  selected: _selectedTeams.contains(id),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                    if (leagueModel.data!.isNotEmpty) ...[
+                      ListTile(
+                        title: Text(context.appLocalization.leagues),
+                      ),
+                      ListView.separated(
+                        itemCount: leagueModel.data!.length,
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        separatorBuilder: (context, index) => const SizedBox(height: 5),
+                        itemBuilder: (context, index) {
+                          final league = leagueModel.data![index];
+                          final id = league.id!;
+                          return LeagueTile(
+                            league: league,
+                            onTap: () {},
+                            selectedTeams: _selectedTeams,
+                            trailing: StatefulBuilder(
+                              builder: (context, setState) {
+                                return IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      if (_selectedLeagues.contains(id)) {
+                                        _selectedLeagues.remove(id);
+                                      } else {
+                                        _selectedLeagues.add(id);
+                                      }
+                                    });
+                                  },
+                                  icon: CustomSvg(
+                                    _selectedLeagues.contains(id) ? MyIcons.starFilled : MyIcons.starOutlined,
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ],
                 );
               })

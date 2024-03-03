@@ -112,6 +112,8 @@
   "moreNews": "More News",
   "noMatchesAtTheMoment":"There are no matches scheduled at the moment",
   "noGroupsAtThisTime":"There is no information available about the groups at this time",
-  "save": "Save"
+  "save": "Save",
+  "leagues": "Leagues",
+  "teams": "Teams"
   
 }
