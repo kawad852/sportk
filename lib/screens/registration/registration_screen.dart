@@ -11,13 +11,8 @@ import 'package:sportk/utils/my_images.dart';
 import 'package:sportk/widgets/title/medium_title.dart';
 
 class RegistrationScreen extends StatefulWidget {
-  final List<int> selectedTeams;
-  final List<int> selectedLeagues;
-
   const RegistrationScreen({
     super.key,
-    this.selectedTeams = const [],
-    this.selectedLeagues = const [],
   });
 
   @override
@@ -53,8 +48,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           displayName: auth.user?.displayName,
           email: auth.user?.email,
           photoURL: auth.user?.photoURL,
-          selectedTeams: widget.selectedTeams,
-          selectedLeagues: widget.selectedLeagues,
         );
       }
     } on PlatformException catch (e) {

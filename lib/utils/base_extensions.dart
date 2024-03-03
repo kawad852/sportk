@@ -7,6 +7,7 @@ import 'package:sportk/network/api_url.dart';
 import 'package:sportk/providers/app_provider.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/providers/common_provider.dart';
+import 'package:sportk/providers/favorite_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/utils/app_routes.dart';
 import 'package:sportk/utils/color_palette.dart';
@@ -97,6 +98,7 @@ extension ProvidersExtension on BuildContext {
   AppProvider get appProvider => read<AppProvider>();
   FootBallProvider get footBallProvider => read<FootBallProvider>();
   CommonProvider get commonProvider => read<CommonProvider>();
+  FavoriteProvider get favoriteProvider => read<FavoriteProvider>();
 }
 
 extension CommonExtensions on BuildContext {

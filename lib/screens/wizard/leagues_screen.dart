@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sportk/model/teams_by_season_model.dart';
+import 'package:sportk/providers/favorite_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/enums.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/team_bubble.dart';
 
 class LeaguesScreen extends StatefulWidget {
   final int leagueId;
-  final List<int> selectedTeams;
+  final String leagueName;
 
   const LeaguesScreen({
     super.key,
     required this.leagueId,
-    this.selectedTeams = const [],
+    required this.leagueName,
   });
 
   @override
@@ -21,8 +24,8 @@ class LeaguesScreen extends StatefulWidget {
 
 class _LeaguesScreenState extends State<LeaguesScreen> {
   late FootBallProvider _footBallProvider;
+  late FavoriteProvider _favoriteProvider;
   late Future<TeamsBySeasonModel> _teamsFuture;
-  late List<int> _selectedTeams;
 
   Future<TeamsBySeasonModel> _initializeLeagues() async {
     final seasonFuture = _footBallProvider.fetchSeasonByLeague(leagueId: widget.leagueId);
@@ -35,7 +38,7 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
   void initState() {
     super.initState();
     _footBallProvider = context.footBallProvider;
-    _selectedTeams = widget.selectedTeams;
+    _favoriteProvider = context.favoriteProvider;
     _teamsFuture = _initializeLeagues();
   }
 
@@ -43,7 +46,7 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("League"),
+        title: Text(widget.leagueName),
       ),
       body: CustomFutureBuilder(
         future: _teamsFuture,
@@ -53,30 +56,28 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
           });
         },
         onComplete: (context, snapshot) {
-          return GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4,
-              crossAxisSpacing: 5,
-              mainAxisSpacing: 10,
-              childAspectRatio: 0.7,
-            ),
-            itemCount: snapshot.data!.data!.length,
-            padding: const EdgeInsets.all(20),
-            itemBuilder: (context, index) {
-              final team = snapshot.data!.data![index];
-              final id = team.id!;
-              return TeamBubble(
-                team: team,
-                onTap: () {
-                  setState(() {
-                    if (_selectedTeams.contains(id)) {
-                      _selectedTeams.remove(id);
-                    } else {
-                      _selectedTeams.add(id);
-                    }
-                  });
+          return Consumer<FavoriteProvider>(
+            builder: (context, provider, child) {
+              return GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  crossAxisSpacing: 5,
+                  mainAxisSpacing: 10,
+                  childAspectRatio: 0.7,
+                ),
+                itemCount: snapshot.data!.data!.length,
+                padding: const EdgeInsets.all(20),
+                itemBuilder: (context, index) {
+                  final team = snapshot.data!.data![index];
+                  final id = team.id!;
+                  return TeamBubble(
+                    team: team,
+                    onTap: () {
+                      _favoriteProvider.toggleFavorites(id, CompoTypeEnum.teams);
+                    },
+                    selected: _favoriteProvider.isFav(id, CompoTypeEnum.teams),
+                  );
                 },
-                selected: widget.selectedTeams.contains(id),
               );
             },
           );

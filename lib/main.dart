@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:sportk/providers/app_provider.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/providers/common_provider.dart';
+import 'package:sportk/providers/favorite_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/base/app_nav_bar.dart';
 import 'package:sportk/screens/intro/intro_screen.dart';
@@ -49,6 +50,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (context) => AppProvider()),
         ChangeNotifierProvider(create: (context) => FootBallProvider()),
         ChangeNotifierProvider(create: (context) => CommonProvider()),
+        ChangeNotifierProvider(create: (context) => FavoriteProvider()),
       ],
       child: const MyApp(),
     ),

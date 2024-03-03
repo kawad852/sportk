@@ -6,14 +6,12 @@ import 'package:sportk/widgets/custom_network_image.dart';
 class LeagueTile extends StatelessWidget {
   final LeagueData league;
   final Widget? trailing;
-  final List<int> selectedTeams;
   final VoidCallback onTap;
 
   const LeagueTile({
     super.key,
     required this.league,
     this.trailing,
-    this.selectedTeams = const [],
     required this.onTap,
   });
 

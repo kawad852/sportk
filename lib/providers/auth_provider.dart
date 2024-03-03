@@ -11,7 +11,6 @@ import 'package:sportk/network/api_url.dart';
 import 'package:sportk/screens/base/app_nav_bar.dart';
 import 'package:sportk/screens/registration/registration_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
-import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/shared_pref.dart';
 
 class AuthProvider extends ChangeNotifier {
@@ -31,25 +30,12 @@ class AuthProvider extends ChangeNotifier {
     required String? displayName,
     required String? email,
     required String? photoURL,
-    required List<int> selectedTeams,
-    required List<int> selectedLeagues,
   }) async {
-    final teams = selectedTeams.map((e) {
-      return {
-        'type': CompoTypeEnum.teams,
-        'favoritable_id': e,
-      };
-    }).toList();
-    final leagues = selectedTeams.map((e) {
-      return {
-        'type': CompoTypeEnum.competitions,
-        'favoritable_id': e,
-      };
-    }).toList();
     await ApiFutureBuilder<AuthModel>().fetch(
       context,
       withOverlayLoader: false,
       future: () {
+        final favoritesProvider = context.favoriteProvider;
         final socialLoginFuture = ApiService<AuthModel>().build(
           weCanUrl: ApiUrl.login,
           isPublic: true,
@@ -58,7 +44,7 @@ class AuthProvider extends ChangeNotifier {
             "name": displayName,
             "email": email,
             "profile_img": photoURL,
-            "favorites": [...teams, ...leagues],
+            "favorites": favoritesProvider.favorites.map((e) => e.toJson()).toList(),
           },
           builder: AuthModel.fromJson,
         );
