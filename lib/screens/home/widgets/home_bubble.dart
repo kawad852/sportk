@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sportk/model/league_by_date_model.dart';
-import 'package:sportk/model/league_model.dart';
 import 'package:sportk/model/matches/live_matches_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
 import 'package:sportk/providers/football_provider.dart';
-import 'package:sportk/screens/champions_league/champions_league_screen.dart';
 import 'package:sportk/screens/home/widgets/live_bubble.dart';
-import 'package:sportk/screens/league_info/league_info_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/web_view_screen.dart';
+import 'package:sportk/widgets/builders/league_builder.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
-import 'package:sportk/widgets/league_tile.dart';
 import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 
@@ -41,8 +38,8 @@ class HomeBubble extends StatefulWidget {
 
 class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMixin {
   late Future<LeagueByDateModel> _future;
-  late Future<List<dynamic>> _futures;
   late FootBallProvider _footBallProvider;
+  late Future<LeagueByDateModel> _teamsFuture;
 
   Future<LeagueByDateModel> _fetchLeagueByDate() {
     final snapshot = ApiService<LeagueByDateModel>().build(
@@ -54,81 +51,65 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
     return snapshot;
   }
 
-  Future<List<dynamic>> _initializeFutures() {
-    final leagueFuture = _footBallProvider.fetchLeague(leagueId: int.parse(widget.leagueId));
-    final teamsFuture = ApiService<LeagueByDateModel>().build(
+  void _initializeFutures() {
+    _teamsFuture = ApiService<LeagueByDateModel>().build(
       sportsUrl: '${ApiUrl.compoByDate}/${widget.date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&filters=fixtureLeagues:${widget.leagueId}&include=statistics;state;participants;periods.events',
       isPublic: true,
       apiType: ApiType.get,
       builder: LeagueByDateModel.fromJson,
     );
-    return Future.wait([leagueFuture, teamsFuture]);
   }
 
   @override
   void initState() {
     super.initState();
     _footBallProvider = context.footBallProvider;
-    _futures = _initializeFutures();
+    _initializeFutures();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return CustomFutureBuilder(
-      future: _futures,
-      onRetry: () {
-        setState(() {
-          _futures = _initializeFutures();
-        });
-      },
-      onLoading: () {
-        return ShimmerLoading(
-          child: ListView.separated(
-            itemCount: 3,
-            separatorBuilder: (context, index) => const SizedBox(height: 5),
-            shrinkWrap: true,
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return const LoadingBubble(
-                height: 65,
-              );
-            },
-          ),
-        );
-      },
-      onComplete: (context, snapshot) {
-        final league = snapshot.data![0] as LeagueModel;
-        final matchModel = snapshot.data![1] as LeagueByDateModel;
-        List<MatchData> matches = [];
-        if (widget.isLive) {
-          final liveMatches = widget.lives.map((e) => e.matchId).toList();
-          matches = matchModel.data!.where((element) => liveMatches.contains('${element.id}')).toList();
-        } else {
-          matches = matchModel.data!;
-        }
-        if (matches.isEmpty) {
-          return const SizedBox.shrink();
-        }
+    return Column(
+      children: [
+        LeagueBuilder(leagueId: int.parse(widget.leagueId)),
+        CustomFutureBuilder(
+          future: _teamsFuture,
+          onRetry: () {
+            setState(() {
+              _initializeFutures();
+            });
+          },
+          onLoading: () {
+            return ShimmerLoading(
+              child: ListView.separated(
+                itemCount: 3,
+                separatorBuilder: (context, index) => const SizedBox(height: 5),
+                shrinkWrap: true,
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return const LoadingBubble(
+                    height: 65,
+                  );
+                },
+              ),
+            );
+          },
+          onComplete: (context, snapshot) {
+            final matchModel = snapshot.data!;
+            List<MatchData> matches = [];
+            if (widget.isLive) {
+              final liveMatches = widget.lives.map((e) => e.matchId).toList();
+              matches = matchModel.data!.where((element) => liveMatches.contains('${element.id}')).toList();
+            } else {
+              matches = matchModel.data!;
+            }
+            if (matches.isEmpty) {
+              return const SizedBox.shrink();
+            }
 
-        return Column(
-          children: [
-            LeagueTile(
-              league: league.data!,
-              onTap: () {
-                if (league.data!.subType == LeagueTypeEnum.cubInternational) {
-                  context.push(
-                    ChampionsLeagueScreen(leagueId: int.parse(widget.leagueId)),
-                  );
-                } else {
-                  context.push(
-                    LeagueInfoScreen(leagueId: int.parse(widget.leagueId), subType: league.data!.subType!),
-                  );
-                }
-              },
-            ),
-            ListView.separated(
+            return ListView.separated(
               itemCount: matches.length,
               separatorBuilder: (context, index) => const SizedBox(height: 5),
               shrinkWrap: true,
@@ -273,10 +254,10 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
                   ),
                 );
               },
-            ),
-          ],
-        );
-      },
+            );
+          },
+        ),
+      ],
     );
   }
 
