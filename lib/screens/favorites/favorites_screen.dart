@@ -69,7 +69,9 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
                   children: [
                     VexPaginator(
                       query: (pageKey) async => _favoriteProvider.fetchFavs(context, pageKey),
-                      onFetching: (snapshot) async => snapshot.data!.where((element) => element.type == CompoTypeEnum.teams).toList(),
+                      onFetching: (snapshot) async => snapshot.data!
+                          .where((element) => element.type == CompoTypeEnum.teams)
+                          .toList(),
                       pageSize: 10,
                       onLoading: () {
                         return ShimmerLoading(
@@ -112,7 +114,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
                                     return TeamBubble(
                                       team: teamData,
                                       onTap: () async {
-                                        final result = await _favoriteProvider.toggleFavorites(id, CompoTypeEnum.teams, teamData.name!);
+                                        final result = await _favoriteProvider.toggleFavorites(
+                                            id, CompoTypeEnum.teams, teamData.name!);
                                         if (result) {
                                           setState(() {
                                             snapshot.docs.removeAt(index);
@@ -133,7 +136,9 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
               Expanded(
                 child: VexPaginator(
                   query: (pageKey) async => _favoriteProvider.fetchFavs(context, pageKey),
-                  onFetching: (snapshot) async => snapshot.data!.where((element) => element.type == CompoTypeEnum.competitions).toList(),
+                  onFetching: (snapshot) async => snapshot.data!
+                      .where((element) => element.type == CompoTypeEnum.competitions)
+                      .toList(),
                   pageSize: 10,
                   onLoading: () {
                     return ShimmerLoading(
@@ -183,7 +188,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
                               },
                               trailing: IconButton(
                                 onPressed: () async {
-                                  final result = await _favoriteProvider.toggleFavorites(id, CompoTypeEnum.competitions, league.name!);
+                                  final result = await _favoriteProvider.toggleFavorites(
+                                      id, CompoTypeEnum.competitions, league.name!);
                                   if (result) {
                                     setState(() {
                                       snapshot.docs.removeAt(index);
@@ -191,7 +197,9 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
                                   }
                                 },
                                 icon: CustomSvg(
-                                  _favoriteProvider.isFav(id, CompoTypeEnum.competitions) ? MyIcons.starFilled : MyIcons.starOutlined,
+                                  _favoriteProvider.isFav(id, CompoTypeEnum.competitions)
+                                      ? MyIcons.starFilled
+                                      : MyIcons.starOutlined,
                                 ),
                               ),
                             );

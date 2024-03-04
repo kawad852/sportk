@@ -90,10 +90,18 @@ class _HomeScreenState extends State<HomeScreen> {
         final competitions = snapshot.data![1] as HomeCompetitionsModel;
         final lives = snapshot.data![2] as LivesMatchesModel;
         _footBallProvider.competitionIds = [];
-        List<FavoriteData> allCompetitions = [...favorites.data!, ...competitions.competitions!.map((e) => FavoriteData(favoritableId: int.parse(e), type: CompoTypeEnum.competitions)).toList()];
+        List<FavoriteData> allCompetitions = [
+          ...favorites.data!,
+          ...competitions.competitions!
+              .map((e) =>
+                  FavoriteData(favoritableId: int.parse(e), type: CompoTypeEnum.competitions))
+              .toList()
+        ];
         if (_isLive) {
           final liveIds = lives.data!.map((e) => e.competitionId).toList();
-          allCompetitions = allCompetitions.where((element) => liveIds.contains('${element.favoritableId}')).toList();
+          allCompetitions = allCompetitions
+              .where((element) => liveIds.contains('${element.favoritableId}'))
+              .toList();
         }
         return Scaffold(
           body: CustomScrollView(
@@ -208,7 +216,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       // separatorBuilder: (context, index) => const SizedBox(height: 1),
                       itemBuilder: (context, index) {
                         final competition = allCompetitions[index];
-                        final liveLeagues = lives.data!.where((element) => element.competitionId == '${competition.favoritableId}').toList();
+                        final liveLeagues = lives.data!
+                            .where((element) =>
+                                element.competitionId == '${competition.favoritableId}')
+                            .toList();
                         return HomeBubble(
                           date: _selectedDate,
                           id: competition.favoritableId!,

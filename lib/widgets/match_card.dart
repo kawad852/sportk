@@ -66,25 +66,26 @@ class _MatchCardState extends State<MatchCard> {
             ),
             Expanded(
               flex: 1,
-              child: Padding(
-                padding: const EdgeInsetsDirectional.only(start: 15, end: 5),
-                child: Row(
-                  children: [
-                    widget.element.state!.id != 1 &&
-                            widget.element.state!.id != 13 &&
-                            widget.element.state!.id != 10
-                        ? Padding(
-                            padding: const EdgeInsetsDirectional.only(end: 5),
-                            child: Text("${widget.homeGoals}"),
-                          )
-                        : const SizedBox(
-                            width: 6,
-                          ),
-                    widget.minute != null
-                        ? CircleAvatar(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  widget.element.state!.id != 1 &&
+                          widget.element.state!.id != 13 &&
+                          widget.element.state!.id != 10
+                      ? Text("${widget.homeGoals}")
+                      : const SizedBox(
+                          width: 6,
+                        ),
+                  widget.minute != null
+                      ? Padding(
+                          padding: const EdgeInsetsDirectional.only(start: 3, end: 3),
+                          child: CircleAvatar(
                             child: Text("${widget.minute}"),
-                          )
-                        : Column(
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsetsDirectional.only(start: 3, end: 3),
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -92,7 +93,8 @@ class _MatchCardState extends State<MatchCard> {
                                 widget.element.state!.name!,
                                 style: TextStyle(
                                   color: context.colorPalette.green057,
-                                  fontSize: 8,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 10,
                                 ),
                               ),
                               if (widget.element.state!.id == 1)
@@ -100,6 +102,7 @@ class _MatchCardState extends State<MatchCard> {
                                   DateFormat("yyyy-MM-dd").format(widget.element.startingAt!),
                                   style: const TextStyle(
                                     fontSize: 8,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               if (widget.element.state!.id == 1)
@@ -107,22 +110,20 @@ class _MatchCardState extends State<MatchCard> {
                                   DateFormat("HH:mm").format(widget.element.startingAt!),
                                   style: const TextStyle(
                                     fontSize: 8,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                             ],
                           ),
-                    widget.element.state!.id != 1 &&
-                            widget.element.state!.id != 13 &&
-                            widget.element.state!.id != 10
-                        ? Padding(
-                            padding: const EdgeInsetsDirectional.only(start: 5),
-                            child: Text("${widget.awayGoals}"),
-                          )
-                        : const SizedBox(
-                            width: 8,
-                          )
-                  ],
-                ),
+                        ),
+                  widget.element.state!.id != 1 &&
+                          widget.element.state!.id != 13 &&
+                          widget.element.state!.id != 10
+                      ? Text("${widget.awayGoals}")
+                      : const SizedBox(
+                          width: 6,
+                        )
+                ],
               ),
             ),
             CustomNetworkImage(
