@@ -28,30 +28,32 @@ class _PlayerStatisticsState extends State<PlayerStatistics> {
   Future<List<dynamic>> _initializeFutures() async {
     _playerFuture = _footBallProvider.fetchPlayerInfo(playerId: widget.playerId);
     final team = await _playerFuture;
-    if (team.data!.teams!.isNotEmpty) {
-      _seasonByTeam1Future =
-          _footBallProvider.fetchSeasonsByTeam(teamId: team.data!.teams![0].teamId!);
-      final season = await _seasonByTeam1Future;
-      if (season.data!.isNotEmpty) {
-        season.data!.map((e) {
-          if (e.isCurrent == true) {
-            _leagueIds.add(e.leagueId!);
-            _seasonIds.add(e.id!);
-          }
-        }).toSet();
+    if (team.data != null) {
+      if (team.data!.teams!.isNotEmpty) {
+        _seasonByTeam1Future =
+            _footBallProvider.fetchSeasonsByTeam(teamId: team.data!.teams![0].teamId!);
+        final season = await _seasonByTeam1Future;
+        if (season.data!.isNotEmpty) {
+          season.data!.map((e) {
+            if (e.isCurrent == true) {
+              _leagueIds.add(e.leagueId!);
+              _seasonIds.add(e.id!);
+            }
+          }).toSet();
+        }
       }
-    }
-    if (team.data!.teams!.length > 1) {
-      _seasonByTeam2Future =
-          _footBallProvider.fetchSeasonsByTeam(teamId: team.data!.teams![1].teamId!);
-      final season = await _seasonByTeam2Future;
-      if (season.data!.isNotEmpty) {
-        season.data!.map((e) {
-          if (e.isCurrent == true) {
-            _leagueIds.add(e.leagueId!);
-            _seasonIds.add(e.id!);
-          }
-        }).toSet();
+      if (team.data!.teams!.length > 1) {
+        _seasonByTeam2Future =
+            _footBallProvider.fetchSeasonsByTeam(teamId: team.data!.teams![1].teamId!);
+        final season = await _seasonByTeam2Future;
+        if (season.data!.isNotEmpty) {
+          season.data!.map((e) {
+            if (e.isCurrent == true) {
+              _leagueIds.add(e.leagueId!);
+              _seasonIds.add(e.id!);
+            }
+          }).toSet();
+        }
       }
     }
     return Future.wait([
@@ -86,55 +88,58 @@ class _PlayerStatisticsState extends State<PlayerStatistics> {
         );
       },
       onComplete: (context, snapshot) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              context.appLocalization.statistics,
-              style: TextStyle(
-                color: context.colorPalette.blueD4B,
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8),
-              child: _leagueIds.isEmpty
-                  ? Text(context.appLocalization.noStatistics)
-                  : SizedBox(
-                      height: 35.0,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: _leagueIds.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return InkWell(
-                            highlightColor: Colors.transparent,
-                            splashColor: Colors.transparent,
-                            onTap: () {
-                              setState(() {
-                                _selectedIndex = index;
-                              });
-                            },
-                            child: LeagueCard(
-                              leagueId: _leagueIds[index],
-                              index: index,
-                              selectIndex: _selectedIndex,
-                            ),
-                          );
-                        },
-                      ),
+        final player = snapshot.data![0] as PlayerModel;
+        return player.data == null
+            ? const SizedBox.shrink()
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    context.appLocalization.statistics,
+                    style: TextStyle(
+                      color: context.colorPalette.blueD4B,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
                     ),
-            ),
-            _leagueIds.isEmpty
-                ? const SizedBox.shrink()
-                : StatisticsInfo(
-                    key: UniqueKey(),
-                    playerId: widget.playerId,
-                    seasonId: _seasonIds[_selectedIndex],
                   ),
-          ],
-        );
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: _leagueIds.isEmpty
+                        ? Text(context.appLocalization.noStatistics)
+                        : SizedBox(
+                            height: 35.0,
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: _leagueIds.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return InkWell(
+                                  highlightColor: Colors.transparent,
+                                  splashColor: Colors.transparent,
+                                  onTap: () {
+                                    setState(() {
+                                      _selectedIndex = index;
+                                    });
+                                  },
+                                  child: LeagueCard(
+                                    leagueId: _leagueIds[index],
+                                    index: index,
+                                    selectIndex: _selectedIndex,
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                  ),
+                  _leagueIds.isEmpty
+                      ? const SizedBox.shrink()
+                      : StatisticsInfo(
+                          key: UniqueKey(),
+                          playerId: widget.playerId,
+                          seasonId: _seasonIds[_selectedIndex],
+                        ),
+                ],
+              );
       },
     );
   }
