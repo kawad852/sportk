@@ -190,7 +190,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (context, index) {
                     final competition = allCompetitions[index];
                     final liveLeagues = lives.data!.where((element) => element.competitionId == '${competition.favoritableId}').toList();
-                    print("type::: ${competition.type!}");
                     return Column(
                       children: [
                         HomeBubble(
