@@ -58,7 +58,7 @@ class CustomNetworkImage extends StatelessWidget {
     );
   }
 
-  ImageProvider get _imagePlaceHolder => const AssetImage('assets/splash.png');
+  ImageProvider get _imagePlaceHolder => const AssetImage('assets/android_launcher.png');
 
   @override
   Widget build(BuildContext context) {
