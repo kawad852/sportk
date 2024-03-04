@@ -5,7 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sportk/alerts/feedback/app_feedback.dart';
 import 'package:sportk/alerts/loading/app_over_loader.dart';
 import 'package:sportk/providers/auth_provider.dart';
-import 'package:sportk/screens/home/home_screen.dart';
+import 'package:sportk/screens/base/app_nav_bar.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_images.dart';
 import 'package:sportk/widgets/title/medium_title.dart';
@@ -92,7 +92,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           if (!widget.hideGuestButton)
             TextButton(
               onPressed: () {
-                context.push(const HomeScreen());
+                context.push(const AppNavBar());
               },
               child: Text(
                 context.appLocalization.skip,

@@ -85,7 +85,6 @@ class _HomeScreenState extends State<HomeScreen> {
           _commonProvider.initializeHome(context);
         });
       },
-      onError: (snapshot) => const SizedBox.shrink(),
       onComplete: (context, snapshot) {
         final favorites = snapshot.data![0] as FavoriteModel;
         final competitions = snapshot.data![1] as HomeCompetitionsModel;

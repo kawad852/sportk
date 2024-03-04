@@ -57,31 +57,26 @@ class WalletCard extends StatelessWidget {
             ],
           ),
         ),
-        Expanded(
-          flex: 1,
-          child: Container(
-            height: 35.0,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: context.colorPalette.grey2F2,
-            ),
-            child: Padding(
-              padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
-              child: Row(
-                children: [
-                  Text(
-                    "1400",
-                    style: TextStyle(
-                      color: context.colorPalette.blueD4B,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 6,
-                  ),
-                  const CustomSvg(MyIcons.coin),
-                ],
+        Container(
+          height: 35.0,
+          padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: context.colorPalette.grey2F2,
+          ),
+          child: Row(
+            children: [
+              Text(
+                "1400",
+                style: TextStyle(
+                  color: context.colorPalette.blueD4B,
+                ),
               ),
-            ),
+              const SizedBox(
+                width: 6,
+              ),
+              const CustomSvg(MyIcons.coin),
+            ],
           ),
         ),
       ],
