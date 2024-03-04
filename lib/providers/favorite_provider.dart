@@ -65,8 +65,6 @@ class FavoriteProvider extends ChangeNotifier {
       )
           .then((value) {
         favorites.addAll(value.data!);
-        print("aklfjalkjfakljsfkaljsf ${favorites.length}");
-
         return value;
       });
     } else {

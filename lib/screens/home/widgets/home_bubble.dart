@@ -26,6 +26,7 @@ class HomeBubble extends StatefulWidget {
   final bool isLive;
   final int index;
   final int length;
+  final Function(bool value) callBack;
 
   const HomeBubble({
     super.key,
@@ -36,6 +37,7 @@ class HomeBubble extends StatefulWidget {
     required this.type,
     required this.index,
     required this.length,
+    required this.callBack,
   });
 
   @override
@@ -51,6 +53,7 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
   int get _id => widget.id;
   String get _type => widget.type;
   int get _index => widget.index;
+  int get _length => widget.length;
 
   Future<List<dynamic>> _initializeFutures() async {
     late int leagueId;
@@ -108,6 +111,7 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
       },
       onComplete: (context, snapshot) {
         if (snapshot.data!.isEmpty) {
+          widget.callBack(true);
           return const SizedBox.shrink();
         }
         final leagueModel = snapshot.data![0] as LeagueModel;
@@ -120,8 +124,10 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
           matches = matchModel.data!;
         }
         if (matches.isEmpty) {
+          widget.callBack(true);
           return const SizedBox.shrink();
         }
+        widget.callBack(false);
         return Column(
           children: [
             LeagueTile(
