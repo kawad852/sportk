@@ -3,8 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:sportk/model/league_by_date_model.dart';
 import 'package:sportk/model/league_model.dart';
 import 'package:sportk/model/matches/live_matches_model.dart';
-import 'package:sportk/network/api_service.dart';
-import 'package:sportk/network/api_url.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/champions_league/champions_league_screen.dart';
 import 'package:sportk/screens/home/widgets/live_bubble.dart';
@@ -13,6 +11,7 @@ import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/web_view_screen.dart';
+import 'package:sportk/widgets/ads/google_banner.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/league_tile.dart';
@@ -49,25 +48,11 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
 
   int get _id => widget.id;
   String get _type => widget.type;
-
-  Future<LeagueByDateModel> _fetchLeagueByDate() {
-    final snapshot = ApiService<LeagueByDateModel>().build(
-      sportsUrl: '${ApiUrl.compoByDate}/${widget.date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&filters=fixtureLeagues:$_id&include=state;participants;statistics.type',
-      isPublic: true,
-      apiType: ApiType.get,
-      builder: LeagueByDateModel.fromJson,
-    );
-    return snapshot;
-  }
+  int get _index => widget.index;
 
   Future<List<dynamic>> _initializeFutures() {
     final leagueFuture = _footBallProvider.fetchLeague(leagueId: _id);
-    final teamsFuture = ApiService<LeagueByDateModel>().build(
-      sportsUrl: '${ApiUrl.compoByDate}/${widget.date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&filters=fixtureLeagues:$_id&include=statistics;state;participants;periods.events',
-      isPublic: true,
-      apiType: ApiType.get,
-      builder: LeagueByDateModel.fromJson,
-    );
+    final teamsFuture = _footBallProvider.fetchLeagueByDate(context, widget.date, _id);
     return Future.wait([leagueFuture, teamsFuture]);
   }
 
@@ -291,6 +276,7 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                 );
               },
             ),
+            if ((_index != 0 && _index % 3 == 0)) const GoogleBanner(),
           ],
         );
       },

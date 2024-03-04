@@ -10,7 +10,6 @@ import 'package:sportk/screens/search/search_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
-import 'package:sportk/widgets/ads/google_banner.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 
@@ -195,18 +194,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (context, index) {
                     final competition = allCompetitions[index];
                     final liveLeagues = lives.data!.where((element) => element.competitionId == '${competition.favoritableId}').toList();
-                    return Column(
-                      children: [
-                        HomeBubble(
-                          date: _selectedDate,
-                          id: competition.favoritableId!,
-                          type: competition.type!,
-                          lives: liveLeagues,
-                          isLive: _isLive,
-                          index: index,
-                        ),
-                        if ((index != 0 && index % 2 == 0) || (index + 1 == allCompetitions.length)) const GoogleBanner(),
-                      ],
+                    return HomeBubble(
+                      date: _selectedDate,
+                      id: competition.favoritableId!,
+                      type: competition.type!,
+                      lives: liveLeagues,
+                      isLive: _isLive,
+                      index: index,
                     );
                   },
                 ),

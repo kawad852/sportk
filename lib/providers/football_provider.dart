@@ -19,22 +19,9 @@ import 'package:sportk/model/teams_by_season_model.dart';
 import 'package:sportk/model/top_scorers_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
+import 'package:sportk/utils/base_extensions.dart';
 
 class FootBallProvider extends ChangeNotifier {
-  Future<LeagueByDateModel> fetchLeagueByDate({
-    required String date,
-    required int leagueId,
-  }) {
-    final snapshot = ApiService<LeagueByDateModel>().build(
-      sportsUrl:
-          '${ApiUrl.compoByDate}/$date?filters=fixtureLeagues:$leagueId&&include=participants;statistics.type',
-      isPublic: true,
-      apiType: ApiType.get,
-      builder: PlayerModel.fromJson,
-    );
-    return snapshot;
-  }
-
   Future<PlayerModel> fetchPlayerInfo({
     required int playerId,
   }) {
@@ -95,6 +82,16 @@ class FootBallProvider extends ChangeNotifier {
     return snapshot;
   }
 
+  Future<LeagueByDateModel> fetchLeagueByDate(BuildContext context, DateTime date, int id) {
+    final snapshot = ApiService<LeagueByDateModel>().build(
+      sportsUrl: '${ApiUrl.compoByDate}/${date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&filters=fixtureLeagues:$id&include=statistics;state;participants;periods.events',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: LeagueByDateModel.fromJson,
+    );
+    return snapshot;
+  }
+
   Future<SeasonInfoModel> fetchSeasonsByTeam({
     required int teamId,
   }) {
@@ -112,8 +109,7 @@ class FootBallProvider extends ChangeNotifier {
     required int seasonId,
   }) {
     final snapshot = ApiService<PlayerStatisticsModel>().build(
-      sportsUrl:
-          '${ApiUrl.playerInfo}/$playerId${ApiUrl.auth}&include=statistics.details&filters=playerStatisticSeasons:$seasonId',
+      sportsUrl: '${ApiUrl.playerInfo}/$playerId${ApiUrl.auth}&include=statistics.details&filters=playerStatisticSeasons:$seasonId',
       isPublic: true,
       apiType: ApiType.get,
       builder: PlayerStatisticsModel.fromJson,
@@ -126,8 +122,7 @@ class FootBallProvider extends ChangeNotifier {
     required int pageKey,
   }) {
     final snapshot = ApiService<TopScorersModel>().build(
-      sportsUrl:
-          '${ApiUrl.topScorers}/$seasonId${ApiUrl.auth}&include=player&filters=seasonTopscorerTypes:208&page=$pageKey',
+      sportsUrl: '${ApiUrl.topScorers}/$seasonId${ApiUrl.auth}&include=player&filters=seasonTopscorerTypes:208&page=$pageKey',
       isPublic: true,
       apiType: ApiType.get,
       builder: TopScorersModel.fromJson,
@@ -200,8 +195,7 @@ class FootBallProvider extends ChangeNotifier {
     required int groupId,
   }) {
     final snapshot = ApiService<GroupsStandingModel>().build(
-      sportsUrl:
-          '${ApiUrl.championsGroup}/$seasonId${ApiUrl.auth}&include=group;details.type&filters=standingGroups:$groupId',
+      sportsUrl: '${ApiUrl.championsGroup}/$seasonId${ApiUrl.auth}&include=group;details.type&filters=standingGroups:$groupId',
       isPublic: true,
       apiType: ApiType.get,
       builder: GroupsStandingModel.fromJson,
@@ -216,8 +210,7 @@ class FootBallProvider extends ChangeNotifier {
     required int pageKey,
   }) {
     final snapshot = ApiService<MatchModel>().build(
-      sportsUrl:
-          '${ApiUrl.match}/$startDate/$endDate${ApiUrl.auth}&include=statistics;state;participants;periods.events&filters=fixtureLeagues:$leagueId&page=$pageKey',
+      sportsUrl: '${ApiUrl.match}/$startDate/$endDate${ApiUrl.auth}&include=statistics;state;participants;periods.events&filters=fixtureLeagues:$leagueId&page=$pageKey',
       isPublic: true,
       apiType: ApiType.get,
       builder: MatchModel.fromJson,
@@ -256,8 +249,7 @@ class FootBallProvider extends ChangeNotifier {
     required int pageKey,
   }) {
     final snapshot = ApiService<MatchModel>().build(
-      sportsUrl:
-          '${ApiUrl.match}/$startDate/$endDate/$teamId${ApiUrl.auth}&include=statistics;state;participants;periods.events&page=$pageKey',
+      sportsUrl: '${ApiUrl.match}/$startDate/$endDate/$teamId${ApiUrl.auth}&include=statistics;state;participants;periods.events&page=$pageKey',
       isPublic: true,
       apiType: ApiType.get,
       builder: MatchModel.fromJson,
