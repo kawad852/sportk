@@ -106,6 +106,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
                               final favoriteData = snapshot.docs[index] as FavoriteData;
                               final id = favoriteData.favoritableId!;
                               return TeamBuilder(
+                                  key: ValueKey(index),
                                   teamId: id,
                                   builder: (context, teamData) {
                                     return TeamBubble(
@@ -162,6 +163,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
                         final favoriteData = snapshot.docs[index] as FavoriteData;
                         final id = favoriteData.favoritableId!;
                         return LeagueBuilder(
+                          key: ValueKey(index),
                           leagueId: id,
                           builder: (BuildContext context, LeagueModel leagueModel) {
                             final league = leagueModel.data!;
