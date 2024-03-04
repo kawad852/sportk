@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:sportk/model/comment_model.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/providers/common_provider.dart';
+import 'package:sportk/screens/news/widgets/like_button.dart';
 import 'package:sportk/utils/base_extensions.dart';
-import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
-import 'package:sportk/widgets/custom_svg.dart';
 
 class CommentBubble extends StatefulWidget {
   final CommentData comment;
@@ -111,7 +110,7 @@ class _CommentBubbleState extends State<CommentBubble> with AutomaticKeepAliveCl
                           ),
                         ),
                         ZoomIn(
-                          child: IconButton(
+                          child: LikeButton(
                             onPressed: () {
                               setState(() {
                                 _comment.isLiked = !_comment.isLiked!;
@@ -124,7 +123,7 @@ class _CommentBubbleState extends State<CommentBubble> with AutomaticKeepAliveCl
                                 }
                               });
                             },
-                            icon: CustomSvg(_comment.isLiked! ? MyIcons.heart : MyIcons.heartEmpty),
+                            isLike: _comment.isLiked!,
                           ),
                         ),
                       ],
