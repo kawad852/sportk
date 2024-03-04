@@ -3,6 +3,7 @@ import 'package:sportk/alerts/errors/app_error_feedback.dart';
 import 'package:sportk/model/comment_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
+import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
@@ -36,6 +37,7 @@ class CommentEditor extends StatefulWidget {
 
 class _CommentEditorState extends State<CommentEditor> {
   late CommonProvider _commonProvider;
+  late AuthProvider _authProvider;
   late TextEditingController _controller;
   Future<CommentModel>? _commentFuture;
 
@@ -76,6 +78,7 @@ class _CommentEditorState extends State<CommentEditor> {
   void initState() {
     super.initState();
     _commonProvider = context.commonProvider;
+    _authProvider = context.authProvider;
     _controller = TextEditingController();
     _controller.addListener(() {
       final text = _controller.text;
@@ -108,9 +111,14 @@ class _CommentEditorState extends State<CommentEditor> {
         IconButton.filled(
           onPressed: _controller.text.isNotEmpty
               ? () async {
-                  setState(() {
-                    _addComment();
-                  });
+                  _authProvider.checkIfUserAuthenticated(
+                    context,
+                    callback: () {
+                      setState(() {
+                        _addComment();
+                      });
+                    },
+                  );
                 }
               : null,
           style: IconButton.styleFrom(
