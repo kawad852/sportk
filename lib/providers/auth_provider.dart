@@ -48,7 +48,7 @@ class AuthProvider extends ChangeNotifier {
           apiType: ApiType.post,
           queryParams: {
             "name": displayName,
-            "email": 'email1@gmail.com',
+            "email": email,
             "profile_img": photoURL,
             "favorites": favoritesProvider.favorites
                 .map((e) => {
