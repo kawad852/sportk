@@ -11,8 +11,10 @@ import 'package:sportk/utils/my_images.dart';
 import 'package:sportk/widgets/title/medium_title.dart';
 
 class RegistrationScreen extends StatefulWidget {
+  final bool hideGuestButton;
   const RegistrationScreen({
     super.key,
+    this.hideGuestButton = false,
   });
 
   @override
@@ -87,14 +89,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         surfaceTintColor: Colors.transparent,
         automaticallyImplyLeading: false,
         actions: [
-          TextButton(
-            onPressed: () {
-              context.push(const HomeScreen());
-            },
-            child: Text(
-              context.appLocalization.skip,
+          if (!widget.hideGuestButton)
+            TextButton(
+              onPressed: () {
+                context.push(const HomeScreen());
+              },
+              child: Text(
+                context.appLocalization.skip,
+              ),
             ),
-          ),
         ],
       ),
       body: ListView(

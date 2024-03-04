@@ -16,13 +16,19 @@ import 'package:sportk/utils/shared_pref.dart';
 class AuthProvider extends ChangeNotifier {
   var user = UserData();
   late Future<String> countryCodeFuture;
-
+  String? _lastRouteName;
+  bool _executeLastRouteCallback = false;
   FirebaseAuth get _firebaseAuth => FirebaseAuth.instance;
 
   bool get isAuthenticated => user.id != null;
 
   void initUser() {
     user = UserData.copy(MySharedPreferences.user);
+  }
+
+  void _popUntilLastPage(BuildContext context) {
+    _executeLastRouteCallback = true;
+    Navigator.popUntil(context, (route) => route.settings.name == _lastRouteName);
   }
 
   Future login(
@@ -57,9 +63,13 @@ class AuthProvider extends ChangeNotifier {
       },
       onComplete: (snapshot) {
         if (snapshot.status == true) {
-          context.pushAndRemoveUntil(const AppNavBar());
           MySharedPreferences.accessToken = snapshot.data!.token!;
           updateUser(context, userModel: snapshot.data!.user);
+          if (_lastRouteName == null) {
+            context.pushAndRemoveUntil(const AppNavBar());
+          } else {
+            _popUntilLastPage(context);
+          }
         } else {
           context.showSnackBar(snapshot.msg!);
         }
@@ -130,5 +140,34 @@ class AuthProvider extends ChangeNotifier {
       builder: UserModel.fromJson,
     );
     return snapshot;
+  }
+
+  Future checkIfUserAuthenticated(
+    BuildContext context, {
+    required Function() callback,
+  }) async {
+    if (isAuthenticated) {
+      callback();
+    } else {
+      debugPrint("RouteName::: ${context.currentRouteName}");
+      context
+          .showDialog(
+        titleText: context.appLocalization.login,
+        bodyText: context.appLocalization.loginToCont,
+        confirmTitle: context.appLocalization.login,
+      )
+          .then((value) {
+        if (value != null) {
+          _lastRouteName = context.currentRouteName;
+          context.push(const RegistrationScreen(hideGuestButton: true)).then((value) {
+            _lastRouteName = null;
+            if (_executeLastRouteCallback) {
+              callback();
+              _executeLastRouteCallback = false;
+            }
+          });
+        }
+      });
+    }
   }
 }

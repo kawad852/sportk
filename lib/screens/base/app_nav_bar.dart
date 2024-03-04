@@ -7,6 +7,7 @@ import 'package:sportk/screens/favorites/favorites_screen.dart';
 import 'package:sportk/screens/home/home_screen.dart';
 import 'package:sportk/screens/news/news_screen.dart';
 import 'package:sportk/screens/wallet/wallet_screen.dart';
+import 'package:sportk/utils/app_routes.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
 
@@ -70,20 +71,20 @@ class _AppNavBarState extends State<AppNavBar> {
             final index = items.indexOf(element);
             return NavBarItem(
               onTap: () {
-                // if (index == 4 && authProvider.user == null) {
-                //   authProvider.toggleGuestRegistration(
-                //     context,
-                //     callback: () {
-                //       setState(() {
-                //         _currentIndex = index;
-                //       });
-                //     },
-                //   );
-                // } else {
-                setState(() {
-                  _currentIndex = index;
-                });
-                // }
+                if (index == 0 && index == 1) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                } else {
+                  authProvider.checkIfUserAuthenticated(
+                    context,
+                    callback: () {
+                      setState(() {
+                        _currentIndex = index;
+                      });
+                    },
+                  );
+                }
               },
               isSelected: _currentIndex == index,
               icon: element,

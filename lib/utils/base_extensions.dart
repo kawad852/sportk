@@ -68,6 +68,7 @@ extension NavigatorExtension on BuildContext {
 
   void pushAndRemoveUntil(Widget screen) {
     final routeName = AppRoutes.names[screen.runtimeType];
+    print("name:::::: $routeName");
     Navigator.pushAndRemoveUntil(
       this,
       MaterialPageRoute(
@@ -104,6 +105,7 @@ extension ProvidersExtension on BuildContext {
 extension CommonExtensions on BuildContext {
   void unFocusKeyboard() => FocusManager.instance.primaryFocus?.unfocus();
   double get systemButtonHeight => Theme.of(this).buttonTheme.height;
+  String? get currentRouteName => ModalRoute.of(this)?.settings.name;
 }
 
 extension ImageExtension on BuildContext {
