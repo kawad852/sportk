@@ -77,12 +77,9 @@ class _HomeScreenState extends State<HomeScreen> {
         final favorites = snapshot.data![0] as FavoriteModel;
         final competitions = snapshot.data![1] as HomeCompetitionsModel;
         final lives = snapshot.data![2] as LivesMatchesModel;
-        // List<String> allCompetitions = [...favorites.data!.map((e) => '${e.favoritableId}').toList(), ...competitions.competitions!];
-        List<FavoriteData> allCompetitions = [...favorites.data!, ...competitions.competitions!.map((e) => FavoriteData(favoritableId: int.parse(e), type: CompoTypeEnum.teams)).toList()];
+        List<FavoriteData> allCompetitions = [...favorites.data!, ...competitions.competitions!.map((e) => FavoriteData(favoritableId: int.parse(e), type: CompoTypeEnum.competitions)).toList()];
         if (_isLive) {
           final liveIds = lives.data!.map((e) => e.competitionId).toList();
-          // final leagues = allCompetitions.where((element) => element.type == CompoTypeEnum.competitions).toList();
-          // final ll = leagues.map((e) => e.favoritableId!).toList();
           allCompetitions = allCompetitions.where((element) => liveIds.contains('${element.favoritableId}')).toList();
         }
         return Scaffold(
@@ -193,11 +190,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (context, index) {
                     final competition = allCompetitions[index];
                     final liveLeagues = lives.data!.where((element) => element.competitionId == '${competition.favoritableId}').toList();
+                    print("type::: ${competition.type!}");
                     return Column(
                       children: [
                         HomeBubble(
                           date: _selectedDate,
-                          leagueId: competition.favoritableId!,
+                          id: competition.favoritableId!,
                           type: competition.type!,
                           lives: liveLeagues,
                           isLive: _isLive,

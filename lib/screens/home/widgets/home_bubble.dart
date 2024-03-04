@@ -21,7 +21,7 @@ import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 
 class HomeBubble extends StatefulWidget {
   final DateTime date;
-  final int leagueId;
+  final int id;
   final String type;
   final List<LiveData> lives;
   final bool isLive;
@@ -29,7 +29,7 @@ class HomeBubble extends StatefulWidget {
   const HomeBubble({
     super.key,
     required this.date,
-    required this.leagueId,
+    required this.id,
     required this.lives,
     required this.isLive,
     required this.type,
@@ -44,9 +44,12 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
   late FootBallProvider _footBallProvider;
   late Future<LeagueByDateModel> _teamsFuture;
 
+  int get _id => widget.id;
+  String get _type => widget.type;
+
   Future<LeagueByDateModel> _fetchLeagueByDate() {
     final snapshot = ApiService<LeagueByDateModel>().build(
-      sportsUrl: '${ApiUrl.compoByDate}/${widget.date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&filters=fixtureLeagues:${widget.leagueId}&include=state;participants;statistics.type',
+      sportsUrl: '${ApiUrl.compoByDate}/${widget.date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&filters=fixtureLeagues:$_id&include=state;participants;statistics.type',
       isPublic: true,
       apiType: ApiType.get,
       builder: LeagueByDateModel.fromJson,
@@ -56,7 +59,7 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
 
   void _initializeFutures() {
     _teamsFuture = ApiService<LeagueByDateModel>().build(
-      sportsUrl: '${ApiUrl.compoByDate}/${widget.date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&filters=fixtureLeagues:${widget.leagueId}&include=statistics;state;participants;periods.events',
+      sportsUrl: '${ApiUrl.compoByDate}/${widget.date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&filters=fixtureLeagues:$_id&include=statistics;state;participants;periods.events',
       isPublic: true,
       apiType: ApiType.get,
       builder: LeagueByDateModel.fromJson,
@@ -73,21 +76,30 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    if (_type == CompoTypeEnum.teams) {
+      return GestureDetector(
+        onTap: () {
+          print("id::: $_id");
+        },
+        child: const CircleAvatar(),
+      );
+    }
+
     return Column(
       children: [
         LeagueBuilder(
-          leagueId: widget.leagueId,
+          leagueId: _id,
           builder: (context, league) {
             return LeagueTile(
               league: league.data!,
               onTap: () {
                 if (league.data!.subType == LeagueTypeEnum.cubInternational) {
                   context.push(
-                    ChampionsLeagueScreen(leagueId: widget.leagueId),
+                    ChampionsLeagueScreen(leagueId: _id),
                   );
                 } else {
                   context.push(
-                    LeagueInfoScreen(leagueId: widget.leagueId, subType: league.data!.subType!),
+                    LeagueInfoScreen(leagueId: _id, subType: league.data!.subType!),
                   );
                 }
               },
