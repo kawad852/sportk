@@ -11,15 +11,6 @@ import 'package:sportk/widgets/base_editor.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 
-// registration
-// leagues
-// favorites
-
-// home
-// blogs
-
-// guest
-
 class CommentEditor extends StatefulWidget {
   final int newId;
 
