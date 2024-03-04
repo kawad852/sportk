@@ -80,15 +80,6 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    // if (_type == CompoTypeEnum.teams) {
-    //   return GestureDetector(
-    //     onTap: () {
-    //       print("id::: $_id");
-    //     },
-    //     child: const CircleAvatar(),
-    //   );
-    // }
-
     return CustomFutureBuilder(
       future: _futures,
       onRetry: () {
@@ -293,7 +284,7 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                 );
               },
             ),
-            if (_index != 0 && _index % 4 == 0 && _index + 1 != widget.length)
+            if ((_index % 3 == 0))
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 5),
                 child: GoogleBanner(),
