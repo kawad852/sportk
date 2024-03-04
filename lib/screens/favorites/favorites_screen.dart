@@ -12,6 +12,7 @@ import 'package:sportk/widgets/builders/league_builder.dart';
 import 'package:sportk/widgets/builders/team_builder.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 import 'package:sportk/widgets/league_tile.dart';
+import 'package:sportk/widgets/no_results.dart';
 import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 import 'package:sportk/widgets/team_bubble.dart';
@@ -37,7 +38,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
   void initState() {
     super.initState();
     _favoriteProvider = context.favoriteProvider;
-    // _favoriteProvider.fetchFavs(context, 1);
     // _fetch();
   }
 
@@ -48,13 +48,20 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
       appBar: AppBar(
         title: Text(context.appLocalization.favorites),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {});
-        },
-      ),
       body: Consumer<FavoriteProvider>(
         builder: (context, provider, child) {
+          if (provider.favorites.isEmpty) {
+            return Center(
+              child: NoResults(
+                header: const CustomSvg(
+                  MyIcons.starFilled,
+                  width: 60,
+                ),
+                title: context.appLocalization.favEmptyTitle,
+                body: context.appLocalization.favEmptyBody,
+              ),
+            );
+          }
           return Column(
             children: [
               Material(
@@ -62,7 +69,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
                   children: [
                     VexPaginator(
                       query: (pageKey) async => _favoriteProvider.fetchFavs(context, pageKey),
-                      onFetching: (snapshot) async => snapshot!.data!.where((element) => element.type == CompoTypeEnum.teams).toList(),
+                      onFetching: (snapshot) async => snapshot.data!.where((element) => element.type == CompoTypeEnum.teams).toList(),
                       pageSize: 10,
                       onLoading: () {
                         return ShimmerLoading(
@@ -125,7 +132,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
               Expanded(
                 child: VexPaginator(
                   query: (pageKey) async => _favoriteProvider.fetchFavs(context, pageKey),
-                  onFetching: (snapshot) async => snapshot!.data!.where((element) => element.type == CompoTypeEnum.competitions).toList(),
+                  onFetching: (snapshot) async => snapshot.data!.where((element) => element.type == CompoTypeEnum.competitions).toList(),
                   pageSize: 10,
                   onLoading: () {
                     return ShimmerLoading(

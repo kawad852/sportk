@@ -134,7 +134,12 @@ class _FollowScreenState extends State<FollowScreen> with AutomaticKeepAliveClie
                               return TeamBubble(
                                 team: team,
                                 onTap: () async {
-                                  _favoriteProvider.toggleFavorites(id, CompoTypeEnum.teams, team.name!);
+                                  _favoriteProvider.toggleFavorites(
+                                    id,
+                                    CompoTypeEnum.teams,
+                                    team.name!,
+                                    showDialog: false,
+                                  );
                                 },
                                 selected: _favoriteProvider.isFav(id, CompoTypeEnum.teams),
                               );
@@ -205,7 +210,12 @@ class _FollowScreenState extends State<FollowScreen> with AutomaticKeepAliveClie
                           },
                           trailing: IconButton(
                             onPressed: () async {
-                              _favoriteProvider.toggleFavorites(id, CompoTypeEnum.competitions, league.name!);
+                              _favoriteProvider.toggleFavorites(
+                                id,
+                                CompoTypeEnum.competitions,
+                                league.name!,
+                                showDialog: false,
+                              );
                             },
                             icon: CustomSvg(
                               _favoriteProvider.isFav(id, CompoTypeEnum.competitions) ? MyIcons.starFilled : MyIcons.starOutlined,

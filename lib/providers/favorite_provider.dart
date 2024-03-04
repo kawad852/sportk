@@ -10,7 +10,7 @@ import 'package:sportk/utils/base_extensions.dart';
 
 class FavoriteProvider extends ChangeNotifier {
   List<FavoriteData> favorites = [];
-  Future<FavoriteModel>? favFuture;
+  late Future<FavoriteModel> favFuture;
 
   bool isFav(int id, String type) {
     final favs = favorites.where((element) => element.type == type).toList();
@@ -19,14 +19,25 @@ class FavoriteProvider extends ChangeNotifier {
     return inFav;
   }
 
-  Future<bool> toggleFavorites(int id, String type, String name) async {
+  Future<bool> toggleFavorites(
+    int id,
+    String type,
+    String name, {
+    bool showDialog = true,
+  }) async {
     final favs = favorites.where((element) => element.type == type).toList();
     final ids = favs.map((e) => e.favoritableId).toList();
     if (ids.contains(id)) {
-      final result = await _showDialog(navigatorKey.currentState!.context, name);
-      if (result != null) {
-        final favId = favorites.firstWhere((element) => element.type == type && element.favoritableId == id).id!;
-        removeFromFav(id: favId);
+      if (showDialog) {
+        final result = await _showDialog(navigatorKey.currentState!.context, name);
+        if (result != null) {
+          final favId = favorites.firstWhere((element) => element.type == type && element.favoritableId == id).id!;
+          removeFromFav(id: favId);
+          favorites.removeWhere((element) => element.type == type && element.favoritableId == id);
+          notifyListeners();
+          return true;
+        }
+      } else {
         favorites.removeWhere((element) => element.type == type && element.favoritableId == id);
         notifyListeners();
         return true;
@@ -41,28 +52,32 @@ class FavoriteProvider extends ChangeNotifier {
     return false;
   }
 
-  Future<FavoriteModel?> fetchFavs(BuildContext context, int pageKey) async {
+  Future<FavoriteModel> fetchFavs(BuildContext context, int pageKey) async {
     // if (favFuture != null) return null;
     final authProvider = context.authProvider;
     if (authProvider.isAuthenticated) {
-      favFuture = ApiService<FavoriteModel>().build(
+      favFuture = ApiService<FavoriteModel>()
+          .build(
         weCanUrl: '${ApiUrl.favorites}?page=$pageKey',
         isPublic: false,
         apiType: ApiType.get,
         builder: FavoriteModel.fromJson,
-      );
-      final data = await favFuture;
-      favorites = data!.data!;
+      )
+          .then((value) {
+        favorites.addAll(value.data!);
+        print("aklfjalkjfakljsfkaljsf ${favorites.length}");
+
+        return value;
+      });
     } else {
       favFuture = Future.value(FavoriteModel(
         code: 200,
         data: [],
       ));
       final data = await favFuture;
-      favorites = data!.data!;
+      favorites = data.data!;
     }
-    final favModel = await favFuture!;
-    return favModel;
+    return favFuture;
   }
 
   Future<dynamic> _showDialog(BuildContext context, String name) {

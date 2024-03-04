@@ -116,6 +116,8 @@
   "leagues": "Leagues",
   "teams": "Teams",
   "favRemoveMsg": "Would you like to remove {name} from your favorites ?",
-  "favorites": "Favorites"
+  "favorites": "Favorites",
+  "favEmptyTitle": "Start Saving Your Favorites!",
+  "favEmptyBody": "You haven't added any favorites yet. Start browsing and tap the heart icon to save your favorites for easy access later."
   
 }
