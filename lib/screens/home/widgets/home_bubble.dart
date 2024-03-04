@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sportk/model/league_by_date_model.dart';
+import 'package:sportk/model/league_model.dart';
 import 'package:sportk/model/matches/live_matches_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
@@ -12,7 +13,6 @@ import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/web_view_screen.dart';
-import 'package:sportk/widgets/builders/league_builder.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/league_tile.dart';
@@ -25,6 +25,7 @@ class HomeBubble extends StatefulWidget {
   final String type;
   final List<LiveData> lives;
   final bool isLive;
+  final int index;
 
   const HomeBubble({
     super.key,
@@ -33,16 +34,18 @@ class HomeBubble extends StatefulWidget {
     required this.lives,
     required this.isLive,
     required this.type,
+    required this.index,
   });
 
   @override
-  State<HomeBubble> createState() => _HomeBubbleState();
+  State<HomeBubble> createState() => HomeBubbleState();
 }
 
-class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMixin {
+class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMixin {
   late Future<LeagueByDateModel> _future;
   late FootBallProvider _footBallProvider;
   late Future<LeagueByDateModel> _teamsFuture;
+  late Future<List<dynamic>> _futures;
 
   int get _id => widget.id;
   String get _type => widget.type;
@@ -57,20 +60,22 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
     return snapshot;
   }
 
-  void _initializeFutures() {
-    _teamsFuture = ApiService<LeagueByDateModel>().build(
+  Future<List<dynamic>> _initializeFutures() {
+    final leagueFuture = _footBallProvider.fetchLeague(leagueId: _id);
+    final teamsFuture = ApiService<LeagueByDateModel>().build(
       sportsUrl: '${ApiUrl.compoByDate}/${widget.date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&filters=fixtureLeagues:$_id&include=statistics;state;participants;periods.events',
       isPublic: true,
       apiType: ApiType.get,
       builder: LeagueByDateModel.fromJson,
     );
+    return Future.wait([leagueFuture, teamsFuture]);
   }
 
   @override
   void initState() {
     super.initState();
     _footBallProvider = context.footBallProvider;
-    _initializeFutures();
+    _futures = _initializeFutures();
   }
 
   @override
@@ -85,64 +90,62 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
       );
     }
 
-    return Column(
-      children: [
-        LeagueBuilder(
-          leagueId: _id,
-          builder: (context, league) {
-            return LeagueTile(
-              league: league.data!,
+    return CustomFutureBuilder(
+      future: _futures,
+      onRetry: () {
+        setState(() {
+          _initializeFutures();
+        });
+      },
+      onLoading: () {
+        return ShimmerLoading(
+          child: ListView.separated(
+            itemCount: 3,
+            separatorBuilder: (context, index) => const SizedBox(height: 5),
+            shrinkWrap: true,
+            padding: const EdgeInsets.symmetric(vertical: 5),
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return const LoadingBubble(
+                height: 65,
+              );
+            },
+          ),
+        );
+      },
+      onError: (snapshot) {
+        return const SizedBox.shrink();
+      },
+      onComplete: (context, snapshot) {
+        final leagueModel = snapshot.data![0] as LeagueModel;
+        final matchModel = snapshot.data![1] as LeagueByDateModel;
+        List<MatchData> matches = [];
+        if (widget.isLive) {
+          final liveMatches = widget.lives.map((e) => e.matchId).toList();
+          matches = matchModel.data!.where((element) => liveMatches.contains('${element.id}')).toList();
+        } else {
+          matches = matchModel.data!;
+        }
+        if (matches.isEmpty) {
+          return const SizedBox.shrink();
+        }
+        return Column(
+          children: [
+            LeagueTile(
+              league: leagueModel.data!,
               onTap: () {
-                if (league.data!.subType == LeagueTypeEnum.cubInternational) {
+                if (leagueModel.data!.subType == LeagueTypeEnum.cubInternational) {
                   context.push(
                     ChampionsLeagueScreen(leagueId: _id),
                   );
                 } else {
                   context.push(
-                    LeagueInfoScreen(leagueId: _id, subType: league.data!.subType!),
+                    LeagueInfoScreen(leagueId: _id, subType: leagueModel.data!.subType!),
                   );
                 }
               },
-            );
-          },
-        ),
-        CustomFutureBuilder(
-          future: _teamsFuture,
-          onRetry: () {
-            setState(() {
-              _initializeFutures();
-            });
-          },
-          onLoading: () {
-            return ShimmerLoading(
-              child: ListView.separated(
-                itemCount: 3,
-                separatorBuilder: (context, index) => const SizedBox(height: 5),
-                shrinkWrap: true,
-                padding: const EdgeInsets.symmetric(vertical: 5),
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return const LoadingBubble(
-                    height: 65,
-                  );
-                },
-              ),
-            );
-          },
-          onComplete: (context, snapshot) {
-            final matchModel = snapshot.data!;
-            List<MatchData> matches = [];
-            if (widget.isLive) {
-              final liveMatches = widget.lives.map((e) => e.matchId).toList();
-              matches = matchModel.data!.where((element) => liveMatches.contains('${element.id}')).toList();
-            } else {
-              matches = matchModel.data!;
-            }
-            if (matches.isEmpty) {
-              return const SizedBox.shrink();
-            }
-
-            return ListView.separated(
+            ),
+            ListView.separated(
               itemCount: matches.length,
               separatorBuilder: (context, index) => const SizedBox(height: 5),
               shrinkWrap: true,
@@ -287,10 +290,10 @@ class _HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMi
                   ),
                 );
               },
-            );
-          },
-        ),
-      ],
+            ),
+          ],
+        );
+      },
     );
   }
 

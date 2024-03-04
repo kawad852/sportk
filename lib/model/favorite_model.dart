@@ -32,6 +32,7 @@ class FavoriteData {
   String? type;
   int? favoritableId;
   int? isFavorite;
+  Object? globalKey;
 
   FavoriteData({
     this.id,
@@ -39,6 +40,7 @@ class FavoriteData {
     this.type,
     this.favoritableId,
     this.isFavorite,
+    this.globalKey,
   });
 
   factory FavoriteData.fromJson(Map<String, dynamic> json) => FavoriteData(

@@ -83,6 +83,11 @@ class _HomeScreenState extends State<HomeScreen> {
           allCompetitions = allCompetitions.where((element) => liveIds.contains('${element.favoritableId}')).toList();
         }
         return Scaffold(
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              setState(() {});
+            },
+          ),
           body: CustomScrollView(
             slivers: [
               SliverAppBar.medium(
@@ -198,6 +203,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           type: competition.type!,
                           lives: liveLeagues,
                           isLive: _isLive,
+                          index: index,
                         ),
                         if ((index != 0 && index % 2 == 0) || (index + 1 == allCompetitions.length)) const GoogleBanner(),
                       ],
