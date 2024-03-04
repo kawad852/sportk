@@ -25,6 +25,7 @@ class HomeBubble extends StatefulWidget {
   final List<LiveData> lives;
   final bool isLive;
   final int index;
+  final int length;
 
   const HomeBubble({
     super.key,
@@ -34,6 +35,7 @@ class HomeBubble extends StatefulWidget {
     required this.isLive,
     required this.type,
     required this.index,
+    required this.length,
   });
 
   @override
@@ -50,9 +52,21 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
   String get _type => widget.type;
   int get _index => widget.index;
 
-  Future<List<dynamic>> _initializeFutures() {
-    final leagueFuture = _footBallProvider.fetchLeague(leagueId: _id);
-    final teamsFuture = _footBallProvider.fetchLeagueByDate(context, widget.date, _id);
+  Future<List<dynamic>> _initializeFutures() async {
+    late int leagueId;
+    late Future<LeagueModel> leagueFuture;
+    late Future<LeagueByDateModel> teamsFuture;
+    if (_type == CompoTypeEnum.teams) {
+      final leagueByTeamFuture = _footBallProvider.fetchLeagueByTeam(context, widget.date, _id);
+      final team = await leagueByTeamFuture;
+      final id = team.data!.first.leagueId!;
+      leagueId = id;
+    } else {
+      leagueId = _id;
+    }
+    if (!context.mounted) return [];
+    leagueFuture = _footBallProvider.fetchLeague(leagueId: leagueId);
+    teamsFuture = _footBallProvider.fetchLeagueByDate(context, widget.date, leagueId);
     return Future.wait([leagueFuture, teamsFuture]);
   }
 
@@ -66,14 +80,14 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    if (_type == CompoTypeEnum.teams) {
-      return GestureDetector(
-        onTap: () {
-          print("id::: $_id");
-        },
-        child: const CircleAvatar(),
-      );
-    }
+    // if (_type == CompoTypeEnum.teams) {
+    //   return GestureDetector(
+    //     onTap: () {
+    //       print("id::: $_id");
+    //     },
+    //     child: const CircleAvatar(),
+    //   );
+    // }
 
     return CustomFutureBuilder(
       future: _futures,
@@ -102,6 +116,9 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
         return const SizedBox.shrink();
       },
       onComplete: (context, snapshot) {
+        if (snapshot.data!.isEmpty) {
+          return const SizedBox.shrink();
+        }
         final leagueModel = snapshot.data![0] as LeagueModel;
         final matchModel = snapshot.data![1] as LeagueByDateModel;
         List<MatchData> matches = [];
@@ -276,7 +293,11 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                 );
               },
             ),
-            if ((_index != 0 && _index % 3 == 0)) const GoogleBanner(),
+            if (_index != 0 && _index % 4 == 0 && _index + 1 != widget.length)
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 5),
+                child: GoogleBanner(),
+              ),
           ],
         );
       },

@@ -92,6 +92,17 @@ class FootBallProvider extends ChangeNotifier {
     return snapshot;
   }
 
+  // https://api.sportmonks.com/v3/football/fixtures/between/2024-03-06/2024-03-06/9?include=statistics;state;participants;periods.events&filters=fixtureLeagues:8&api_token=cdxo3ts8WT2RbL8ovPjExCo20qnABdBZSYWO8YoEPqKMvHifLPhk1uUZWQq6&locale=en
+  Future<LeagueByDateModel> fetchLeagueByTeam(BuildContext context, DateTime date, int id) {
+    final snapshot = ApiService<LeagueByDateModel>().build(
+      sportsUrl: '${ApiUrl.leagueByTeam}/${date.formatDate(context, pattern: 'yyyy-MM-dd')}/${date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&include=statistics;state;participants;periods.events',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: LeagueByDateModel.fromJson,
+    );
+    return snapshot;
+  }
+
   Future<SeasonInfoModel> fetchSeasonsByTeam({
     required int teamId,
   }) {

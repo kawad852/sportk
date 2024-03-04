@@ -82,11 +82,6 @@ class _HomeScreenState extends State<HomeScreen> {
           allCompetitions = allCompetitions.where((element) => liveIds.contains('${element.favoritableId}')).toList();
         }
         return Scaffold(
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              setState(() {});
-            },
-          ),
           body: CustomScrollView(
             slivers: [
               SliverAppBar.medium(
@@ -190,7 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 sliver: SliverList.separated(
                   key: ValueKey('${_selectedDate.microsecondsSinceEpoch}$_isLive'),
                   itemCount: allCompetitions.length,
-                  separatorBuilder: (context, index) => const SizedBox(height: 5),
+                  separatorBuilder: (context, index) => const SizedBox(height: 1),
                   itemBuilder: (context, index) {
                     final competition = allCompetitions[index];
                     final liveLeagues = lives.data!.where((element) => element.competitionId == '${competition.favoritableId}').toList();
@@ -201,6 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       lives: liveLeagues,
                       isLive: _isLive,
                       index: index,
+                      length: allCompetitions.length,
                     );
                   },
                 ),
