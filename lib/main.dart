@@ -39,8 +39,8 @@ Future<void> main() async {
   await Firebase.initializeApp();
   await MySharedPreferences.init();
   unawaited(MobileAds.instance.initialize());
-  MySharedPreferences.clearStorage();
-  MySharedPreferences.isPassedIntro = false;
+  // MySharedPreferences.clearStorage();
+  // MySharedPreferences.isPassedIntro = false;
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   FirebaseMessaging.onBackgroundMessage(onBackgroundMessage);
   runApp(
@@ -107,7 +107,7 @@ class _MyAppState extends State<MyApp> {
           locale: Locale(appProvider.appLocale.languageCode),
           theme: MyTheme().materialTheme(context, seedColorScheme),
           home: _toggleRoute(context),
-          // home: const FollowTeamsScreen(),
+          // home: const NestedScrollViewExample(),
           // home: const ClubScreen(teamId: 9),
           // home: const ChatTab(),
         );

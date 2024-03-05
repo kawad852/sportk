@@ -90,145 +90,161 @@ class _HomeScreenState extends State<HomeScreen> {
         final favoritesModel = snapshot.data![0] as FavoriteModel;
         final livesModel = snapshot.data![1] as LivesMatchesModel;
         return Scaffold(
-          body: CustomScrollView(
-            slivers: [
-              SliverAppBar.medium(
-                pinned: true,
-                leading: IconButton(
-                  onPressed: () {},
-                  icon: const CustomSvg(MyIcons.menu),
-                ),
-                title: Text(
-                  _selectedDate.formatDate(context, pattern: 'EEE, MMM d'),
-                  style: context.textTheme.labelLarge,
-                ),
-                actions: [
-                  IconButton(
-                    onPressed: () {
-                      context.push(const SearchScreen());
-                    },
-                    icon: const CustomSvg(MyIcons.search),
-                  ),
-                  Theme(
-                    data: Theme.of(context).copyWith(
-                      iconButtonTheme: const IconButtonThemeData(
-                        style: ButtonStyle(
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          padding: MaterialStatePropertyAll(EdgeInsets.zero),
+          body: NestedScrollView(
+            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                SliverOverlapAbsorber(
+                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                  sliver: SliverAppBar.medium(
+                    pinned: true,
+                    forceElevated: innerBoxIsScrolled,
+                    leading: IconButton(
+                      onPressed: () {},
+                      icon: const CustomSvg(MyIcons.menu),
+                    ),
+                    title: Text(
+                      _selectedDate.formatDate(context, pattern: 'EEE, MMM d'),
+                      style: context.textTheme.labelLarge,
+                    ),
+                    actions: [
+                      IconButton(
+                        onPressed: () {
+                          context.push(const SearchScreen());
+                        },
+                        icon: const CustomSvg(MyIcons.search),
+                      ),
+                      Theme(
+                        data: Theme.of(context).copyWith(
+                          iconButtonTheme: const IconButtonThemeData(
+                            style: ButtonStyle(
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              padding: MaterialStatePropertyAll(EdgeInsets.zero),
+                            ),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ArrowButton(
+                              iconData: Icons.arrow_back_ios,
+                              onTap: _reachedMaxDate(_minDate)
+                                  ? null
+                                  : () {
+                                      _onDateChanged(_selectedDate.subtract(const Duration(days: 1)));
+                                    },
+                            ),
+                            IconButton(
+                              padding: EdgeInsets.zero,
+                              style: IconButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              ),
+                              onPressed: () {
+                                _showDatePicker(context);
+                              },
+                              icon: const CustomSvg(MyIcons.calender),
+                            ),
+                            ArrowButton(
+                              iconData: Icons.arrow_forward_ios,
+                              onTap: _reachedMaxDate(_maxDate)
+                                  ? null
+                                  : () {
+                                      _onDateChanged(_selectedDate.add(const Duration(days: 1)));
+                                    },
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ArrowButton(
-                          iconData: Icons.arrow_back_ios,
-                          onTap: _reachedMaxDate(_minDate)
-                              ? null
-                              : () {
-                                  _onDateChanged(_selectedDate.subtract(const Duration(days: 1)));
-                                },
-                        ),
-                        IconButton(
-                          padding: EdgeInsets.zero,
-                          style: IconButton.styleFrom(
-                            padding: EdgeInsets.zero,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          ),
-                          onPressed: () {
-                            _showDatePicker(context);
-                          },
-                          icon: const CustomSvg(MyIcons.calender),
-                        ),
-                        ArrowButton(
-                          iconData: Icons.arrow_forward_ios,
-                          onTap: _reachedMaxDate(_maxDate)
-                              ? null
-                              : () {
-                                  _onDateChanged(_selectedDate.add(const Duration(days: 1)));
-                                },
-                        ),
-                      ],
-                    ),
+                      const SizedBox(width: 10),
+                      LiveSwitch(
+                        active: _isLive,
+                        onTap: () {
+                          setState(() {
+                            _isLive = !_isLive;
+                          });
+                        },
+                        onChanged: (value) {
+                          setState(() {
+                            _isLive = value;
+                          });
+                        },
+                      ),
+                      const SizedBox(width: 10),
+                    ],
                   ),
-                  const SizedBox(width: 10),
-                  LiveSwitch(
-                    active: _isLive,
-                    onTap: () {
-                      setState(() {
-                        _isLive = !_isLive;
-                      });
-                    },
-                    onChanged: (value) {
-                      setState(() {
-                        _isLive = value;
-                      });
-                    },
-                  ),
-                  const SizedBox(width: 10),
-                ],
-              ),
-
-              ///
-              SliverFillRemaining(
-                child: VexPaginator(
-                  query: (pageKey) async => _commonProvider.fetchLeagues(pageKey),
-                  onFetching: (snapshot) async => snapshot.competitions!,
-                  pageSize: 10,
-                  builder: (context, snapshot) {
-                    final competitions = snapshot.docs as List<String>;
-                    List<FavoriteData> allCompetitions = [...favoritesModel.data!, ...competitions.map((e) => FavoriteData(favoritableId: int.parse(e), type: CompoTypeEnum.competitions)).toList()];
-                    if (_isLive) {
-                      final liveIds = livesModel.data!.map((e) => e.competitionId).toList();
-                      allCompetitions = allCompetitions.where((element) => liveIds.contains('${element.favoritableId}')).toList();
-                    }
-                    return Consumer<FootBallProvider>(
-                      builder: (context, provider, child) {
-                        if (msgs.isNotEmpty && msgs.every((element) => true)) {
-                          return FilledButton(
-                            onPressed: () {},
-                            child: const Text("Empty"),
-                          );
+                ),
+              ];
+            },
+            body: Builder(
+              builder: (context) {
+                return CustomScrollView(
+                  slivers: [
+                    SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
+                    VexPaginator(
+                      query: (pageKey) async => _commonProvider.fetchLeagues(pageKey),
+                      onFetching: (snapshot) async => snapshot.competitions!,
+                      sliver: true,
+                      pageSize: 10,
+                      builder: (context, snapshot) {
+                        final competitions = snapshot.docs as List<String>;
+                        List<FavoriteData> allCompetitions = [...favoritesModel.data!, ...competitions.map((e) => FavoriteData(favoritableId: int.parse(e), type: CompoTypeEnum.competitions)).toList()];
+                        if (_isLive) {
+                          final liveIds = livesModel.data!.map((e) => e.competitionId).toList();
+                          allCompetitions = allCompetitions.where((element) => liveIds.contains('${element.favoritableId}')).toList();
                         }
-                        return ListView.builder(
-                          key: ValueKey('${_selectedDate.microsecondsSinceEpoch}$_isLive'),
-                          padding: const EdgeInsets.all(20).copyWith(top: 0),
-                          itemCount: allCompetitions.length,
-                          // separatorBuilder: (context, index) => const SizedBox(height: 1),
-                          itemBuilder: (context, index) {
-                            if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
-                              snapshot.fetchMore();
-                              return const VexLoader();
+                        return Consumer<FootBallProvider>(
+                          builder: (context, provider, child) {
+                            if (msgs.isNotEmpty && msgs.every((element) => true)) {
+                              return SliverToBoxAdapter(
+                                child: FilledButton(
+                                  onPressed: () {},
+                                  child: const Text("Empty"),
+                                ),
+                              );
                             }
+                            return SliverPadding(
+                              padding: const EdgeInsets.all(20).copyWith(top: 0),
+                              sliver: SliverList.builder(
+                                key: ValueKey('${_selectedDate.microsecondsSinceEpoch}$_isLive'),
+                                itemCount: allCompetitions.length,
+                                // separatorBuilder: (context, index) => const SizedBox(height: 1),
+                                itemBuilder: (context, index) {
+                                  if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
+                                    snapshot.fetchMore();
+                                    return const VexLoader();
+                                  }
 
-                            final competition = allCompetitions[index];
-                            final liveLeagues = livesModel.data!.where((element) => element.competitionId == '${competition.favoritableId}').toList();
-                            return HomeBubble(
-                              date: _selectedDate,
-                              id: competition.favoritableId!,
-                              type: competition.type!,
-                              lives: liveLeagues,
-                              isLive: _isLive,
-                              index: index,
-                              length: allCompetitions.length,
-                              callBack: (bool value) {
-                                // msgs.add(value);
-                                // if (index + 1 == allCompetitions.length) {
-                                //   Future.microtask(() {
-                                //     setState(() {});
-                                //   });
-                                //   print("masjabf::: $msgs");
-                                // }
-                              },
+                                  final competition = allCompetitions[index];
+                                  final liveLeagues = livesModel.data!.where((element) => element.competitionId == '${competition.favoritableId}').toList();
+                                  return HomeBubble(
+                                    date: _selectedDate,
+                                    id: competition.favoritableId!,
+                                    type: competition.type!,
+                                    lives: liveLeagues,
+                                    isLive: _isLive,
+                                    index: index,
+                                    length: allCompetitions.length,
+                                    callBack: (bool value) {
+                                      // msgs.add(value);
+                                      // if (index + 1 == allCompetitions.length) {
+                                      //   Future.microtask(() {
+                                      //     setState(() {});
+                                      //   });
+                                      //   print("masjabf::: $msgs");
+                                      // }
+                                    },
+                                  );
+                                },
+                              ),
                             );
                           },
                         );
                       },
-                    );
-                  },
-                ),
-              ),
-            ],
+                    ),
+                  ],
+                );
+              },
+            ),
           ),
         );
       },

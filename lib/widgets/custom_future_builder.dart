@@ -9,6 +9,7 @@ class CustomFutureBuilder<T> extends StatelessWidget {
   final Function()? onLoading;
   final Function(AsyncSnapshot<T?> snapshot)? onError;
   final bool withBackgroundColor;
+  final bool sliver;
 
   const CustomFutureBuilder({
     Key? key,
@@ -18,7 +19,21 @@ class CustomFutureBuilder<T> extends StatelessWidget {
     this.onLoading,
     this.onError,
     this.withBackgroundColor = false,
+    this.sliver = false,
   }) : super(key: key);
+
+  Widget _buildLoading() {
+    return onLoading == null ? CustomLoadingIndicator(withBackgroundColor: withBackgroundColor) : onLoading!();
+  }
+
+  Widget _buildError(AsyncSnapshot<T?> snapshot) {
+    return onError == null
+        ? AppErrorWidget(
+            error: snapshot.error,
+            onRetry: onRetry,
+          )
+        : onError!(snapshot);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,18 +42,13 @@ class CustomFutureBuilder<T> extends StatelessWidget {
       builder: (context, AsyncSnapshot<T?> snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
-            return onLoading == null ? CustomLoadingIndicator(withBackgroundColor: withBackgroundColor) : onLoading!();
+            return sliver ? SliverToBoxAdapter(child: _buildLoading()) : _buildLoading();
           case ConnectionState.done:
           default:
             if (snapshot.hasData) {
               return onComplete(context, snapshot);
             } else {
-              return onError == null
-                  ? AppErrorWidget(
-                      error: snapshot.error,
-                      onRetry: onRetry,
-                    )
-                  : onError!(snapshot);
+              return sliver ? SliverToBoxAdapter(child: _buildError(snapshot)) : _buildError(snapshot);
             }
         }
       },

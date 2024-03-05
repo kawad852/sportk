@@ -9,6 +9,7 @@ class VexPaginator<T> extends StatefulWidget {
   final Future<List<Object>> Function(T query) onFetching;
   final dynamic Function(BuildContext context, VexPaginatorModel<T> snapshot) builder;
   final int pageSize;
+  final bool sliver;
 
   const VexPaginator({
     super.key,
@@ -18,6 +19,7 @@ class VexPaginator<T> extends StatefulWidget {
     this.onError,
     required this.onFetching,
     required this.pageSize,
+    this.sliver = false,
   });
 
   @override
@@ -74,6 +76,7 @@ class VexPaginatorState<T> extends State<VexPaginator<T>> {
     return CustomFutureBuilder(
       future: _future,
       onRetry: _fetch,
+      sliver: widget.sliver,
       onLoading: widget.onLoading,
       onError: widget.onError,
       onComplete: (context, snapshot) {
