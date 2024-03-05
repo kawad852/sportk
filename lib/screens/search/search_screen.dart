@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sportk/model/league_search_model.dart';
+import 'package:sportk/model/player_search_model.dart';
 import 'package:sportk/model/team_search_model.dart';
 import 'package:sportk/providers/favorite_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
@@ -12,6 +13,7 @@ import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
+import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 import 'package:sportk/widgets/league_tile.dart';
 import 'package:sportk/widgets/search_field.dart';
@@ -19,6 +21,7 @@ import 'package:sportk/widgets/team_bubble.dart';
 
 class SearchScreen extends StatefulWidget {
   final bool canAddToFav;
+
   const SearchScreen({
     super.key,
     this.canAddToFav = false,
@@ -57,7 +60,12 @@ class _SearchScreenState extends State<SearchScreen> {
   Future<List<dynamic>> _initializeFutures(String query) {
     final leagueSearchFuture = _footBallProvider.searchLeagues(query: query);
     final teamSearchFuture = _footBallProvider.searchTeams(query: query);
-    return Future.wait([leagueSearchFuture, teamSearchFuture]);
+    final futures = [leagueSearchFuture, teamSearchFuture];
+    if (!_canAddToFav) {
+      final playersSearchFuture = _footBallProvider.searchPlayers(query: query);
+      futures.add(playersSearchFuture);
+    }
+    return Future.wait(futures);
   }
 
   @override
@@ -89,6 +97,10 @@ class _SearchScreenState extends State<SearchScreen> {
                     onComplete: (context, snapshot) {
                       final leagueModel = snapshot.data![0] as LeagueSearchModel;
                       final teamModel = snapshot.data![1] as TeamSearchModel;
+                      PlayerSearchModel? playerModel;
+                      if (!_canAddToFav) {
+                        playerModel = snapshot.data![2] as PlayerSearchModel;
+                      }
                       return ListView(
                         children: [
                           if (teamModel.data!.isNotEmpty) ...[
@@ -117,6 +129,42 @@ class _SearchScreenState extends State<SearchScreen> {
                                           }
                                         },
                                         selected: _favoriteProvider.isFav(id, CompoTypeEnum.teams),
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                          if (playerModel != null && playerModel.data!.isNotEmpty) ...[
+                            ListTile(
+                              title: Text(context.appLocalization.players),
+                            ),
+                            SizedBox(
+                              height: 130,
+                              child: ListView.separated(
+                                itemCount: playerModel.data!.length,
+                                padding: const EdgeInsets.symmetric(horizontal: 20),
+                                separatorBuilder: (context, index) => const SizedBox(width: 5),
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  final player = playerModel!.data![index];
+                                  final id = player.id!;
+                                  return StatefulBuilder(
+                                    builder: (context, setState) {
+                                      return Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          CustomNetworkImage(
+                                            player.imagePath!,
+                                            height: 100,
+                                            width: 100,
+                                          ),
+                                          Text(
+                                            player.displayName!,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ],
                                       );
                                     },
                                   );

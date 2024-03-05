@@ -7,6 +7,7 @@ import 'package:sportk/model/league_model.dart';
 import 'package:sportk/model/league_search_model.dart';
 import 'package:sportk/model/match_model.dart';
 import 'package:sportk/model/player_model.dart';
+import 'package:sportk/model/player_search_model.dart';
 import 'package:sportk/model/player_statistics_model.dart';
 import 'package:sportk/model/season_by_league_model.dart';
 import 'package:sportk/model/season_info_model.dart';
@@ -302,6 +303,18 @@ class FootBallProvider extends ChangeNotifier {
       isPublic: true,
       apiType: ApiType.get,
       builder: TeamSearchModel.fromJson,
+    );
+    return snapshot;
+  }
+
+  Future<PlayerSearchModel> searchPlayers({
+    required String query,
+  }) {
+    final snapshot = ApiService<PlayerSearchModel>().build(
+      sportsUrl: '${ApiUrl.playersSearch}/$query${ApiUrl.auth}',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: PlayerSearchModel.fromJson,
     );
     return snapshot;
   }

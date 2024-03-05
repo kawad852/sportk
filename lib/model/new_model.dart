@@ -60,7 +60,7 @@ class NewData {
         source: json["source"],
         publicationTime: json["publication_time"],
         tags: json["tags"] == null ? [] : List<Tag>.from(json["tags"]!.map((x) => Tag.fromJson(x))),
-        isLiked: json["is_liked"],
+        isLiked: json["is_liked"] ?? false,
         numberOfLikes: json["number_of_likes"],
       );
 

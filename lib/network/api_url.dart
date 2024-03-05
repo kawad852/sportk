@@ -29,6 +29,7 @@ class ApiUrl {
   static const String round = '/football/rounds';
   static const String leagueSearch = '/football/leagues/search';
   static const String teamsSearch = '/football/teams/search';
+  static const String playersSearch = '/football/players/search';
   static const String leagueByTeam = '/football/fixtures/between';
 
   ///weCan url
