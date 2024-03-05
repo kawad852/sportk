@@ -82,6 +82,7 @@ class _ClubPlayersState extends State<ClubPlayers> with AutomaticKeepAliveClient
           },
         ).toSet();
         final List<List<Datum>> players = [_attackers, _midline, _defenders, _guards];
+
         return SingleChildScrollView(
           padding: const EdgeInsetsDirectional.symmetric(horizontal: 15, vertical: 10),
           child: ListView.builder(
@@ -89,99 +90,101 @@ class _ClubPlayersState extends State<ClubPlayers> with AutomaticKeepAliveClient
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: 4,
+            itemCount: players.length,
             itemBuilder: (BuildContext context, int index) {
-              return Column(
-                children: [
-                  Container(
-                    width: double.infinity,
-                    height: 30.0,
-                    margin: const EdgeInsetsDirectional.only(bottom: 5),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: context.colorPalette.greyEAE,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Text(
-                      playersName[index],
-                      style: TextStyle(
-                        color: context.colorPalette.blueD4B,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  ListView.builder(
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: players[index].length,
-                    itemBuilder: (BuildContext context, int myIndex) {
-                      return InkWell(
-                        highlightColor: Colors.transparent,
-                        splashColor: Colors.transparent,
-                        onTap: () {
-                          context.push(PlayerScreen(
-                            playerId: players[index][myIndex].playerId!,
-                          ));
-                        },
-                        child: Container(
+              return players[index].isEmpty
+                  ? const SizedBox.shrink()
+                  : Column(
+                      children: [
+                        Container(
                           width: double.infinity,
-                          height: 50.0,
+                          height: 30.0,
                           margin: const EdgeInsetsDirectional.only(bottom: 5),
+                          alignment: Alignment.center,
                           decoration: BoxDecoration(
-                            color: context.colorPalette.grey3F3,
-                            borderRadius: BorderRadius.circular(10),
+                            color: context.colorPalette.greyEAE,
+                            borderRadius: BorderRadius.circular(5),
                           ),
-                          child: Padding(
-                            padding: const EdgeInsetsDirectional.symmetric(horizontal: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    CustomNetworkImage(
-                                      players[index][myIndex].player!.imagePath!,
-                                      width: 35.0,
-                                      height: 35.0,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    const SizedBox(
-                                      width: 8,
-                                    ),
-                                    SizedBox(
-                                      width: 220,
-                                      child: Text(
-                                        players[index][myIndex].player!.displayName!,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Container(
-                                  width: 40,
-                                  height: 40,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: context.colorPalette.grey9E9,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Text(
-                                    players[index][myIndex].jerseyNumber.toString(),
-                                    style: TextStyle(
-                                      color: context.colorPalette.blueD4B,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                          child: Text(
+                            playersName[index],
+                            style: TextStyle(
+                              color: context.colorPalette.blueD4B,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),
-                      );
-                    },
-                  ),
-                ],
-              );
+                        ListView.builder(
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: players[index].length,
+                          itemBuilder: (BuildContext context, int myIndex) {
+                            return InkWell(
+                              highlightColor: Colors.transparent,
+                              splashColor: Colors.transparent,
+                              onTap: () {
+                                context.push(PlayerScreen(
+                                  playerId: players[index][myIndex].playerId!,
+                                ));
+                              },
+                              child: Container(
+                                width: double.infinity,
+                                height: 50.0,
+                                margin: const EdgeInsetsDirectional.only(bottom: 5),
+                                decoration: BoxDecoration(
+                                  color: context.colorPalette.grey3F3,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsetsDirectional.symmetric(horizontal: 8),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          CustomNetworkImage(
+                                            players[index][myIndex].player!.imagePath!,
+                                            width: 35.0,
+                                            height: 35.0,
+                                            shape: BoxShape.circle,
+                                          ),
+                                          const SizedBox(
+                                            width: 8,
+                                          ),
+                                          SizedBox(
+                                            width: 220,
+                                            child: Text(
+                                              players[index][myIndex].player!.displayName!,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Container(
+                                        width: 40,
+                                        height: 40,
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          color: context.colorPalette.grey9E9,
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                        child: Text(
+                                          players[index][myIndex].jerseyNumber.toString(),
+                                          style: TextStyle(
+                                            color: context.colorPalette.blueD4B,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    );
             },
           ),
         );

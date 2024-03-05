@@ -127,7 +127,8 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
         List<MatchData> matches = [];
         if (widget.isLive) {
           final liveMatches = widget.lives.map((e) => e.matchId).toList();
-          matches = matchModel.data!.where((element) => liveMatches.contains('${element.id}')).toList();
+          matches =
+              matchModel.data!.where((element) => liveMatches.contains('${element.id}')).toList();
         } else {
           matches = matchModel.data!;
         }
@@ -160,17 +161,18 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 final match = matches[index];
-                final liveMatch = widget.lives.singleWhere((element) => element.matchId == '${match.id}', orElse: () => LiveData());
-                final element = matches[index];
+                final liveMatch = widget.lives.singleWhere(
+                    (element) => element.matchId == '${match.id}',
+                    orElse: () => LiveData());
                 int homeGoals = 0;
                 int awayGoals = 0;
                 int? minute;
-                element.periods!.map((period) {
+                match.periods!.map((period) {
                   if (period.hasTimer!) {
                     minute = period.minutes;
                   }
                 }).toSet();
-                element.statistics!.map(
+                match.statistics!.map(
                   (e) {
                     if (e.typeId == 52) {
                       switch (e.location) {
@@ -199,81 +201,83 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                         Expanded(
                           flex: 1,
                           child: Text(
-                            element.participants![0].name!,
+                            match.participants![0].name!,
                             textAlign: TextAlign.center,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                             style: TextStyle(
                               color: context.colorPalette.blueD4B,
-                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
                             ),
                           ),
                         ),
                         CustomNetworkImage(
-                          element.participants![0].imagePath!,
+                          match.participants![0].imagePath!,
                           width: 30,
                           height: 30,
                           shape: BoxShape.circle,
                         ),
                         Expanded(
                           flex: 1,
-                          child: Padding(
-                            padding: const EdgeInsetsDirectional.only(start: 10, end: 5),
-                            child: Row(
-                              children: [
-                                element.state!.id != 1 && element.state!.id != 13 && element.state!.id != 10
-                                    ? Padding(
-                                        padding: const EdgeInsetsDirectional.only(end: 5),
-                                        child: Text("$homeGoals"),
-                                      )
-                                    : const SizedBox(
-                                        width: 6,
-                                      ),
-                                minute != null
-                                    ? CircleAvatar(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              match.state!.id != 1 && match.state!.id != 13 && match.state!.id != 10
+                                  ? Text("$homeGoals")
+                                  : const SizedBox(
+                                      width: 6,
+                                    ),
+                              minute != null
+                                  ? Padding(
+                                      padding: const EdgeInsetsDirectional.only(start: 3, end: 3),
+                                      child: CircleAvatar(
                                         child: Text("$minute"),
-                                      )
-                                    : Column(
+                                      ),
+                                    )
+                                  : Padding(
+                                      padding: const EdgeInsetsDirectional.only(start: 3, end: 3),
+                                      child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            element.state!.name!,
+                                            match.state!.name!,
                                             style: TextStyle(
                                               color: context.colorPalette.green057,
-                                              fontSize: 8,
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                          if (element.state!.id == 1)
+                                          if (match.state!.id == 1)
                                             Text(
-                                              DateFormat("yyyy-MM-dd").format(element.startingAt!),
+                                              DateFormat("yyyy-MM-dd").format(match.startingAt!),
                                               style: const TextStyle(
                                                 fontSize: 8,
+                                                fontWeight: FontWeight.bold,
                                               ),
                                             ),
-                                          if (element.state!.id == 1)
+                                          if (match.state!.id == 1)
                                             Text(
-                                              DateFormat("HH:mm").format(element.startingAt!),
+                                              DateFormat("HH:mm").format(match.startingAt!),
                                               style: const TextStyle(
                                                 fontSize: 8,
+                                                fontWeight: FontWeight.bold,
                                               ),
                                             ),
                                         ],
                                       ),
-                                element.state!.id != 1 && element.state!.id != 13 && element.state!.id != 10
-                                    ? Padding(
-                                        padding: const EdgeInsetsDirectional.only(start: 3),
-                                        child: Text("$awayGoals"),
-                                      )
-                                    : const SizedBox(
-                                        width: 8,
-                                      )
-                              ],
-                            ),
+                                    ),
+                              match.state!.id != 1 && match.state!.id != 13 && match.state!.id != 10
+                                  ? Text("$awayGoals")
+                                  : const SizedBox(
+                                      width: 6,
+                                    )
+                            ],
                           ),
                         ),
                         CustomNetworkImage(
-                          element.participants![1].imagePath!,
+                          match.participants![1].imagePath!,
                           width: 30,
                           height: 30,
                           shape: BoxShape.circle,
@@ -281,13 +285,14 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                         Expanded(
                           flex: 1,
                           child: Text(
-                            element.participants![1].name!,
+                            match.participants![1].name!,
                             textAlign: TextAlign.center,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                             style: TextStyle(
                               color: context.colorPalette.blueD4B,
-                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
                             ),
                           ),
                         ),

@@ -94,86 +94,108 @@ class _PlayerCardState extends State<PlayerCard> {
       },
       onComplete: (context, snapshot) {
         final player = snapshot.data!;
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: const EdgeInsetsDirectional.only(start: 50),
-                    child: PlayerTeam(
-                      teamId: player.data!.teams!.isEmpty ? null : player.data!.teams![0].teamId,
-                      jerseyNumber: player.data!.teams!.isEmpty ? null : player.data!.teams![0].jerseyNumber,
-                    ),
-                  ),
+        return player.data == null
+            ? Text(
+                context.appLocalization.playerError,
+                style: TextStyle(
+                  color: context.colorPalette.blueD4B,
+                  fontWeight: FontWeight.bold,
                 ),
-                Column(
-                  children: [
-                    CustomNetworkImage(
-                      player.data!.imagePath!,
-                      width: 60,
-                      height: 60,
-                      radius: 5,
-                    ),
-                  ],
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: const EdgeInsetsDirectional.only(end: 50),
-                    child: PlayerTeam(
-                      teamId: player.data!.teams!.length > 1 ? player.data!.teams![1].teamId : null,
-                      jerseyNumber: player.data!.teams!.length == 2 ? player.data!.teams![1].jerseyNumber : null,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Text(
-              player.data!.name!,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: context.colorPalette.blueD4B),
-            ),
-            TeamName(
-              teamId: player.data!.teams!.isEmpty ? null : player.data!.teams![0].teamId,
-            ),
-            TeamName(
-              teamId: player.data!.teams!.length > 1 ? player.data!.teams![1].teamId : null,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsetsDirectional.symmetric(
-                horizontal: 10,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              )
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  DetalisCard(
-                    subTitle: getPosition(player.data!.detailedPositionId, player.data!.positionId),
-                    title: context.appLocalization.position,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Padding(
+                          padding: const EdgeInsetsDirectional.only(start: 50),
+                          child: PlayerTeam(
+                            teamId:
+                                player.data!.teams!.isEmpty ? null : player.data!.teams![0].teamId,
+                            jerseyNumber: player.data!.teams!.isEmpty
+                                ? null
+                                : player.data!.teams![0].jerseyNumber,
+                          ),
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          CustomNetworkImage(
+                            player.data!.imagePath!,
+                            width: 60,
+                            height: 60,
+                            radius: 5,
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Padding(
+                          padding: const EdgeInsetsDirectional.only(end: 50),
+                          child: PlayerTeam(
+                            teamId: player.data!.teams!.length > 1
+                                ? player.data!.teams![1].teamId
+                                : null,
+                            jerseyNumber: player.data!.teams!.length == 2
+                                ? player.data!.teams![1].jerseyNumber
+                                : null,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  DetalisCard(
-                    subTitle: player.data!.dateOfBirth == null ? context.appLocalization.unknown : "${getAeg(player.data!.dateOfBirth!)} ${context.appLocalization.year}",
-                    title: context.appLocalization.age,
+                  Text(
+                    player.data!.name!,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(color: context.colorPalette.blueD4B),
                   ),
-                  DetalisCard(
-                    subTitle: player.data!.weight == null ? context.appLocalization.unknown : "${player.data!.weight} ${context.appLocalization.kg}",
-                    title: context.appLocalization.weight,
+                  TeamName(
+                    teamId: player.data!.teams!.isEmpty ? null : player.data!.teams![0].teamId,
                   ),
-                  DetalisCard(
-                    subTitle: player.data!.height == null ? context.appLocalization.unknown : "${player.data!.height} ${context.appLocalization.cm}",
-                    title: context.appLocalization.height,
+                  TeamName(
+                    teamId: player.data!.teams!.length > 1 ? player.data!.teams![1].teamId : null,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsetsDirectional.symmetric(
+                      horizontal: 10,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        DetalisCard(
+                          subTitle:
+                              getPosition(player.data!.detailedPositionId, player.data!.positionId),
+                          title: context.appLocalization.position,
+                        ),
+                        DetalisCard(
+                          subTitle: player.data!.dateOfBirth == null
+                              ? context.appLocalization.unknown
+                              : "${getAeg(player.data!.dateOfBirth!)} ${context.appLocalization.year}",
+                          title: context.appLocalization.age,
+                        ),
+                        DetalisCard(
+                          subTitle: player.data!.weight == null
+                              ? context.appLocalization.unknown
+                              : "${player.data!.weight} ${context.appLocalization.kg}",
+                          title: context.appLocalization.weight,
+                        ),
+                        DetalisCard(
+                          subTitle: player.data!.height == null
+                              ? context.appLocalization.unknown
+                              : "${player.data!.height} ${context.appLocalization.cm}",
+                          title: context.appLocalization.height,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
-              ),
-            ),
-          ],
-        );
+              );
       },
     );
   }

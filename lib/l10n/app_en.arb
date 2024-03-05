@@ -129,5 +129,7 @@
   "favorites": "Favorites",
   "favEmptyTitle": "Start Saving Your Favorites!",
   "favEmptyBody": "You haven't added any favorites yet. Start browsing and tap the heart icon to save your favorites for easy access later.",
-  "loginToCont": "login to continue"
+  "loginToCont": "login to continue",
+  "playerNationality":"Player nationality",
+  "playerError":"There is no information available about this player"
 }
