@@ -6,10 +6,10 @@ class MatchTimerCircle extends StatefulWidget {
   final List<double> goalsTime;
 
   const MatchTimerCircle({
-    Key? key,
+   super.key,
     required this.currentTime,
     required this.goalsTime,
-  }) : super(key: key);
+  });
 
   @override
   State<MatchTimerCircle> createState() => _MatchTimerCircleState();
