@@ -92,17 +92,25 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
       },
       onLoading: () {
         return ShimmerLoading(
-          child: ListView.separated(
-            itemCount: 3,
-            separatorBuilder: (context, index) => const SizedBox(height: 5),
-            shrinkWrap: true,
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return const LoadingBubble(
-                height: 65,
-              );
-            },
+          child: Column(
+            children: [
+              const LoadingBubble(
+                height: 50,
+                margin: EdgeInsets.only(bottom: 5),
+              ),
+              ListView.separated(
+                itemCount: 3,
+                separatorBuilder: (context, index) => const SizedBox(height: 5),
+                shrinkWrap: true,
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return const LoadingBubble(
+                    height: 65,
+                  );
+                },
+              ),
+            ],
           ),
         );
       },
@@ -290,7 +298,7 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                 );
               },
             ),
-            if ((_index % 3 == 0))
+            if (_index % 3 == 0)
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 5),
                 child: GoogleBanner(),

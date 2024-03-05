@@ -14,13 +14,14 @@ class CommonProvider extends ChangeNotifier {
   late Future<LivesMatchesModel> liveMatchesFuture;
   late Future<List<dynamic>> leaguesAndLivesFutures;
 
-  void fetchLeagues() {
-    leaguesFuture = ApiService<HomeCompetitionsModel>().build(
-      weCanUrl: ApiUrl.homeComp,
+  Future<HomeCompetitionsModel> fetchLeagues(int pageKey) {
+    final snapshot = ApiService<HomeCompetitionsModel>().build(
+      weCanUrl: '${ApiUrl.homeComp}?page=$pageKey',
       isPublic: true,
       apiType: ApiType.get,
       builder: HomeCompetitionsModel.fromJson,
     );
+    return snapshot;
   }
 
   void fetchLives() {
@@ -34,10 +35,9 @@ class CommonProvider extends ChangeNotifier {
 
   void initializeHome(BuildContext context) {
     final favoritesProvider = context.read<FavoriteProvider>();
-    fetchLeagues();
     fetchLives();
     favoritesProvider.fetchFavs(context, 1);
-    leaguesAndLivesFutures = Future.wait([favoritesProvider.favFuture!, leaguesFuture, liveMatchesFuture]);
+    leaguesAndLivesFutures = Future.wait([favoritesProvider.favFuture, liveMatchesFuture]);
   }
 
   Future<NewModel> fetchNews(

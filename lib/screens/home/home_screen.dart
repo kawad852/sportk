@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sportk/model/favorite_model.dart';
-import 'package:sportk/model/home_competitions_model.dart';
 import 'package:sportk/model/matches/live_matches_model.dart';
 import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
@@ -14,6 +13,8 @@ import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_svg.dart';
+import 'package:sportk/widgets/vex/vex_loader.dart';
+import 'package:sportk/widgets/vex/vex_paginator.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -86,15 +87,8 @@ class _HomeScreenState extends State<HomeScreen> {
         });
       },
       onComplete: (context, snapshot) {
-        final favorites = snapshot.data![0] as FavoriteModel;
-        final competitions = snapshot.data![1] as HomeCompetitionsModel;
-        final lives = snapshot.data![2] as LivesMatchesModel;
-        _footBallProvider.competitionIds = [];
-        List<FavoriteData> allCompetitions = [...favorites.data!, ...competitions.competitions!.map((e) => FavoriteData(favoritableId: int.parse(e), type: CompoTypeEnum.competitions)).toList()];
-        if (_isLive) {
-          final liveIds = lives.data!.map((e) => e.competitionId).toList();
-          allCompetitions = allCompetitions.where((element) => liveIds.contains('${element.favoritableId}')).toList();
-        }
+        final favoritesModel = snapshot.data![0] as FavoriteModel;
+        final livesModel = snapshot.data![1] as LivesMatchesModel;
         return Scaffold(
           body: CustomScrollView(
             slivers: [
@@ -174,63 +168,65 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(width: 10),
                 ],
               ),
-              // SliverToBoxAdapter(
-              //   child: Center(
-              //     child: Padding(
-              //       padding: const EdgeInsets.all(100),
-              //       child: ClockCircles(
-              //         circleRadius: 60,
-              //         numberOfCircles: 9,
-              //         circleSpacing: 5,
-              //         circleColor: Colors.blue,
-              //         smallCircleRadius: 5,
-              //         smallCircleColor: Colors.red,
-              //         startSide: StartSide.right,
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              Consumer<FootBallProvider>(
-                builder: (context, provider, child) {
-                  if (msgs.isNotEmpty && msgs.every((element) => true)) {
-                    return SliverToBoxAdapter(
-                      child: FilledButton(
-                        onPressed: () {},
-                        child: const Text("Empty"),
-                      ),
-                    );
-                  }
-                  return SliverPadding(
-                    padding: const EdgeInsets.all(20).copyWith(top: 0),
-                    sliver: SliverList.builder(
-                      key: ValueKey('${_selectedDate.microsecondsSinceEpoch}$_isLive'),
-                      itemCount: allCompetitions.length,
-                      // separatorBuilder: (context, index) => const SizedBox(height: 1),
-                      itemBuilder: (context, index) {
-                        final competition = allCompetitions[index];
-                        final liveLeagues = lives.data!.where((element) => element.competitionId == '${competition.favoritableId}').toList();
-                        return HomeBubble(
-                          date: _selectedDate,
-                          id: competition.favoritableId!,
-                          type: competition.type!,
-                          lives: liveLeagues,
-                          isLive: _isLive,
-                          index: index,
-                          length: allCompetitions.length,
-                          callBack: (bool value) {
-                            // msgs.add(value);
-                            // if (index + 1 == allCompetitions.length) {
-                            //   Future.microtask(() {
-                            //     setState(() {});
-                            //   });
-                            //   print("masjabf::: $msgs");
-                            // }
+
+              ///
+              SliverFillRemaining(
+                child: VexPaginator(
+                  query: (pageKey) async => _commonProvider.fetchLeagues(pageKey),
+                  onFetching: (snapshot) async => snapshot.competitions!,
+                  pageSize: 10,
+                  builder: (context, snapshot) {
+                    final competitions = snapshot.docs as List<String>;
+                    List<FavoriteData> allCompetitions = [...favoritesModel.data!, ...competitions.map((e) => FavoriteData(favoritableId: int.parse(e), type: CompoTypeEnum.competitions)).toList()];
+                    if (_isLive) {
+                      final liveIds = livesModel.data!.map((e) => e.competitionId).toList();
+                      allCompetitions = allCompetitions.where((element) => liveIds.contains('${element.favoritableId}')).toList();
+                    }
+                    return Consumer<FootBallProvider>(
+                      builder: (context, provider, child) {
+                        if (msgs.isNotEmpty && msgs.every((element) => true)) {
+                          return FilledButton(
+                            onPressed: () {},
+                            child: const Text("Empty"),
+                          );
+                        }
+                        return ListView.builder(
+                          key: ValueKey('${_selectedDate.microsecondsSinceEpoch}$_isLive'),
+                          padding: const EdgeInsets.all(20).copyWith(top: 0),
+                          itemCount: allCompetitions.length,
+                          // separatorBuilder: (context, index) => const SizedBox(height: 1),
+                          itemBuilder: (context, index) {
+                            if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
+                              snapshot.fetchMore();
+                              return const VexLoader();
+                            }
+
+                            final competition = allCompetitions[index];
+                            final liveLeagues = livesModel.data!.where((element) => element.competitionId == '${competition.favoritableId}').toList();
+                            return HomeBubble(
+                              date: _selectedDate,
+                              id: competition.favoritableId!,
+                              type: competition.type!,
+                              lives: liveLeagues,
+                              isLive: _isLive,
+                              index: index,
+                              length: allCompetitions.length,
+                              callBack: (bool value) {
+                                // msgs.add(value);
+                                // if (index + 1 == allCompetitions.length) {
+                                //   Future.microtask(() {
+                                //     setState(() {});
+                                //   });
+                                //   print("masjabf::: $msgs");
+                                // }
+                              },
+                            );
                           },
                         );
                       },
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ],
           ),
@@ -239,3 +235,20 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+// SliverToBoxAdapter(
+//   child: Center(
+//     child: Padding(
+//       padding: const EdgeInsets.all(100),
+//       child: ClockCircles(
+//         circleRadius: 60,
+//         numberOfCircles: 9,
+//         circleSpacing: 5,
+//         circleColor: Colors.blue,
+//         smallCircleRadius: 5,
+//         smallCircleColor: Colors.red,
+//         startSide: StartSide.right,
+//       ),
+//     ),
+//   ),
+// ),
