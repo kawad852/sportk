@@ -206,12 +206,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               padding: const EdgeInsets.all(20).copyWith(top: 0),
                               sliver: SliverList.builder(
                                 key: ValueKey('${_selectedDate.microsecondsSinceEpoch}$_isLive'),
-                                itemCount: allCompetitions.length,
+                                itemCount: allCompetitions.length + 1,
                                 // separatorBuilder: (context, index) => const SizedBox(height: 1),
                                 itemBuilder: (context, index) {
                                   if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
                                     snapshot.fetchMore();
-                                    return const VexLoader();
+                                  }
+
+                                  if (index == snapshot.docs.length) {
+                                    return VexLoader(snapshot.isFetchingMore);
                                   }
 
                                   final competition = allCompetitions[index];

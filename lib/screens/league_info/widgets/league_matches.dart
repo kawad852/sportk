@@ -86,14 +86,17 @@ class _LeagueMatchesState extends State<LeagueMatches> with AutomaticKeepAliveCl
                         height: 5,
                       ),
                       ListView.builder(
-                        itemCount: snapshot.docs.length,
+                        itemCount: snapshot.docs.length + 1,
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         padding: EdgeInsets.zero,
                         itemBuilder: (context, index) {
                           if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
                             snapshot.fetchMore();
-                            return const VexLoader();
+                          }
+
+                          if (index == snapshot.docs.length) {
+                            return VexLoader(snapshot.isFetchingMore);
                           }
 
                           final element = matches[index];
@@ -119,9 +122,7 @@ class _LeagueMatchesState extends State<LeagueMatches> with AutomaticKeepAliveCl
                           ).toSet();
                           return Column(
                             children: [
-                              if (index == 0 ||
-                                  (index > 0 &&
-                                      matches[index].roundId != matches[index - 1].roundId))
+                              if (index == 0 || (index > 0 && matches[index].roundId != matches[index - 1].roundId))
                                 RoundCard(
                                   leagueId: widget.leagueId,
                                   roundId: element.roundId,

@@ -15,6 +15,7 @@ import 'package:sportk/widgets/custom_smoth_indicator.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
+import 'package:sportk/widgets/vex/vex_loader.dart';
 import 'package:sportk/widgets/vex/vex_paginator.dart';
 
 class NewsScreen extends StatefulWidget {
@@ -37,10 +38,6 @@ class _NewsScreenState extends State<NewsScreen> {
 
   void _initializeCompoNews(int pageKey) {
     _compoNewsFuture = _commonProvider.fetchNews(pageKey, BlogsType.competitions(1));
-  }
-
-  Future<NewModel> _fetchRecentNews(int pageKey) {
-    return _commonProvider.fetchNews(pageKey, BlogsType.mostRecent);
   }
 
   @override
@@ -254,7 +251,7 @@ class _NewsScreenState extends State<NewsScreen> {
               ),
               sliver: SliverToBoxAdapter(
                 child: Text(
-                  "احدث الاخبار",
+                  context.appLocalization.recentNews,
                   style: TextStyle(
                     color: context.colorPalette.blueD4B,
                     fontWeight: FontWeight.w600,
@@ -264,7 +261,7 @@ class _NewsScreenState extends State<NewsScreen> {
             ),
             SliverFillRemaining(
               child: VexPaginator(
-                query: (pageKey) async => _fetchRecentNews(pageKey),
+                query: (pageKey) async => _commonProvider.fetchNews(pageKey, BlogsType.mostRecent),
                 onFetching: (snapshot) async => snapshot.data!,
                 pageSize: 10,
                 onLoading: () {
@@ -288,11 +285,18 @@ class _NewsScreenState extends State<NewsScreen> {
                 },
                 builder: (context, snapshot) {
                   return ListView.separated(
-                    itemCount: snapshot.docs.length,
+                    itemCount: snapshot.docs.length + 1,
                     separatorBuilder: (context, index) => const SizedBox(height: 5),
                     physics: const NeverScrollableScrollPhysics(),
                     padding: const EdgeInsetsDirectional.symmetric(horizontal: 20),
                     itemBuilder: (context, index) {
+                      if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
+                        snapshot.fetchMore();
+                      }
+
+                      if (index == snapshot.docs.length) {
+                        return VexLoader(snapshot.isFetchingMore);
+                      }
                       final newData = snapshot.docs[index] as NewData;
                       return NewsCard(
                         newData: newData,

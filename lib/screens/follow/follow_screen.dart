@@ -119,14 +119,17 @@ class _FollowScreenState extends State<FollowScreen> with AutomaticKeepAliveClie
                         return SizedBox(
                           height: 165,
                           child: ListView.separated(
-                            itemCount: snapshot.docs.length,
+                            itemCount: snapshot.docs.length + 1,
                             padding: const EdgeInsets.all(20),
                             separatorBuilder: (context, index) => const SizedBox(width: 5),
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
                               if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
                                 snapshot.fetchMore();
-                                return const VexLoader();
+                              }
+
+                              if (index == snapshot.docs.length) {
+                                return VexLoader(snapshot.isFetchingMore);
                               }
 
                               final team = snapshot.docs[index] as TeamInfoData;
@@ -184,14 +187,18 @@ class _FollowScreenState extends State<FollowScreen> with AutomaticKeepAliveClie
                   },
                   builder: (context, snapshot) {
                     return ListView.separated(
-                      itemCount: snapshot.docs.length,
+                      itemCount: snapshot.docs.length + 1,
                       padding: const EdgeInsets.all(20),
                       separatorBuilder: (context, index) => const SizedBox(height: 5),
                       itemBuilder: (context, index) {
                         if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
                           snapshot.fetchMore();
-                          return const VexLoader();
                         }
+
+                        if (index == snapshot.docs.length) {
+                          return VexLoader(snapshot.isFetchingMore);
+                        }
+
                         final league = snapshot.docs[index] as LeagueData;
                         final id = league.id!;
                         return LeagueTile(

@@ -3,12 +3,14 @@ import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
+import 'package:sportk/pagination_test_screen.dart';
 import 'package:sportk/providers/app_provider.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/providers/common_provider.dart';
@@ -87,6 +89,7 @@ class _MyAppState extends State<MyApp> {
     _commonProvider = context.commonProvider;
     _authProvider.initializeLocale(context);
     _authProvider.initUser();
+    final v = PlatformDispatcher.instance.locale.countryCode;
   }
 
   @override
@@ -106,8 +109,8 @@ class _MyAppState extends State<MyApp> {
           supportedLocales: AppLocalizations.supportedLocales,
           locale: Locale(appProvider.appLocale.languageCode),
           theme: MyTheme().materialTheme(context, seedColorScheme),
-          home: _toggleRoute(context),
-          // home: const NestedScrollViewExample(),
+          // home: _toggleRoute(context),
+          home: const PaginationTestScreen(),
           // home: const ClubScreen(teamId: 9),
           // home: const ChatTab(),
         );

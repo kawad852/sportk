@@ -47,7 +47,7 @@ class CommentData {
         id: json["id"],
         comment: json["comment"],
         blogId: json["blog_id"],
-        isLiked: json["is_liked"],
+        isLiked: json["is_liked"] ?? false,
         numberOfLikes: json["number_of_likes"],
         user: json["user"] == null ? null : User.fromJson(json["user"]),
       );

@@ -29,11 +29,14 @@ class _PaginationTestScreenState extends State<PaginationTestScreen> {
       pageSize: 10,
       builder: (context, snapshot) {
         return ListView.builder(
-          itemCount: snapshot.docs.length,
+          itemCount: snapshot.docs.length + 1,
           itemBuilder: (context, index) {
             if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
               snapshot.fetchMore();
-              return const VexLoader();
+            }
+
+            if (index == snapshot.docs.length) {
+              return VexLoader(snapshot.isFetchingMore);
             }
 
             final data = snapshot.docs[index] as Datum;

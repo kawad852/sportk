@@ -69,9 +69,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
                   children: [
                     VexPaginator(
                       query: (pageKey) async => _favoriteProvider.fetchFavs(context, pageKey),
-                      onFetching: (snapshot) async => snapshot.data!
-                          .where((element) => element.type == CompoTypeEnum.teams)
-                          .toList(),
+                      onFetching: (snapshot) async => snapshot.data!.where((element) => element.type == CompoTypeEnum.teams).toList(),
                       pageSize: 10,
                       onLoading: () {
                         return ShimmerLoading(
@@ -95,14 +93,17 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
                         return SizedBox(
                           height: 165,
                           child: ListView.separated(
-                            itemCount: snapshot.docs.length,
+                            itemCount: snapshot.docs.length + 1,
                             padding: const EdgeInsets.all(20),
                             separatorBuilder: (context, index) => const SizedBox(width: 5),
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
                               if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
                                 snapshot.fetchMore();
-                                return const VexLoader();
+                              }
+
+                              if (index == snapshot.docs.length) {
+                                return VexLoader(snapshot.isFetchingMore);
                               }
 
                               final favoriteData = snapshot.docs[index] as FavoriteData;
@@ -114,8 +115,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
                                     return TeamBubble(
                                       team: teamData,
                                       onTap: () async {
-                                        final result = await _favoriteProvider.toggleFavorites(
-                                            id, CompoTypeEnum.teams, teamData.name!);
+                                        final result = await _favoriteProvider.toggleFavorites(id, CompoTypeEnum.teams, teamData.name!);
                                         if (result) {
                                           setState(() {
                                             snapshot.docs.removeAt(index);
@@ -136,9 +136,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
               Expanded(
                 child: VexPaginator(
                   query: (pageKey) async => _favoriteProvider.fetchFavs(context, pageKey),
-                  onFetching: (snapshot) async => snapshot.data!
-                      .where((element) => element.type == CompoTypeEnum.competitions)
-                      .toList(),
+                  onFetching: (snapshot) async => snapshot.data!.where((element) => element.type == CompoTypeEnum.competitions).toList(),
                   pageSize: 10,
                   onLoading: () {
                     return ShimmerLoading(
@@ -157,14 +155,18 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
                   },
                   builder: (context, snapshot) {
                     return ListView.separated(
-                      itemCount: snapshot.docs.length,
+                      itemCount: snapshot.docs.length + 1,
                       padding: const EdgeInsets.all(20),
                       separatorBuilder: (context, index) => const SizedBox(height: 5),
                       itemBuilder: (context, index) {
                         if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
                           snapshot.fetchMore();
-                          return const VexLoader();
                         }
+
+                        if (index == snapshot.docs.length) {
+                          return VexLoader(snapshot.isFetchingMore);
+                        }
+
                         final favoriteData = snapshot.docs[index] as FavoriteData;
                         final id = favoriteData.favoritableId!;
                         return LeagueBuilder(
@@ -188,8 +190,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
                               },
                               trailing: IconButton(
                                 onPressed: () async {
-                                  final result = await _favoriteProvider.toggleFavorites(
-                                      id, CompoTypeEnum.competitions, league.name!);
+                                  final result = await _favoriteProvider.toggleFavorites(id, CompoTypeEnum.competitions, league.name!);
                                   if (result) {
                                     setState(() {
                                       snapshot.docs.removeAt(index);
@@ -197,9 +198,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
                                   }
                                 },
                                 icon: CustomSvg(
-                                  _favoriteProvider.isFav(id, CompoTypeEnum.competitions)
-                                      ? MyIcons.starFilled
-                                      : MyIcons.starOutlined,
+                                  _favoriteProvider.isFav(id, CompoTypeEnum.competitions) ? MyIcons.starFilled : MyIcons.starOutlined,
                                 ),
                               ),
                             );

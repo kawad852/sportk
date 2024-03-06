@@ -131,5 +131,6 @@
   "favEmptyBody": "You haven't added any favorites yet. Start browsing and tap the heart icon to save your favorites for easy access later.",
   "loginToCont": "login to continue",
   "playerNationality":"Player nationality",
-  "playerError":"There is no information available about this player"
+  "playerError":"There is no information available about this player",
+  "recentNews": "Recent News"
 }

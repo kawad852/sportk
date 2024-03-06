@@ -23,8 +23,7 @@ class _LeagueScorersState extends State<LeagueScorers> {
   Future<TopScorersModel> _initializeFutures(int pageKey) async {
     final seasonFuture = _footBallProvider.fetchSeasonByLeague(leagueId: widget.leagueId);
     final season = await seasonFuture;
-    final topScorersFuture = _footBallProvider.fetchTopScorers(
-        seasonId: season.data!.currentseason!.id!, pageKey: pageKey);
+    final topScorersFuture = _footBallProvider.fetchTopScorers(seasonId: season.data!.currentseason!.id!, pageKey: pageKey);
     return topScorersFuture;
   }
 
@@ -87,14 +86,17 @@ class _LeagueScorersState extends State<LeagueScorers> {
                 ),
               ),
               ListView.builder(
-                itemCount: snapshot.docs.length,
+                itemCount: snapshot.docs.length + 1,
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
                 itemBuilder: (context, index) {
                   if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
                     snapshot.fetchMore();
-                    return const VexLoader();
+                  }
+
+                  if (index == snapshot.docs.length) {
+                    return VexLoader(snapshot.isFetchingMore);
                   }
                   final element = snapshot.docs[index] as TopScoreData;
                   return ScorersCard(

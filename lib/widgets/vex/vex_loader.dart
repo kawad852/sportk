@@ -4,7 +4,10 @@ import 'package:sportk/utils/base_extensions.dart';
 class VexLoader extends StatelessWidget {
   final double topSpace;
   final double bottomSpace;
-  const VexLoader({
+  final bool isFetchingMore;
+
+  const VexLoader(
+    this.isFetchingMore, {
     super.key,
     this.topSpace = 40,
     this.bottomSpace = 40,
@@ -12,9 +15,12 @@ class VexLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: topSpace, bottom: bottomSpace),
-      child: context.loaders.circular(isSmall: true),
-    );
+    if (isFetchingMore) {
+      return Padding(
+        padding: EdgeInsets.only(top: topSpace, bottom: bottomSpace),
+        child: context.loaders.circular(isSmall: true),
+      );
+    }
+    return const SizedBox.shrink();
   }
 }

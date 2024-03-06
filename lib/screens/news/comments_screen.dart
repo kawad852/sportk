@@ -50,13 +50,16 @@ class _CommentsScreenState extends State<CommentsScreen> {
             ),
           ),
           body: ListView.separated(
-            itemCount: snapshot.docs.length,
+            itemCount: snapshot.docs.length + 1,
             separatorBuilder: (context, index) => const SizedBox(height: 5),
             padding: const EdgeInsets.all(20).copyWith(bottom: 80),
             itemBuilder: (context, index) {
               if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
                 snapshot.fetchMore();
-                return const VexLoader();
+              }
+
+              if (index == snapshot.docs.length) {
+                return VexLoader(snapshot.isFetchingMore);
               }
 
               final comment = snapshot.docs[index] as CommentData;

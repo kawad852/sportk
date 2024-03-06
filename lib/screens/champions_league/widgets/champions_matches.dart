@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sportk/model/match_model.dart';
 import 'package:sportk/providers/football_provider.dart';
-import 'package:sportk/widgets/match_card.dart';
-import 'package:sportk/widgets/matches_loading.dart';
 import 'package:sportk/screens/champions_league/widgets/stage_card.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
+import 'package:sportk/widgets/match_card.dart';
+import 'package:sportk/widgets/matches_loading.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 import 'package:sportk/widgets/vex/vex_loader.dart';
 import 'package:sportk/widgets/vex/vex_paginator.dart';
@@ -86,14 +86,17 @@ class _ChampionsMatchesState extends State<ChampionsMatches> with AutomaticKeepA
                         height: 5,
                       ),
                       ListView.builder(
-                        itemCount: snapshot.docs.length,
+                        itemCount: snapshot.docs.length + 1,
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         padding: EdgeInsets.zero,
                         itemBuilder: (context, index) {
                           if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
                             snapshot.fetchMore();
-                            return const VexLoader();
+                          }
+
+                          if (index == snapshot.docs.length) {
+                            return VexLoader(snapshot.isFetchingMore);
                           }
 
                           final element = matches[index];
@@ -120,10 +123,7 @@ class _ChampionsMatchesState extends State<ChampionsMatches> with AutomaticKeepA
 
                           return Column(
                             children: [
-                              if (index == 0 ||
-                                  (index > 0 &&
-                                      matches[index].stageId != matches[index - 1].stageId))
-                                StageCard(stageId: element.stageId!, leagueId: widget.leagueId),
+                              if (index == 0 || (index > 0 && matches[index].stageId != matches[index - 1].stageId)) StageCard(stageId: element.stageId!, leagueId: widget.leagueId),
                               MatchCard(
                                 element: element,
                                 awayGoals: awayGoals,
