@@ -25,7 +25,7 @@ class NewsScreen extends StatefulWidget {
   State<NewsScreen> createState() => _NewsScreenState();
 }
 
-class _NewsScreenState extends State<NewsScreen> {
+class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMixin {
   int currentIndex = 0;
   late CommonProvider _commonProvider;
   late AuthProvider _authProvider;
@@ -41,6 +41,7 @@ class _NewsScreenState extends State<NewsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
@@ -267,6 +268,7 @@ class _NewsScreenState extends State<NewsScreen> {
                     itemCount: 10,
                     separatorBuilder: (context, index) => const SizedBox(height: 5),
                     physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
                     padding: const EdgeInsetsDirectional.symmetric(horizontal: 20),
                     itemBuilder: (context, index) {
                       return const ShimmerLoading(
@@ -309,4 +311,7 @@ class _NewsScreenState extends State<NewsScreen> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

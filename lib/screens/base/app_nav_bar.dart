@@ -19,6 +19,7 @@ class AppNavBar extends StatefulWidget {
 
 class _AppNavBarState extends State<AppNavBar> {
   int _currentIndex = 0;
+  late PageController _pageController;
   final cloudMessagingService = CloudMessagingService();
   late AuthProvider authProvider;
 
@@ -36,13 +37,27 @@ class _AppNavBarState extends State<AppNavBar> {
     const WalletScreen(),
   ];
 
+  void _onSelect(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+    _pageController.jumpToPage(_currentIndex);
+  }
+
   @override
   void initState() {
     super.initState();
     authProvider = Provider.of<AuthProvider>(context, listen: false);
+    _pageController = PageController();
     authProvider.updateDeviceToken(context);
     cloudMessagingService.init(context);
     cloudMessagingService.requestPermission();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -65,33 +80,32 @@ class _AppNavBarState extends State<AppNavBar> {
           ],
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: items.map((element) {
-            final index = items.indexOf(element);
+          children: screens.map((element) {
+            final index = screens.indexOf(element);
             return NavBarItem(
               onTap: () {
                 if (index == 0 || index == 1) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
+                  _onSelect(index);
                 } else {
                   authProvider.checkIfUserAuthenticated(
                     context,
                     callback: () {
-                      setState(() {
-                        _currentIndex = index;
-                      });
+                      _onSelect(index);
                     },
                   );
                 }
               },
               isSelected: _currentIndex == index,
-              icon: element,
+              icon: items[index],
             );
           }).toList(),
         ),
       ),
-      body: screens[_currentIndex],
+      body: PageView(
+        controller: _pageController,
+        physics: const NeverScrollableScrollPhysics(),
+        children: screens,
+      ),
     );
   }
 }

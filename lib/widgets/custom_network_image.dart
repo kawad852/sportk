@@ -18,6 +18,7 @@ class CustomNetworkImage extends StatelessWidget {
   final BoxBorder? border;
   final Color? backgroundColor;
   final double scale;
+  final bool ignorePlaceHolder;
 
   const CustomNetworkImage(
     this.url, {
@@ -35,9 +36,13 @@ class CustomNetworkImage extends StatelessWidget {
     this.border,
     this.backgroundColor,
     this.scale = 1,
+    this.ignorePlaceHolder = false,
   });
 
-  Widget _buildContainer({ImageProvider? imageProvider, Color? color}) {
+  Widget _buildContainer({
+    ImageProvider? imageProvider,
+    Color? color,
+  }) {
     return Container(
       width: width,
       height: height,
@@ -70,7 +75,7 @@ class CustomNetworkImage extends StatelessWidget {
       child: CachedNetworkImage(
         imageUrl: url,
         imageBuilder: (context, imageProvider) => _buildContainer(color: backgroundColor, imageProvider: imageProvider),
-        placeholder: (context, url) => _buildContainer(color: context.colorScheme.surfaceVariant, imageProvider: _imagePlaceHolder),
+        placeholder: (context, url) => _buildContainer(color: context.colorScheme.surfaceVariant, imageProvider: ignorePlaceHolder ? null : _imagePlaceHolder),
         errorWidget: (context, url, error) => _buildContainer(color: context.colorScheme.surfaceVariant, imageProvider: _imagePlaceHolder),
       ),
     );

@@ -118,6 +118,7 @@ class _IntroScreenState extends State<IntroScreen> {
                 return CustomNetworkImage(
                   '${ApiUrl.weCanMailUrl}/${intro.image}',
                   alignment: AlignmentDirectional.centerStart,
+                  ignorePlaceHolder: true,
                   child: Stack(
                     children: [
                       Column(
