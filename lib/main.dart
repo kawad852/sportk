@@ -42,8 +42,8 @@ Future<void> main() async {
   await MySharedPreferences.init();
   await MatchTimerCircle.loadBallImage();
   unawaited(MobileAds.instance.initialize());
-  // MySharedPreferences.clearStorage();
-  // MySharedPreferences.isPassedIntro = false;
+  MySharedPreferences.clearStorage();
+  MySharedPreferences.isPassedIntro = false;
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   FirebaseMessaging.onBackgroundMessage(onBackgroundMessage);
   runApp(

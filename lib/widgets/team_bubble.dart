@@ -25,6 +25,8 @@ class TeamBubble extends StatelessWidget {
             team.imagePath ?? team.logo!,
             height: 100,
             width: 100,
+            boxFit: BoxFit.scaleDown,
+            scale: 2,
             backgroundColor: context.colorPalette.grey3F1,
             border: selected
                 ? Border.all(

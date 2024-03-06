@@ -17,6 +17,7 @@ class CustomNetworkImage extends StatelessWidget {
   final VoidCallback? onTap;
   final BoxBorder? border;
   final Color? backgroundColor;
+  final double scale;
 
   const CustomNetworkImage(
     this.url, {
@@ -33,6 +34,7 @@ class CustomNetworkImage extends StatelessWidget {
     this.onTap,
     this.border,
     this.backgroundColor,
+    this.scale = 1,
   });
 
   Widget _buildContainer({ImageProvider? imageProvider, Color? color}) {
@@ -50,6 +52,7 @@ class CustomNetworkImage extends StatelessWidget {
             ? DecorationImage(
                 image: imageProvider,
                 fit: boxFit,
+                scale: scale,
                 colorFilter: colorFilter,
               )
             : null,
