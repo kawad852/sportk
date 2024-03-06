@@ -31,6 +31,7 @@ class NewData {
   String? title;
   String? content;
   String? image;
+  String? sourceImage;
   String? link;
   String? source;
   String? publicationTime;
@@ -43,6 +44,7 @@ class NewData {
     this.title,
     this.content,
     this.image,
+    this.sourceImage,
     this.link,
     this.source,
     this.publicationTime,
@@ -55,9 +57,10 @@ class NewData {
         id: json["id"],
         title: json["title"],
         content: json["content"],
-        image: json["image"],
+        image: json["image"] ?? '',
         link: json["link"],
         source: json["source"],
+        sourceImage: json["source_image"] ?? '',
         publicationTime: json["publication_time"],
         tags: json["tags"] == null ? [] : List<Tag>.from(json["tags"]!.map((x) => Tag.fromJson(x))),
         isLiked: json["is_liked"] ?? false,
@@ -69,6 +72,7 @@ class NewData {
         "title": title,
         "content": content,
         "image": image,
+        "source_image": sourceImage,
         "link": link,
         "source": source,
         "publication_time": publicationTime,

@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:sportk/model/new_model.dart';
+import 'package:sportk/network/api_url.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/screens/news/widgets/news_card.dart';
@@ -10,7 +11,6 @@ import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/ads/google_banner.dart';
-import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_smoth_indicator.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
@@ -32,23 +32,11 @@ class _NewsScreenState extends State<NewsScreen> {
   late Future<NewModel> _recommendedNewsFuture;
   late Future<NewModel> _compoNewsFuture;
 
-  void _initializeRecommendedNews(int pageKey) {
-    _recommendedNewsFuture = _commonProvider.fetchNews(pageKey, BlogsType.recommended);
-  }
-
-  void _initializeCompoNews(int pageKey) {
-    _compoNewsFuture = _commonProvider.fetchNews(pageKey, BlogsType.competitions(1));
-  }
-
   @override
   void initState() {
     super.initState();
     _commonProvider = context.commonProvider;
     _authProvider = context.authProvider;
-    if (_authProvider.isAuthenticated) {
-      _initializeRecommendedNews(1);
-    }
-    _initializeCompoNews(1);
   }
 
   @override
@@ -59,13 +47,10 @@ class _NewsScreenState extends State<NewsScreen> {
           slivers: [
             if (_authProvider.isAuthenticated)
               SliverToBoxAdapter(
-                child: CustomFutureBuilder(
-                  future: _recommendedNewsFuture,
-                  onRetry: () {
-                    setState(() {
-                      _initializeRecommendedNews(1);
-                    });
-                  },
+                child: VexPaginator(
+                  query: (pageKey) async => _commonProvider.fetchNews(pageKey, url: '${ApiUrl.news}/${BlogsType.recommended}'),
+                  onFetching: (snapshot) async => snapshot.data!,
+                  pageSize: 10,
                   onLoading: () {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,8 +81,8 @@ class _NewsScreenState extends State<NewsScreen> {
                       ],
                     );
                   },
-                  onComplete: (context, snapshot) {
-                    if (snapshot.data!.data!.isEmpty) {
+                  builder: (context, snapshot) {
+                    if (snapshot.docs.isEmpty) {
                       return const SizedBox.shrink();
                     }
                     return Column(
@@ -138,7 +123,7 @@ class _NewsScreenState extends State<NewsScreen> {
                         Column(
                           children: [
                             CarouselSlider.builder(
-                              itemCount: snapshot.data!.data!.length,
+                              itemCount: snapshot.docs.length + 1,
                               options: CarouselOptions(
                                 viewportFraction: 0.9,
                                 enableInfiniteScroll: false,
@@ -150,7 +135,15 @@ class _NewsScreenState extends State<NewsScreen> {
                                 },
                               ),
                               itemBuilder: (context, index, realIndex) {
-                                final newsData = snapshot.data!.data![index];
+                                if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
+                                  snapshot.fetchMore();
+                                }
+
+                                if (index == snapshot.docs.length) {
+                                  return VexLoader(snapshot.isFetchingMore);
+                                }
+
+                                final newsData = snapshot.docs[index] as NewData;
                                 return NewsCard(
                                   newData: newsData,
                                 );
@@ -158,7 +151,7 @@ class _NewsScreenState extends State<NewsScreen> {
                             ),
                             const SizedBox(height: 10),
                             CustomSmoothIndicator(
-                              count: snapshot.data!.data!.length,
+                              count: snapshot.docs.length,
                               index: currentIndex,
                             ),
                           ],
@@ -201,8 +194,10 @@ class _NewsScreenState extends State<NewsScreen> {
                     ),
                     SizedBox(
                       height: 70.0,
-                      child: CustomFutureBuilder(
-                        future: _compoNewsFuture,
+                      child: VexPaginator(
+                        query: (pageKey) async => _commonProvider.fetchNews(pageKey, url: '${ApiUrl.news}/${BlogsType.competitions(1)}'),
+                        onFetching: (snapshot) async => snapshot.data!,
+                        pageSize: 10,
                         onLoading: () {
                           return ShimmerLoading(
                             child: ListView.separated(
@@ -219,20 +214,22 @@ class _NewsScreenState extends State<NewsScreen> {
                             ),
                           );
                         },
-                        onRetry: () {
-                          setState(() {
-                            _initializeCompoNews(1);
-                          });
-                        },
                         onError: (snapshot) => const Center(child: Icon(Icons.error)),
-                        onComplete: (context, snapshot) {
+                        builder: (context, snapshot) {
                           return ListView.separated(
                             separatorBuilder: (context, index) => const SizedBox(width: 6),
                             scrollDirection: Axis.horizontal,
                             padding: const EdgeInsetsDirectional.symmetric(vertical: 6.0),
-                            itemCount: snapshot.data!.data!.length,
+                            itemCount: snapshot.docs.length + 1,
                             itemBuilder: (BuildContext context, int index) {
-                              final newModel = snapshot.data!.data![index];
+                              if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
+                                snapshot.fetchMore();
+                              }
+
+                              if (index == snapshot.docs.length) {
+                                return VexLoader(snapshot.isFetchingMore);
+                              }
+                              final newModel = snapshot.docs[index] as NewData;
                               return const NewsChampCard();
                             },
                           );
@@ -261,7 +258,7 @@ class _NewsScreenState extends State<NewsScreen> {
             ),
             SliverFillRemaining(
               child: VexPaginator(
-                query: (pageKey) async => _commonProvider.fetchNews(pageKey, BlogsType.mostRecent),
+                query: (pageKey) async => _commonProvider.fetchNews(pageKey, url: '${ApiUrl.news}${BlogsType.mostRecent}'),
                 onFetching: (snapshot) async => snapshot.data!,
                 pageSize: 10,
                 onLoading: () {

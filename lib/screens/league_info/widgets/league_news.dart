@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/model/new_model.dart';
+import 'package:sportk/network/api_url.dart';
 import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/screens/news/widgets/news_card.dart';
 import 'package:sportk/screens/news/widgets/news_empty_result.dart';
@@ -32,7 +33,7 @@ class _LeagueNewsState extends State<LeagueNews> {
   @override
   Widget build(BuildContext context) {
     return VexPaginator(
-      query: (pageKey) async => _commonProvider.fetchNews(pageKey, BlogsType.competitions(widget.leagueId)),
+      query: (pageKey) async => _commonProvider.fetchNews(pageKey, url: '${ApiUrl.news}/${BlogsType.competitions(widget.leagueId)}'),
       onFetching: (snapshot) async => snapshot.data!,
       pageSize: 10,
       onLoading: () {

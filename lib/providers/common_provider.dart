@@ -41,11 +41,11 @@ class CommonProvider extends ChangeNotifier {
   }
 
   Future<NewModel> fetchNews(
-    int pageKey,
-    String type,
-  ) {
+    int pageKey, {
+    required String url,
+  }) {
     final snapshot = ApiService<NewModel>().build(
-      weCanUrl: '${ApiUrl.news}/$type?page=$pageKey',
+      weCanUrl: '$url&page=$pageKey',
       isPublic: false,
       apiType: ApiType.get,
       builder: NewModel.fromJson,
