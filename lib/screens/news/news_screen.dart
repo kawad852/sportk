@@ -297,6 +297,7 @@ class _NewsScreenState extends State<NewsScreen> {
                       if (index == snapshot.docs.length) {
                         return VexLoader(snapshot.isFetchingMore);
                       }
+
                       final newData = snapshot.docs[index] as NewData;
                       return NewsCard(
                         newData: newData,

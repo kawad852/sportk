@@ -116,10 +116,10 @@ class _CommentBubbleState extends State<CommentBubble> with AutomaticKeepAliveCl
                                 _comment.isLiked = !_comment.isLiked!;
                                 if (_comment.isLiked!) {
                                   _comment.numberOfLikes = _comment.numberOfLikes! + 1;
-                                  _commonProvider.like(_comment.id!, isComment: true);
+                                  _commonProvider.like(_comment.id!, true, isComment: true);
                                 } else {
                                   _comment.numberOfLikes = _comment.numberOfLikes! - 1;
-                                  _commonProvider.disLike(_comment.id!, true);
+                                  _commonProvider.removeLike(_comment.id!, true);
                                 }
                               });
                             },

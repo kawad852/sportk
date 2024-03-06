@@ -10,7 +10,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
-import 'package:sportk/pagination_test_screen.dart';
 import 'package:sportk/providers/app_provider.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/providers/common_provider.dart';
@@ -41,8 +40,8 @@ Future<void> main() async {
   await Firebase.initializeApp();
   await MySharedPreferences.init();
   unawaited(MobileAds.instance.initialize());
-  MySharedPreferences.clearStorage();
-  MySharedPreferences.isPassedIntro = false;
+  // MySharedPreferences.clearStorage();
+  // MySharedPreferences.isPassedIntro = false;
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   FirebaseMessaging.onBackgroundMessage(onBackgroundMessage);
   runApp(
@@ -109,10 +108,8 @@ class _MyAppState extends State<MyApp> {
           supportedLocales: AppLocalizations.supportedLocales,
           locale: Locale(appProvider.appLocale.languageCode),
           theme: MyTheme().materialTheme(context, seedColorScheme),
-          // home: _toggleRoute(context),
-          home: const PaginationTestScreen(),
-          // home: const ClubScreen(teamId: 9),
-          // home: const ChatTab(),
+          home: _toggleRoute(context),
+          // home: const PaginationTestScreen(),
         );
       },
     );

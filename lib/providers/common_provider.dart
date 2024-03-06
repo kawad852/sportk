@@ -64,7 +64,8 @@ class CommonProvider extends ChangeNotifier {
   }
 
   Future<IsLikeModel> like(
-    int id, {
+    int id,
+    bool isLike, {
     required bool isComment,
   }) {
     Map<String, dynamic> queryParams = {};
@@ -73,6 +74,8 @@ class CommonProvider extends ChangeNotifier {
     } else {
       queryParams['blog_id'] = id;
     }
+    queryParams['type'] = isLike ? 1 : 0;
+
     final snapshot = ApiService<IsLikeModel>().build(
       weCanUrl: ApiUrl.like,
       isPublic: false,
@@ -83,7 +86,7 @@ class CommonProvider extends ChangeNotifier {
     return snapshot;
   }
 
-  Future<IsLikeModel> disLike(int id, bool isComment) {
+  Future<IsLikeModel> removeLike(int id, bool isComment) {
     final snapshot = ApiService<IsLikeModel>().build(
       weCanUrl: isComment ? '${ApiUrl.dislikeComment}/$id' : '${ApiUrl.dislikeBlog}/$id',
       isPublic: false,
