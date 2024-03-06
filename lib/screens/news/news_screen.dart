@@ -256,36 +256,36 @@ class _NewsScreenState extends State<NewsScreen> {
                 ),
               ),
             ),
-            SliverFillRemaining(
-              child: VexPaginator(
-                query: (pageKey) async => _commonProvider.fetchNews(pageKey, url: '${ApiUrl.news}${BlogsType.mostRecent}'),
-                onFetching: (snapshot) async => snapshot.data!,
-                pageSize: 10,
-                onLoading: () {
-                  return ShimmerLoading(
-                    child: ListView.separated(
-                      itemCount: 10,
-                      separatorBuilder: (context, index) => const SizedBox(height: 5),
-                      physics: const NeverScrollableScrollPhysics(),
-                      padding: const EdgeInsetsDirectional.symmetric(horizontal: 20),
-                      itemBuilder: (context, index) {
-                        return const ShimmerLoading(
-                          child: LoadingBubble(
-                            height: 260,
-                            radius: 15,
-                            margin: EdgeInsetsDirectional.all(8.0),
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                },
-                builder: (context, snapshot) {
-                  return ListView.separated(
-                    itemCount: snapshot.docs.length + 1,
+            VexPaginator(
+              query: (pageKey) async => _commonProvider.fetchNews(pageKey, url: '${ApiUrl.news}${BlogsType.mostRecent}'),
+              onFetching: (snapshot) async => snapshot.data!,
+              sliver: true,
+              pageSize: 10,
+              onLoading: () {
+                return ShimmerLoading(
+                  child: ListView.separated(
+                    itemCount: 10,
                     separatorBuilder: (context, index) => const SizedBox(height: 5),
                     physics: const NeverScrollableScrollPhysics(),
                     padding: const EdgeInsetsDirectional.symmetric(horizontal: 20),
+                    itemBuilder: (context, index) {
+                      return const ShimmerLoading(
+                        child: LoadingBubble(
+                          height: 260,
+                          radius: 15,
+                          margin: EdgeInsetsDirectional.all(8.0),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+              builder: (context, snapshot) {
+                return SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: 100),
+                  sliver: SliverList.separated(
+                    itemCount: snapshot.docs.length + 1,
+                    separatorBuilder: (context, index) => const SizedBox(height: 5),
                     itemBuilder: (context, index) {
                       if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
                         snapshot.fetchMore();
@@ -300,9 +300,9 @@ class _NewsScreenState extends State<NewsScreen> {
                         newData: newData,
                       );
                     },
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
           ],
         ),

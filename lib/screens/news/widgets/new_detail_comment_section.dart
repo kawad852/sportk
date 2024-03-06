@@ -46,6 +46,9 @@ class _NewDetailsCommentSectionState extends State<NewDetailsCommentSection> {
       onError: (snapshot) => const SizedBox.shrink(),
       pageSize: 10,
       builder: (context, snapshot) {
+        if (snapshot.docs.isEmpty) {
+          return const SizedBox.shrink();
+        }
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

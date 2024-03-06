@@ -23,7 +23,7 @@ class NewsDetailsCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomNetworkImage(
-          context.image(newData.image!),
+          newData.image!,
           radius: 10,
           width: double.infinity,
           height: 200,
