@@ -75,7 +75,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
                 src="https://widgets.sportmonks.com/js/livescore/match-centre.js"></script>
     </body>
     </html>
-    ''', baseUrl: "https://test.thesportk.com");
+    ''', baseUrl: "http://thesportk.com");
   }
 
   @override

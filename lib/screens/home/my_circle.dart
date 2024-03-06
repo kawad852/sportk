@@ -42,7 +42,8 @@ class ClockCircles extends StatelessWidget {
     }
 
     for (int i = 0; i < numberOfCircles; i++) {
-      final double hourAngle = startAngle + i * (endAngle - startAngle) / (numberOfCircles - (numberOfCircles / 2));
+      final double hourAngle =
+          startAngle + i * (endAngle - startAngle) / (numberOfCircles - (numberOfCircles / 2));
       final double x = circleRadius * cos(hourAngle);
       final double y = circleRadius * sin(hourAngle);
       final circleSize = smallCircleRadius * 2;
