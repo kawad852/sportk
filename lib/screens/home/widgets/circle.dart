@@ -1,15 +1,27 @@
-import 'package:flutter/material.dart';
 import 'dart:math';
+import 'dart:ui' as ui;
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:sportk/utils/my_images.dart';
 
 class MatchTimerCircle extends StatefulWidget {
   final double currentTime;
   final List<double> goalsTime;
 
   const MatchTimerCircle({
-   super.key,
+    super.key,
     required this.currentTime,
     required this.goalsTime,
   });
+
+  static late ui.Image ballImage;
+
+  static Future loadBallImage() async {
+    final data = await rootBundle.load(MyImages.apple);
+    final image = await decodeImageFromList(data.buffer.asUint8List());
+    ballImage = image;
+  }
 
   @override
   State<MatchTimerCircle> createState() => _MatchTimerCircleState();
@@ -66,7 +78,7 @@ class MatchTimerPainter extends CustomPainter {
     );
 
     Paint goalCirclePaint = Paint()
-      ..color = Colors.red
+      ..color = Colors.black
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
 
@@ -75,9 +87,15 @@ class MatchTimerPainter extends CustomPainter {
       double goalX = size.width / 2 + (size.width / 2 * cos(-pi / 2 + goalAngle));
       double goalY = size.height / 2 + (size.width / 2 * sin(-pi / 2 + goalAngle));
 
-      canvas.drawCircle(
+      // canvas.drawCircle(
+      //   Offset(goalX, goalY),
+      //   5,
+      //   goalCirclePaint,
+      // );
+
+      canvas.drawImage(
+        MatchTimerCircle.ballImage,
         Offset(goalX, goalY),
-        5,
         goalCirclePaint,
       );
     }

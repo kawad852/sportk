@@ -16,6 +16,7 @@ import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/providers/favorite_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/base/app_nav_bar.dart';
+import 'package:sportk/screens/home/widgets/circle.dart';
 import 'package:sportk/screens/intro/intro_screen.dart';
 import 'package:sportk/screens/registration/registration_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
@@ -39,6 +40,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await MySharedPreferences.init();
+  await MatchTimerCircle.loadBallImage();
   unawaited(MobileAds.instance.initialize());
   // MySharedPreferences.clearStorage();
   // MySharedPreferences.isPassedIntro = false;
