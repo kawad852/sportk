@@ -10,18 +10,21 @@ import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 import 'package:sportk/widgets/vex/vex_paginator.dart';
 
-class LeagueNews extends StatefulWidget {
-  final int leagueId;
-  const LeagueNews({
+class NewTab extends StatefulWidget {
+  final int id;
+  final NewTypeEnum type;
+
+  const NewTab({
     super.key,
-    required this.leagueId,
+    required this.id,
+    required this.type,
   });
 
   @override
-  State<LeagueNews> createState() => _LeagueNewsState();
+  State<NewTab> createState() => _NewTabState();
 }
 
-class _LeagueNewsState extends State<LeagueNews> {
+class _NewTabState extends State<NewTab> {
   late CommonProvider _commonProvider;
 
   @override
@@ -33,7 +36,7 @@ class _LeagueNewsState extends State<LeagueNews> {
   @override
   Widget build(BuildContext context) {
     return VexPaginator(
-      query: (pageKey) async => _commonProvider.fetchNews(pageKey, url: '${ApiUrl.news}/${BlogsType.competitions(widget.leagueId)}'),
+      query: (pageKey) async => _commonProvider.fetchNews(pageKey, url: '${ApiUrl.news}/${widget.type == NewTypeEnum.league ? BlogsType.competitions(widget.id) : BlogsType.teams(widget.id)}'),
       onFetching: (snapshot) async => snapshot.data!,
       pageSize: 10,
       onLoading: () {

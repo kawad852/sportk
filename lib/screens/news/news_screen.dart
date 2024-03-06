@@ -98,7 +98,7 @@ class _NewsScreenState extends State<NewsScreen> {
                               ),
                             ),
                             Text(
-                              "اخبار تهمك",
+                              context.appLocalization.recommendedNews,
                               style: TextStyle(
                                 color: context.colorPalette.blueD4B,
                                 fontWeight: FontWeight.w600,
@@ -186,7 +186,7 @@ class _NewsScreenState extends State<NewsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "اخبار البطولات",
+                      context.appLocalization.competitionsNews,
                       style: TextStyle(
                         color: context.colorPalette.blueD4B,
                         fontWeight: FontWeight.w600,
@@ -282,7 +282,7 @@ class _NewsScreenState extends State<NewsScreen> {
               },
               builder: (context, snapshot) {
                 return SliverPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: 100),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   sliver: SliverList.separated(
                     itemCount: snapshot.docs.length + 1,
                     separatorBuilder: (context, index) => const SizedBox(height: 5),

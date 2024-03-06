@@ -46,9 +46,6 @@ class _NewDetailsCommentSectionState extends State<NewDetailsCommentSection> {
       onError: (snapshot) => const SizedBox.shrink(),
       pageSize: 10,
       builder: (context, snapshot) {
-        if (snapshot.docs.isEmpty) {
-          return const SizedBox.shrink();
-        }
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -108,38 +105,40 @@ class _NewDetailsCommentSectionState extends State<NewDetailsCommentSection> {
               ),
             ),
             const SizedBox(height: 11),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  context.appLocalization.allComments,
-                  style: TextStyle(
-                    color: context.colorPalette.blueD4B,
-                    fontWeight: FontWeight.w600,
+            if (snapshot.docs.isNotEmpty) ...[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    context.appLocalization.allComments,
+                    style: TextStyle(
+                      color: context.colorPalette.blueD4B,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    UiHelper.showCommentsSheet(context, _newId);
-                  },
-                  icon: const Icon(
-                    Icons.arrow_forward_ios,
-                    size: 15,
+                  IconButton(
+                    onPressed: () {
+                      UiHelper.showCommentsSheet(context, _newId);
+                    },
+                    icon: const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 15,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            ListView.separated(
-              itemCount: snapshot.docs.length,
-              separatorBuilder: (context, index) => const SizedBox(height: 5),
-              padding: const EdgeInsets.only(top: 10, bottom: 20),
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                final comment = snapshot.docs[index] as CommentData;
-                return CommentBubble(comment: comment);
-              },
-            ),
+                ],
+              ),
+              ListView.separated(
+                itemCount: snapshot.docs.length,
+                separatorBuilder: (context, index) => const SizedBox(height: 5),
+                padding: const EdgeInsets.only(top: 10, bottom: 20),
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  final comment = snapshot.docs[index] as CommentData;
+                  return CommentBubble(comment: comment);
+                },
+              ),
+            ],
           ],
         );
       },

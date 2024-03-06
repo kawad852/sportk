@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:sportk/model/team_info_model.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/club/widgets/club_loading.dart';
-import 'package:sportk/utils/my_theme.dart';
-import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/screens/club/widgets/club_matches.dart';
-import 'package:sportk/screens/club/widgets/club_news.dart';
 import 'package:sportk/screens/club/widgets/club_players.dart';
 import 'package:sportk/screens/club/widgets/club_standings.dart';
+import 'package:sportk/screens/league_info/widgets/league_news.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/utils/my_images.dart';
+import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_back.dart';
+import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
@@ -138,8 +139,8 @@ class _ClubScreenState extends State<ClubScreen> with SingleTickerProviderStateM
             child: TabBarView(
               controller: _controller,
               children: [
-                 ClubMatches(teamId: widget.teamId),
-                const ClubNews(),
+                ClubMatches(teamId: widget.teamId),
+                NewTab(id: widget.teamId, type: NewTypeEnum.league),
                 ClubStandings(teamId: widget.teamId),
                 ClubPlayers(teamId: widget.teamId),
               ],

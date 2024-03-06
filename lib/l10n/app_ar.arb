@@ -132,5 +132,7 @@
   "loginToCont": "للمتابعة يجب تسجيل الدخول",
   "playerNationality":"جنسية اللاعب",
   "playerError":"لا توجد معلومات متاحة عن هذا اللاعب",
-  "recentNews": "أحدث الأخبار"
+  "recentNews": "أحدث الأخبار",
+  "competitionsNews": "أخبار البطولات",
+  "recommendedNews": "أخبار تهمك"
 }

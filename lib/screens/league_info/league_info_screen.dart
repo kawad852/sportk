@@ -138,7 +138,7 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
                 if (widget.subType == LeagueTypeEnum.domestic) LeagueStandings(leagueId: widget.leagueId),
                 LeagueScorers(leagueId: widget.leagueId),
                 widget.subType == LeagueTypeEnum.domestic ? LeagueMatches(leagueId: widget.leagueId) : ChampionsMatches(leagueId: widget.leagueId),
-                LeagueNews(leagueId: widget.leagueId),
+                NewTab(id: widget.leagueId, type: NewTypeEnum.league),
               ],
             ),
           ),

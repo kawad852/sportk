@@ -132,5 +132,7 @@
   "loginToCont": "login to continue",
   "playerNationality":"Player nationality",
   "playerError":"There is no information available about this player",
-  "recentNews": "Recent News"
+  "recentNews": "Recent News",
+  "competitionsNews": "Competitions News",
+  "recommendedNews": "Recommended News"
 }

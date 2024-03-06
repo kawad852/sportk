@@ -1,5 +1,7 @@
 import 'package:sportk/utils/shared_pref.dart';
 
+enum NewTypeEnum { league, team }
+
 class LanguageEnum {
   static const String english = 'en';
   static const String arabic = 'ar';

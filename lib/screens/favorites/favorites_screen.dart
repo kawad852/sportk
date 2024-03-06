@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sportk/model/favorite_model.dart';
 import 'package:sportk/model/league_model.dart';
 import 'package:sportk/providers/favorite_provider.dart';
-import 'package:sportk/screens/wizard/leagues_screen.dart';
+import 'package:sportk/screens/league_info/league_info_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
@@ -179,9 +179,9 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
                               onTap: () {
                                 context
                                     .push(
-                                  LeaguesScreen(
+                                  LeagueInfoScreen(
                                     leagueId: league.id!,
-                                    leagueName: league.name!,
+                                    subType: league.subType!,
                                   ),
                                 )
                                     .then((value) {
