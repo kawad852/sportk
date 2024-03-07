@@ -10,4 +10,6 @@ class MyImages {
   static const String linearPlayer = '${_path}linear_player.png';
   static const String backgroundClub = '${_path}background_club.png';
   static const String backgroundLeague = '${_path}background_league.png';
+  static const String goalsEvent = '${_path}goals_event.png';
+
 }

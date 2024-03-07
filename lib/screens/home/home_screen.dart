@@ -5,7 +5,7 @@ import 'package:sportk/model/matches/live_matches_model.dart';
 import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/home/widgets/arrow_button.dart';
-import 'package:sportk/screens/home/widgets/circle.dart';
+import 'package:sportk/widgets/match_timer_circle.dart';
 import 'package:sportk/screens/home/widgets/home_bubble.dart';
 import 'package:sportk/screens/home/widgets/live_switch.dart';
 import 'package:sportk/screens/search/search_screen.dart';
@@ -101,10 +101,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     forceElevated: innerBoxIsScrolled,
                     leading: IconButton(
                       onPressed: () {
-                        context.push(MatchTimerCircle(
-                          currentTime: 30,
-                          goalsTime: [2.0, 5.0, 15],
-                        ));
+                        // context.push(MatchTimerCircle(
+                        //   currentTime: 30,
+                        //   goalsTime: [2.0, 5.0, 15],
+                        // ));
                       },
                       icon: const CustomSvg(MyIcons.menu),
                     ),

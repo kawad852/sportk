@@ -8,17 +8,21 @@ import 'package:sportk/utils/my_images.dart';
 class MatchTimerCircle extends StatefulWidget {
   final double currentTime;
   final List<double> goalsTime;
+  final int? timeAdded;
+  final bool isHalfTime;
 
   const MatchTimerCircle({
     super.key,
     required this.currentTime,
     required this.goalsTime,
+    required this.timeAdded,
+    this.isHalfTime = false,
   });
 
   static late ui.Image ballImage;
 
   static Future loadBallImage() async {
-    final data = await rootBundle.load(MyImages.apple);
+    final data = await rootBundle.load(MyImages.goalsEvent);
     final image = await decodeImageFromList(data.buffer.asUint8List());
     ballImage = image;
   }
@@ -31,10 +35,19 @@ class _MatchTimerCircleState extends State<MatchTimerCircle> {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      size: const Size(200, 200),
+      size: const Size(40, 50),
       painter: MatchTimerPainter(
         currentTime: widget.currentTime,
         goalsTime: widget.goalsTime,
+        timeAdded: widget.timeAdded,
+        isHalfTime: widget.isHalfTime,
+      ),
+      child: SizedBox(
+        width: 40,
+        height: 50,
+        child: Center(
+          child: Text("${widget.currentTime.round().toInt().toString()}'"),
+        ),
       ),
     );
   }
@@ -43,31 +56,60 @@ class _MatchTimerCircleState extends State<MatchTimerCircle> {
 class MatchTimerPainter extends CustomPainter {
   final double currentTime;
   final List<double> goalsTime;
+  final int? timeAdded;
+  final bool isHalfTime;
 
   MatchTimerPainter({
+    required this.isHalfTime,
     required this.currentTime,
     required this.goalsTime,
+    required this.timeAdded,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
+    //main circle
     Paint outerCirclePaint = Paint()
       ..color = Colors.grey[300]!
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 5;
+      ..strokeWidth = 2;
 
     canvas.drawCircle(
       Offset(size.width / 2, size.height / 2),
       size.width / 2,
       outerCirclePaint,
     );
-
-    Paint progressCirclePaint = Paint()
-      ..color = Colors.green
+    //topLine
+    Paint lineTopPaint = Paint()
+      ..color = Colors.red
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 5;
+      ..strokeWidth = 2;
 
-    double progressAngle = (2 * pi * (currentTime / 90));
+    Offset startPoint = Offset(size.width / 2, 0);
+    Offset endPoint = Offset(size.width / 2, size.height / 2 - size.width / 2);
+
+    canvas.drawLine(startPoint, endPoint, lineTopPaint);
+
+    //bottom line
+    Paint lineBottomPaint = Paint()
+      ..color = Colors.red
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2;
+
+    Offset start = Offset(size.width / 2, size.height / 2 + size.width / 2);
+    Offset end = Offset(size.width / 2, size.height);
+
+    canvas.drawLine(start, end, lineBottomPaint);
+
+    //progress time
+    Paint progressCirclePaint = Paint()
+      ..color = isHalfTime ? Colors.orange : Colors.green
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2;
+
+    double progressAngle = timeAdded == null
+        ? (2 * pi * (currentTime / 90))
+        : (2 * pi * (currentTime / (90 + timeAdded!)));
 
     canvas.drawArc(
       Rect.fromCircle(center: Offset(size.width / 2, size.height / 2), radius: size.width / 2),
@@ -77,26 +119,18 @@ class MatchTimerPainter extends CustomPainter {
       progressCirclePaint,
     );
 
-    Paint goalCirclePaint = Paint()
-      ..color = Colors.black
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2;
-
+    //goals
     for (var goalTime in goalsTime) {
-      double goalAngle = (2 * pi * (goalTime / 90));
+      double goalAngle = timeAdded == null
+          ? (2 * pi * (goalTime / 90))
+          : (2 * pi * (goalTime / (90 + timeAdded!)));
       double goalX = size.width / 2 + (size.width / 2 * cos(-pi / 2 + goalAngle));
       double goalY = size.height / 2 + (size.width / 2 * sin(-pi / 2 + goalAngle));
 
-      // canvas.drawCircle(
-      //   Offset(goalX, goalY),
-      //   5,
-      //   goalCirclePaint,
-      // );
-
       canvas.drawImage(
         MatchTimerCircle.ballImage,
-        Offset(goalX, goalY),
-        goalCirclePaint,
+        Offset(goalX - 5, goalY - 5),
+        Paint(),
       );
     }
   }

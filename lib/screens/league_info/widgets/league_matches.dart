@@ -5,6 +5,7 @@ import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/league_info/widgets/round_card.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
+import 'package:sportk/web_view_screen.dart';
 import 'package:sportk/widgets/match_card.dart';
 import 'package:sportk/widgets/matches_loading.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
@@ -103,10 +104,22 @@ class _LeagueMatchesState extends State<LeagueMatches> with AutomaticKeepAliveCl
                           int homeGoals = 0;
                           int awayGoals = 0;
                           int? minute;
+                          int? timeAdded;
+                          List<double> goalsTime = [];
+
                           element.periods!.map((period) {
-                            if (period.hasTimer!) {
+                            if (period.hasTimer! && (period.typeId == 2 || period.typeId == 1)) {
                               minute = period.minutes;
+                              timeAdded = period.timeAdded;
+                            } else if (period.hasTimer! && period.typeId == 3) {
+                              minute = period.minutes;
+                              timeAdded = period.timeAdded == null ? 30 : 30 + period.timeAdded!;
                             }
+                            period.events!.map((event) {
+                              if (event.typeId == 14 || event.typeId == 16) {
+                                goalsTime.add(event.minute!.toDouble());
+                              }
+                            }).toSet();
                           }).toSet();
                           element.statistics!.map(
                             (e) {
@@ -122,16 +135,32 @@ class _LeagueMatchesState extends State<LeagueMatches> with AutomaticKeepAliveCl
                           ).toSet();
                           return Column(
                             children: [
-                              if (index == 0 || (index > 0 && matches[index].roundId != matches[index - 1].roundId))
+                              if (index == 0 ||
+                                  (index > 0 &&
+                                      matches[index].roundId != matches[index - 1].roundId))
                                 RoundCard(
                                   leagueId: widget.leagueId,
                                   roundId: element.roundId,
                                 ),
-                              MatchCard(
-                                element: element,
-                                awayGoals: awayGoals,
-                                homeGoals: homeGoals,
-                                minute: minute,
+                              InkWell(
+                                highlightColor: Colors.transparent,
+                                splashColor: Colors.transparent,
+                                onTap: () async {
+                                  await context.push(WebViewScreen(
+                                    matchId: element.id!,
+                                  ));
+                                  setState(() {
+                                    _vexKey.currentState!.refresh();
+                                  });
+                                },
+                                child: MatchCard(
+                                  element: element,
+                                  awayGoals: awayGoals,
+                                  homeGoals: homeGoals,
+                                  minute: minute,
+                                  goalsTime: goalsTime,
+                                  timeAdded: timeAdded,
+                                ),
                               )
                             ],
                           );

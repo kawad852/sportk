@@ -34,7 +34,4 @@ class MyIcons {
   static const String directUp = '${_path}direct-up.svg';
   static const String copyCode = '${_path}copy_code.svg';
   static const String coupons = '${_path}coupons.svg';
-
-
-
 }

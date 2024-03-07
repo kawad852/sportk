@@ -15,6 +15,7 @@ import 'package:sportk/widgets/ads/google_banner.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/league_tile.dart';
+import 'package:sportk/widgets/match_timer_circle.dart';
 import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 
@@ -167,10 +168,21 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                 int homeGoals = 0;
                 int awayGoals = 0;
                 int? minute;
+                int? timeAdded;
+                List<double> goalsTime = [];
                 match.periods!.map((period) {
-                  if (period.hasTimer!) {
+                  if (period.hasTimer! && (period.typeId == 2 || period.typeId == 1)) {
                     minute = period.minutes;
+                    timeAdded = period.timeAdded;
+                  } else if (period.hasTimer! && period.typeId == 3) {
+                    minute = period.minutes;
+                    timeAdded = period.timeAdded == null ? 30 : 30 + period.timeAdded!;
                   }
+                  period.events!.map((event) {
+                    if (event.typeId == 14 || event.typeId == 16) {
+                      goalsTime.add(event.minute!.toDouble());
+                    }
+                  }).toSet();
                 }).toSet();
                 match.statistics!.map(
                   (e) {
@@ -224,52 +236,72 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               match.state!.id != 1 && match.state!.id != 13 && match.state!.id != 10
-                                  ? Text("$homeGoals")
+                                  ? Text(
+                                      "$homeGoals",
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                      ),
+                                    )
                                   : const SizedBox(
                                       width: 6,
                                     ),
-                              minute != null
+                              match.state!.id == 3
                                   ? Padding(
                                       padding: const EdgeInsetsDirectional.only(start: 3, end: 3),
-                                      child: CircleAvatar(
-                                        child: Text("$minute"),
+                                      child: MatchTimerCircle(
+                                        currentTime: 45,
+                                        goalsTime: goalsTime,
+                                        timeAdded: 0,
+                                        isHalfTime: true,
                                       ),
                                     )
-                                  : Padding(
-                                      padding: const EdgeInsetsDirectional.only(start: 3, end: 3),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            match.state!.name!,
-                                            style: TextStyle(
-                                              color: context.colorPalette.green057,
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.bold,
-                                            ),
+                                  : minute != null
+                                      ? Padding(
+                                          padding:
+                                              const EdgeInsetsDirectional.only(start: 3, end: 3),
+                                          child: MatchTimerCircle(
+                                            currentTime: minute!.toDouble(),
+                                            goalsTime: goalsTime,
+                                            timeAdded: timeAdded,
                                           ),
-                                          if (match.state!.id == 1)
-                                            Text(
-                                              DateFormat("yyyy-MM-dd").format(match.startingAt!),
-                                              style: const TextStyle(
-                                                fontSize: 8,
-                                                fontWeight: FontWeight.bold,
+                                        )
+                                      : Column(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              width: 55,
+                                              child: Text(
+                                                match.state!.name!,
+                                                textAlign: TextAlign.center,
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  color: context.colorPalette.green057,
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
                                             ),
-                                          if (match.state!.id == 1)
-                                            Text(
-                                              DateFormat("HH:mm").format(match.startingAt!),
-                                              style: const TextStyle(
-                                                fontSize: 8,
-                                                fontWeight: FontWeight.bold,
+                                            if (match.state!.id == 1)
+                                              Text(
+                                                DateFormat("HH:mm").format(match.startingAt!),
+                                                style: const TextStyle(
+                                                  fontSize: 8,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
-                                            ),
-                                        ],
-                                      ),
-                                    ),
+                                          ],
+                                        ),
                               match.state!.id != 1 && match.state!.id != 13 && match.state!.id != 10
-                                  ? Text("$awayGoals")
+                                  ? Text(
+                                      "$awayGoals",
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                      ),
+                                    )
                                   : const SizedBox(
                                       width: 6,
                                     )
