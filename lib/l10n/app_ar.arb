@@ -134,5 +134,6 @@
   "playerError":"لا توجد معلومات متاحة عن هذا اللاعب",
   "recentNews": "أحدث الأخبار",
   "competitionsNews": "أخبار البطولات",
-  "recommendedNews": "أخبار تهمك"
+  "recommendedNews": "أخبار تهمك",
+  "noStandingsInfo":"لا توجد معلومات حول ترتيب الدوري في الوقت الحالي"
 }

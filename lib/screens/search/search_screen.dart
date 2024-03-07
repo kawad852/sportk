@@ -7,6 +7,7 @@ import 'package:sportk/model/player_search_model.dart';
 import 'package:sportk/model/team_search_model.dart';
 import 'package:sportk/providers/favorite_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
+import 'package:sportk/screens/champions_league/champions_league_screen.dart';
 import 'package:sportk/screens/club/club_screen.dart';
 import 'package:sportk/screens/league_info/league_info_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
@@ -123,7 +124,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                         team: team,
                                         onTap: () {
                                           if (_canAddToFav) {
-                                            _favoriteProvider.toggleFavorites(id, CompoTypeEnum.teams, team.name!);
+                                            _favoriteProvider.toggleFavorites(
+                                                id, CompoTypeEnum.teams, team.name!);
                                           } else {
                                             context.push(ClubScreen(teamId: id));
                                           }
@@ -188,9 +190,21 @@ class _SearchScreenState extends State<SearchScreen> {
                                 return LeagueTile(
                                   league: league,
                                   onTap: () {
-                                    context.push(
-                                      LeagueInfoScreen(leagueId: id, subType: league.subType!),
-                                    );
+                                    league.subType == LeagueTypeEnum.cubInternational
+                                        ? context.push(
+                                            ChampionsLeagueScreen(
+                                              leagueId: id,
+                                            ),
+                                          )
+                                        : context.push(
+                                            LeagueInfoScreen(
+                                              leagueId: league.id!,
+                                              subType: league.subType!,
+                                            ),
+                                          );
+                                    // context.push(
+                                    //   LeagueInfoScreen(leagueId: id, subType: league.subType!),
+                                    // );
 
                                     /// navigate to league info screen
                                   },
@@ -199,10 +213,14 @@ class _SearchScreenState extends State<SearchScreen> {
                                           builder: (context, setState) {
                                             return IconButton(
                                               onPressed: () {
-                                                _favoriteProvider.toggleFavorites(id, CompoTypeEnum.competitions, league.name!);
+                                                _favoriteProvider.toggleFavorites(
+                                                    id, CompoTypeEnum.competitions, league.name!);
                                               },
                                               icon: CustomSvg(
-                                                _favoriteProvider.isFav(id, CompoTypeEnum.competitions) ? MyIcons.starFilled : MyIcons.starOutlined,
+                                                _favoriteProvider.isFav(
+                                                        id, CompoTypeEnum.competitions)
+                                                    ? MyIcons.starFilled
+                                                    : MyIcons.starOutlined,
                                               ),
                                             );
                                           },

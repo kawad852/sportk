@@ -134,5 +134,6 @@
   "playerError":"There is no information available about this player",
   "recentNews": "Recent News",
   "competitionsNews": "Competitions News",
-  "recommendedNews": "Recommended News"
+  "recommendedNews": "Recommended News",
+  "noStandingsInfo":"There is no information about the league standings at the moment"
 }

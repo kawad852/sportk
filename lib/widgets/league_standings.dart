@@ -43,121 +43,134 @@ class _LeagueStandingsState extends State<LeagueStandings> with AutomaticKeepAli
       },
       onComplete: (context, snapshot) {
         final standings = snapshot.data!;
-
-        return SingleChildScrollView(
-          padding: const EdgeInsetsDirectional.symmetric(horizontal: 20, vertical: 5),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Table(
-              columnWidths: const {
-                0: FlexColumnWidth(6.3),
-                1: FlexColumnWidth(1.4),
-                2: FlexColumnWidth(1.4),
-                3: FlexColumnWidth(1.4),
-                4: FlexColumnWidth(1.4),
-                5: FlexColumnWidth(2.8),
-                6: FlexColumnWidth(1.5),
-                7: FlexColumnWidth(1.8),
-              },
-              children: [
-                TableRow(
-                  decoration: BoxDecoration(
-                    color: context.colorPalette.greyD9D,
+        return standings.data!.isEmpty
+            ? Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Text(
+                    context.appLocalization.noStandingsInfo,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: context.colorPalette.blueD4B,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  children: [
-                    TableText(
-                      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                      text: context.appLocalization.team,
-                    ),
-                    TableText(
-                      text: context.appLocalization.play,
-                    ),
-                    TableText(
-                      text: context.appLocalization.winner,
-                    ),
-                    TableText(
-                      text: context.appLocalization.draw,
-                    ),
-                    TableText(
-                      text: context.appLocalization.loser,
-                    ),
-                    TableText(
-                      text: context.appLocalization.goals,
-                    ),
-                    TableText(
-                      text: context.appLocalization.differance,
-                    ),
-                    TableText(
-                      text: context.appLocalization.points,
-                    ),
-                  ],
                 ),
-                ...standings.data!.map((element) {
-                  return TableRow(
-                    decoration: BoxDecoration(
-                      color: widget.selectedTeamId != null &&
-                              element.participantId == widget.selectedTeamId
-                          ? context.colorPalette.blueABB
-                          : standings.data!.indexOf(element) % 2 == 0
-                              ? context.colorPalette.grey3F3
-                              : context.colorPalette.greyD9D,
-                    ),
+              )
+            : SingleChildScrollView(
+                padding: const EdgeInsetsDirectional.symmetric(horizontal: 20, vertical: 5),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Table(
+                    columnWidths: const {
+                      0: FlexColumnWidth(6.3),
+                      1: FlexColumnWidth(1.4),
+                      2: FlexColumnWidth(1.4),
+                      3: FlexColumnWidth(1.4),
+                      4: FlexColumnWidth(1.4),
+                      5: FlexColumnWidth(2.8),
+                      6: FlexColumnWidth(1.5),
+                      7: FlexColumnWidth(1.8),
+                    },
                     children: [
-                      InkWell(
-                        onTap: widget.selectedTeamId != null &&
-                                widget.selectedTeamId == element.participantId!
-                            ? null
-                            : () => context.push(
-                                  ClubScreen(
-                                    teamId: element.participantId!,
-                                  ),
-                                ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 5),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                element.position?.toString() ?? "",
-                                style: const TextStyle(
-                                  fontSize: 11,
-                                ),
-                              ),
-                              TeamInfo(
-                                teamId: element.participantId!,
-                              ),
-                            ],
-                          ),
+                      TableRow(
+                        decoration: BoxDecoration(
+                          color: context.colorPalette.greyD9D,
                         ),
+                        children: [
+                          TableText(
+                            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                            text: context.appLocalization.team,
+                          ),
+                          TableText(
+                            text: context.appLocalization.play,
+                          ),
+                          TableText(
+                            text: context.appLocalization.winner,
+                          ),
+                          TableText(
+                            text: context.appLocalization.draw,
+                          ),
+                          TableText(
+                            text: context.appLocalization.loser,
+                          ),
+                          TableText(
+                            text: context.appLocalization.goals,
+                          ),
+                          TableText(
+                            text: context.appLocalization.differance,
+                          ),
+                          TableText(
+                            text: context.appLocalization.points,
+                          ),
+                        ],
                       ),
-                      TableText(
-                        text: element.details?[0].value?.toString() ?? "",
-                      ),
-                      TableText(
-                        text: element.details?[1].value?.toString() ?? "",
-                      ),
-                      TableText(
-                        text: element.details?[2].value?.toString() ?? "",
-                      ),
-                      TableText(
-                        text: element.details?[3].value?.toString() ?? "",
-                      ),
-                      TableText(
-                        text: "${element.details![4].value}:${element.details![5].value}",
-                      ),
-                      TableText(
-                        text: element.details?[18].value?.toString() ?? "",
-                      ),
-                      TableText(
-                        text: element.points?.toString() ?? "",
-                      ),
+                      ...standings.data!.map((element) {
+                        return TableRow(
+                          decoration: BoxDecoration(
+                            color: widget.selectedTeamId != null &&
+                                    element.participantId == widget.selectedTeamId
+                                ? context.colorPalette.blueABB
+                                : standings.data!.indexOf(element) % 2 == 0
+                                    ? context.colorPalette.grey3F3
+                                    : context.colorPalette.greyD9D,
+                          ),
+                          children: [
+                            InkWell(
+                              onTap: widget.selectedTeamId != null &&
+                                      widget.selectedTeamId == element.participantId!
+                                  ? null
+                                  : () => context.push(
+                                        ClubScreen(
+                                          teamId: element.participantId!,
+                                        ),
+                                      ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 5),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      element.position?.toString() ?? "",
+                                      style: const TextStyle(
+                                        fontSize: 11,
+                                      ),
+                                    ),
+                                    TeamInfo(
+                                      teamId: element.participantId!,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            TableText(
+                              text: element.details?[0].value?.toString() ?? "",
+                            ),
+                            TableText(
+                              text: element.details?[1].value?.toString() ?? "",
+                            ),
+                            TableText(
+                              text: element.details?[2].value?.toString() ?? "",
+                            ),
+                            TableText(
+                              text: element.details?[3].value?.toString() ?? "",
+                            ),
+                            TableText(
+                              text: "${element.details![4].value}:${element.details![5].value}",
+                            ),
+                            TableText(
+                              text: element.details?[18].value?.toString() ?? "",
+                            ),
+                            TableText(
+                              text: element.points?.toString() ?? "",
+                            ),
+                          ],
+                        );
+                      }).toList(),
                     ],
-                  );
-                }).toList(),
-              ],
-            ),
-          ),
-        );
+                  ),
+                ),
+              );
       },
     );
   }
