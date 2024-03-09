@@ -63,9 +63,11 @@ class _ClubScreenState extends State<ClubScreen> with SingleTickerProviderStateM
             ],
             flexibleSpace: Container(
               alignment: Alignment.bottomCenter,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(MyImages.backgroundClub),
+                  image: AssetImage(MyTheme.isLightTheme(context)
+                      ? MyImages.backgroundClub
+                      : MyImages.backgroundClubDark),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -118,8 +120,8 @@ class _ClubScreenState extends State<ClubScreen> with SingleTickerProviderStateM
                       ),
                       child: TabBar(
                         controller: _controller,
-                        indicatorColor: context.colorPalette.blueD4B,
-                        labelColor: context.colorPalette.blueD4B,
+                        indicatorColor: context.colorPalette.tabColor,
+                        labelColor: context.colorPalette.tabColor,
                         labelPadding: const EdgeInsetsDirectional.symmetric(horizontal: 4),
                         padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
                         tabs: [

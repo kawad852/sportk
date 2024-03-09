@@ -30,9 +30,11 @@ class _PlayerScreenState extends State<PlayerScreen> {
             ),
             flexibleSpace: Container(
               alignment: Alignment.bottomCenter,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(MyImages.linearPlayer),
+                  image: AssetImage(MyTheme.isLightTheme(context)
+                      ? MyImages.linearPlayer
+                      : MyImages.linearPlayerDark),
                   fit: BoxFit.cover,
                 ),
               ),

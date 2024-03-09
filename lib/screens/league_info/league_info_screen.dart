@@ -37,7 +37,8 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
   @override
   void initState() {
     super.initState();
-    _controller = TabController(length: widget.subType == LeagueTypeEnum.domestic ? 4 : 3, vsync: this);
+    _controller =
+        TabController(length: widget.subType == LeagueTypeEnum.domestic ? 4 : 3, vsync: this);
     _footBallProvider = context.footBallProvider;
     _initializeFuture();
   }
@@ -114,12 +115,13 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
                       ),
                       child: TabBar(
                         controller: _controller,
-                        indicatorColor: context.colorPalette.blueD4B,
-                        labelColor: context.colorPalette.blueD4B,
+                        indicatorColor: context.colorPalette.tabColor,
+                        labelColor: context.colorPalette.tabColor,
                         labelPadding: const EdgeInsetsDirectional.symmetric(horizontal: 4),
                         padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
                         tabs: [
-                          if (widget.subType == LeagueTypeEnum.domestic) Text(context.appLocalization.standings),
+                          if (widget.subType == LeagueTypeEnum.domestic)
+                            Text(context.appLocalization.standings),
                           Text(context.appLocalization.scorers),
                           Text(context.appLocalization.table),
                           Text(context.appLocalization.news),
@@ -135,9 +137,12 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
             child: TabBarView(
               controller: _controller,
               children: [
-                if (widget.subType == LeagueTypeEnum.domestic) LeagueStandings(leagueId: widget.leagueId),
+                if (widget.subType == LeagueTypeEnum.domestic)
+                  LeagueStandings(leagueId: widget.leagueId),
                 LeagueScorers(leagueId: widget.leagueId),
-                widget.subType == LeagueTypeEnum.domestic ? LeagueMatches(leagueId: widget.leagueId) : ChampionsMatches(leagueId: widget.leagueId),
+                widget.subType == LeagueTypeEnum.domestic
+                    ? LeagueMatches(leagueId: widget.leagueId)
+                    : ChampionsMatches(leagueId: widget.leagueId),
                 NewTab(id: widget.leagueId, type: NewTypeEnum.league),
               ],
             ),

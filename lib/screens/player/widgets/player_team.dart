@@ -75,7 +75,7 @@ class _PlayerTeamState extends State<PlayerTeam> {
                                     widget.jerseyNumber.toString(),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      color: context.colorPalette.blueD4B,
+                                      color: context.colorPalette.black,
                                     ),
                                   ),
                                 ),

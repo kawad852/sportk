@@ -160,6 +160,7 @@ class _StatisticsInfoState extends State<StatisticsInfo> {
                         child: Text(
                           country.data!.name!,
                           overflow: TextOverflow.ellipsis,
+                          style: TextStyle(color: context.colorPalette.blueD4B,),
                         ),
                       ),
                     ],

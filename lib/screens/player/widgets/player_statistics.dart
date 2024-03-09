@@ -105,7 +105,14 @@ class _PlayerStatisticsState extends State<PlayerStatistics> {
                   Padding(
                     padding: const EdgeInsets.only(top: 8),
                     child: _leagueIds.isEmpty
-                        ? Text(context.appLocalization.noStatistics)
+                        ? Text(
+                            context.appLocalization.noStatistics,
+                            style: TextStyle(
+                              color: context.colorPalette.blueD4B,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
+                          )
                         : SizedBox(
                             height: 35.0,
                             child: ListView.builder(
