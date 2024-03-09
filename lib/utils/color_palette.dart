@@ -47,6 +47,7 @@ class ColorPalette {
 
   //yellow
   Color get yellowF7A => const Color(0xFFF7AA05);
+  Color get yellowF7A20 => const Color(0x33F7AA05);
   Color get yellowFCC => const Color(0xFFFCC200);
 
   //green

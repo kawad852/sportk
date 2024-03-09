@@ -135,5 +135,11 @@
   "recentNews": "أحدث الأخبار",
   "competitionsNews": "أخبار البطولات",
   "recommendedNews": "أخبار تهمك",
-  "noStandingsInfo":"لا توجد معلومات حول ترتيب الدوري في الوقت الحالي"
+  "noStandingsInfo":"لا توجد معلومات حول ترتيب الدوري في الوقت الحالي",
+  "predictAndWin":"توقع واربح",
+  "predTeamWin":"توقع الفريق الفائز واحصل على {sportk} سبورتك",
+  "predResult":"توقع النتيجة واحصل على {sportk} سبورتك",
+  "predFirstScore":"توقع من سيسجل اولا واحصل على {sportk} سبورتك",
+  "drawText":"تعادل"
+
 }

@@ -135,5 +135,11 @@
   "recentNews": "Recent News",
   "competitionsNews": "Competitions News",
   "recommendedNews": "Recommended News",
-  "noStandingsInfo":"There is no information about the league standings at the moment"
+  "noStandingsInfo":"There is no information about the league standings at the moment",
+  "predictAndWin":"Predict and win",
+  "predTeamWin":"Predict the winning team and get {sportk} sportk",
+  "predResult":"Predict the result and get {sportk} sportk",
+  "predFirstScore":"Predict who will score first and get {sportk} sportk",
+  "drawText":"Draw"
+
 }

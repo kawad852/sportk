@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/screens/chat/chat_screen.dart';
-import 'package:sportk/screens/home/home_screen.dart';
+import 'package:sportk/screens/predictions/predictions_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/widgets/stretch_button.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -81,29 +81,40 @@ class _WebViewScreenState extends State<WebViewScreen> {
   @override
   void initState() {
     super.initState();
-
     _initialize();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Sport Monks Widget'),
-      // ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: _loadingValue < 100
           ? const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: LinearProgressIndicator(),
             )
           : null,
-      bottomSheet: StretchedButton(
-        onPressed: () {
-          context.push(ChatScreen(matchId: widget.matchId));
-        },
-        margin: const EdgeInsets.symmetric(horizontal: 20),
-        child: const Text("Chat"),
+      bottomSheet: Row(
+        children: [
+          Expanded(
+            child: StretchedButton(
+              onPressed: () {
+                context.push(ChatScreen(matchId: widget.matchId));
+              },
+              margin: const EdgeInsets.symmetric(horizontal: 5),
+              child: Text(context.appLocalization.chat),
+            ),
+          ),
+          Expanded(
+            child: StretchedButton(
+              onPressed: () {
+                context.push(const PredictionsScreen());
+              },
+              margin: const EdgeInsets.symmetric(horizontal: 5),
+              child: Text(context.appLocalization.predictAndWin),
+            ),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsetsDirectional.symmetric(vertical: 50),
@@ -114,14 +125,3 @@ class _WebViewScreenState extends State<WebViewScreen> {
     );
   }
 }
-// final _cookieManager = CookieManager();
-//   const WebViewCookie(
-//     name: "test",
-//     value: "value",
-//     domain: ".posstree.com",
-//   ),
-// );
-// cookies = await _webViewController.runJavascriptReturningResult(
-//   'document.cookie',
-// );
-// print(cookies);
