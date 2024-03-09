@@ -170,6 +170,15 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                 int? minute;
                 int? timeAdded;
                 List<double> goalsTime = [];
+                Participant teamHome = Participant();
+                Participant teamAway = Participant();
+                match.participants!.map((e) {
+                  if (e.meta!.location == LocationEnum.home) {
+                    teamHome = e;
+                  } else {
+                    teamAway = e;
+                  }
+                }).toSet();
                 match.periods!.map((period) {
                   if (period.hasTimer! && (period.typeId == 2 || period.typeId == 1)) {
                     minute = period.minutes;
@@ -213,7 +222,7 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                         Expanded(
                           flex: 1,
                           child: Text(
-                            match.participants![0].name!,
+                            teamHome.name!,
                             textAlign: TextAlign.center,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
@@ -225,7 +234,7 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                           ),
                         ),
                         CustomNetworkImage(
-                          match.participants![0].imagePath!,
+                          teamHome.imagePath!,
                           width: 30,
                           height: 30,
                           shape: BoxShape.circle,
@@ -309,7 +318,7 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                           ),
                         ),
                         CustomNetworkImage(
-                          match.participants![1].imagePath!,
+                          teamAway.imagePath!,
                           width: 30,
                           height: 30,
                           shape: BoxShape.circle,
@@ -317,7 +326,7 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                         Expanded(
                           flex: 1,
                           child: Text(
-                            match.participants![1].name!,
+                            teamAway.name!,
                             textAlign: TextAlign.center,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,

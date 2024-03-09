@@ -2,24 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sportk/model/match_model.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/enums.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/match_timer_circle.dart';
 
 class MatchCard extends StatefulWidget {
   final MatchData element;
-  final int homeGoals;
-  final int awayGoals;
-  final int? minute;
-  final List<double> goalsTime;
-  final int? timeAdded;
+
   const MatchCard({
     super.key,
     required this.element,
-    required this.homeGoals,
-    required this.awayGoals,
-    required this.minute,
-    required this.goalsTime,
-    required this.timeAdded,
   });
 
   @override
@@ -29,6 +21,46 @@ class MatchCard extends StatefulWidget {
 class _MatchCardState extends State<MatchCard> {
   @override
   Widget build(BuildContext context) {
+    int homeGoals = 0;
+    int awayGoals = 0;
+    int? minute;
+    int? timeAdded;
+    List<double> goalsTime = [];
+    Participant teamHome = Participant();
+    Participant teamAway = Participant();
+    widget.element.periods!.map((period) {
+      if (period.hasTimer! && (period.typeId == 2 || period.typeId == 1)) {
+        minute = period.minutes;
+        timeAdded = period.timeAdded;
+      } else if (period.hasTimer! && period.typeId == 3) {
+        minute = period.minutes;
+        timeAdded = period.timeAdded == null ? 30 : 30 + period.timeAdded!;
+      }
+      period.events!.map((event) {
+        if (event.typeId == 14 || event.typeId == 16) {
+          goalsTime.add(event.minute!.toDouble());
+        }
+      }).toSet();
+    }).toSet();
+    widget.element.statistics!.map(
+      (e) {
+        if (e.typeId == 52) {
+          switch (e.location) {
+            case LocationEnum.home:
+              homeGoals = e.data!.value!;
+            case LocationEnum.away:
+              awayGoals = e.data!.value!;
+          }
+        }
+      },
+    ).toSet();
+    widget.element.participants!.map((e) {
+      if (e.meta!.location == LocationEnum.home) {
+        teamHome = e;
+      } else {
+        teamAway = e;
+      }
+    }).toSet();
     return Container(
       width: double.infinity,
       height: 55,
@@ -43,7 +75,7 @@ class _MatchCardState extends State<MatchCard> {
           Expanded(
             flex: 1,
             child: Text(
-              widget.element.participants![0].name!,
+              teamHome.name!,
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
@@ -55,7 +87,7 @@ class _MatchCardState extends State<MatchCard> {
             ),
           ),
           CustomNetworkImage(
-            widget.element.participants![0].imagePath!,
+            teamHome.imagePath!,
             width: 30,
             height: 30,
             shape: BoxShape.circle,
@@ -69,7 +101,7 @@ class _MatchCardState extends State<MatchCard> {
                         widget.element.state!.id != 13 &&
                         widget.element.state!.id != 10
                     ? Text(
-                        "${widget.homeGoals}",
+                        "$homeGoals",
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
@@ -83,18 +115,18 @@ class _MatchCardState extends State<MatchCard> {
                         padding: const EdgeInsetsDirectional.only(start: 3, end: 3),
                         child: MatchTimerCircle(
                           currentTime: 45,
-                          goalsTime: widget.goalsTime,
+                          goalsTime: goalsTime,
                           timeAdded: 0,
                           isHalfTime: true,
                         ),
                       )
-                    : widget.minute != null
+                    : minute != null
                         ? Padding(
                             padding: const EdgeInsetsDirectional.only(start: 3, end: 3),
                             child: MatchTimerCircle(
-                              currentTime: widget.minute!.toDouble(),
-                              goalsTime: widget.goalsTime,
-                              timeAdded: widget.timeAdded,
+                              currentTime: minute!.toDouble(),
+                              goalsTime: goalsTime,
+                              timeAdded: timeAdded,
                             ),
                           )
                         : Column(
@@ -137,7 +169,7 @@ class _MatchCardState extends State<MatchCard> {
                         widget.element.state!.id != 13 &&
                         widget.element.state!.id != 10
                     ? Text(
-                        "${widget.awayGoals}",
+                        "$awayGoals",
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
@@ -150,7 +182,7 @@ class _MatchCardState extends State<MatchCard> {
             ),
           ),
           CustomNetworkImage(
-            widget.element.participants![1].imagePath!,
+            teamAway.imagePath!,
             width: 30,
             height: 30,
             shape: BoxShape.circle,
@@ -158,7 +190,7 @@ class _MatchCardState extends State<MatchCard> {
           Expanded(
             flex: 1,
             child: Text(
-              widget.element.participants![1].name!,
+              teamAway.name!,
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
               maxLines: 2,

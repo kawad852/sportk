@@ -4,7 +4,6 @@ import 'package:sportk/model/match_model.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/club/widgets/phase_card.dart';
 import 'package:sportk/utils/base_extensions.dart';
-import 'package:sportk/utils/enums.dart';
 import 'package:sportk/web_view_screen.dart';
 import 'package:sportk/widgets/match_card.dart';
 import 'package:sportk/widgets/matches_loading.dart';
@@ -100,38 +99,6 @@ class _ClubMatchesState extends State<ClubMatches> with AutomaticKeepAliveClient
                           }
 
                           final element = matches[index];
-                          int homeGoals = 0;
-                          int awayGoals = 0;
-                          int? minute;
-                          int? timeAdded;
-                          List<double> goalsTime = [];
-                         
-                          element.periods!.map((period) {
-                            if (period.hasTimer! && (period.typeId == 2 || period.typeId == 1)) {
-                              minute = period.minutes;
-                              timeAdded = period.timeAdded;
-                            } else if (period.hasTimer! && period.typeId == 3) {
-                              minute = period.minutes;
-                              timeAdded = period.timeAdded == null ? 30 : 30 + period.timeAdded!;
-                            }
-                            period.events!.map((event) {
-                              if (event.typeId == 14 || event.typeId == 16) {
-                                goalsTime.add(event.minute!.toDouble());
-                              }
-                            }).toSet();
-                          }).toSet();
-                          element.statistics!.map(
-                            (e) {
-                              if (e.typeId == 52) {
-                                switch (e.location) {
-                                  case LocationEnum.home:
-                                    homeGoals = e.data!.value!;
-                                  case LocationEnum.away:
-                                    awayGoals = e.data!.value!;
-                                }
-                              }
-                            },
-                          ).toSet();
                           return Column(
                             children: [
                               PhaseCard(
@@ -143,7 +110,7 @@ class _ClubMatchesState extends State<ClubMatches> with AutomaticKeepAliveClient
                               InkWell(
                                 highlightColor: Colors.transparent,
                                 splashColor: Colors.transparent,
-                                onTap: ()async{
+                                onTap: () async {
                                   await context.push(WebViewScreen(
                                     matchId: element.id!,
                                   ));
@@ -151,14 +118,7 @@ class _ClubMatchesState extends State<ClubMatches> with AutomaticKeepAliveClient
                                     _vexKey.currentState!.refresh();
                                   });
                                 },
-                                child: MatchCard(
-                                  element: element,
-                                  awayGoals: awayGoals,
-                                  homeGoals: homeGoals,
-                                  minute: minute,
-                                  goalsTime: goalsTime,
-                                  timeAdded: timeAdded,
-                                ),
+                                child: MatchCard(element: element),
                               )
                             ],
                           );
