@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:sportk/utils/app_constants.dart';
+import 'package:sportk/model/auth_model.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 
 class WalletCard extends StatelessWidget {
-  const WalletCard({super.key});
+  final UserData userData;
+  const WalletCard({super.key, required this.userData});
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +21,12 @@ class WalletCard extends StatelessWidget {
               CircleAvatar(
                 radius: 30.0,
                 backgroundColor: context.colorPalette.blueD4B,
-                child: const CircleAvatar(
+                child: CircleAvatar(
                   radius: 26.0,
                   child: ClipOval(
-                    child: CustomNetworkImage(kFakeImage),
+                    child: CustomNetworkImage(
+                      userData.profileImg!,
+                    ),
                   ),
                 ),
               ),
@@ -35,7 +38,7 @@ class WalletCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Almhyar Zahra",
+                      userData.name!,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: context.colorPalette.blueD4B,
@@ -44,7 +47,7 @@ class WalletCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "example@gmail.com",
+                      userData.email!,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 12,
@@ -67,7 +70,7 @@ class WalletCard extends StatelessWidget {
           child: Row(
             children: [
               Text(
-                "1400",
+                "${userData.points}",
                 style: TextStyle(
                   color: context.colorPalette.blueD4B,
                 ),

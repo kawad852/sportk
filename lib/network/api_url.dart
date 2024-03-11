@@ -1,7 +1,8 @@
 class ApiUrl {
   static const String sportsMailUrl = 'https://api.sportmonks.com/v3';
   static const String weCanMailUrl = 'http://dash.thesportk.com';
-  static const String auth = '?api_token=cdxo3ts8WT2RbL8ovPjExCo20qnABdBZSYWO8YoEPqKMvHifLPhk1uUZWQq6&locale=en';
+  static const String auth =
+      '?api_token=cdxo3ts8WT2RbL8ovPjExCo20qnABdBZSYWO8YoEPqKMvHifLPhk1uUZWQq6&locale=en';
 
   ///intro
   static const String competitions = '/competition/additional/list$auth';
@@ -49,4 +50,6 @@ class ApiUrl {
   static const String dislikeBlog = '/api/likes/blogs/destroy';
   static const String favorites = '/api/favorites/user';
   static const String removeFavorites = '/api/favorites';
+  static const String vouchers = '/api/vouchers';
+  static const String points = '/api/settings';
 }

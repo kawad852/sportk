@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sportk/utils/base_extensions.dart';
 
 class ShareAppText extends StatelessWidget {
-  const ShareAppText({super.key});
+  final String points;
+  const ShareAppText({super.key, required this.points});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class ShareAppText extends StatelessWidget {
           ),
         ),
         Text(
-          context.appLocalization.sportk50,
+          " $points ${context.appLocalization.sportk}",
           style: TextStyle(
             fontSize: 8.5,
             color: context.colorPalette.yellowF7A,

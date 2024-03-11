@@ -1,13 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sportk/model/points_model.dart';
+import 'package:sportk/model/user_model.dart';
+import 'package:sportk/model/vouchers_model.dart';
+import 'package:sportk/providers/auth_provider.dart';
+import 'package:sportk/providers/common_provider.dart';
+import 'package:sportk/screens/wallet/swap_requests_screen.dart';
 import 'package:sportk/screens/wallet/widgets/coupons_card.dart';
 import 'package:sportk/screens/wallet/widgets/share_app_text.dart';
 import 'package:sportk/screens/wallet/widgets/wallet_button.dart';
+import 'package:sportk/screens/wallet/widgets/wallet_loading.dart';
 import 'package:sportk/screens/wallet/widgets/watch_ad_button.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
+import 'package:sportk/utils/shared_pref.dart';
+import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 import 'package:sportk/screens/wallet/widgets/wallet_card.dart';
+import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
+import 'package:sportk/widgets/vex/vex_loader.dart';
+import 'package:sportk/widgets/vex/vex_paginator.dart';
+
+import 'widgets/vouchers_loading.dart';
 
 class WalletScreen extends StatefulWidget {
   const WalletScreen({super.key});
@@ -17,6 +31,35 @@ class WalletScreen extends StatefulWidget {
 }
 
 class _WalletScreenState extends State<WalletScreen> {
+  late Future<List<dynamic>> _futures;
+  late AuthProvider _authProvider;
+  late Future<UserModel> _userFuture;
+  late Future<PointsModel> _pointsFuture;
+
+  late CommonProvider _commonProvider;
+  late Future<VouchersModel> _vouchersFuture;
+
+  final _vexKey = GlobalKey<VexPaginatorState>();
+
+  Future<List<dynamic>> _initializeFutures() async {
+    _userFuture = _authProvider.getUserProfile(MySharedPreferences.user.id!);
+    _pointsFuture = _commonProvider.getPoints();
+    return Future.wait([_userFuture, _pointsFuture]);
+  }
+
+  Future<VouchersModel> _initializeVouchersFuture(int pageKey) {
+    _vouchersFuture = _commonProvider.getVouchers(pageKey);
+    return _vouchersFuture;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _authProvider = context.authProvider;
+    _commonProvider = context.commonProvider;
+    _futures = _initializeFutures();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,120 +80,169 @@ class _WalletScreenState extends State<WalletScreen> {
           SliverPadding(
             padding: const EdgeInsetsDirectional.symmetric(horizontal: 15, vertical: 10),
             sliver: SliverToBoxAdapter(
-              child: Column(
-                children: [
-                  const WalletCard(),
-                  WatchAdButton(onPressed: () {}),
-                  Row(
+              child: CustomFutureBuilder(
+                future: _futures,
+                onRetry: () {
+                  setState(() {
+                    _futures = _initializeFutures();
+                  });
+                },
+                onLoading: () => const ShimmerLoading(child: WalletLoading()),
+                onComplete: (context, snapshot) {
+                  final user = snapshot.data![0] as UserModel;
+                  final points = snapshot.data![1] as PointsModel;
+                  String invitationCodePoints = "";
+                  String adPoints = "";
+                  points.data!.map(
+                    (e) {
+                      if (e.id == 1) {
+                        invitationCodePoints = e.value!;
+                      }
+                      if (e.id == 5) {
+                        adPoints = e.value!;
+                      }
+                    },
+                  ).toSet();
+                  return Column(
                     children: [
-                      WalletButton(
-                        icon: MyIcons.moneyTime,
-                        text: context.appLocalization.recordPoints,
+                      WalletCard(userData: user.data!),
+                      WatchAdButton(
+                        points: adPoints,
                         onPressed: () {},
+                      ),
+                      Row(
+                        children: [
+                          WalletButton(
+                            icon: MyIcons.moneyTime,
+                            text: context.appLocalization.recordPoints,
+                            onPressed: () {},
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          WalletButton(
+                            icon: MyIcons.replacementRequests,
+                            text: context.appLocalization.replacementRequests,
+                            onPressed: () {
+                              context.push(const SwapRequestsScreen());
+                            },
+                          ),
+                        ],
                       ),
                       const SizedBox(
-                        width: 10,
+                        height: 10,
                       ),
-                      WalletButton(
-                        icon: MyIcons.replacementRequests,
-                        text: context.appLocalization.replacementRequests,
-                        onPressed: () {},
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    width: double.infinity,
-                    height: 54,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: context.colorPalette.blueF9F,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        const CustomSvg(MyIcons.ticketStar),
-                        Padding(
-                          padding: const EdgeInsetsDirectional.only(start: 2, end: 2),
-                          child: Text(
-                            context.appLocalization.invitationCode,
-                            style: TextStyle(
-                              color: context.colorPalette.blueD4B,
-                              fontSize: 12,
-                            ),
-                          ),
+                      Container(
+                        width: double.infinity,
+                        height: 54,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: context.colorPalette.blueF9F,
                         ),
-                        Container(
-                          width: 180,
-                          height: 30,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: context.colorPalette.white,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Text(
-                            "invitation Code",
-                            style: TextStyle(
-                              color: context.colorPalette.blueD4B,
-                              fontSize: 12,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            const CustomSvg(MyIcons.ticketStar),
+                            Padding(
+                              padding: const EdgeInsetsDirectional.only(start: 2, end: 2),
+                              child: Text(
+                                context.appLocalization.invitationCode,
+                                style: TextStyle(
+                                  color: context.colorPalette.blueD4B,
+                                  fontSize: 12,
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            Clipboard.setData(const ClipboardData(text: "invitation Code")).then(
-                              (value) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(context.appLocalization.copiedInvitionCode),
-                                  ),
+                            Container(
+                              width: 180,
+                              height: 30,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: context.colorPalette.white,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                user.data!.invitationCode!,
+                                style: TextStyle(
+                                  color: context.colorPalette.blueD4B,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                Clipboard.setData(ClipboardData(text: user.data!.invitationCode!))
+                                    .then(
+                                  (value) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(context.appLocalization.copiedInvitionCode),
+                                      ),
+                                    );
+                                  },
                                 );
                               },
-                            );
-                          },
-                          icon: const CustomSvg(MyIcons.copyCode),
+                              icon: const CustomSvg(MyIcons.copyCode),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-                  const ShareAppText(),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    children: [
-                      const CustomSvg(MyIcons.coupons),
-                      const SizedBox(
-                        width: 10,
                       ),
-                      Text(
-                        context.appLocalization.coupons,
-                        style: TextStyle(
-                          color: context.colorPalette.blueD4B,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      ShareAppText(points: invitationCodePoints),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Row(
+                        children: [
+                          const CustomSvg(MyIcons.coupons),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            context.appLocalization.vouchers,
+                            style: TextStyle(
+                              color: context.colorPalette.blueD4B,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
-                  ),
-                ],
+                  );
+                },
               ),
             ),
           ),
-          SliverPadding(
-            padding: const EdgeInsetsDirectional.symmetric(horizontal: 15, vertical: 15),
-            sliver: SliverGrid(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.9,
-              ),
-              delegate: SliverChildBuilderDelegate(
-                childCount: 10,
-                (BuildContext context, int index) {
-                  return const CouponsCard();
-                },
-              ),
+          SliverToBoxAdapter(
+            child: VexPaginator(
+              key: _vexKey,
+              query: (pageKey) async => _initializeVouchersFuture(pageKey),
+              onFetching: (snapshot) async => snapshot.data!,
+              pageSize: 10,
+              onLoading: () => const ShimmerLoading(child: VouchersLoading()),
+              builder: (context, snapshot) {
+                return GridView.builder(
+                  itemCount: snapshot.docs.length + 1,
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.9,
+                  ),
+                  itemBuilder: (context, index) {
+                    if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
+                      snapshot.fetchMore();
+                    }
+
+                    if (index == snapshot.docs.length) {
+                      return VexLoader(snapshot.isFetchingMore);
+                    }
+                    final vouchers = snapshot.docs as List<VouchersData>;
+                    final element = vouchers[index];
+                    return CouponsCard(vouchersData: element);
+                  },
+                );
+              },
             ),
           ),
         ],

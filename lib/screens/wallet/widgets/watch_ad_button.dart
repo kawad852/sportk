@@ -6,14 +6,15 @@ import 'package:sportk/widgets/stretch_button.dart';
 
 class WatchAdButton extends StatelessWidget {
   final VoidCallback onPressed;
-  const WatchAdButton({super.key, required this.onPressed});
+  final String points;
+  const WatchAdButton({super.key, required this.onPressed, required this.points});
 
   @override
   Widget build(BuildContext context) {
     return StretchedButton(
       onPressed: onPressed,
       backgroundColor: context.colorPalette.yellowF7A,
-      margin: const EdgeInsetsDirectional.only(top: 30,bottom: 10),
+      margin: const EdgeInsetsDirectional.only(top: 30, bottom: 10),
       child: Padding(
         padding: const EdgeInsetsDirectional.symmetric(vertical: 15),
         child: Row(
@@ -30,7 +31,7 @@ class WatchAdButton extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    " 10 ",
+                    " $points ",
                     style: TextStyle(
                       color: context.colorPalette.blueD4B,
                       fontSize: 14,
@@ -41,7 +42,7 @@ class WatchAdButton extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 14,
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
