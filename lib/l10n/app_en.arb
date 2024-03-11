@@ -140,6 +140,7 @@
   "predTeamWin":"Predict the winning team and get {sportk} sportk",
   "predResult":"Predict the result and get {sportk} sportk",
   "predFirstScore":"Predict who will score first and get {sportk} sportk",
-  "drawText":"Draw"
+  "drawText":"Draw",
+  "notifications": "Notifications"
 
 }
