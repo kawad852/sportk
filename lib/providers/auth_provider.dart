@@ -116,16 +116,23 @@ class AuthProvider extends ChangeNotifier {
       await FirebaseMessaging.instance.subscribeToTopic('all');
       final deviceToken = await FirebaseMessaging.instance.getToken();
       debugPrint("DeviceToken:: $deviceToken");
-      if (context.mounted) {
-        // ApiService<UpdateProfileModel>().fetch(
-        //   context,
-        //   withOverlayLoader: false,
-        //   url: ApiUrl.deviceToken,
-        //   isPublic: true,
-        //   apiType: ApiType.get,
-        //   builder: UpdateProfileModel.fromJson,
-        //   onError: null,
-        // );
+      if (context.mounted && isAuthenticated) {
+        ApiFutureBuilder().fetch(
+          context,
+          future: () async {
+            final updateProfileFuture = ApiService<AuthModel>().build(
+              weCanUrl: ApiUrl.updateProfile,
+              isPublic: false,
+              apiType: ApiType.post,
+              builder: AuthModel.fromJson,
+              queryParams: {
+                'device_token': deviceToken,
+              },
+            );
+            return updateProfileFuture;
+          },
+          onError: null,
+        );
       }
     } catch (e) {
       debugPrint("DeviceTokenError:: $e");
