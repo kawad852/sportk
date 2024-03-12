@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:sportk/utils/app_constants.dart';
+import 'package:sportk/model/vouchers_model.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 
 class CouponsCard extends StatefulWidget {
-  const CouponsCard({super.key});
+  final VouchersData vouchersData;
+  const CouponsCard({super.key, required this.vouchersData});
 
   @override
   State<CouponsCard> createState() => _CouponsCardState();
@@ -27,7 +28,7 @@ class _CouponsCardState extends State<CouponsCard> {
         child: Column(
           children: [
             CustomNetworkImage(
-              kFakeImage,
+              widget.vouchersData.image!,
               width: 130,
               height: 114,
               child: Padding(
@@ -47,7 +48,7 @@ class _CouponsCardState extends State<CouponsCard> {
                           child: Row(
                             children: [
                               Text(
-                                "1400",
+                                widget.vouchersData.points.toString(),
                                 style: TextStyle(
                                   color: context.colorPalette.blueD4B,
                                 ),
@@ -84,9 +85,9 @@ class _CouponsCardState extends State<CouponsCard> {
                             const SizedBox(
                               width: 6,
                             ),
-                            const Text(
-                              "121",
-                              style: TextStyle(
+                            Text(
+                              widget.vouchersData.numberOfCodes.toString(),
+                              style: const TextStyle(
                                 fontSize: 10,
                               ),
                             )
@@ -100,7 +101,7 @@ class _CouponsCardState extends State<CouponsCard> {
             ),
             const Spacer(),
             Text(
-              "Shahid subscription for one month",
+              widget.vouchersData.title!,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -108,7 +109,7 @@ class _CouponsCardState extends State<CouponsCard> {
                 fontWeight: FontWeight.w600,
                 fontSize: 12,
               ),
-            )
+            ),
           ],
         ),
       ),
