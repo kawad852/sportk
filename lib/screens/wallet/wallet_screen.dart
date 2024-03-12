@@ -5,6 +5,7 @@ import 'package:sportk/model/user_model.dart';
 import 'package:sportk/model/vouchers_model.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/providers/common_provider.dart';
+import 'package:sportk/screens/wallet/record_points_screen.dart';
 import 'package:sportk/screens/wallet/swap_requests_screen.dart';
 import 'package:sportk/screens/wallet/widgets/coupons_card.dart';
 import 'package:sportk/screens/wallet/widgets/share_app_text.dart';
@@ -115,7 +116,9 @@ class _WalletScreenState extends State<WalletScreen> {
                           WalletButton(
                             icon: MyIcons.moneyTime,
                             text: context.appLocalization.recordPoints,
-                            onPressed: () {},
+                            onPressed: () {
+                              context.push(const RecordPointsScreen());
+                            },
                           ),
                           const SizedBox(
                             width: 10,

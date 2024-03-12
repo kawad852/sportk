@@ -140,6 +140,17 @@
   "predTeamWin":"Predict the winning team and get {sportk} sportk",
   "predResult":"Predict the result and get {sportk} sportk",
   "predFirstScore":"Predict who will score first and get {sportk} sportk",
-  "drawText":"Draw"
+  "drawText":"Draw",
+  "requestStatus":"Request Status:",
+  "replaced":"Replaced",
+  "pending":"Pending",
+  "rejected":"Rejected",
+  "voucherType":"Voucher type: ",
+  "requestDate":"Request date: ",
+  "numberPoints":"Number of points: ",
+  "voucherCode":"Voucher code:",
+  "copiedVoucherCode":"The voucher code has been copied to the clipboard",
+  "emptyRecordPoints":"The record points is empty",
+  "noSwapRequests":"There are no swap requests yet"
 
 }

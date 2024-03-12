@@ -6,6 +6,8 @@ import 'package:sportk/model/is_like_model.dart';
 import 'package:sportk/model/matches/live_matches_model.dart';
 import 'package:sportk/model/new_model.dart';
 import 'package:sportk/model/points_model.dart';
+import 'package:sportk/model/record_points_model.dart';
+import 'package:sportk/model/swap_requests_model.dart';
 import 'package:sportk/model/vouchers_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
@@ -114,6 +116,26 @@ class CommonProvider extends ChangeNotifier {
       isPublic: false,
       apiType: ApiType.get,
       builder: PointsModel.fromJson,
+    );
+    return snapshot;
+  }
+
+  Future<SwapRequestsModel> getSwapRequests(int pageKey) {
+    final snapshot = ApiService<SwapRequestsModel>().build(
+      weCanUrl: "${ApiUrl.swapRequests}?page=$pageKey",
+      isPublic: false,
+      apiType: ApiType.get,
+      builder: SwapRequestsModel.fromJson,
+    );
+    return snapshot;
+  }
+
+   Future<RecordPointsModel> getRecordPoints(int pageKey) {
+    final snapshot = ApiService<RecordPointsModel>().build(
+      weCanUrl: "${ApiUrl.recordPoints}?page=$pageKey",
+      isPublic: false,
+      apiType: ApiType.get,
+      builder: RecordPointsModel.fromJson,
     );
     return snapshot;
   }
