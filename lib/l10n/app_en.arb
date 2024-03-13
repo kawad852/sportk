@@ -141,6 +141,8 @@
   "predResult":"Predict the result and get {sportk} sportk",
   "predFirstScore":"Predict who will score first and get {sportk} sportk",
   "drawText":"Draw",
-  "notifications": "Notifications"
+  "notifications": "Notifications",
+  "nightMode": "Night mode",
+  "lightMode": "Light mode"
 
 }

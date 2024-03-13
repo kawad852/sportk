@@ -141,5 +141,7 @@
   "predResult":"توقع النتيجة واحصل على {sportk} سبورتك",
   "predFirstScore":"توقع من سيسجل اولا واحصل على {sportk} سبورتك",
   "drawText":"تعادل",
-  "notifications": "الإشعارات"
+  "notifications": "الإشعارات",
+  "nightMode": "الوضع الليلي",
+  "lightMode": "الوضع الساطع"
 }

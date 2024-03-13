@@ -119,6 +119,7 @@ class AuthProvider extends ChangeNotifier {
       if (context.mounted && isAuthenticated) {
         ApiFutureBuilder().fetch(
           context,
+          withOverlayLoader: false,
           future: () async {
             final updateProfileFuture = ApiService<AuthModel>().build(
               weCanUrl: ApiUrl.updateProfile,
