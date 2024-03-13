@@ -52,7 +52,7 @@ class MyTheme {
       useMaterial3: true,
       fontFamily: fontFamily,
       colorScheme: colorScheme,
-      scaffoldBackgroundColor: context.colorPalette.white,
+      // scaffoldBackgroundColor: context.colorPalette.white,
       expansionTileTheme: ExpansionTileThemeData(
         collapsedShape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(

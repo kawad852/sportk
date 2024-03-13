@@ -143,5 +143,11 @@
   "drawText":"تعادل",
   "notifications": "الإشعارات",
   "nightMode": "الوضع الليلي",
-  "lightMode": "الوضع الساطع"
+  "lightMode": "الوضع الساطع",
+  "profileSettings": "إعدادات الحساب",
+  "appLanguage": "لغة التطبيق",
+  "mySettings": "اعداداتي",
+  "menu": "القائمة",
+  "application": "التطبيق",
+  "termsOfUse": "الشروط والأحكام"
 }

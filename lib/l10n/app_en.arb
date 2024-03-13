@@ -143,6 +143,12 @@
   "drawText":"Draw",
   "notifications": "Notifications",
   "nightMode": "Night mode",
-  "lightMode": "Light mode"
+  "lightMode": "Light mode",
+  "profileSettings": "Profile settings",
+  "appLanguage": "App language",
+  "mySettings": "My settings",
+  "menu": "Menu",
+  "application": "Application",
+  "termsOfUse": "Terms of use"
 
 }

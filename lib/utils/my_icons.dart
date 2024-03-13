@@ -36,4 +36,7 @@ class MyIcons {
   static const String coupons = '${_path}coupons.svg';
   static const String bell = '${_path}bell.svg';
   static const String moon = '${_path}moon.svg';
+  static const String settings = '${_path}settings.svg';
+  static const String language = '${_path}language.svg';
+  static const String clipBoard = '${_path}clipboard-tick.svg';
 }
