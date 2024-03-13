@@ -151,6 +151,18 @@
   "voucherCode":"رمز القسيمة",
   "copiedVoucherCode":"تم نسخ رمز القسيمة الى الحافظة",
   "emptyRecordPoints":"سجل النقاط فارغ",
-  "noSwapRequests":"لا يوجد طلبات استبدال بعد"
+  "noSwapRequests":"لا يوجد طلبات استبدال بعد",
 
+  "notifications": "الإشعارات",
+  "nightMode": "الوضع الليلي",
+  "lightMode": "الوضع الساطع",
+  "profileSettings": "إعدادات الحساب",
+  "appLanguage": "لغة التطبيق",
+  "mySettings": "اعداداتي",
+  "menu": "القائمة",
+  "application": "التطبيق",
+  "termsOfUse": "الشروط والأحكام",
+  "noPointEnough":"ليس لديك نقاط كافية لشراء هذه القسيمة",
+  "replacePoints":"استبدال نقاطك؟",
+  "pointsForVoucher":"هل تريد استبدال {sportk} سبورتك بقسيمة {voucherName} ؟"
 }

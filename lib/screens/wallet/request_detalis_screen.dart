@@ -95,54 +95,55 @@ class RequestDetalisScreen extends StatelessWidget {
               ),
             ),
           ),
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            sliver: SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  RequsetText(
-                    text: context.appLocalization.voucherCode,
-                    textColor: context.colorPalette.blueD4B,
-                  ),
-                  Container(
-                    width: double.infinity,
-                    height: 45,
-                    decoration: BoxDecoration(
-                      color: context.colorPalette.blue1AD4B,
-                      borderRadius: BorderRadius.circular(10),
+          if (swapData.code != null)
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              sliver: SliverToBoxAdapter(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    RequsetText(
+                      text: context.appLocalization.voucherCode,
+                      textColor: context.colorPalette.blueD4B,
                     ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Center(
-                            child: RequsetText(
-                              text: swapData.code!,
-                              textColor: context.colorPalette.blueD4B,
+                    Container(
+                      width: double.infinity,
+                      height: 45,
+                      decoration: BoxDecoration(
+                        color: context.colorPalette.blue1AD4B,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Center(
+                              child: RequsetText(
+                                text: swapData.code!,
+                                textColor: context.colorPalette.blueD4B,
+                              ),
                             ),
                           ),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            Clipboard.setData(ClipboardData(text: swapData.code!)).then(
-                              (value) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(context.appLocalization.copiedVoucherCode),
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                          icon: const CustomSvg(MyIcons.voucherCode),
-                        ),
-                      ],
+                          IconButton(
+                            onPressed: () {
+                              Clipboard.setData(ClipboardData(text: swapData.code!)).then(
+                                (value) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(context.appLocalization.copiedVoucherCode),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            icon: const CustomSvg(MyIcons.voucherCode),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
         ],
       ),
     );

@@ -9,6 +9,7 @@ import 'package:sportk/model/points_model.dart';
 import 'package:sportk/model/record_points_model.dart';
 import 'package:sportk/model/swap_requests_model.dart';
 import 'package:sportk/model/vouchers_model.dart';
+import 'package:sportk/model/vouchers_replaced_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
 import 'package:sportk/providers/favorite_provider.dart';
@@ -130,12 +131,23 @@ class CommonProvider extends ChangeNotifier {
     return snapshot;
   }
 
-   Future<RecordPointsModel> getRecordPoints(int pageKey) {
+  Future<RecordPointsModel> getRecordPoints(int pageKey) {
     final snapshot = ApiService<RecordPointsModel>().build(
       weCanUrl: "${ApiUrl.recordPoints}?page=$pageKey",
       isPublic: false,
       apiType: ApiType.get,
       builder: RecordPointsModel.fromJson,
+    );
+    return snapshot;
+  }
+
+  Future<VoucherReplacedModel> replacedVoucher(int voucherId) {
+    final snapshot = ApiService<VoucherReplacedModel>().build(
+      weCanUrl: ApiUrl.voucherReplaced,
+      isPublic: false,
+      apiType: ApiType.post,
+      queryParams: {"voucher_id": voucherId},
+      builder: VoucherReplacedModel.fromJson,
     );
     return snapshot;
   }

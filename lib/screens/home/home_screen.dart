@@ -5,10 +5,10 @@ import 'package:sportk/model/matches/live_matches_model.dart';
 import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/home/widgets/arrow_button.dart';
-import 'package:sportk/screens/wallet/wallet_screen.dart';
-import 'package:sportk/widgets/match_timer_circle.dart';
 import 'package:sportk/screens/home/widgets/home_bubble.dart';
 import 'package:sportk/screens/home/widgets/live_switch.dart';
+import 'package:sportk/screens/notifications/notifications_screen.dart';
+import 'package:sportk/screens/profile/profile_screen.dart';
 import 'package:sportk/screens/search/search_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
@@ -92,6 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
         final favoritesModel = snapshot.data![0] as FavoriteModel;
         final livesModel = snapshot.data![1] as LivesMatchesModel;
         return Scaffold(
+          drawer: const ProfileScreen(),
           body: NestedScrollView(
             headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
@@ -102,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     forceElevated: innerBoxIsScrolled,
                     leading: IconButton(
                       onPressed: () {
-                        context.push(WalletScreen());
+                        Scaffold.of(context).openDrawer();
                       },
                       icon: const CustomSvg(MyIcons.menu),
                     ),
@@ -111,6 +112,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: context.textTheme.labelLarge,
                     ),
                     actions: [
+                      IconButton(
+                        onPressed: () {
+                          context.push(const NotificationsScreen());
+                        },
+                        icon: const CustomSvg(MyIcons.bell),
+                      ),
                       IconButton(
                         onPressed: () {
                           context.push(const SearchScreen());
@@ -134,8 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               onTap: _reachedMaxDate(_minDate)
                                   ? null
                                   : () {
-                                      _onDateChanged(
-                                          _selectedDate.subtract(const Duration(days: 1)));
+                                      _onDateChanged(_selectedDate.subtract(const Duration(days: 1)));
                                     },
                             ),
                             IconButton(
@@ -184,8 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
               builder: (context) {
                 return CustomScrollView(
                   slivers: [
-                    SliverOverlapInjector(
-                        handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
+                    SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
                     VexPaginator(
                       query: (pageKey) async => _commonProvider.fetchLeagues(pageKey),
                       onFetching: (snapshot) async => snapshot.competitions!,
@@ -193,18 +198,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       pageSize: 10,
                       builder: (context, snapshot) {
                         final competitions = snapshot.docs as List<String>;
-                        List<FavoriteData> allCompetitions = [
-                          ...favoritesModel.data!,
-                          ...competitions
-                              .map((e) => FavoriteData(
-                                  favoritableId: int.parse(e), type: CompoTypeEnum.competitions))
-                              .toList()
-                        ];
+                        List<FavoriteData> allCompetitions = [...favoritesModel.data!, ...competitions.map((e) => FavoriteData(favoritableId: int.parse(e), type: CompoTypeEnum.competitions)).toList()];
                         if (_isLive) {
                           final liveIds = livesModel.data!.map((e) => e.competitionId).toList();
-                          allCompetitions = allCompetitions
-                              .where((element) => liveIds.contains('${element.favoritableId}'))
-                              .toList();
+                          allCompetitions = allCompetitions.where((element) => liveIds.contains('${element.favoritableId}')).toList();
                         }
                         return Consumer<FootBallProvider>(
                           builder: (context, provider, child) {
@@ -232,10 +229,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   }
 
                                   final competition = allCompetitions[index];
-                                  final liveLeagues = livesModel.data!
-                                      .where((element) =>
-                                          element.competitionId == '${competition.favoritableId}')
-                                      .toList();
+                                  final liveLeagues = livesModel.data!.where((element) => element.competitionId == '${competition.favoritableId}').toList();
                                   return HomeBubble(
                                     date: _selectedDate,
                                     id: competition.favoritableId!,

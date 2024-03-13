@@ -37,4 +37,9 @@ class MyIcons {
   static const String voucherCode = '${_path}voucher_code.svg';
   static const String addPoints = '${_path}add_points.svg';
   static const String minusPoints = '${_path}minus_points.svg';
+  static const String bell = '${_path}bell.svg';
+  static const String moon = '${_path}moon.svg';
+  static const String settings = '${_path}settings.svg';
+  static const String language = '${_path}language.svg';
+  static const String clipBoard = '${_path}clipboard-tick.svg';
 }

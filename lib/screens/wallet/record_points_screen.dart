@@ -77,6 +77,7 @@ class _RecordPointsScreenState extends State<RecordPointsScreen> {
                         scrollDirection: Axis.vertical,
                         padding: EdgeInsets.zero,
                         shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: snapshot.docs.length + 1,
                         itemBuilder: (context, index) {
                           if (snapshot.hasMore && index + 1 == snapshot.docs.length) {

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/alerts/loading/app_over_loader.dart';
 import 'package:sportk/model/vouchers_model.dart';
+import 'package:sportk/providers/common_provider.dart';
+import 'package:sportk/screens/wallet/request_detalis_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
+import 'package:sportk/alerts/feedback/app_feedback.dart';
+import 'package:sportk/utils/shared_pref.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 
@@ -14,6 +19,14 @@ class CouponsCard extends StatefulWidget {
 }
 
 class _CouponsCardState extends State<CouponsCard> {
+  late CommonProvider _commonProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    _commonProvider = context.commonProvider;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,6 +44,46 @@ class _CouponsCardState extends State<CouponsCard> {
               widget.vouchersData.image!,
               width: 130,
               height: 114,
+              onTap: () {
+                MySharedPreferences.userPoints < widget.vouchersData.points!
+                    ? context.showDialog(
+                        titleText: context.appLocalization.numberPoints,
+                        bodyText: context.appLocalization.noPointEnough,
+                      )
+                    : context
+                        .showDialog(
+                        titleText: context.appLocalization.replacePoints,
+                        bodyText: context.appLocalization.pointsForVoucher(
+                          widget.vouchersData.points.toString(),
+                          widget.vouchersData.title!,
+                        ),
+                      )
+                        .then(
+                        (value) async {
+                          if (value != null) {
+                            try {
+                              AppOverlayLoader.show();
+                              await _commonProvider.replacedVoucher(widget.vouchersData.id!).then(
+                                (value) {
+                                  AppOverlayLoader.hide();
+                                  context.push(
+                                    RequestDetalisScreen(
+                                      swapData: value.data!,
+                                    ),
+                                  );
+                                },
+                              );
+                            } catch (e) {
+                              AppOverlayLoader.hide();
+                              if (context.mounted) {
+                                context.showSnackBar(context.appLocalization.networkError);
+                              }
+                              debugPrint("$e");
+                            }
+                          }
+                        },
+                      );
+              },
               child: Padding(
                 padding: const EdgeInsetsDirectional.symmetric(horizontal: 5, vertical: 5),
                 child: Column(

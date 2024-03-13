@@ -78,6 +78,7 @@ class _SwapRequestsScreenState extends State<SwapRequestsScreen> {
                     : ListView.separated(
                         separatorBuilder: (context, index) => const SizedBox(width: 6),
                         scrollDirection: Axis.vertical,
+                        physics: const NeverScrollableScrollPhysics(),
                         padding: EdgeInsets.zero,
                         shrinkWrap: true,
                         itemCount: snapshot.docs.length + 1,

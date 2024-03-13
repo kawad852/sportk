@@ -91,6 +91,7 @@ class _WalletScreenState extends State<WalletScreen> {
                 onLoading: () => const ShimmerLoading(child: WalletLoading()),
                 onComplete: (context, snapshot) {
                   final user = snapshot.data![0] as UserModel;
+                  MySharedPreferences.userPoints = user.data!.points!;
                   final points = snapshot.data![1] as PointsModel;
                   String invitationCodePoints = "";
                   String adPoints = "";
