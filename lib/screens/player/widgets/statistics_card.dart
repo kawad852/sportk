@@ -18,7 +18,10 @@ class StatisticsCard extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        CustomSvg(icon),
+        CustomSvg(
+          icon,
+          fixedColor: true,
+        ),
         Text(
           title,
           style: TextStyle(

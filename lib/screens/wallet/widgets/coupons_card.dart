@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:sportk/alerts/loading/app_over_loader.dart';
+import 'package:sportk/alerts/feedback/app_feedback.dart';
 import 'package:sportk/model/vouchers_model.dart';
+import 'package:sportk/model/vouchers_replaced_model.dart';
+import 'package:sportk/network/api_service.dart';
 import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/screens/wallet/request_detalis_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
-import 'package:sportk/alerts/feedback/app_feedback.dart';
 import 'package:sportk/utils/shared_pref.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_svg.dart';
@@ -20,6 +21,10 @@ class CouponsCard extends StatefulWidget {
 
 class _CouponsCardState extends State<CouponsCard> {
   late CommonProvider _commonProvider;
+
+  void _myMethod(dynamic value) {
+    // ...
+  }
 
   @override
   void initState() {
@@ -61,25 +66,39 @@ class _CouponsCardState extends State<CouponsCard> {
                         .then(
                         (value) async {
                           if (value != null) {
-                            try {
-                              AppOverlayLoader.show();
-                              await _commonProvider.replacedVoucher(widget.vouchersData.id!).then(
-                                (value) {
-                                  AppOverlayLoader.hide();
-                                  context.push(
-                                    RequestDetalisScreen(
-                                      swapData: value.data!,
-                                    ),
-                                  );
-                                },
-                              );
-                            } catch (e) {
-                              AppOverlayLoader.hide();
-                              if (context.mounted) {
-                                context.showSnackBar(context.appLocalization.networkError);
-                              }
-                              debugPrint("$e");
-                            }
+                            ApiFutureBuilder<VoucherReplacedModel>().fetch(
+                              context,
+                              future: () async {
+                                final voucherFuture = _commonProvider.replacedVoucher(widget.vouchersData.id!);
+                                return voucherFuture;
+                              },
+                              onComplete: (snapshot) {
+                                context.push(
+                                  RequestDetalisScreen(
+                                    swapData: snapshot.data!,
+                                  ),
+                                );
+                              },
+                            );
+                            // try {
+                            //   AppOverlayLoader.show();
+                            //   await _commonProvider.replacedVoucher(widget.vouchersData.id!).then(
+                            //     (value) {
+                            //       AppOverlayLoader.hide();
+                            //       context.push(
+                            //         RequestDetalisScreen(
+                            //           swapData: value.data!,
+                            //         ),
+                            //       );
+                            //     },
+                            //   );
+                            // } catch (e) {
+                            //   AppOverlayLoader.hide();
+                            //   if (context.mounted) {
+                            //     context.showSnackBar(context.appLocalization.networkError);
+                            //   }
+                            //   debugPrint("$e");
+                            // }
                           }
                         },
                       );

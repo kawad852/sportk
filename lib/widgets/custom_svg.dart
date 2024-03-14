@@ -7,6 +7,7 @@ class CustomSvg extends StatelessWidget {
   final Color? color;
   final Color? darkColor;
   final double? height, width;
+  final bool fixedColor;
 
   const CustomSvg(
     this.icon, {
@@ -15,6 +16,7 @@ class CustomSvg extends StatelessWidget {
     this.darkColor,
     this.height,
     this.width,
+    this.fixedColor = false,
   });
 
   @override
@@ -23,7 +25,7 @@ class CustomSvg extends StatelessWidget {
       icon,
       height: height,
       width: width,
-      color: color ?? context.colorPalette.icon,
+      color: fixedColor ? null : color ?? context.colorPalette.icon,
       // colorFilter: ColorFilter.mode(
       //   context.colorScheme.inverseSurface,
       //   BlendMode.srcIn,

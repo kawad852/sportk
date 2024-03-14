@@ -10,14 +10,15 @@ import 'package:sportk/screens/wallet/swap_requests_screen.dart';
 import 'package:sportk/screens/wallet/widgets/coupons_card.dart';
 import 'package:sportk/screens/wallet/widgets/share_app_text.dart';
 import 'package:sportk/screens/wallet/widgets/wallet_button.dart';
+import 'package:sportk/screens/wallet/widgets/wallet_card.dart';
 import 'package:sportk/screens/wallet/widgets/wallet_loading.dart';
 import 'package:sportk/screens/wallet/widgets/watch_ad_button.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/utils/shared_pref.dart';
+import 'package:sportk/widgets/ads/google_rewarded.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_svg.dart';
-import 'package:sportk/screens/wallet/widgets/wallet_card.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 import 'package:sportk/widgets/vex/vex_loader.dart';
 import 'package:sportk/widgets/vex/vex_paginator.dart';
@@ -108,9 +109,12 @@ class _WalletScreenState extends State<WalletScreen> {
                   return Column(
                     children: [
                       WalletCard(userData: user.data!),
-                      WatchAdButton(
-                        points: adPoints,
-                        onPressed: () {},
+                      GoogleRewarded(
+                        points: int.parse(adPoints),
+                        child: WatchAdButton(
+                          points: adPoints,
+                          onPressed: () {},
+                        ),
                       ),
                       Row(
                         children: [
@@ -175,8 +179,7 @@ class _WalletScreenState extends State<WalletScreen> {
                             ),
                             IconButton(
                               onPressed: () {
-                                Clipboard.setData(ClipboardData(text: user.data!.invitationCode!))
-                                    .then(
+                                Clipboard.setData(ClipboardData(text: user.data!.invitationCode!)).then(
                                   (value) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
