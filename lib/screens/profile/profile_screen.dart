@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sportk/providers/app_provider.dart';
 import 'package:sportk/providers/auth_provider.dart';
+import 'package:sportk/screens/contact/contact_screen.dart';
+import 'package:sportk/screens/faq/faq_screen.dart';
 import 'package:sportk/screens/policy/policy_screen.dart';
 import 'package:sportk/screens/profile/widgets/profile_header.dart';
 import 'package:sportk/screens/profile/widgets/profile_tile.dart';
@@ -78,6 +80,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
             },
             title: context.appLocalization.termsOfUse,
             icon: MyIcons.clipBoard,
+          ),
+          ProfileTile(
+            onTap: () {
+              context.push(const FAQScreen());
+            },
+            title: context.appLocalization.faq,
+            icon: MyIcons.questions,
+          ),
+          ProfileTile(
+            onTap: () {
+              context.push(const ContactScreen());
+            },
+            title: context.appLocalization.contactUs,
+            icon: MyIcons.messages,
           ),
         ],
       ),

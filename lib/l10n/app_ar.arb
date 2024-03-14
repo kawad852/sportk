@@ -165,5 +165,13 @@
   "noPointEnough":"ليس لديك نقاط كافية لشراء هذه القسيمة",
   "replacePoints":"استبدال نقاطك؟",
   "pointsForVoucher":"هل تريد استبدال {sportk} سبورتك بقسيمة {voucherName} ؟",
-  "noVouchersAvailable":"لا يوجد قسائم متاحة في الوقت الحالي"
+  "noVouchersAvailable":"لا يوجد قسائم متاحة في الوقت الحالي",
+  "faq": "الأسئلة الشائعة",
+  "contactUs": "تواصل معنا",
+  "msgSendSuccessfully": "تم إرسال الرسالة بنجاح",
+  "contactHeader": "للتواصل مع ادارة سبورتك يرجى النموذج التالي :",
+  "subject": "الموضوع",
+  "message": "الرسالة",
+  "name": "الإسم",
+  "email": "البريد الألكتروني"
 }

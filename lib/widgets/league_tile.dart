@@ -20,7 +20,7 @@ class LeagueTile extends StatelessWidget {
     return ListTile(
       onTap: onTap,
       dense: true,
-      tileColor: context.colorPalette.grey2F2,
+      tileColor: context.colorPalette.blue4F0,
       leading: CustomNetworkImage(
         league.logo ?? league.imagePath!,
         shape: BoxShape.circle,

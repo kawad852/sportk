@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sportk/utils/base_extensions.dart';
 
 class CustomSvg extends StatelessWidget {
   final String icon;
@@ -22,7 +23,7 @@ class CustomSvg extends StatelessWidget {
       icon,
       height: height,
       width: width,
-      color: color,
+      color: color ?? context.colorPalette.icon,
       // colorFilter: ColorFilter.mode(
       //   context.colorScheme.inverseSurface,
       //   BlendMode.srcIn,

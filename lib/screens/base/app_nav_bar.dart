@@ -70,10 +70,10 @@ class _AppNavBarState extends State<AppNavBar> {
         height: withNotch ? 95 : 85,
         width: context.mediaQuery.width,
         decoration: BoxDecoration(
-          color: context.colorPalette.greyAF8,
-          boxShadow: const [
+          color: context.colorPalette.homeMatchBubble,
+          boxShadow: [
             BoxShadow(
-              color: Colors.grey,
+              color: context.colorPalette.blue4F0,
               offset: Offset(0.0, 1.0),
               blurRadius: 3.0,
             ),

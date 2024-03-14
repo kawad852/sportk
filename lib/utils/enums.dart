@@ -34,3 +34,10 @@ class BlogsType {
   static String teams(int id) => 'teams/$id?locale=${MySharedPreferences.language}';
   static String competitions(int id) => 'tags/$id?locale=${MySharedPreferences.language}';
 }
+
+class EmailJsEnum {
+  static const link = 'https://api.emailjs.com/api/v1.0/email/send';
+  static const serviceId = "service_85zuv8l"; // service_dga8ga8
+  static const templateId = "template_4w6bflf"; //template_kibj8m3
+  static const userId = "QIWycTMidTmWWH1ro"; //kdJ4pcQ38XFqx54Lk
+}

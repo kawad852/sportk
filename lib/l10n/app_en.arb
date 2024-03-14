@@ -164,6 +164,14 @@
   "noPointEnough":"You do not have enough points to purchase this voucher",
   "replacePoints":"Replace your points?",
   "pointsForVoucher":"Do you want to replace {sportk} sportk for a {voucherName} voucher?",
-  "noVouchersAvailable":"There are no vouchers available at this time"
+  "noVouchersAvailable":"There are no vouchers available at this time",
 
+  "faq": "FAQ",
+  "contactUs": "Contact us",
+  "msgSendSuccessfully": "Message sent successfully",
+  "contactHeader": "To contact the Sportak administration, please use the following form:",
+  "subject": "Subject",
+  "message": "Message",
+  "name": "Name",
+  "email": "Email"
 }

@@ -51,10 +51,10 @@ class ApiUrl {
   static const String removeFavorites = '/api/favorites';
   static const String vouchers = '/api/vouchers';
   static const String points = '/api/settings';
-  static const String swapRequests= '/api/voucher/codes/user';
-  static const String recordPoints= '/api/points/user';
+  static const String swapRequests = '/api/voucher/codes/user';
+  static const String recordPoints = '/api/points/user';
   static const String updateProfile = '/api/users/update';
   static const String policy = '/api/pages';
   static const String voucherReplaced = '/api/voucher/codes';
-
+  static const String faq = '/api/faqs';
 }

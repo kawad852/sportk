@@ -97,10 +97,14 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return Consumer<AppProvider>(
       builder: (context, appProvider, child) {
-        final seedColorScheme = ColorScheme.fromSeed(
+        final isLight = appProvider.appTheme == ThemeEnum.light;
+        var seedColorScheme = ColorScheme.fromSeed(
           seedColor: const Color(0xFF032D4B),
           primary: const Color(0xFF032D4B),
-          brightness: appProvider.appTheme == ThemeEnum.light ? Brightness.light : Brightness.dark,
+          brightness: isLight ? Brightness.light : Brightness.dark,
+        );
+        seedColorScheme = seedColorScheme.copyWith(
+          background: isLight ? context.colorPalette.white : const Color(0xFF0D1019),
         );
         return MaterialApp(
           navigatorKey: navigatorKey,
