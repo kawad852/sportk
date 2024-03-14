@@ -4,7 +4,7 @@ import 'package:sportk/utils/my_theme.dart';
 
 class StretchedButton extends StatelessWidget {
   final Widget child;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final EdgeInsetsGeometry? margin;
   final Color? backgroundColor;
 

@@ -5,7 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class GoogleRewarded extends StatefulWidget {
-  const GoogleRewarded({super.key});
+  final Widget child;
+  final int points;
+
+  const GoogleRewarded({
+    super.key,
+    required this.child,
+    required this.points,
+  });
 
   @override
   State<GoogleRewarded> createState() => _GoogleRewardedState();
@@ -56,11 +63,11 @@ class _GoogleRewardedState extends State<GoogleRewarded> {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () {
+    return GestureDetector(
+      onTap: () {
         showAd();
       },
-      child: Text("Show add"),
+      child: widget.child,
     );
   }
 }

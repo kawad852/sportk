@@ -66,6 +66,7 @@ class AuthProvider extends ChangeNotifier {
           MySharedPreferences.accessToken = snapshot.data!.token!;
           updateUser(context, userModel: snapshot.data!.user);
           if (_lastRouteName == null) {
+            /// TODO::: mhyar
             context.pushAndRemoveUntil(const AppNavBar());
           } else {
             _popUntilLastPage(context);
