@@ -14,7 +14,7 @@ class VouchersLoading extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 0.9,
+        childAspectRatio: 1,
       ),
       itemBuilder: (context, index) {
         return const LoadingBubble(

@@ -164,5 +164,6 @@
   "termsOfUse": "الشروط والأحكام",
   "noPointEnough":"ليس لديك نقاط كافية لشراء هذه القسيمة",
   "replacePoints":"استبدال نقاطك؟",
-  "pointsForVoucher":"هل تريد استبدال {sportk} سبورتك بقسيمة {voucherName} ؟"
+  "pointsForVoucher":"هل تريد استبدال {sportk} سبورتك بقسيمة {voucherName} ؟",
+  "noVouchersAvailable":"لا يوجد قسائم متاحة في الوقت الحالي"
 }

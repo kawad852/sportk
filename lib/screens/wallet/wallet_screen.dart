@@ -216,38 +216,53 @@ class _WalletScreenState extends State<WalletScreen> {
               ),
             ),
           ),
-          SliverToBoxAdapter(
-            child: VexPaginator(
-              key: _vexKey,
-              query: (pageKey) async => _initializeVouchersFuture(pageKey),
-              onFetching: (snapshot) async => snapshot.data!,
-              pageSize: 10,
-              onLoading: () => const ShimmerLoading(child: VouchersLoading()),
-              builder: (context, snapshot) {
-                return GridView.builder(
-                  itemCount: snapshot.docs.length + 1,
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 0.9,
-                  ),
-                  itemBuilder: (context, index) {
-                    if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
-                      snapshot.fetchMore();
-                    }
+          VexPaginator(
+            key: _vexKey,
+            query: (pageKey) async => _initializeVouchersFuture(pageKey),
+            onFetching: (snapshot) async => snapshot.data!,
+            pageSize: 10,
+            sliver: true,
+            onLoading: () => const ShimmerLoading(child: VouchersLoading()),
+            builder: (context, snapshot) {
+              final vouchers = snapshot.docs as List<VouchersData>;
+              return vouchers.isEmpty
+                  ? SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Center(
+                        child: Text(
+                          context.appLocalization.noVouchersAvailable,
+                          style: TextStyle(
+                            color: context.colorPalette.blueD4B,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    )
+                  : SliverPadding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      sliver: SliverGrid(
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 0.92,
+                        ),
+                        delegate: SliverChildBuilderDelegate(
+                          childCount: snapshot.docs.length + 1,
+                          (context, index) {
+                            if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
+                              snapshot.fetchMore();
+                            }
 
-                    if (index == snapshot.docs.length) {
-                      return VexLoader(snapshot.isFetchingMore);
-                    }
-                    final vouchers = snapshot.docs as List<VouchersData>;
-                    final element = vouchers[index];
-                    return CouponsCard(vouchersData: element);
-                  },
-                );
-              },
-            ),
+                            if (index == snapshot.docs.length) {
+                              return VexLoader(snapshot.isFetchingMore);
+                            }
+
+                            final element = vouchers[index];
+                            return CouponsCard(vouchersData: element);
+                          },
+                        ),
+                      ),
+                    );
+            },
           ),
         ],
       ),
