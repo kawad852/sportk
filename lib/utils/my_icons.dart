@@ -42,4 +42,6 @@ class MyIcons {
   static const String settings = '${_path}settings.svg';
   static const String language = '${_path}language.svg';
   static const String clipBoard = '${_path}clipboard-tick.svg';
+  static const String questions = '${_path}message-question.svg';
+  static const String messages = '${_path}messages.svg';
 }

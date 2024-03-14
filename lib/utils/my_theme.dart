@@ -52,15 +52,8 @@ class MyTheme {
       useMaterial3: true,
       fontFamily: fontFamily,
       colorScheme: colorScheme,
-      // scaffoldBackgroundColor: context.colorPalette.white,
-      expansionTileTheme: ExpansionTileThemeData(
-        collapsedShape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(radiusSecondary),
-          ),
-        ),
-        collapsedBackgroundColor: colorScheme.secondaryContainer,
-        backgroundColor: colorScheme.secondaryContainer,
+      appBarTheme: AppBarTheme(
+        color: colorScheme.background,
       ),
       listTileTheme: ListTileThemeData(
         shape: RoundedRectangleBorder(

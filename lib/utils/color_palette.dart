@@ -19,8 +19,9 @@ class ColorPalette {
   Color get grey3F1 => const Color(0xFFF3F3F1);
   Color get greyAF8 => _isLightTheme ? const Color(0xFFFAFAF8) : const Color(0xFF5C7B92);
   Color get greyEAE => _isLightTheme ? const Color(0xFFEAEAEA) : const Color(0xFF272A3A);
+  Color get grey0F5 => _isLightTheme ? const Color(0xFFF1F0F5) : const Color(0xFF1C202C);
   Color get greyAAA => const Color(0xFFAAAAAA);
-  Color get grey9F9 => const Color(0xFFF9F9F9);
+  Color get grey9F9 => _isLightTheme ? const Color(0xFFF9F9F9) : const Color(0xFF151925);
 
   ///blue
   Color get blueD4B => _isLightTheme ? const Color(0xFF032D4B) : Colors.white;
@@ -33,6 +34,9 @@ class ColorPalette {
   Color get blue9FE => const Color(0xFFF3F9FE);
   Color get blueF9F => const Color(0xFFF9F9F9);
   Color get blue8E3 => const Color(0xFFC8D8E3);
+  Color get blue4F0 => _isLightTheme ? const Color(0xFFE2E4F0) : const Color(0xFF202538);
+  Color get icon => _isLightTheme ? const Color(0xFF032D4B) : const Color(0xFFC5C8D7);
+  Color get homeMatchBubble => _isLightTheme ? white : const Color(0xFF151925);
 
   ///red
   Color get red000 => const Color(0xFFCC0000);
@@ -55,6 +59,8 @@ class ColorPalette {
   //green
   Color get greenAD0 => const Color(0xFF00AD05);
   Color get green057 => const Color(0xFF057008);
+
+  Color get scaffoldColor => _isLightTheme ? white : const Color(0xFF0D1019);
 
   //label
   Color get tabColor => _isLightTheme ? const Color(0xFF032D4B) : const Color(0xFFCC0000);

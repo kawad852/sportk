@@ -164,5 +164,13 @@
   "termsOfUse": "الشروط والأحكام",
   "noPointEnough":"ليس لديك نقاط كافية لشراء هذه القسيمة",
   "replacePoints":"استبدال نقاطك؟",
-  "pointsForVoucher":"هل تريد استبدال {sportk} سبورتك بقسيمة {voucherName} ؟"
+  "pointsForVoucher":"هل تريد استبدال {sportk} سبورتك بقسيمة {voucherName} ؟",
+  "faq": "الأسئلة الشائعة",
+  "contactUs": "تواصل معنا",
+  "msgSendSuccessfully": "تم إرسال الرسالة بنجاح",
+  "contactHeader": "للتواصل مع ادارة سبورتك يرجى النموذج التالي :",
+  "subject": "الموضوع",
+  "message": "الرسالة",
+  "name": "الإسم",
+  "email": "البريد الألكتروني"
 }
