@@ -45,6 +45,5 @@ class MySharedPreferences {
   static bool get isPassedIntro => _sharedPreferences.getBool('isPassedIntro') ?? false;
   static set isPassedIntro(bool value) => _sharedPreferences.setBool('isPassedIntro', value);
 
-  static int get userPoints => _sharedPreferences.getInt('userPoints') ?? 0;
-  static set userPoints(int value) => _sharedPreferences.setInt('userPoints', value);
+  
 }

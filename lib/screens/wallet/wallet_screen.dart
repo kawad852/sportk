@@ -44,7 +44,10 @@ class _WalletScreenState extends State<WalletScreen> {
   final _vexKey = GlobalKey<VexPaginatorState>();
 
   Future<List<dynamic>> _initializeFutures() async {
-    _userFuture = _authProvider.getUserProfile(MySharedPreferences.user.id!);
+    _userFuture = _authProvider.getUserProfile(MySharedPreferences.user.id!).then((value) {
+      context.authProvider.updateUser(context, userModel: value.data);
+      return value;
+    });
     _pointsFuture = _commonProvider.getPoints();
     return Future.wait([_userFuture, _pointsFuture]);
   }
@@ -92,7 +95,6 @@ class _WalletScreenState extends State<WalletScreen> {
                 onLoading: () => const ShimmerLoading(child: WalletLoading()),
                 onComplete: (context, snapshot) {
                   final user = snapshot.data![0] as UserModel;
-                  MySharedPreferences.userPoints = user.data!.points!;
                   final points = snapshot.data![1] as PointsModel;
                   String invitationCodePoints = "";
                   String adPoints = "";
@@ -179,7 +181,8 @@ class _WalletScreenState extends State<WalletScreen> {
                             ),
                             IconButton(
                               onPressed: () {
-                                Clipboard.setData(ClipboardData(text: user.data!.invitationCode!)).then(
+                                Clipboard.setData(ClipboardData(text: user.data!.invitationCode!))
+                                    .then(
                                   (value) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
@@ -246,7 +249,6 @@ class _WalletScreenState extends State<WalletScreen> {
                       sliver: SliverGrid(
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          childAspectRatio: 0.92,
                         ),
                         delegate: SliverChildBuilderDelegate(
                           childCount: snapshot.docs.length + 1,

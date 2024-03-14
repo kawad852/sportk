@@ -65,9 +65,11 @@ class _ClubScreenState extends State<ClubScreen> with SingleTickerProviderStateM
               alignment: Alignment.bottomCenter,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(MyTheme.isLightTheme(context)
-                      ? MyImages.backgroundClub
-                      : MyImages.backgroundClubDark),
+                  image: AssetImage(
+                    MyTheme.isLightTheme(context)
+                        ? MyImages.backgroundClub
+                        : MyImages.backgroundClubDark,
+                  ),
                   fit: BoxFit.cover,
                 ),
               ),

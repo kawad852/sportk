@@ -55,9 +55,13 @@ class _ChampionsLeagueScreenState extends State<ChampionsLeagueScreen>
             ),
             flexibleSpace: Container(
               alignment: Alignment.bottomCenter,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(MyImages.backgroundLeague),
+                  image: AssetImage(
+                    MyTheme.isLightTheme(context)
+                        ? MyImages.backgroundLeague
+                        : MyImages.backgroundClubDark,
+                  ),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -115,7 +119,7 @@ class _ChampionsLeagueScreenState extends State<ChampionsLeagueScreen>
                         unselectedLabelColor: context.colorPalette.blueD4B,
                         labelPadding: const EdgeInsetsDirectional.symmetric(horizontal: 0),
                         indicator: BoxDecoration(
-                          color: context.colorPalette.blueD4B,
+                          color: context.colorPalette.tabColor,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         tabs: [

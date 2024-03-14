@@ -28,7 +28,7 @@ class ColorPalette {
   Color get blue1FC => const Color(0xFFE2F1FC);
   Color get blue1AD4B => const Color(0x1A032D4B);
   Color get blueABB => _isLightTheme ? const Color(0xFFABB8C1) : const Color(0xFF515464);
-  Color get blueE2F => const Color(0x66E2F1FC);
+  Color get blueE2F =>_isLightTheme ? const Color(0x66E2F1FC):const Color(0xFF151925);
   Color get blue1F8 => const Color(0xFF1F85CD);
   Color get blue19A => const Color(0xFF5E819A);
   Color get blue9FE => const Color(0xFFF3F9FE);

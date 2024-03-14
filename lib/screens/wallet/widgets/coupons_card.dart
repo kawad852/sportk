@@ -22,8 +22,21 @@ class CouponsCard extends StatefulWidget {
 class _CouponsCardState extends State<CouponsCard> {
   late CommonProvider _commonProvider;
 
-  void _myMethod(dynamic value) {
-    // ...
+  void replacedvoucher() {
+    ApiFutureBuilder<VoucherReplacedModel>().fetch(
+      context,
+      future: () async {
+        final voucherFuture = _commonProvider.replacedVoucher(widget.vouchersData.id!);
+        return voucherFuture;
+      },
+      onComplete: (snapshot) {
+        context.push(
+          RequestDetalisScreen(
+            swapData: snapshot.data!,
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -37,153 +50,118 @@ class _CouponsCardState extends State<CouponsCard> {
     return Container(
       height: 180,
       margin: const EdgeInsetsDirectional.symmetric(horizontal: 5, vertical: 5),
+      alignment: Alignment.center,
       decoration: BoxDecoration(
         color: context.colorPalette.grey2F2,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Padding(
-        padding: const EdgeInsetsDirectional.symmetric(vertical: 10, horizontal: 10),
-        child: Column(
-          children: [
-            CustomNetworkImage(
-              widget.vouchersData.image!,
-              width: 130,
-              height: 114,
-              onTap: () {
-                MySharedPreferences.userPoints < widget.vouchersData.points!
-                    ? context.showDialog(
-                        titleText: context.appLocalization.numberPoints,
-                        bodyText: context.appLocalization.noPointEnough,
-                      )
-                    : context
-                        .showDialog(
-                        titleText: context.appLocalization.replacePoints,
-                        bodyText: context.appLocalization.pointsForVoucher(
-                          widget.vouchersData.points.toString(),
-                          widget.vouchersData.title!,
-                        ),
-                      )
-                        .then(
-                        (value) async {
-                          if (value != null) {
-                            ApiFutureBuilder<VoucherReplacedModel>().fetch(
-                              context,
-                              future: () async {
-                                final voucherFuture = _commonProvider.replacedVoucher(widget.vouchersData.id!);
-                                return voucherFuture;
-                              },
-                              onComplete: (snapshot) {
-                                context.push(
-                                  RequestDetalisScreen(
-                                    swapData: snapshot.data!,
-                                  ),
-                                );
-                              },
-                            );
-                            // try {
-                            //   AppOverlayLoader.show();
-                            //   await _commonProvider.replacedVoucher(widget.vouchersData.id!).then(
-                            //     (value) {
-                            //       AppOverlayLoader.hide();
-                            //       context.push(
-                            //         RequestDetalisScreen(
-                            //           swapData: value.data!,
-                            //         ),
-                            //       );
-                            //     },
-                            //   );
-                            // } catch (e) {
-                            //   AppOverlayLoader.hide();
-                            //   if (context.mounted) {
-                            //     context.showSnackBar(context.appLocalization.networkError);
-                            //   }
-                            //   debugPrint("$e");
-                            // }
-                          }
-                        },
-                      );
-              },
-              child: Padding(
-                padding: const EdgeInsetsDirectional.symmetric(horizontal: 5, vertical: 5),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          height: 25.0,
-                          padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: context.colorPalette.grey2F2,
-                          ),
-                          child: Row(
-                            children: [
-                              Text(
-                                widget.vouchersData.points.toString(),
-                                style: TextStyle(
-                                  color: context.colorPalette.blueD4B,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 6,
-                              ),
-                              const CustomSvg(
-                                MyIcons.coin,
-                                width: 15,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: Container(
-                        padding: const EdgeInsetsDirectional.symmetric(horizontal: 10),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CustomNetworkImage(
+            widget.vouchersData.image!,
+            width: 130,
+            height: 114,
+            onTap: () {
+              MySharedPreferences.user.points! < widget.vouchersData.points!
+                  ? context.showDialog(
+                      titleText: context.appLocalization.numberPoints,
+                      bodyText: context.appLocalization.noPointEnough,
+                    )
+                  : context
+                      .showDialog(
+                      titleText: context.appLocalization.replacePoints,
+                      bodyText: context.appLocalization.pointsForVoucher(
+                        widget.vouchersData.points.toString(),
+                        widget.vouchersData.title!,
+                      ),
+                    )
+                      .then(
+                      (value) async {
+                        if (value != null) {
+                          replacedvoucher();
+                        }
+                      },
+                    );
+            },
+            child: Padding(
+              padding: const EdgeInsetsDirectional.symmetric(horizontal: 5, vertical: 5),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        height: 25.0,
+                        padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: context.colorPalette.grey2F2,
                         ),
-                        child: Column(
+                        child: Row(
                           children: [
                             Text(
-                              context.appLocalization.winners,
+                              widget.vouchersData.points.toString(),
                               style: TextStyle(
                                 color: context.colorPalette.blueD4B,
-                                fontSize: 10,
                               ),
                             ),
                             const SizedBox(
                               width: 6,
                             ),
-                            Text(
-                              widget.vouchersData.numberOfCodes.toString(),
-                              style: const TextStyle(
-                                fontSize: 10,
-                              ),
-                            )
+                            const CustomSvg(
+                              MyIcons.coin,
+                              width: 15,
+                            ),
                           ],
                         ),
                       ),
+                    ],
+                  ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Container(
+                      padding: const EdgeInsetsDirectional.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: context.colorPalette.grey2F2,
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            context.appLocalization.winners,
+                            style: TextStyle(
+                              color: context.colorPalette.blueD4B,
+                              fontSize: 10,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 6,
+                          ),
+                          Text(
+                            widget.vouchersData.numberOfCodes.toString(),
+                            style: const TextStyle(
+                              fontSize: 10,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-            const Spacer(),
-            Text(
-              widget.vouchersData.title!,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: context.colorPalette.blueD4B,
-                fontWeight: FontWeight.w600,
-                fontSize: 12,
-              ),
+          ),
+          Text(
+            widget.vouchersData.title!,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: context.colorPalette.blueD4B,
+              fontWeight: FontWeight.w600,
+              fontSize: 12,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
