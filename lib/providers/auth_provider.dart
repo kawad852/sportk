@@ -175,13 +175,15 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<UserModel> getUserProfile(int id) {
+  Future<UserModel> getUserProfile(BuildContext context, int id) {
     final snapshot = ApiService<UserModel>().build(
-      weCanUrl: '${ApiUrl.user}/$id',
-      isPublic: false,
-      apiType: ApiType.get,
-      builder: UserModel.fromJson,
-    );
+        weCanUrl: '${ApiUrl.user}/$id',
+        isPublic: false,
+        apiType: ApiType.get,
+        builder: UserModel.fromJson,
+        onEnd: (snapshot) {
+          updateUser(context, userModel: snapshot.data!);
+        });
     return snapshot;
   }
 

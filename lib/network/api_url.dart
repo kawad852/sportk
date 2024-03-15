@@ -1,16 +1,9 @@
+import 'package:sportk/utils/shared_pref.dart';
+
 class ApiUrl {
   static const String sportsMailUrl = 'https://api.sportmonks.com/v3';
   static const String weCanMailUrl = 'http://dash.thesportk.com';
-  static const String auth = '?api_token=cdxo3ts8WT2RbL8ovPjExCo20qnABdBZSYWO8YoEPqKMvHifLPhk1uUZWQq6&locale=en';
-
-  ///intro
-  static const String competitions = '/competition/additional/list$auth';
-  static const String scheduleAndResultsDate = '/match/diary$auth';
-  static const String scheduleAndResultsSeason = '/match/season/recent$auth';
-  static const String seasons = '/season/list$auth';
-  static const String teams = '/team/additional/list$auth';
-  // static const String playerInfo = '/player/with_stat/list$auth';
-  static const String countries = '/country/list$auth';
+  static final String auth = '?api_token=cdxo3ts8WT2RbL8ovPjExCo20qnABdBZSYWO8YoEPqKMvHifLPhk1uUZWQq6&locale=${MySharedPreferences.language}';
 
   //sportmonks
   static const String standings = '/football/standings/live/leagues';

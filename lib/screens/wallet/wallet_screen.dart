@@ -32,7 +32,7 @@ class WalletScreen extends StatefulWidget {
   State<WalletScreen> createState() => _WalletScreenState();
 }
 
-class _WalletScreenState extends State<WalletScreen> {
+class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClientMixin {
   late Future<List<dynamic>> _futures;
   late AuthProvider _authProvider;
   late Future<UserModel> _userFuture;
@@ -44,7 +44,7 @@ class _WalletScreenState extends State<WalletScreen> {
   final _vexKey = GlobalKey<VexPaginatorState>();
 
   Future<List<dynamic>> _initializeFutures() async {
-    _userFuture = _authProvider.getUserProfile(MySharedPreferences.user.id!);
+    _userFuture = _authProvider.getUserProfile(context, MySharedPreferences.user.id!);
     _pointsFuture = _commonProvider.getPoints();
     return Future.wait([_userFuture, _pointsFuture]);
   }
@@ -64,6 +64,7 @@ class _WalletScreenState extends State<WalletScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -92,7 +93,6 @@ class _WalletScreenState extends State<WalletScreen> {
                 onLoading: () => const ShimmerLoading(child: WalletLoading()),
                 onComplete: (context, snapshot) {
                   final user = snapshot.data![0] as UserModel;
-                  MySharedPreferences.userPoints = user.data!.points!;
                   final points = snapshot.data![1] as PointsModel;
                   String invitationCodePoints = "";
                   String adPoints = "";
@@ -108,7 +108,7 @@ class _WalletScreenState extends State<WalletScreen> {
                   ).toSet();
                   return Column(
                     children: [
-                      WalletCard(userData: user.data!),
+                      const WalletCard(),
                       GoogleRewarded(
                         points: int.parse(adPoints),
                         child: WatchAdButton(
@@ -256,4 +256,7 @@ class _WalletScreenState extends State<WalletScreen> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

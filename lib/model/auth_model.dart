@@ -69,7 +69,7 @@ class UserData {
         email: json["email"],
         profileImg: json["profile_img"] ?? '',
         invitationCode: json["invitation_code"],
-        points: json["points"],
+        points: json["points"] ?? 0,
         favorites: json["favorites"] == null ? [] : List<Favorite>.from(json["favorites"]!.map((x) => Favorite.fromJson(x))),
       );
 

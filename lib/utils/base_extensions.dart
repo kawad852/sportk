@@ -68,7 +68,6 @@ extension NavigatorExtension on BuildContext {
 
   void pushAndRemoveUntil(Widget screen) {
     final routeName = AppRoutes.names[screen.runtimeType];
-    print("name:::::: $routeName");
     Navigator.pushAndRemoveUntil(
       this,
       MaterialPageRoute(
