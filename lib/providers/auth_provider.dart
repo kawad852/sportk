@@ -112,6 +112,44 @@ class AuthProvider extends ChangeNotifier {
         .then((value) => value.countryCode!);
   }
 
+  Future<AuthModel> updateProfile(
+    BuildContext context,
+    Map<String, dynamic> queryParams, {
+    bool update = true,
+  }) async {
+    return ApiService<AuthModel>().build(
+      weCanUrl: ApiUrl.updateProfile,
+      isPublic: false,
+      apiType: ApiType.post,
+      builder: AuthModel.fromJson,
+      queryParams: queryParams,
+      onEnd: (snapshot) {
+        if (update) {
+          updateUser(context, userModel: snapshot.data!.user);
+        }
+      },
+    );
+  }
+
+  Future<void> deleteAccount(BuildContext context) async {
+    ApiFutureBuilder().fetch(
+      context,
+      future: () async {
+        final updateProfileFuture = ApiService<AuthModel>().build(
+          weCanUrl: '${ApiUrl.deleteAccount}/${user.id}',
+          isPublic: false,
+          apiType: ApiType.get,
+          builder: AuthModel.fromJson,
+        );
+        return updateProfileFuture;
+      },
+      onComplete: (snapshot) {
+        context.showSnackBar(context.appLocalization.accountDeletedMsg);
+        logout(context);
+      },
+    );
+  }
+
   Future<void> updateDeviceToken(BuildContext context) async {
     try {
       await FirebaseMessaging.instance.subscribeToTopic('all');
@@ -122,14 +160,10 @@ class AuthProvider extends ChangeNotifier {
           context,
           withOverlayLoader: false,
           future: () async {
-            final updateProfileFuture = ApiService<AuthModel>().build(
-              weCanUrl: ApiUrl.updateProfile,
-              isPublic: false,
-              apiType: ApiType.post,
-              builder: AuthModel.fromJson,
-              queryParams: {
-                'device_token': deviceToken,
-              },
+            final updateProfileFuture = updateProfile(
+              context,
+              update: false,
+              {'device_token': deviceToken},
             );
             return updateProfileFuture;
           },

@@ -17,6 +17,11 @@ class LocationEnum {
   static const String away = 'away';
 }
 
+class LikeType {
+  static const int like = 1;
+  static const int disLike = 0;
+}
+
 class LeagueTypeEnum {
   static const String domestic = 'domestic';
   static const String cubInternational = 'cup_international';

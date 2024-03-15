@@ -1,3 +1,5 @@
+import 'package:sportk/utils/enums.dart';
+
 class NewModel {
   bool? status;
   int? code;
@@ -36,8 +38,9 @@ class NewData {
   String? source;
   String? publicationTime;
   List<Tag>? tags;
-  bool? isLiked;
   int? numberOfLikes;
+  int? likeType;
+  bool? isLiked;
 
   NewData({
     this.id,
@@ -49,8 +52,9 @@ class NewData {
     this.source,
     this.publicationTime,
     this.tags,
-    this.isLiked,
     this.numberOfLikes,
+    this.likeType,
+    this.isLiked,
   });
 
   factory NewData.fromJson(Map<String, dynamic> json) => NewData(
@@ -59,25 +63,27 @@ class NewData {
         content: json["content"],
         image: json["image"] ?? '',
         link: json["link"],
+        likeType: json["like_type"],
+        isLiked: json["like_type"] == LikeType.like,
         source: json["source"],
         sourceImage: json["source_image"] ?? '',
         publicationTime: json["publication_time"],
         tags: json["tags"] == null ? [] : List<Tag>.from(json["tags"]!.map((x) => Tag.fromJson(x))),
-        isLiked: json["is_liked"] ?? false,
         numberOfLikes: json["number_of_likes"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "title": title,
+        "isLiked": isLiked,
         "content": content,
         "image": image,
+        "like_type": likeType,
         "source_image": sourceImage,
         "link": link,
         "source": source,
         "publication_time": publicationTime,
         "tags": tags == null ? [] : List<dynamic>.from(tags!.map((x) => x.toJson())),
-        "is_liked": isLiked,
         "number_of_likes": numberOfLikes,
       };
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:sportk/model/policy_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
@@ -51,7 +52,7 @@ class _PolicyScreenState extends State<PolicyScreen> {
           ),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(30),
-            child: Text(snapshot.data!.data!.description!),
+            child: Html(data: snapshot.data!.data!.description!),
           ),
         );
       },

@@ -57,4 +57,5 @@ class ApiUrl {
   static const String policy = '/api/pages';
   static const String voucherReplaced = '/api/voucher/codes';
   static const String faq = '/api/faqs';
+  static const String deleteAccount = '/api/users/delete';
 }

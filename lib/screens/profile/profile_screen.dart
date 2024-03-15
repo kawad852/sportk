@@ -4,14 +4,18 @@ import 'package:sportk/providers/app_provider.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/screens/contact/contact_screen.dart';
 import 'package:sportk/screens/faq/faq_screen.dart';
+import 'package:sportk/screens/language/language_screen.dart';
 import 'package:sportk/screens/policy/policy_screen.dart';
+import 'package:sportk/screens/profile/edit_profile_screen.dart';
 import 'package:sportk/screens/profile/widgets/profile_header.dart';
 import 'package:sportk/screens/profile/widgets/profile_tile.dart';
+import 'package:sportk/screens/registration/registration_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_back.dart';
+import 'package:sportk/widgets/stretch_button.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -39,6 +43,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
         leading: const CustomBack(),
         title: Text(context.appLocalization.menu),
       ),
+      bottomSheet: BottomAppBar(
+        child: Consumer<AuthProvider>(
+          builder: (context, authProvider, child) {
+            return Center(
+              child: StretchedButton(
+                child: Text(authProvider.isAuthenticated ? context.appLocalization.logout : context.appLocalization.guestLoginMsg),
+                onPressed: () {
+                  if (authProvider.isAuthenticated) {
+                    authProvider.logout(context);
+                  } else {
+                    context.push(const RegistrationScreen(hideGuestButton: true));
+                  }
+                },
+              ),
+            );
+          },
+        ),
+      ),
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
@@ -63,12 +85,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
               },
             ),
             ProfileTile(
-              onTap: () {},
+              onTap: () {
+                context.push(const EditProfileScreen());
+              },
               title: context.appLocalization.profileSettings,
               icon: MyIcons.settings,
             ),
             ProfileTile(
-              onTap: () {},
+              onTap: () {
+                context.push(const LanguageScreen());
+              },
               title: context.appLocalization.appLanguage,
               icon: MyIcons.language,
             ),
@@ -80,6 +106,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
             },
             title: context.appLocalization.termsOfUse,
             icon: MyIcons.clipBoard,
+          ),
+          ProfileTile(
+            onTap: () {
+              context.push(const PolicyScreen(id: 2));
+            },
+            title: context.appLocalization.privacyPolicy,
+            icon: MyIcons.taskSquare,
           ),
           ProfileTile(
             onTap: () {

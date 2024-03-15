@@ -172,5 +172,12 @@
   "subject": "الموضوع",
   "message": "الرسالة",
   "name": "الإسم",
-  "email": "البريد الألكتروني"
+  "email": "البريد الألكتروني",
+  "deleteAccount": "حذف الحساب",
+  "deleteAccountMsg": "هل أنت متأكد انك تريد حذف حسابك ؟",
+  "accountDeletedMsg": "تم حذف الحساب بنجاح",
+  "updateSuccessfully": "تم التحديث بنجاح",
+  "privacyPolicy": "سياسة الخصوصية",
+  "guestLoginMsg": "تسجيل الدخول / انشاء حساب",
+  "logout": "تسجيل الخروج"
 }

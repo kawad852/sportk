@@ -171,5 +171,12 @@
   "subject": "Subject",
   "message": "Message",
   "name": "Name",
-  "email": "Email"
+  "email": "Email",
+  "deleteAccount": "Delete account",
+  "deleteAccountMsg": "Are you sure you want to delete your account?",
+  "accountDeletedMsg": "Account deleted successfully",
+  "updateSuccessfully": "Update Successfully",
+  "privacyPolicy": "Privacy policy",
+  "guestLoginMsg": "Login/ Create account",
+  "logout": "Logout"
 }

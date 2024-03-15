@@ -24,7 +24,7 @@ class MyTheme {
         filled: true,
         isDense: true,
         contentPadding: const EdgeInsetsDirectional.symmetric(horizontal: 5, vertical: 10),
-        fillColor: context.colorPalette.blueD4B.withOpacity(0.10),
+        fillColor: context.colorPalette.grey9F9,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(radiusPrimary),
           borderSide: BorderSide.none,
