@@ -76,7 +76,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   title: context.appLocalization.nightMode,
                   icon: MyIcons.moon,
                   trailing: Switch(
-                    value: appTheme == ThemeEnum.light,
+                    value: appTheme == ThemeEnum.dark,
                     onChanged: (value) {
                       _appProvider.changeTheme(context, theme: appTheme == ThemeEnum.light ? ThemeEnum.dark : ThemeEnum.light);
                     },
