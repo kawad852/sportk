@@ -168,7 +168,7 @@ class _WalletScreenState extends State<WalletScreen> {
                               height: 30,
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
-                                color: context.colorPalette.white,
+                                color: context.colorPalette.scaffoldColor,
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Text(

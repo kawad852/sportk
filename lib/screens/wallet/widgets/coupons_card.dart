@@ -111,6 +111,7 @@ class _CouponsCardState extends State<CouponsCard> {
                             ),
                             const CustomSvg(
                               MyIcons.coin,
+                              fixedColor: true,
                               width: 15,
                             ),
                           ],

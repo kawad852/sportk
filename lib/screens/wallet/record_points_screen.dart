@@ -97,7 +97,9 @@ class _RecordPointsScreenState extends State<RecordPointsScreen> {
                           child: Row(
                             children: [
                               CustomSvg(
-                                  element.points! > 0 ? MyIcons.addPoints : MyIcons.minusPoints),
+                                element.points! > 0 ? MyIcons.addPoints : MyIcons.minusPoints,
+                                fixedColor: true,
+                              ),
                               const SizedBox(
                                 width: 10,
                               ),

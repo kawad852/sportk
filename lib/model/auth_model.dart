@@ -49,6 +49,8 @@ class UserData {
   String? profileImg;
   String? invitationCode;
   int? points;
+  String? deviceToken;
+  int? invitationCodeStatus;
   List<Favorite>? favorites;
 
   UserData({
@@ -57,6 +59,8 @@ class UserData {
     this.email,
     this.invitationCode,
     this.points,
+    this.deviceToken,
+    this.invitationCodeStatus,
     this.favorites,
     this.profileImg,
   });
@@ -70,7 +74,11 @@ class UserData {
         profileImg: json["profile_img"] ?? '',
         invitationCode: json["invitation_code"],
         points: json["points"],
-        favorites: json["favorites"] == null ? [] : List<Favorite>.from(json["favorites"]!.map((x) => Favorite.fromJson(x))),
+        deviceToken: json["device_token"],
+        invitationCodeStatus: json["invitation_code_status"],
+        favorites: json["favorites"] == null
+            ? []
+            : List<Favorite>.from(json["favorites"]!.map((x) => Favorite.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -80,6 +88,8 @@ class UserData {
         "email": email,
         "invitation_code": invitationCode,
         "points": points,
+        "device_token": deviceToken,
+        "invitation_code_status":invitationCodeStatus,
         "favorites": favorites == null ? [] : List<dynamic>.from(favorites!.map((x) => x.toJson())),
       };
 }
