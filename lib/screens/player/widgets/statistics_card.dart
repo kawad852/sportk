@@ -36,7 +36,7 @@ class StatisticsCard extends StatelessWidget {
           height: 40,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: context.colorPalette.greyEAE,
+            color: context.colorPalette.blue4F0,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Text(

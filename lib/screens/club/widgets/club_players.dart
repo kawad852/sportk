@@ -35,12 +35,7 @@ class _ClubPlayersState extends State<ClubPlayers> with AutomaticKeepAliveClient
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    List<String> playersName = [
-      context.appLocalization.attackers,
-      context.appLocalization.midline,
-      context.appLocalization.defenders,
-      context.appLocalization.guards
-    ];
+    List<String> playersName = [context.appLocalization.attackers, context.appLocalization.midline, context.appLocalization.defenders, context.appLocalization.guards];
     final List<Datum> _attackers = [], _midline = [], _defenders = [], _guards = [];
 
     void checkPlayerPosition(Datum element) {
@@ -102,7 +97,7 @@ class _ClubPlayersState extends State<ClubPlayers> with AutomaticKeepAliveClient
                           margin: const EdgeInsetsDirectional.only(bottom: 5),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                            color: context.colorPalette.greyEAE,
+                            color: context.colorPalette.blue4F0,
                             borderRadius: BorderRadius.circular(5),
                           ),
                           child: Text(

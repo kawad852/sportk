@@ -38,9 +38,7 @@ class _PhaseCardState extends State<PhaseCard> {
 
   Future<List<dynamic>> _initializeFutures() async {
     _leagueFuture = _footBallProvider.fetchLeague(leagueId: widget.leagueId);
-    _phaseFuture = widget.roundId != null
-        ? _footBallProvider.fetchRound(roundId: widget.roundId!)
-        : _footBallProvider.fetchStage(stageId: widget.stageId);
+    _phaseFuture = widget.roundId != null ? _footBallProvider.fetchRound(roundId: widget.roundId!) : _footBallProvider.fetchStage(stageId: widget.stageId);
 
     return Future.wait([_leagueFuture, _phaseFuture]);
   }
@@ -99,7 +97,7 @@ class _PhaseCardState extends State<PhaseCard> {
             height: 35,
             margin: const EdgeInsetsDirectional.only(bottom: 10),
             decoration: BoxDecoration(
-              color: context.colorPalette.greyEAE,
+              color: context.colorPalette.blue4F0,
               borderRadius: BorderRadius.circular(5),
             ),
             child: Row(
@@ -114,9 +112,7 @@ class _PhaseCardState extends State<PhaseCard> {
                 ),
                 Flexible(
                   child: Text(
-                    widget.roundId != null
-                        ? "${league.data!.name}-${context.appLocalization.week} ${phase.data!.name}"
-                        : "${league.data!.name}-${phase.data!.name}",
+                    widget.roundId != null ? "${league.data!.name}-${context.appLocalization.week} ${phase.data!.name}" : "${league.data!.name}-${phase.data!.name}",
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: context.colorPalette.blueD4B,

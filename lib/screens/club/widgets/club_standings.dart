@@ -4,12 +4,12 @@ import 'package:sportk/model/team_info_model.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/champions_league/champions_league_screen.dart';
 import 'package:sportk/screens/league_info/league_info_screen.dart';
+import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
-import 'package:sportk/widgets/league_standings.dart';
-import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
+import 'package:sportk/widgets/league_standings.dart';
 import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 
@@ -126,7 +126,7 @@ class _ClubStandingsState extends State<ClubStandings> {
                           height: 30,
                           margin: const EdgeInsetsDirectional.only(start: 5, end: 5),
                           decoration: BoxDecoration(
-                            color: context.colorPalette.greyEAE,
+                            color: context.colorPalette.blue4F0,
                             borderRadius: BorderRadius.circular(5),
                           ),
                           child: Padding(
