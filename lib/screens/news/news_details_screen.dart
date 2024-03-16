@@ -38,6 +38,9 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
       weCanUrl: '${ApiUrl.news}/$_newId',
       isPublic: false,
       apiType: ApiType.get,
+      additionalHeaders: {
+        'Content-Type': 'application/json; charset=utf-8',
+      },
       builder: NewDetailsModel.fromJson,
     );
   }
