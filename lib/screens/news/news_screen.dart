@@ -1,7 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:sportk/model/league_model.dart';
+import 'package:sportk/model/matches/our_league_model.dart';
 import 'package:sportk/model/new_model.dart';
+import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/providers/common_provider.dart';
@@ -10,6 +13,7 @@ import 'package:sportk/screens/news/widgets/news_champ_card.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
+import 'package:sportk/utils/shared_pref.dart';
 import 'package:sportk/widgets/ads/google_banner.dart';
 import 'package:sportk/widgets/custom_smoth_indicator.dart';
 import 'package:sportk/widgets/custom_svg.dart';
@@ -32,6 +36,16 @@ class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMi
   late Future<NewModel> _recommendedNewsFuture;
   late Future<NewModel> _compoNewsFuture;
 
+  Future<OurLeaguesModel> _fetchLeagues(int pageKey) {
+    final snapshot = ApiService<OurLeaguesModel>().build(
+      weCanUrl: '${ApiUrl.ourLeagues}?page=$pageKey',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: OurLeaguesModel.fromJson,
+    );
+    return snapshot;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -49,7 +63,7 @@ class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMi
             if (_authProvider.isAuthenticated)
               SliverToBoxAdapter(
                 child: VexPaginator(
-                  query: (pageKey) async => _commonProvider.fetchNews(pageKey, url: '${ApiUrl.news}/${BlogsType.recommended}'),
+                  query: (pageKey) async => _commonProvider.fetchNews(pageKey, url: '${ApiUrl.news}/${BlogsType.recommended}?locale=${MySharedPreferences.language}'),
                   onFetching: (snapshot) async => snapshot.data!,
                   pageSize: 10,
                   onLoading: () {
@@ -196,7 +210,7 @@ class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMi
                     SizedBox(
                       height: 70.0,
                       child: VexPaginator(
-                        query: (pageKey) async => _commonProvider.fetchNews(pageKey, url: '${ApiUrl.news}/${BlogsType.competitions(1)}'),
+                        query: (pageKey) async => _fetchLeagues(pageKey),
                         onFetching: (snapshot) async => snapshot.data!,
                         pageSize: 10,
                         onLoading: () {
@@ -230,8 +244,10 @@ class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMi
                               if (index == snapshot.docs.length) {
                                 return VexLoader(snapshot.isFetchingMore);
                               }
-                              final newModel = snapshot.docs[index] as NewData;
-                              return const NewsChampCard();
+                              final league = snapshot.docs[index] as LeagueData;
+                              return NewsChampCard(
+                                league: league,
+                              );
                             },
                           );
                         },
@@ -258,7 +274,7 @@ class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMi
               ),
             ),
             VexPaginator(
-              query: (pageKey) async => _commonProvider.fetchNews(pageKey, url: '${ApiUrl.news}${BlogsType.mostRecent}'),
+              query: (pageKey) async => _commonProvider.fetchNews(pageKey, url: '${ApiUrl.news}?locale=${MySharedPreferences.language}'),
               onFetching: (snapshot) async => snapshot.data!,
               sliver: true,
               pageSize: 10,

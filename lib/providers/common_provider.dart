@@ -54,6 +54,11 @@ class CommonProvider extends ChangeNotifier {
       weCanUrl: '$url&page=$pageKey',
       isPublic: false,
       apiType: ApiType.get,
+      additionalHeaders: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Accept': '*/*',
+        // 'Content-Type': 'application/json',
+      },
       builder: NewModel.fromJson,
     );
     return snapshot;

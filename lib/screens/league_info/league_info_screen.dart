@@ -20,7 +20,14 @@ import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 class LeagueInfoScreen extends StatefulWidget {
   final int leagueId;
   final String subType;
-  const LeagueInfoScreen({super.key, required this.leagueId, required this.subType});
+  final int initialIndex;
+
+  const LeagueInfoScreen({
+    super.key,
+    required this.leagueId,
+    required this.subType,
+    this.initialIndex = 0,
+  });
 
   @override
   State<LeagueInfoScreen> createState() => _LeagueInfoScreenState();
@@ -31,6 +38,8 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
   late FootBallProvider _footBallProvider;
   late Future<LeagueModel> _leagueFuture;
 
+  bool get _isDomestic => widget.subType == LeagueTypeEnum.domestic;
+
   void _initializeFuture() {
     _leagueFuture = _footBallProvider.fetchLeague(leagueId: widget.leagueId);
   }
@@ -38,7 +47,11 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
   @override
   void initState() {
     super.initState();
-    _controller = TabController(length: widget.subType == LeagueTypeEnum.domestic ? 4 : 3, vsync: this);
+    _controller = TabController(
+      length: _isDomestic ? 4 : 3,
+      vsync: this,
+      initialIndex: _isDomestic ? widget.initialIndex : 0,
+    );
     _footBallProvider = context.footBallProvider;
     _initializeFuture();
   }

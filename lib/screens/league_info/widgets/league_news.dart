@@ -6,6 +6,7 @@ import 'package:sportk/screens/news/widgets/news_card.dart';
 import 'package:sportk/screens/news/widgets/news_empty_result.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
+import 'package:sportk/utils/shared_pref.dart';
 import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 import 'package:sportk/widgets/vex/vex_paginator.dart';
@@ -36,7 +37,7 @@ class _NewTabState extends State<NewTab> {
   @override
   Widget build(BuildContext context) {
     return VexPaginator(
-      query: (pageKey) async => _commonProvider.fetchNews(pageKey, url: '${ApiUrl.news}/${widget.type == NewTypeEnum.league ? BlogsType.competitions(widget.id) : BlogsType.teams(widget.id)}'),
+      query: (pageKey) async => _commonProvider.fetchNews(pageKey, url: '${ApiUrl.news}/${widget.type == NewTypeEnum.league ? '${BlogsType.competitions(widget.id)}?locale=${MySharedPreferences.language}' : '${BlogsType.teams(widget.id)}?locale=${MySharedPreferences.language}'}'),
       onFetching: (snapshot) async => snapshot.data!,
       pageSize: 10,
       onLoading: () {
