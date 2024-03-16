@@ -10,6 +10,7 @@ import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/screens/wallet/request_detalis_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
+import 'package:sportk/utils/shared_pref.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 
@@ -24,7 +25,6 @@ class CouponsCard extends StatefulWidget {
 
 class _CouponsCardState extends State<CouponsCard> {
   late CommonProvider _commonProvider;
-  
 
   void replacedvoucher() {
     ApiFutureBuilder<VoucherReplacedModel>().fetch(
@@ -97,35 +97,41 @@ class _CouponsCardState extends State<CouponsCard> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          children: [
-                            Container(
-                              height: 25.0,
-                              padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: context.colorPalette.grey2F2,
-                              ),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    widget.vouchersData.points.toString(),
-                                    style: TextStyle(
-                                      color: context.colorPalette.blueD4B,
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Row(
+                            mainAxisAlignment: MySharedPreferences.language == "ar"
+                                ? MainAxisAlignment.end
+                                : MainAxisAlignment.start,
+                            children: [
+                              Container(
+                                height: 25.0,
+                                padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: context.colorPalette.grey2F2,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      widget.vouchersData.points.toString(),
+                                      style: TextStyle(
+                                        color: context.colorPalette.blueD4B,
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    width: 6,
-                                  ),
-                                  const CustomSvg(
-                                    MyIcons.coin,
-                                    width: 15,
-                                    fixedColor: true,
-                                  ),
-                                ],
+                                    const SizedBox(
+                                      width: 6,
+                                    ),
+                                    const CustomSvg(
+                                      MyIcons.coin,
+                                      width: 15,
+                                      fixedColor: true,
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         Align(
                           alignment: Alignment.bottomRight,
