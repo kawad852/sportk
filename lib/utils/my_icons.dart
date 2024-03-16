@@ -45,4 +45,8 @@ class MyIcons {
   static const String questions = '${_path}message-question.svg';
   static const String messages = '${_path}messages.svg';
   static const String taskSquare = '${_path}task-square.svg';
+  static const String codeSuccess = '${_path}code_success.svg';
+  static const String codeWrong = '${_path}code_wrong.svg';
+
+
 }

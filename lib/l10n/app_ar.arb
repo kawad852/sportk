@@ -180,5 +180,10 @@
   "updateSuccessfully": "تم التحديث بنجاح",
   "privacyPolicy": "سياسة الخصوصية",
   "guestLoginMsg": "تسجيل الدخول / انشاء حساب",
-  "logout": "تسجيل الخروج"
+  "logout": "تسجيل الخروج",
+  "congratulations":"تهانينا, لقد حصلت على ",
+  "youAndFriend":"انت وصديقك",
+  "dontForgetCollect":"لا تنس جمع المزيد لاستبدالها بالعديد من القسائم المميزة",
+  "wrongInvitationCode":"كود الدعوة الذي تم ادخاله غير صحيح, حاول مجددا او قم بتخطي الدعوة",
+  "homePage":"الصفحة الرئيسية"
 }
