@@ -9,11 +9,13 @@ import 'package:sportk/widgets/favorite_button.dart';
 class TeamBubble extends StatelessWidget {
   final TeamInfoData team;
   final bool selected;
+  final bool showDialog;
 
   const TeamBubble({
     super.key,
     required this.team,
     this.selected = false,
+    this.showDialog = false,
   });
 
   @override
@@ -43,6 +45,7 @@ class TeamBubble extends StatelessWidget {
               id: team.id!,
               type: CompoTypeEnum.teams,
               name: team.name!,
+              showDialog: showDialog,
             ),
           ),
           Text(

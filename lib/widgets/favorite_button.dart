@@ -9,12 +9,14 @@ class FavoriteButton extends StatefulWidget {
   final int id;
   final String? name;
   final String type;
+  final bool showDialog;
 
   const FavoriteButton({
     super.key,
     required this.id,
     required this.type,
     this.name,
+    this.showDialog = false,
   });
 
   @override
@@ -48,7 +50,7 @@ class _FavoriteButtonState extends State<FavoriteButton> {
                 _id,
                 _type,
                 widget.name,
-                showDialog: false,
+                showDialog: widget.showDialog,
               );
             },
             style: FilledButton.styleFrom(

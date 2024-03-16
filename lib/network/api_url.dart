@@ -42,6 +42,7 @@ class ApiUrl {
   static const String dislikeComment = '/api/likes/comments/destroy';
   static const String dislikeBlog = '/api/likes/blogs/destroy';
   static const String favorites = '/api/favorites/user';
+  static const String favoritesAdd = '/api/favorites';
   static const String removeFavorites = '/api/favorites';
   static const String vouchers = '/api/vouchers';
   static const String points = '/api/settings';

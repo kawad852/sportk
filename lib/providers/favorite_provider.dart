@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sportk/alerts/errors/app_error_feedback.dart';
 import 'package:sportk/alerts/feedback/app_feedback.dart';
 import 'package:sportk/main.dart';
+import 'package:sportk/model/add_favorite_model.dart';
 import 'package:sportk/model/favorite_model.dart';
 import 'package:sportk/model/matches/our_league_model.dart';
 import 'package:sportk/network/api_service.dart';
@@ -19,13 +20,14 @@ class FavoriteProvider extends ChangeNotifier {
     return inFav;
   }
 
-  Future<bool> toggleFavorites(
+  Future toggleFavorites(
     BuildContext context,
     int id,
     String type,
     String? name, {
     bool showDialog = true,
   }) async {
+    final isAuthenticated = context.authProvider.isAuthenticated;
     final favs = favorites.where((element) => element.type == type).toList();
     final ids = favs.map((e) => e.favoritableId).toList();
     if (ids.contains(id)) {
@@ -39,7 +41,7 @@ class FavoriteProvider extends ChangeNotifier {
           return true;
         }
       } else {
-        if (context.authProvider.isAuthenticated) {
+        if (isAuthenticated) {
           final favId = favorites.firstWhere((element) => element.type == type && element.favoritableId == id).id!;
           removeFromFav(id: favId);
         }
@@ -48,22 +50,25 @@ class FavoriteProvider extends ChangeNotifier {
         return true;
       }
     } else {
-      favorites.add(FavoriteData(
-        favoritableId: id,
-        type: type,
-      ));
+      if (isAuthenticated) {
+        await addToFavorite(context, id: id, type: type);
+      } else {
+        favorites.add(FavoriteData(
+          favoritableId: id,
+          type: type,
+        ));
+      }
+      notifyListeners();
     }
-    notifyListeners();
-    return false;
   }
 
-  Future<FavoriteModel> fetchFavs(BuildContext context, int pageKey) async {
+  Future<FavoriteModel> fetchFavs(BuildContext context) async {
     // if (favFuture != null) return null;
     final authProvider = context.authProvider;
     if (authProvider.isAuthenticated) {
       favFuture = ApiService<FavoriteModel>()
           .build(
-        weCanUrl: '${ApiUrl.favorites}?page=$pageKey',
+        weCanUrl: ApiUrl.favorites,
         isPublic: false,
         apiType: ApiType.get,
         builder: FavoriteModel.fromJson,
@@ -90,6 +95,41 @@ class FavoriteProvider extends ChangeNotifier {
           bodyText: context.appLocalization.favRemoveMsg(name),
         )
         .then((value) => value);
+  }
+
+  Future addToFavorite(
+    BuildContext context, {
+    required int id,
+    required String type,
+  }) async {
+    await ApiFutureBuilder<AddFavoriteModel>().fetch(
+      context,
+      future: () {
+        final favoritesFuture = ApiService<AddFavoriteModel>().build(
+          weCanUrl: ApiUrl.favoritesAdd,
+          isPublic: false,
+          apiType: ApiType.post,
+          builder: AddFavoriteModel.fromJson,
+          queryParams: {
+            'favoritable_id': id.toString(),
+            'type': type,
+          },
+        );
+        return favoritesFuture;
+      },
+      onComplete: (snapshot) {
+        if (snapshot.code == 200) {
+          favorites.add(FavoriteData(
+            id: snapshot.data!.id,
+            favoritableId: id,
+            type: type,
+          ));
+        } else {
+          context.showSnackBar(context.appLocalization.generalError);
+        }
+      },
+      onError: (failure) => AppErrorFeedback.show(context, failure),
+    );
   }
 
   Future removeFromFav({
