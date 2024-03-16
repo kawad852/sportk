@@ -183,21 +183,24 @@ class _InvitationCodeScreenState extends State<InvitationCodeScreen> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Expanded(
-                                      child: Text(
-                                        context.appLocalization.congratulations,
+                                    Text(
+                                      context.appLocalization.congratulations,
+                                      style: const TextStyle(
+                                        fontSize: 13,
                                       ),
                                     ),
-                                    Expanded(
-                                      child: Text(
-                                        "$invitationCodePoints ${context.appLocalization.sportk} ",
-                                        style: TextStyle(
-                                          color: context.colorPalette.yellowF7A,
-                                        ),
+                                    Text(
+                                      "$invitationCodePoints ${context.appLocalization.sportk} ",
+                                      style: TextStyle(
+                                        color: context.colorPalette.yellowF7A,
+                                        fontSize: 13,
                                       ),
                                     ),
-                                    Expanded(
-                                      child: Text(context.appLocalization.youAndFriend),
+                                    Text(
+                                      context.appLocalization.youAndFriend,
+                                      style: const TextStyle(
+                                        fontSize: 13,
+                                      ),
                                     ),
                                   ],
                                 ),
