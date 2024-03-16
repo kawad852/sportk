@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:sportk/model/comments_model.dart';
 import 'package:sportk/model/home_competitions_model.dart';
+import 'package:sportk/model/invitation_code_model.dart';
 import 'package:sportk/model/is_like_model.dart';
 import 'package:sportk/model/matches/live_matches_model.dart';
 import 'package:sportk/model/new_model.dart';
@@ -148,6 +149,16 @@ class CommonProvider extends ChangeNotifier {
       apiType: ApiType.post,
       queryParams: {"voucher_id": voucherId},
       builder: VoucherReplacedModel.fromJson,
+    );
+    return snapshot;
+  }
+
+  Future<InvitationCodeModel> verifyInvitationCode(String code) {
+    final snapshot = ApiService<InvitationCodeModel>().build(
+      weCanUrl: "${ApiUrl.invitationCode}/$code",
+      isPublic: false,
+      apiType: ApiType.get,
+      builder: InvitationCodeModel.fromJson,
     );
     return snapshot;
   }

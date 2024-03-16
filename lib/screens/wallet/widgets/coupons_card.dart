@@ -24,6 +24,7 @@ class CouponsCard extends StatefulWidget {
 
 class _CouponsCardState extends State<CouponsCard> {
   late CommonProvider _commonProvider;
+  
 
   void replacedvoucher() {
     ApiFutureBuilder<VoucherReplacedModel>().fetch(

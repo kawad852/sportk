@@ -180,5 +180,10 @@
   "updateSuccessfully": "Update Successfully",
   "privacyPolicy": "Privacy policy",
   "guestLoginMsg": "Login/ Create account",
-  "logout": "Logout"
+  "logout": "Logout",
+  "congratulations":"Congratulations, you go ",
+  "youAndFriend":"you and your friend",
+  "dontForgetCollect":"don't forget to collect more to exchange them for many special vouchers",
+  "wrongInvitationCode":"The invitation code entered is incorrect. Try again or skip the invitation",
+  "homePage":"Home page"
 }
