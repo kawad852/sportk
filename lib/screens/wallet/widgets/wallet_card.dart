@@ -82,7 +82,10 @@ class WalletCard extends StatelessWidget {
                   const SizedBox(
                     width: 6,
                   ),
-                  const CustomSvg(MyIcons.coin),
+                  const CustomSvg(
+                    MyIcons.coin,
+                    fixedColor: true,
+                  ),
                 ],
               ),
             ),

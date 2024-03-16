@@ -9,6 +9,7 @@ import 'package:sportk/model/user_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
 import 'package:sportk/screens/base/app_nav_bar.dart';
+import 'package:sportk/screens/invitation_code/invitation_code_screen.dart';
 import 'package:sportk/screens/registration/registration_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/shared_pref.dart';
@@ -66,8 +67,11 @@ class AuthProvider extends ChangeNotifier {
           MySharedPreferences.accessToken = snapshot.data!.token!;
           updateUser(context, userModel: snapshot.data!.user);
           if (_lastRouteName == null) {
-            /// TODO::: mhyar
-            context.pushAndRemoveUntil(const AppNavBar());
+            if (snapshot.data!.user!.invitationCodeStatus == 0) {
+              context.pushAndRemoveUntil(const InvitationCodeScreen());
+            } else {
+              context.pushAndRemoveUntil(const AppNavBar());
+            }
           } else {
             _popUntilLastPage(context);
           }

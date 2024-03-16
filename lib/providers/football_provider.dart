@@ -42,7 +42,7 @@ class FootBallProvider extends ChangeNotifier {
     required int playerId,
   }) {
     final snapshot = ApiService<PlayerModel>().build(
-      sportsUrl: '${ApiUrl.playerInfo}/$playerId${ApiUrl.auth}&include=teams',
+      sportsUrl: '${ApiUrl.playerInfo}/$playerId${ApiUrl.auth}&include=teams&${ApiUrl.locale}',
       isPublic: true,
       apiType: ApiType.get,
       builder: PlayerModel.fromJson,
@@ -54,7 +54,7 @@ class FootBallProvider extends ChangeNotifier {
     required int countryId,
   }) {
     final snapshot = ApiService<CountryInfoModel>().build(
-      sportsUrl: '${ApiUrl.countryInfo}/$countryId${ApiUrl.auth}',
+      sportsUrl: '${ApiUrl.countryInfo}/$countryId${ApiUrl.auth}&${ApiUrl.locale}',
       isPublic: true,
       apiType: ApiType.get,
       builder: CountryInfoModel.fromJson,
@@ -66,7 +66,7 @@ class FootBallProvider extends ChangeNotifier {
     required int leagueId,
   }) {
     final snapshot = ApiService<StandingsModel>().build(
-      sportsUrl: '${ApiUrl.standings}/$leagueId${ApiUrl.auth}&include=details.type',
+      sportsUrl: '${ApiUrl.standings}/$leagueId${ApiUrl.auth}&include=details.type&${ApiUrl.locale}',
       isPublic: true,
       apiType: ApiType.get,
       builder: StandingsModel.fromJson,
@@ -78,7 +78,7 @@ class FootBallProvider extends ChangeNotifier {
     required int teamId,
   }) {
     final snapshot = ApiService<TeamInfoModel>().build(
-      sportsUrl: '${ApiUrl.teamInfo}/$teamId${ApiUrl.auth}',
+      sportsUrl: '${ApiUrl.teamInfo}/$teamId${ApiUrl.auth}&${ApiUrl.locale}',
       isPublic: true,
       apiType: ApiType.get,
       builder: TeamInfoModel.fromJson,
@@ -90,7 +90,7 @@ class FootBallProvider extends ChangeNotifier {
     required int leagueId,
   }) {
     final snapshot = ApiService<LeagueModel>().build(
-      sportsUrl: '${ApiUrl.league}/$leagueId${ApiUrl.auth}',
+      sportsUrl: '${ApiUrl.league}/$leagueId${ApiUrl.auth}&${ApiUrl.locale}',
       isPublic: true,
       apiType: ApiType.get,
       builder: LeagueModel.fromJson,
@@ -100,7 +100,7 @@ class FootBallProvider extends ChangeNotifier {
 
   Future<LeagueByDateModel> fetchLeagueByDate(BuildContext context, DateTime date, int id) {
     final snapshot = ApiService<LeagueByDateModel>().build(
-      sportsUrl: '${ApiUrl.compoByDate}/${date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&filters=fixtureLeagues:$id&include=statistics;state;participants;periods.events',
+      sportsUrl: '${ApiUrl.compoByDate}/${date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&filters=fixtureLeagues:$id&include=statistics;state;participants;periods.events&${ApiUrl.locale}',
       isPublic: true,
       apiType: ApiType.get,
       builder: LeagueByDateModel.fromJson,
@@ -110,7 +110,7 @@ class FootBallProvider extends ChangeNotifier {
 
   Future<LeagueByDateModel> fetchLeagueByTeam(BuildContext context, DateTime date, int id) {
     final snapshot = ApiService<LeagueByDateModel>().build(
-      sportsUrl: '${ApiUrl.leagueByTeam}/${date.formatDate(context, pattern: 'yyyy-MM-dd')}/${date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&include=statistics;state;participants;periods.events',
+      sportsUrl: '${ApiUrl.leagueByTeam}/${date.formatDate(context, pattern: 'yyyy-MM-dd')}/${date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&include=statistics;state;participants;periods.events&${ApiUrl.locale}',
       isPublic: true,
       apiType: ApiType.get,
       builder: LeagueByDateModel.fromJson,
@@ -122,7 +122,7 @@ class FootBallProvider extends ChangeNotifier {
     required int teamId,
   }) {
     final snapshot = ApiService<SeasonInfoModel>().build(
-      sportsUrl: '${ApiUrl.seasonInfo}/$teamId${ApiUrl.auth}',
+      sportsUrl: '${ApiUrl.seasonInfo}/$teamId${ApiUrl.auth}&${ApiUrl.locale}',
       isPublic: true,
       apiType: ApiType.get,
       builder: SeasonInfoModel.fromJson,
@@ -135,7 +135,7 @@ class FootBallProvider extends ChangeNotifier {
     required int seasonId,
   }) {
     final snapshot = ApiService<PlayerStatisticsModel>().build(
-      sportsUrl: '${ApiUrl.playerInfo}/$playerId${ApiUrl.auth}&include=statistics.details&filters=playerStatisticSeasons:$seasonId',
+      sportsUrl: '${ApiUrl.playerInfo}/$playerId${ApiUrl.auth}&include=statistics.details&filters=playerStatisticSeasons:$seasonId&${ApiUrl.locale}',
       isPublic: true,
       apiType: ApiType.get,
       builder: PlayerStatisticsModel.fromJson,
@@ -148,7 +148,7 @@ class FootBallProvider extends ChangeNotifier {
     required int pageKey,
   }) {
     final snapshot = ApiService<TopScorersModel>().build(
-      sportsUrl: '${ApiUrl.topScorers}/$seasonId${ApiUrl.auth}&include=player&filters=seasonTopscorerTypes:208&page=$pageKey',
+      sportsUrl: '${ApiUrl.topScorers}/$seasonId${ApiUrl.auth}&include=player&filters=seasonTopscorerTypes:208&page=$pageKey&${ApiUrl.locale}',
       isPublic: true,
       apiType: ApiType.get,
       builder: TopScorersModel.fromJson,
@@ -160,7 +160,7 @@ class FootBallProvider extends ChangeNotifier {
     required int leagueId,
   }) {
     final snapshot = ApiService<SeasonByLeagueModel>().build(
-      sportsUrl: '${ApiUrl.league}/$leagueId${ApiUrl.auth}&include=currentSeason',
+      sportsUrl: '${ApiUrl.league}/$leagueId${ApiUrl.auth}&include=currentSeason&${ApiUrl.locale}',
       isPublic: true,
       apiType: ApiType.get,
       builder: SeasonByLeagueModel.fromJson,
@@ -172,7 +172,7 @@ class FootBallProvider extends ChangeNotifier {
     required int seasonId,
   }) {
     final snapshot = ApiService<TeamsBySeasonModel>().build(
-      sportsUrl: '${ApiUrl.teamsBySeason}/$seasonId${ApiUrl.auth}',
+      sportsUrl: '${ApiUrl.teamsBySeason}/$seasonId${ApiUrl.auth}&${ApiUrl.locale}',
       isPublic: true,
       apiType: ApiType.get,
       builder: TeamsBySeasonModel.fromJson,
@@ -184,7 +184,7 @@ class FootBallProvider extends ChangeNotifier {
     required int teamId,
   }) {
     final snapshot = ApiService<SquadsModel>().build(
-      sportsUrl: '${ApiUrl.squads}/$teamId${ApiUrl.auth}&include=player',
+      sportsUrl: '${ApiUrl.squads}/$teamId${ApiUrl.auth}&include=player&${ApiUrl.locale}',
       isPublic: true,
       apiType: ApiType.get,
       builder: SquadsModel.fromJson,
@@ -196,7 +196,7 @@ class FootBallProvider extends ChangeNotifier {
     required int teamId,
   }) {
     final snapshot = ApiService<TeamInfoModel>().build(
-      sportsUrl: '${ApiUrl.teamInfo}/$teamId${ApiUrl.auth}&include=seasons',
+      sportsUrl: '${ApiUrl.teamInfo}/$teamId${ApiUrl.auth}&include=seasons&${ApiUrl.locale}',
       isPublic: true,
       apiType: ApiType.get,
       builder: TeamInfoModel.fromJson,
@@ -208,7 +208,7 @@ class FootBallProvider extends ChangeNotifier {
     required int seasonId,
   }) {
     final snapshot = ApiService<ChampionsGroupsModel>().build(
-      sportsUrl: '${ApiUrl.championsGroup}/$seasonId${ApiUrl.auth}&include=group',
+      sportsUrl: '${ApiUrl.championsGroup}/$seasonId${ApiUrl.auth}&include=group&${ApiUrl.locale}',
       isPublic: true,
       apiType: ApiType.get,
       builder: ChampionsGroupsModel.fromJson,
@@ -221,7 +221,7 @@ class FootBallProvider extends ChangeNotifier {
     required int groupId,
   }) {
     final snapshot = ApiService<GroupsStandingModel>().build(
-      sportsUrl: '${ApiUrl.championsGroup}/$seasonId${ApiUrl.auth}&include=group;details.type&filters=standingGroups:$groupId',
+      sportsUrl: '${ApiUrl.championsGroup}/$seasonId${ApiUrl.auth}&include=group;details.type&filters=standingGroups:$groupId&${ApiUrl.locale}',
       isPublic: true,
       apiType: ApiType.get,
       builder: GroupsStandingModel.fromJson,
@@ -236,7 +236,7 @@ class FootBallProvider extends ChangeNotifier {
     required int pageKey,
   }) {
     final snapshot = ApiService<MatchModel>().build(
-      sportsUrl: '${ApiUrl.match}/$startDate/$endDate${ApiUrl.auth}&include=statistics;state;participants;periods.events&filters=fixtureLeagues:$leagueId&page=$pageKey',
+      sportsUrl: '${ApiUrl.match}/$startDate/$endDate${ApiUrl.auth}&include=statistics;state;participants;periods.events&filters=fixtureLeagues:$leagueId&page=$pageKey&${ApiUrl.locale}',
       isPublic: true,
       apiType: ApiType.get,
       builder: MatchModel.fromJson,
@@ -248,7 +248,7 @@ class FootBallProvider extends ChangeNotifier {
     required int stageId,
   }) {
     final snapshot = ApiService<StageModel>().build(
-      sportsUrl: '${ApiUrl.stage}/$stageId${ApiUrl.auth}',
+      sportsUrl: '${ApiUrl.stage}/$stageId${ApiUrl.auth}&${ApiUrl.locale}',
       isPublic: true,
       apiType: ApiType.get,
       builder: StageModel.fromJson,
@@ -260,7 +260,7 @@ class FootBallProvider extends ChangeNotifier {
     required int roundId,
   }) {
     final snapshot = ApiService<StageModel>().build(
-      sportsUrl: '${ApiUrl.round}/$roundId${ApiUrl.auth}',
+      sportsUrl: '${ApiUrl.round}/$roundId${ApiUrl.auth}&${ApiUrl.locale}',
       isPublic: true,
       apiType: ApiType.get,
       builder: StageModel.fromJson,
@@ -275,7 +275,7 @@ class FootBallProvider extends ChangeNotifier {
     required int pageKey,
   }) {
     final snapshot = ApiService<MatchModel>().build(
-      sportsUrl: '${ApiUrl.match}/$startDate/$endDate/$teamId${ApiUrl.auth}&include=statistics;state;participants;periods.events&page=$pageKey',
+      sportsUrl: '${ApiUrl.match}/$startDate/$endDate/$teamId${ApiUrl.auth}&include=statistics;state;participants;periods.events&page=$pageKey&${ApiUrl.locale}',
       isPublic: true,
       apiType: ApiType.get,
       builder: MatchModel.fromJson,
@@ -287,7 +287,7 @@ class FootBallProvider extends ChangeNotifier {
     required String query,
   }) {
     final snapshot = ApiService<LeagueSearchModel>().build(
-      sportsUrl: '${ApiUrl.leagueSearch}/$query${ApiUrl.auth}',
+      sportsUrl: '${ApiUrl.leagueSearch}/$query${ApiUrl.auth}&${ApiUrl.locale}',
       isPublic: true,
       apiType: ApiType.get,
       builder: LeagueSearchModel.fromJson,
@@ -299,7 +299,7 @@ class FootBallProvider extends ChangeNotifier {
     required String query,
   }) {
     final snapshot = ApiService<TeamSearchModel>().build(
-      sportsUrl: '${ApiUrl.teamsSearch}/$query${ApiUrl.auth}',
+      sportsUrl: '${ApiUrl.teamsSearch}/$query${ApiUrl.auth}&${ApiUrl.locale}',
       isPublic: true,
       apiType: ApiType.get,
       builder: TeamSearchModel.fromJson,
@@ -311,7 +311,7 @@ class FootBallProvider extends ChangeNotifier {
     required String query,
   }) {
     final snapshot = ApiService<PlayerSearchModel>().build(
-      sportsUrl: '${ApiUrl.playersSearch}/$query${ApiUrl.auth}',
+      sportsUrl: '${ApiUrl.playersSearch}/$query${ApiUrl.auth}&${ApiUrl.locale}',
       isPublic: true,
       apiType: ApiType.get,
       builder: PlayerSearchModel.fromJson,
