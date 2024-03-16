@@ -8,13 +8,12 @@ import 'package:sportk/screens/club/widgets/club_standings.dart';
 import 'package:sportk/screens/league_info/widgets/league_news.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
-import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/utils/my_images.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_back.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
-import 'package:sportk/widgets/custom_svg.dart';
+import 'package:sportk/widgets/favorite_button.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 
 class ClubScreen extends StatefulWidget {
@@ -56,9 +55,9 @@ class _ClubScreenState extends State<ClubScreen> with SingleTickerProviderStateM
               color: context.colorPalette.white,
             ),
             actions: [
-              IconButton(
-                onPressed: () {},
-                icon: const CustomSvg(MyIcons.starWhite),
+              FavoriteButton(
+                id: widget.teamId,
+                type: CompoTypeEnum.teams,
               ),
             ],
             flexibleSpace: Container(
@@ -66,9 +65,7 @@ class _ClubScreenState extends State<ClubScreen> with SingleTickerProviderStateM
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
-                    MyTheme.isLightTheme(context)
-                        ? MyImages.backgroundClub
-                        : MyImages.backgroundClubDark,
+                    MyTheme.isLightTheme(context) ? MyImages.backgroundClub : MyImages.backgroundClubDark,
                   ),
                   fit: BoxFit.cover,
                 ),

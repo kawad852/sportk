@@ -11,6 +11,7 @@ import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/builders/league_builder.dart';
 import 'package:sportk/widgets/builders/team_builder.dart';
 import 'package:sportk/widgets/custom_svg.dart';
+import 'package:sportk/widgets/favorite_button.dart';
 import 'package:sportk/widgets/league_tile.dart';
 import 'package:sportk/widgets/no_results.dart';
 import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
@@ -109,22 +110,15 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
                               final favoriteData = snapshot.docs[index] as FavoriteData;
                               final id = favoriteData.favoritableId!;
                               return TeamBuilder(
-                                  key: ValueKey(index),
-                                  teamId: id,
-                                  builder: (context, teamData) {
-                                    return TeamBubble(
-                                      team: teamData,
-                                      onTap: () async {
-                                        final result = await _favoriteProvider.toggleFavorites(id, CompoTypeEnum.teams, teamData.name!);
-                                        if (result) {
-                                          setState(() {
-                                            snapshot.docs.removeAt(index);
-                                          });
-                                        }
-                                      },
-                                      selected: _favoriteProvider.isFav(id, CompoTypeEnum.teams),
-                                    );
-                                  });
+                                key: ValueKey(index),
+                                teamId: id,
+                                builder: (context, teamData) {
+                                  return TeamBubble(
+                                    team: teamData,
+                                    selected: _favoriteProvider.isFav(id, CompoTypeEnum.teams),
+                                  );
+                                },
+                              );
                             },
                           ),
                         );
@@ -188,18 +182,10 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
                                   setState(() {});
                                 });
                               },
-                              trailing: IconButton(
-                                onPressed: () async {
-                                  final result = await _favoriteProvider.toggleFavorites(id, CompoTypeEnum.competitions, league.name!);
-                                  if (result) {
-                                    setState(() {
-                                      snapshot.docs.removeAt(index);
-                                    });
-                                  }
-                                },
-                                icon: CustomSvg(
-                                  _favoriteProvider.isFav(id, CompoTypeEnum.competitions) ? MyIcons.starFilled : MyIcons.starOutlined,
-                                ),
+                              trailing: FavoriteButton(
+                                id: id,
+                                type: CompoTypeEnum.competitions,
+                                name: league.name!,
                               ),
                             );
                           },

@@ -20,15 +20,16 @@ class FavoriteProvider extends ChangeNotifier {
   }
 
   Future<bool> toggleFavorites(
+    BuildContext context,
     int id,
     String type,
-    String name, {
+    String? name, {
     bool showDialog = true,
   }) async {
     final favs = favorites.where((element) => element.type == type).toList();
     final ids = favs.map((e) => e.favoritableId).toList();
     if (ids.contains(id)) {
-      if (showDialog) {
+      if (showDialog && name != null) {
         final result = await _showDialog(navigatorKey.currentState!.context, name);
         if (result != null) {
           final favId = favorites.firstWhere((element) => element.type == type && element.favoritableId == id).id!;
@@ -38,6 +39,10 @@ class FavoriteProvider extends ChangeNotifier {
           return true;
         }
       } else {
+        if (context.authProvider.isAuthenticated) {
+          final favId = favorites.firstWhere((element) => element.type == type && element.favoritableId == id).id!;
+          removeFromFav(id: favId);
+        }
         favorites.removeWhere((element) => element.type == type && element.favoritableId == id);
         notifyListeners();
         return true;

@@ -8,14 +8,12 @@ import 'package:sportk/model/team_search_model.dart';
 import 'package:sportk/providers/favorite_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/champions_league/champions_league_screen.dart';
-import 'package:sportk/screens/club/club_screen.dart';
 import 'package:sportk/screens/league_info/league_info_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
-import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
-import 'package:sportk/widgets/custom_svg.dart';
+import 'package:sportk/widgets/favorite_button.dart';
 import 'package:sportk/widgets/league_tile.dart';
 import 'package:sportk/widgets/search_field.dart';
 import 'package:sportk/widgets/team_bubble.dart';
@@ -122,14 +120,6 @@ class _SearchScreenState extends State<SearchScreen> {
                                     builder: (context, setState) {
                                       return TeamBubble(
                                         team: team,
-                                        onTap: () {
-                                          if (_canAddToFav) {
-                                            _favoriteProvider.toggleFavorites(
-                                                id, CompoTypeEnum.teams, team.name!);
-                                          } else {
-                                            context.push(ClubScreen(teamId: id));
-                                          }
-                                        },
                                         selected: _favoriteProvider.isFav(id, CompoTypeEnum.teams),
                                       );
                                     },
@@ -208,24 +198,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
                                     /// navigate to league info screen
                                   },
-                                  trailing: _canAddToFav
-                                      ? StatefulBuilder(
-                                          builder: (context, setState) {
-                                            return IconButton(
-                                              onPressed: () {
-                                                _favoriteProvider.toggleFavorites(
-                                                    id, CompoTypeEnum.competitions, league.name!);
-                                              },
-                                              icon: CustomSvg(
-                                                _favoriteProvider.isFav(
-                                                        id, CompoTypeEnum.competitions)
-                                                    ? MyIcons.starFilled
-                                                    : MyIcons.starOutlined,
-                                              ),
-                                            );
-                                          },
-                                        )
-                                      : null,
+                                  trailing: FavoriteButton(id: id, type: CompoTypeEnum.competitions),
                                 );
                               },
                             ),
