@@ -32,9 +32,11 @@ class _PlayerScreenState extends State<PlayerScreen> {
               alignment: Alignment.bottomCenter,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(MyTheme.isLightTheme(context)
-                      ? MyImages.linearPlayer
-                      : MyImages.linearPlayerDark),
+                  image: AssetImage(
+                    MyTheme.isLightTheme(context)
+                        ? MyImages.linearPlayer
+                        : MyImages.linearPlayerDark,
+                  ),
                   fit: BoxFit.cover,
                 ),
               ),

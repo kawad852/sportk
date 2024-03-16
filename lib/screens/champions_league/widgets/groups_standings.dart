@@ -68,8 +68,8 @@ class _GroupsStandingsState extends State<GroupsStandings> with AutomaticKeepAli
           child: ExpansionTile(
             initiallyExpanded: widget.teamId != null && teamId.contains(widget.teamId),
             childrenPadding: const EdgeInsetsDirectional.symmetric(horizontal: 20, vertical: 5),
-            backgroundColor: context.colorPalette.white,
-            collapsedBackgroundColor: context.colorPalette.white,
+            backgroundColor: context.colorPalette.grey3F3,
+            collapsedBackgroundColor: context.colorPalette.grey3F3,
             title: Text(standings.data![0].group!.name!),
             shape: const Border(),
             children: [

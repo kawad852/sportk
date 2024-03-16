@@ -51,72 +51,70 @@ class _RecordPointsScreenState extends State<RecordPointsScreen> {
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
-          SliverToBoxAdapter(
-            child: VexPaginator(
-              key: _vexKey,
-              query: (pageKey) async => _initializeFuture(pageKey),
-              onFetching: (snapshot) async => snapshot.data!,
-              pageSize: 10,
-              onLoading: () => const ShimmerLoading(child: PointsLoading()),
-              builder: (context, snapshot) {
-                final recordPoints = snapshot.docs as List<RecordData>;
-                return recordPoints.isEmpty
-                    ? Padding(
-                        padding: const EdgeInsetsDirectional.only(top: 250),
+          VexPaginator(
+            key: _vexKey,
+            query: (pageKey) async => _initializeFuture(pageKey),
+            onFetching: (snapshot) async => snapshot.data!,
+            pageSize: 10,
+            sliver: true,
+            onLoading: () => const ShimmerLoading(child: PointsLoading()),
+            builder: (context, snapshot) {
+              final recordPoints = snapshot.docs as List<RecordData>;
+              return recordPoints.isEmpty
+                  ? SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Center(
                         child: Text(
                           context.appLocalization.emptyRecordPoints,
-                          textAlign: TextAlign.center,
                           style: TextStyle(
                             color: context.colorPalette.blueD4B,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                      )
-                    : ListView.separated(
-                        separatorBuilder: (context, index) => const SizedBox(width: 6),
-                        scrollDirection: Axis.vertical,
-                        padding: EdgeInsets.zero,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: snapshot.docs.length + 1,
-                        itemBuilder: (context, index) {
-                          if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
-                            snapshot.fetchMore();
-                          }
+                      ),
+                    )
+                  : SliverList.separated(
+                      separatorBuilder: (context, index) => const SizedBox(width: 6),
+                      itemCount: snapshot.docs.length + 1,
+                      itemBuilder: (context, index) {
+                        if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
+                          snapshot.fetchMore();
+                        }
 
-                          if (index == snapshot.docs.length) {
-                            return VexLoader(snapshot.isFetchingMore);
-                          }
+                        if (index == snapshot.docs.length) {
+                          return VexLoader(snapshot.isFetchingMore);
+                        }
 
-                          final element = recordPoints[index];
-                          return Container(
-                            width: double.infinity,
-                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                            decoration: BoxDecoration(
-                              color: context.colorPalette.blueF9F,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Row(
-                              children: [
-                                CustomSvg(
-                                    element.points! > 0 ? MyIcons.addPoints : MyIcons.minusPoints),
-                                const SizedBox(
-                                  width: 10,
+                        final element = recordPoints[index];
+                        return Container(
+                          width: double.infinity,
+                          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                          decoration: BoxDecoration(
+                            color: context.colorPalette.blueF9F,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Row(
+                            children: [
+                              CustomSvg(
+                                element.points! > 0 ? MyIcons.addPoints : MyIcons.minusPoints,
+                                fixedColor: true,
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Flexible(
+                                child: Text(
+                                  "${element.points},  ${element.message}",
+                                  style: const TextStyle(fontWeight: FontWeight.bold),
                                 ),
-                                Flexible(
-                                  child: Text(
-                                    "${element.points},  ${element.message}",
-                                    style: const TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      );
-              },
-            ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+            },
           ),
         ],
       ),

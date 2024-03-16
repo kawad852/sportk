@@ -12,7 +12,7 @@ class ColorPalette {
 
   // TODO: Mihyar: consider the dark Theme
   ///grey
-  Color get grey2F2 => _isLightTheme ? const Color(0xFFF2F2F2) : const Color(0xFFF2F2F2);
+  Color get grey2F2 => _isLightTheme ? const Color(0xFFF2F2F2) : const Color(0xFF151925);
   Color get grey3F3 => _isLightTheme ? const Color(0xFFF3F3F3) : const Color(0xFF151925);
   Color get grey9E9 => _isLightTheme ? const Color(0xFFE9E9E9) : const Color(0xFF1A1D2E);
   Color get greyD9D => _isLightTheme ? const Color(0xFFD9D9D9) : const Color(0xFF272A3A);
@@ -27,11 +27,11 @@ class ColorPalette {
   Color get blue1FC => const Color(0xFFE2F1FC);
   Color get blue1AD4B => const Color(0x1A032D4B);
   Color get blueABB => _isLightTheme ? const Color(0xFFABB8C1) : const Color(0xFF515464);
-  Color get blueE2F => const Color(0x66E2F1FC);
+  Color get blueE2F =>_isLightTheme ? const Color(0x66E2F1FC):const Color(0xFF151925);
   Color get blue1F8 => const Color(0xFF1F85CD);
   Color get blue19A => const Color(0xFF5E819A);
   Color get blue9FE => const Color(0xFFF3F9FE);
-  Color get blueF9F => const Color(0xFFF9F9F9);
+  Color get blueF9F =>_isLightTheme ? const Color(0xFFF9F9F9):const Color(0xFF151925);
   Color get blue8E3 => const Color(0xFFC8D8E3);
   Color get blue4F0 => _isLightTheme ? const Color(0xFFE2E4F0) : const Color(0xFF202538);
   Color get icon => _isLightTheme ? const Color(0xFF032D4B) : const Color(0xFFC5C8D7);

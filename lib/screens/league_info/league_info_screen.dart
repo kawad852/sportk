@@ -58,9 +58,13 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
             ),
             flexibleSpace: Container(
               alignment: Alignment.bottomCenter,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(MyImages.backgroundLeague),
+                  image: AssetImage(
+                    MyTheme.isLightTheme(context)
+                        ? MyImages.backgroundLeague
+                        : MyImages.backgroundClubDark,
+                  ),
                   fit: BoxFit.cover,
                 ),
               ),
