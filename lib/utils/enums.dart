@@ -34,7 +34,8 @@ class CompoTypeEnum {
 class BlogsType {
   static String recommended = 'user';
   static String teams(int id) => 'teams/$id';
-  static String competitions(int id) => 'tags/$id';
+  static String competitions(int id) => 'competitions/$id';
+  static String tag(int id) => 'competitions/$id';
 }
 
 class EmailJsEnum {
