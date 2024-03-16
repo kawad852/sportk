@@ -10,14 +10,14 @@ import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/builders/league_builder.dart';
 import 'package:sportk/widgets/builders/team_builder.dart';
+import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_svg.dart';
+import 'package:sportk/widgets/favorite_button.dart';
 import 'package:sportk/widgets/league_tile.dart';
 import 'package:sportk/widgets/no_results.dart';
 import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 import 'package:sportk/widgets/team_bubble.dart';
-import 'package:sportk/widgets/vex/vex_loader.dart';
-import 'package:sportk/widgets/vex/vex_paginator.dart';
 
 class FavoritesScreen extends StatefulWidget {
   const FavoritesScreen({super.key});
@@ -28,17 +28,17 @@ class FavoritesScreen extends StatefulWidget {
 
 class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAliveClientMixin {
   late FavoriteProvider _favoriteProvider;
-  late Future<FavoriteModel?> _future;
+  late Future<FavoriteModel?> _favoritesFuture;
 
-  // void _fetch() {
-  //   _future = _favoriteProvider.fetchFavs(context);
-  // }
+  void _initializeFuture() {
+    _favoritesFuture = _favoriteProvider.fetchFavs(context);
+  }
 
   @override
   void initState() {
     super.initState();
     _favoriteProvider = context.favoriteProvider;
-    // _fetch();
+    _initializeFuture();
   }
 
   @override
@@ -48,126 +48,100 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
       appBar: AppBar(
         title: Text(context.appLocalization.favorites),
       ),
-      body: Consumer<FavoriteProvider>(
-        builder: (context, provider, child) {
-          if (provider.favorites.isEmpty) {
-            return Center(
-              child: NoResults(
-                header: const CustomSvg(
-                  MyIcons.starFilled,
-                  width: 60,
-                ),
-                title: context.appLocalization.favEmptyTitle,
-                body: context.appLocalization.favEmptyBody,
-              ),
-            );
-          }
+      body: CustomFutureBuilder(
+        future: _favoritesFuture,
+        onRetry: () {},
+        onLoading: () {
           return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Material(
-                child: Column(
-                  children: [
-                    VexPaginator(
-                      query: (pageKey) async => _favoriteProvider.fetchFavs(context, pageKey),
-                      onFetching: (snapshot) async => snapshot.data!.where((element) => element.type == CompoTypeEnum.teams).toList(),
-                      pageSize: 10,
-                      onLoading: () {
-                        return ShimmerLoading(
-                          child: SizedBox(
-                            height: 165,
-                            child: ListView.separated(
-                              itemCount: 15,
-                              padding: const EdgeInsets.all(20),
-                              separatorBuilder: (context, index) => const SizedBox(width: 5),
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) {
-                                return const LoadingBubble(
-                                  width: 100,
-                                );
-                              },
-                            ),
-                          ),
-                        );
-                      },
-                      builder: (context, snapshot) {
-                        return SizedBox(
-                          height: 165,
-                          child: ListView.separated(
-                            itemCount: snapshot.docs.length + 1,
-                            padding: const EdgeInsets.all(20),
-                            separatorBuilder: (context, index) => const SizedBox(width: 5),
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
-                                snapshot.fetchMore();
-                              }
-
-                              if (index == snapshot.docs.length) {
-                                return VexLoader(snapshot.isFetchingMore);
-                              }
-
-                              final favoriteData = snapshot.docs[index] as FavoriteData;
-                              final id = favoriteData.favoritableId!;
-                              return TeamBuilder(
-                                  key: ValueKey(index),
-                                  teamId: id,
-                                  builder: (context, teamData) {
-                                    return TeamBubble(
-                                      team: teamData,
-                                      onTap: () async {
-                                        final result = await _favoriteProvider.toggleFavorites(id, CompoTypeEnum.teams, teamData.name!);
-                                        if (result) {
-                                          setState(() {
-                                            snapshot.docs.removeAt(index);
-                                          });
-                                        }
-                                      },
-                                      selected: _favoriteProvider.isFav(id, CompoTypeEnum.teams),
-                                    );
-                                  });
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                  ],
+              ShimmerLoading(
+                child: SizedBox(
+                  height: 165,
+                  child: ListView.separated(
+                    itemCount: 15,
+                    padding: const EdgeInsets.all(20),
+                    separatorBuilder: (context, index) => const SizedBox(width: 5),
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return const LoadingBubble(
+                        width: 100,
+                      );
+                    },
+                  ),
                 ),
               ),
               Expanded(
-                child: VexPaginator(
-                  query: (pageKey) async => _favoriteProvider.fetchFavs(context, pageKey),
-                  onFetching: (snapshot) async => snapshot.data!.where((element) => element.type == CompoTypeEnum.competitions).toList(),
-                  pageSize: 10,
-                  onLoading: () {
-                    return ShimmerLoading(
+                child: ShimmerLoading(
+                  child: ListView.separated(
+                    itemCount: 15,
+                    padding: const EdgeInsets.all(20),
+                    separatorBuilder: (context, index) => const SizedBox(height: 5),
+                    itemBuilder: (context, index) {
+                      return const LoadingBubble(
+                        height: 40,
+                        radius: MyTheme.radiusPrimary,
+                      );
+                    },
+                  ),
+                ),
+              )
+            ],
+          );
+        },
+        onComplete: (context, snapshot) {
+          return Consumer<FavoriteProvider>(
+            builder: (context, provider, child) {
+              provider.favorites = snapshot.data!.data!;
+              final teamsFavorites = provider.favorites.where((element) => element.type == CompoTypeEnum.teams).toList();
+              final leagueFavorites = provider.favorites.where((element) => element.type == CompoTypeEnum.competitions).toList();
+              if (provider.favorites.isEmpty) {
+                return Center(
+                  child: NoResults(
+                    header: const CustomSvg(
+                      MyIcons.starFilled,
+                      width: 60,
+                    ),
+                    title: context.appLocalization.favEmptyTitle,
+                    body: context.appLocalization.favEmptyBody,
+                  ),
+                );
+              }
+              return Column(
+                children: [
+                  Material(
+                    child: SizedBox(
+                      height: 165,
                       child: ListView.separated(
-                        itemCount: 15,
+                        itemCount: teamsFavorites.length,
                         padding: const EdgeInsets.all(20),
-                        separatorBuilder: (context, index) => const SizedBox(height: 5),
+                        separatorBuilder: (context, index) => const SizedBox(width: 5),
+                        scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          return const LoadingBubble(
-                            height: 40,
-                            radius: MyTheme.radiusPrimary,
+                          final favoriteData = teamsFavorites[index];
+                          final id = favoriteData.favoritableId!;
+                          return TeamBuilder(
+                            key: ValueKey(index),
+                            teamId: id,
+                            builder: (context, teamData) {
+                              return TeamBubble(
+                                team: teamData,
+                                selected: _favoriteProvider.isFav(id, CompoTypeEnum.teams),
+                                showDialog: true,
+                              );
+                            },
                           );
                         },
                       ),
-                    );
-                  },
-                  builder: (context, snapshot) {
-                    return ListView.separated(
-                      itemCount: snapshot.docs.length + 1,
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView.separated(
+                      itemCount: leagueFavorites.length,
                       padding: const EdgeInsets.all(20),
                       separatorBuilder: (context, index) => const SizedBox(height: 5),
                       itemBuilder: (context, index) {
-                        if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
-                          snapshot.fetchMore();
-                        }
-
-                        if (index == snapshot.docs.length) {
-                          return VexLoader(snapshot.isFetchingMore);
-                        }
-
-                        final favoriteData = snapshot.docs[index] as FavoriteData;
+                        final favoriteData = leagueFavorites[index];
                         final id = favoriteData.favoritableId!;
                         return LeagueBuilder(
                           key: ValueKey(index),
@@ -177,39 +151,28 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
                             return LeagueTile(
                               league: league,
                               onTap: () {
-                                context
-                                    .push(
+                                context.push(
                                   LeagueInfoScreen(
                                     leagueId: league.id!,
                                     subType: league.subType!,
                                   ),
-                                )
-                                    .then((value) {
-                                  setState(() {});
-                                });
+                                );
                               },
-                              trailing: IconButton(
-                                onPressed: () async {
-                                  final result = await _favoriteProvider.toggleFavorites(id, CompoTypeEnum.competitions, league.name!);
-                                  if (result) {
-                                    setState(() {
-                                      snapshot.docs.removeAt(index);
-                                    });
-                                  }
-                                },
-                                icon: CustomSvg(
-                                  _favoriteProvider.isFav(id, CompoTypeEnum.competitions) ? MyIcons.starFilled : MyIcons.starOutlined,
-                                ),
+                              trailing: FavoriteButton(
+                                id: id,
+                                type: CompoTypeEnum.competitions,
+                                name: league.name!,
+                                showDialog: true,
                               ),
                             );
                           },
                         );
                       },
-                    );
-                  },
-                ),
-              ),
-            ],
+                    ),
+                  ),
+                ],
+              );
+            },
           );
         },
       ),

@@ -11,6 +11,7 @@ import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_back.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
+import 'package:sportk/widgets/favorite_button.dart';
 import 'package:sportk/widgets/league_loading.dart';
 import 'package:sportk/widgets/league_scorers/league_scorers.dart';
 import 'package:sportk/widgets/league_standings.dart';
@@ -37,8 +38,7 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
   @override
   void initState() {
     super.initState();
-    _controller =
-        TabController(length: widget.subType == LeagueTypeEnum.domestic ? 4 : 3, vsync: this);
+    _controller = TabController(length: widget.subType == LeagueTypeEnum.domestic ? 4 : 3, vsync: this);
     _footBallProvider = context.footBallProvider;
     _initializeFuture();
   }
@@ -56,14 +56,18 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
             leading: CustomBack(
               color: context.colorPalette.white,
             ),
+            actions: [
+              FavoriteButton(
+                id: widget.leagueId,
+                type: CompoTypeEnum.competitions,
+              ),
+            ],
             flexibleSpace: Container(
               alignment: Alignment.bottomCenter,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
-                    MyTheme.isLightTheme(context)
-                        ? MyImages.backgroundLeague
-                        : MyImages.backgroundClubDark,
+                    MyTheme.isLightTheme(context) ? MyImages.backgroundLeague : MyImages.backgroundClubDark,
                   ),
                   fit: BoxFit.cover,
                 ),
@@ -124,8 +128,7 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
                         labelPadding: const EdgeInsetsDirectional.symmetric(horizontal: 4),
                         padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
                         tabs: [
-                          if (widget.subType == LeagueTypeEnum.domestic)
-                            Text(context.appLocalization.standings),
+                          if (widget.subType == LeagueTypeEnum.domestic) Text(context.appLocalization.standings),
                           Text(context.appLocalization.scorers),
                           Text(context.appLocalization.table),
                           Text(context.appLocalization.news),
@@ -141,12 +144,9 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
             child: TabBarView(
               controller: _controller,
               children: [
-                if (widget.subType == LeagueTypeEnum.domestic)
-                  LeagueStandings(leagueId: widget.leagueId),
+                if (widget.subType == LeagueTypeEnum.domestic) LeagueStandings(leagueId: widget.leagueId),
                 LeagueScorers(leagueId: widget.leagueId),
-                widget.subType == LeagueTypeEnum.domestic
-                    ? LeagueMatches(leagueId: widget.leagueId)
-                    : ChampionsMatches(leagueId: widget.leagueId),
+                widget.subType == LeagueTypeEnum.domestic ? LeagueMatches(leagueId: widget.leagueId) : ChampionsMatches(leagueId: widget.leagueId),
                 NewTab(id: widget.leagueId, type: NewTypeEnum.league),
               ],
             ),

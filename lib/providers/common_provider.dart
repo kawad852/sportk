@@ -41,7 +41,7 @@ class CommonProvider extends ChangeNotifier {
   void initializeHome(BuildContext context) {
     final favoritesProvider = context.read<FavoriteProvider>();
     fetchLives();
-    favoritesProvider.fetchFavs(context, 1);
+    favoritesProvider.fetchFavs(context);
     leaguesAndLivesFutures = Future.wait([favoritesProvider.favFuture, liveMatchesFuture]);
   }
 

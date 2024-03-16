@@ -53,8 +53,8 @@ class _TeamBuilderState extends State<TeamBuilder> with AutomaticKeepAliveClient
         );
       },
       onComplete: (context, snapshot) {
-        final league = snapshot.data!.data!;
-        return widget.builder(context, league);
+        final team = snapshot.data!.data!;
+        return widget.builder(context, team);
       },
     );
   }

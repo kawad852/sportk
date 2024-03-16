@@ -13,9 +13,8 @@ import 'package:sportk/screens/search/search_screen.dart';
 import 'package:sportk/screens/wizard/leagues_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
-import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/utils/my_theme.dart';
-import 'package:sportk/widgets/custom_svg.dart';
+import 'package:sportk/widgets/favorite_button.dart';
 import 'package:sportk/widgets/league_tile.dart';
 import 'package:sportk/widgets/search_field.dart';
 import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
@@ -136,14 +135,6 @@ class _FollowScreenState extends State<FollowScreen> with AutomaticKeepAliveClie
                               final id = team.id!;
                               return TeamBubble(
                                 team: team,
-                                onTap: () async {
-                                  _favoriteProvider.toggleFavorites(
-                                    id,
-                                    CompoTypeEnum.teams,
-                                    team.name!,
-                                    showDialog: false,
-                                  );
-                                },
                                 selected: _favoriteProvider.isFav(id, CompoTypeEnum.teams),
                               );
                             },
@@ -215,18 +206,10 @@ class _FollowScreenState extends State<FollowScreen> with AutomaticKeepAliveClie
                               setState(() {});
                             });
                           },
-                          trailing: IconButton(
-                            onPressed: () async {
-                              _favoriteProvider.toggleFavorites(
-                                id,
-                                CompoTypeEnum.competitions,
-                                league.name!,
-                                showDialog: false,
-                              );
-                            },
-                            icon: CustomSvg(
-                              _favoriteProvider.isFav(id, CompoTypeEnum.competitions) ? MyIcons.starFilled : MyIcons.starOutlined,
-                            ),
+                          trailing: FavoriteButton(
+                            id: id,
+                            type: CompoTypeEnum.competitions,
+                            name: league.name!,
                           ),
                         );
                       },

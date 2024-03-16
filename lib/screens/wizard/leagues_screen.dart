@@ -72,14 +72,6 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
                   final id = team.id!;
                   return TeamBubble(
                     team: team,
-                    onTap: () {
-                      _favoriteProvider.toggleFavorites(
-                        id,
-                        CompoTypeEnum.teams,
-                        team.name!,
-                        showDialog: false,
-                      );
-                    },
                     selected: _favoriteProvider.isFav(id, CompoTypeEnum.teams),
                   );
                 },
