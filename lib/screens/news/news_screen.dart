@@ -10,6 +10,7 @@ import 'package:sportk/screens/news/widgets/news_champ_card.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
+import 'package:sportk/utils/shared_pref.dart';
 import 'package:sportk/widgets/ads/google_banner.dart';
 import 'package:sportk/widgets/custom_smoth_indicator.dart';
 import 'package:sportk/widgets/custom_svg.dart';
@@ -49,7 +50,7 @@ class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMi
             if (_authProvider.isAuthenticated)
               SliverToBoxAdapter(
                 child: VexPaginator(
-                  query: (pageKey) async => _commonProvider.fetchNews(pageKey, url: '${ApiUrl.news}/${BlogsType.recommended}'),
+                  query: (pageKey) async => _commonProvider.fetchNews(pageKey, url: '${ApiUrl.news}/${BlogsType.recommended}?locale=${MySharedPreferences.language}'),
                   onFetching: (snapshot) async => snapshot.data!,
                   pageSize: 10,
                   onLoading: () {
@@ -196,7 +197,7 @@ class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMi
                     SizedBox(
                       height: 70.0,
                       child: VexPaginator(
-                        query: (pageKey) async => _commonProvider.fetchNews(pageKey, url: '${ApiUrl.news}/${BlogsType.competitions(1)}'),
+                        query: (pageKey) async => _commonProvider.fetchNews(pageKey, url: '${ApiUrl.news}/${BlogsType.competitions(1)}?locale=${MySharedPreferences.language}'),
                         onFetching: (snapshot) async => snapshot.data!,
                         pageSize: 10,
                         onLoading: () {
@@ -258,7 +259,7 @@ class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMi
               ),
             ),
             VexPaginator(
-              query: (pageKey) async => _commonProvider.fetchNews(pageKey, url: '${ApiUrl.news}${BlogsType.mostRecent}'),
+              query: (pageKey) async => _commonProvider.fetchNews(pageKey, url: '${ApiUrl.news}?locale=${MySharedPreferences.language}'),
               onFetching: (snapshot) async => snapshot.data!,
               sliver: true,
               pageSize: 10,
