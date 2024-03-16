@@ -12,8 +12,7 @@ class LeagueCard extends StatefulWidget {
   final int index;
   final int selectIndex;
   final int leagueId;
-  const LeagueCard(
-      {super.key, required this.index, required this.selectIndex, required this.leagueId});
+  const LeagueCard({super.key, required this.index, required this.selectIndex, required this.leagueId});
 
   @override
   State<LeagueCard> createState() => _LeagueCardState();
@@ -62,9 +61,7 @@ class _LeagueCardState extends State<LeagueCard> {
           height: 30,
           margin: const EdgeInsetsDirectional.only(start: 5, end: 5),
           decoration: BoxDecoration(
-            color: widget.selectIndex == widget.index
-                ? context.colorPalette.blueABB
-                : context.colorPalette.greyEAE,
+            color: widget.selectIndex == widget.index ? context.colorPalette.blueABB : context.colorPalette.blue4F0,
             borderRadius: BorderRadius.circular(5),
           ),
           child: Padding(

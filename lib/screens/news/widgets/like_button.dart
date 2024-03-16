@@ -28,6 +28,7 @@ class LikeButton extends StatelessWidget {
       icon: CustomSvg(
         isLike ? MyIcons.heart : MyIcons.heartEmpty,
         width: 25,
+        fixedColor: true,
       ),
     );
   }

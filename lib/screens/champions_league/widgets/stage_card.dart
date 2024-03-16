@@ -65,7 +65,7 @@ class _StageCardState extends State<StageCard> {
           height: 35,
           margin: const EdgeInsetsDirectional.only(bottom: 10),
           decoration: BoxDecoration(
-            color: context.colorPalette.greyEAE,
+            color: context.colorPalette.blue4F0,
             borderRadius: BorderRadius.circular(5),
           ),
           child: Row(

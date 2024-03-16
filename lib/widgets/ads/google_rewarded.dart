@@ -3,6 +3,7 @@ import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:sportk/utils/base_extensions.dart';
 
 class GoogleRewarded extends StatefulWidget {
   final Widget child;
@@ -24,29 +25,43 @@ class _GoogleRewardedState extends State<GoogleRewarded> {
   String get _iosUnitId => kDebugMode ? '' : '';
   String get _androidUnitId => kDebugMode ? 'ca-app-pub-3940256099942544/5224354917' : 'ca-app-pub-4829894010518123/7748299329';
 
-  void showAd() {
+  void showAd(BuildContext context) {
+    final authProvider = context.authProvider;
     _rewardedAd?.show(
-      onUserEarnedReward: (ad, rewardItem) {},
+      onUserEarnedReward: (ad, rewardItem) {
+        setState(() {
+          _rewardedAd = null;
+        });
+        authProvider.user.points = authProvider.user.points! + widget.points;
+        authProvider.updateProfile(
+          context,
+          {
+            'points': authProvider.user.points,
+          },
+          update: false,
+        );
+        authProvider.updateUser(context);
+      },
     );
   }
 
   /// Loads a banner ad.
   void _loadAd() {
     RewardedAd.load(
-        adUnitId: Platform.isAndroid ? _androidUnitId : _iosUnitId,
-        request: const AdRequest(),
-        rewardedAdLoadCallback: RewardedAdLoadCallback(
-          // Called when an ad is successfully received.
-          onAdLoaded: (ad) {
-            debugPrint('$ad loaded.');
-            // Keep a reference to the ad so you can show it later.
+      adUnitId: Platform.isAndroid ? _androidUnitId : _iosUnitId,
+      request: const AdRequest(),
+      rewardedAdLoadCallback: RewardedAdLoadCallback(
+        onAdLoaded: (ad) {
+          debugPrint('$ad loaded.');
+          setState(() {
             _rewardedAd = ad;
-          },
-          // Called when an ad request failed.
-          onAdFailedToLoad: (LoadAdError error) {
-            debugPrint('RewardedAd failed to load: $error');
-          },
-        ));
+          });
+        },
+        onAdFailedToLoad: (LoadAdError error) {
+          debugPrint('RewardedAd failed to load: $error');
+        },
+      ),
+    );
   }
 
   @override
@@ -63,9 +78,12 @@ class _GoogleRewardedState extends State<GoogleRewarded> {
 
   @override
   Widget build(BuildContext context) {
+    if (_rewardedAd == null) {
+      return const SizedBox(height: 20);
+    }
     return GestureDetector(
       onTap: () {
-        showAd();
+        showAd(context);
       },
       child: widget.child,
     );

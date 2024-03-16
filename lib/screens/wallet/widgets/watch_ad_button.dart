@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
+import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_svg.dart';
-import 'package:sportk/widgets/stretch_button.dart';
 
 class WatchAdButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -11,9 +11,12 @@ class WatchAdButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StretchedButton(
-      onPressed: onPressed,
-      backgroundColor: context.colorPalette.yellowF7A,
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      decoration: BoxDecoration(
+        color: context.colorPalette.yellowF7A,
+        borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
+      ),
       margin: const EdgeInsetsDirectional.only(top: 30, bottom: 10),
       child: Padding(
         padding: const EdgeInsetsDirectional.symmetric(vertical: 15),
@@ -26,8 +29,9 @@ class WatchAdButton extends StatelessWidget {
                 children: [
                   Text(
                     context.appLocalization.watchAd,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14,
+                      color: context.colorPalette.white,
                     ),
                   ),
                   Text(
@@ -39,8 +43,9 @@ class WatchAdButton extends StatelessWidget {
                   ),
                   Text(
                     context.appLocalization.sportk,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14,
+                      color: context.colorPalette.white,
                     ),
                   ),
                 ],
