@@ -35,7 +35,12 @@ class _ClubPlayersState extends State<ClubPlayers> with AutomaticKeepAliveClient
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    List<String> playersName = [context.appLocalization.attackers, context.appLocalization.midline, context.appLocalization.defenders, context.appLocalization.guards];
+    List<String> playersName = [
+      context.appLocalization.attackers,
+      context.appLocalization.midline,
+      context.appLocalization.defenders,
+      context.appLocalization.guards
+    ];
     final List<Datum> _attackers = [], _midline = [], _defenders = [], _guards = [];
 
     void checkPlayerPosition(Datum element) {
@@ -165,7 +170,7 @@ class _ClubPlayersState extends State<ClubPlayers> with AutomaticKeepAliveClient
                                           borderRadius: BorderRadius.circular(10),
                                         ),
                                         child: Text(
-                                          players[index][myIndex].jerseyNumber.toString(),
+                                          players[index][myIndex].jerseyNumber?.toString() ?? "-",
                                           style: TextStyle(
                                             color: context.colorPalette.blueD4B,
                                           ),

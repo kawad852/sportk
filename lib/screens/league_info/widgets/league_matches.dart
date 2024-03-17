@@ -6,6 +6,7 @@ import 'package:sportk/screens/league_info/widgets/round_card.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/web_view_screen.dart';
 import 'package:sportk/widgets/match_card.dart';
+import 'package:sportk/widgets/match_empty_result.dart';
 import 'package:sportk/widgets/matches_loading.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 import 'package:sportk/widgets/vex/vex_loader.dart';
@@ -61,16 +62,7 @@ class _LeagueMatchesState extends State<LeagueMatches> with AutomaticKeepAliveCl
         builder: (context, snapshot) {
           final matches = snapshot.docs as List<MatchData>;
           return matches.isEmpty
-              ? Center(
-                  child: Text(
-                    context.appLocalization.noMatchesAtTheMoment,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: context.colorPalette.blueD4B,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                )
+              ?const MatchEmptyResult()
               : SingleChildScrollView(
                   padding: const EdgeInsetsDirectional.symmetric(horizontal: 15, vertical: 10),
                   child: Column(

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sportk/model/standings_model.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/club/club_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
+import 'package:sportk/widgets/no_results.dart';
 import 'package:sportk/widgets/table_text.dart';
 import 'package:sportk/widgets/team_info.dart';
 
@@ -44,18 +46,9 @@ class _LeagueStandingsState extends State<LeagueStandings> with AutomaticKeepAli
       onComplete: (context, snapshot) {
         final standings = snapshot.data!;
         return standings.data!.isEmpty
-            ? Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(
-                    context.appLocalization.noStandingsInfo,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: context.colorPalette.blueD4B,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+            ? NoResults(
+                header: const Icon(FontAwesomeIcons.trophy),
+                title: context.appLocalization.noStandingsInfo,
               )
             : SingleChildScrollView(
                 padding: const EdgeInsetsDirectional.symmetric(horizontal: 20, vertical: 5),

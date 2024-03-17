@@ -4,6 +4,7 @@ import 'package:sportk/utils/base_extensions.dart';
 class NoResults extends StatelessWidget {
   final String? title, body;
   final Widget? header, footer;
+  final MainAxisAlignment mainAxisAlignment;
 
   const NoResults({
     super.key,
@@ -11,6 +12,7 @@ class NoResults extends StatelessWidget {
     this.body,
     this.header,
     this.footer,
+    this.mainAxisAlignment = MainAxisAlignment.center,
   });
 
   @override
@@ -18,7 +20,7 @@ class NoResults extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: mainAxisAlignment,
         children: [
           if (header != null) header!,
           if (title != null)

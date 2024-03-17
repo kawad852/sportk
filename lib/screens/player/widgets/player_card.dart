@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sportk/model/player_model.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/player/widgets/detalis_card.dart';
@@ -7,6 +8,7 @@ import 'package:sportk/screens/player/widgets/player_team.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
+import 'package:sportk/widgets/no_results.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 import 'package:sportk/widgets/team_name.dart';
 
@@ -95,12 +97,10 @@ class _PlayerCardState extends State<PlayerCard> {
       onComplete: (context, snapshot) {
         final player = snapshot.data!;
         return player.data == null
-            ? Text(
-                context.appLocalization.playerError,
-                style: TextStyle(
-                  color: context.colorPalette.blueD4B,
-                  fontWeight: FontWeight.bold,
-                ),
+            ? NoResults(
+                mainAxisAlignment: MainAxisAlignment.end,
+                header: const Icon(FontAwesomeIcons.baseball),
+                title: context.appLocalization.playerError,
               )
             : Column(
                 mainAxisAlignment: MainAxisAlignment.end,
