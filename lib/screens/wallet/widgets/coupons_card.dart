@@ -9,6 +9,7 @@ import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/screens/wallet/request_detalis_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/utils/shared_pref.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
@@ -100,7 +101,7 @@ class _CouponsCardState extends State<CouponsCard> {
                         Align(
                           alignment: Alignment.topLeft,
                           child: Row(
-                            mainAxisAlignment: MySharedPreferences.language == "ar"
+                            mainAxisAlignment: MySharedPreferences.language == LanguageEnum.arabic
                                 ? MainAxisAlignment.end
                                 : MainAxisAlignment.start,
                             children: [
