@@ -28,7 +28,7 @@ class NavBarItem extends StatelessWidget {
               curve: Curves.easeInOut,
               child: CustomSvg(
                 icon,
-                height: 25,
+                // height: 25,
                 width: 25,
                 color: isSelected ? context.colorPalette.red100 : context.colorPalette.blueD4B,
               ),

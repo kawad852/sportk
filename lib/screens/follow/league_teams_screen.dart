@@ -8,21 +8,21 @@ import 'package:sportk/utils/enums.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/team_bubble.dart';
 
-class LeaguesScreen extends StatefulWidget {
+class LeagueTeamsScreen extends StatefulWidget {
   final int leagueId;
   final String leagueName;
 
-  const LeaguesScreen({
+  const LeagueTeamsScreen({
     super.key,
     required this.leagueId,
     required this.leagueName,
   });
 
   @override
-  State<LeaguesScreen> createState() => _LeaguesScreenState();
+  State<LeagueTeamsScreen> createState() => _LeagueTeamsScreenState();
 }
 
-class _LeaguesScreenState extends State<LeaguesScreen> {
+class _LeagueTeamsScreenState extends State<LeagueTeamsScreen> {
   late FootBallProvider _footBallProvider;
   late FavoriteProvider _favoriteProvider;
   late Future<TeamsBySeasonModel> _teamsFuture;

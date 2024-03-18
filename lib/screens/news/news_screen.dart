@@ -2,9 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:sportk/model/league_model.dart';
-import 'package:sportk/model/matches/our_league_model.dart';
 import 'package:sportk/model/new_model.dart';
-import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/providers/common_provider.dart';
@@ -35,16 +33,6 @@ class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMi
   late AuthProvider _authProvider;
   late Future<NewModel> _recommendedNewsFuture;
   late Future<NewModel> _compoNewsFuture;
-
-  Future<OurLeaguesModel> _fetchLeagues(int pageKey) {
-    final snapshot = ApiService<OurLeaguesModel>().build(
-      weCanUrl: '${ApiUrl.ourLeagues}?page=$pageKey',
-      isPublic: true,
-      apiType: ApiType.get,
-      builder: OurLeaguesModel.fromJson,
-    );
-    return snapshot;
-  }
 
   @override
   void initState() {
@@ -210,7 +198,7 @@ class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMi
                     SizedBox(
                       height: 70.0,
                       child: VexPaginator(
-                        query: (pageKey) async => _fetchLeagues(pageKey),
+                        query: (pageKey) async => _commonProvider.fetchOurLeagues(pageKey),
                         onFetching: (snapshot) async => snapshot.data!,
                         pageSize: 10,
                         onLoading: () {
