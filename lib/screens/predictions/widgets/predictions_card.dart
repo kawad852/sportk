@@ -21,7 +21,10 @@ class PredictionsCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const CustomSvg(MyIcons.coin),
+          const CustomSvg(
+            MyIcons.coin,
+            fixedColor: true,
+          ),
           const SizedBox(
             width: 5,
           ),

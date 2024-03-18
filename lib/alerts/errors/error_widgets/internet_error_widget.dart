@@ -18,7 +18,7 @@ class InternetErrorWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-           // const FaIcon(FontAwesomeIcons.solidCloudExclamation),
+            // const FaIcon(FontAwesomeIcons.solidCloudExclamation),
             Padding(
               padding: const EdgeInsets.only(top: 20, bottom: 10),
               child: Text(
@@ -35,7 +35,12 @@ class InternetErrorWidget extends StatelessWidget {
             const SizedBox(height: 10),
             OutlinedButton(
               onPressed: onRetry,
-              child: Text(context.appLocalization.retry),
+              child: Text(
+                context.appLocalization.retry,
+                style: TextStyle(
+                  color: context.colorPalette.blueD4B,
+                ),
+              ),
             ),
           ],
         ),
