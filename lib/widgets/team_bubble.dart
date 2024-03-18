@@ -24,35 +24,38 @@ class TeamBubble extends StatelessWidget {
       onTap: () {
         context.push(ClubScreen(teamId: team.id!));
       },
-      child: Column(
-        children: [
-          CustomNetworkImage(
-            team.imagePath ?? team.logo!,
-            height: 100,
-            width: 100,
-            boxFit: BoxFit.scaleDown,
-            scale: 2,
-            backgroundColor: context.colorPalette.grey3F1,
+      child: SizedBox(
+        width: 100,
+        child: Column(
+          children: [
+            CustomNetworkImage(
+              team.imagePath ?? team.logo!,
+              height: 100,
+              width: 100,
+              boxFit: BoxFit.scaleDown,
+              scale: 2,
+              backgroundColor: context.colorPalette.grey3F1,
 
-            // border: selected
-            //     ? Border.all(
-            //         width: 3,
-            //         color: context.colorScheme.primary,
-            //       )
-            //     : null,
-            alignment: AlignmentDirectional.topStart,
-            child: FavoriteButton(
-              id: team.id!,
-              type: CompoTypeEnum.teams,
-              name: team.name!,
-              showDialog: showDialog,
+              // border: selected
+              //     ? Border.all(
+              //         width: 3,
+              //         color: context.colorScheme.primary,
+              //       )
+              //     : null,
+              alignment: AlignmentDirectional.topStart,
+              child: FavoriteButton(
+                id: team.id!,
+                type: CompoTypeEnum.teams,
+                name: team.name!,
+                showDialog: showDialog,
+              ),
             ),
-          ),
-          Text(
-            team.name!,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
+            Text(
+              team.name!,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
       ),
     );
   }

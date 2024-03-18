@@ -5,6 +5,7 @@ import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/screens/base/widgets/nav_bar_item.dart';
 import 'package:sportk/screens/favorites/favorites_screen.dart';
 import 'package:sportk/screens/home/home_screen.dart';
+import 'package:sportk/screens/leagues/leagues_screen.dart';
 import 'package:sportk/screens/news/news_screen.dart';
 import 'package:sportk/screens/wallet/wallet_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
@@ -26,6 +27,7 @@ class _AppNavBarState extends State<AppNavBar> {
   final items = [
     MyIcons.football,
     MyIcons.documentText,
+    MyIcons.cup,
     MyIcons.starOutlined,
     MyIcons.wallet,
   ];
@@ -33,6 +35,7 @@ class _AppNavBarState extends State<AppNavBar> {
   final screens = [
     const HomeScreen(),
     const NewsScreen(),
+    const LeaguesScreen(),
     const FavoritesScreen(),
     const WalletScreen(),
   ];

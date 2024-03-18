@@ -54,5 +54,5 @@ class ApiUrl {
   static const String faq = '/api/faqs';
   static const String deleteAccount = '/api/users/delete';
   static const String invitationCode = '/api/users/code';
-
+  static const String notifications = '/api/notifications/user';
 }

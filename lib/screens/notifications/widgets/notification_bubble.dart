@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/model/notificaion_model.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 
 class NotificationBubble extends StatelessWidget {
-  const NotificationBubble({super.key});
+  final NotificationData notification;
+
+  const NotificationBubble({
+    super.key,
+    required this.notification,
+  });
 
   Widget _buildText(String text) {
     return Text(
@@ -37,12 +43,12 @@ class NotificationBubble extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildText('text'),
-                _buildText('text'),
-                Align(
+                _buildText(notification.title!),
+                _buildText(notification.content!),
+                const Align(
                   alignment: AlignmentDirectional.centerEnd,
                   child: Text(
-                    "Date",
+                    '22.3.4',
                     style: TextStyle(
                       fontSize: 10,
                     ),
