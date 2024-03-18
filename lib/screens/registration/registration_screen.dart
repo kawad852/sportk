@@ -1,7 +1,13 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:math' as math;
+
+import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:sportk/alerts/feedback/app_feedback.dart';
 import 'package:sportk/alerts/loading/app_over_loader.dart';
 import 'package:sportk/providers/auth_provider.dart';
@@ -75,6 +81,62 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     }
   }
 
+  Future<void> _signInWithApple(BuildContext context) async {
+    try {
+      AppOverlayLoader.show();
+      final rawNonce = generateNonce();
+      final nonce = sha256ofString(rawNonce);
+
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+        nonce: nonce,
+      );
+
+      final oauthCredential = OAuthProvider("apple.com").credential(
+        idToken: appleCredential.identityToken,
+        rawNonce: rawNonce,
+      );
+
+      final auth = await _firebaseAuth.signInWithCredential(oauthCredential);
+      if (context.mounted) {
+        await _authProvider.login(
+          context,
+          displayName: auth.user?.displayName,
+          email: auth.user?.email,
+          photoURL: auth.user?.photoURL,
+        );
+      }
+    } on PlatformException catch (e) {
+      AppOverlayLoader.hide();
+      if (e.code == GoogleSignIn.kNetworkError && context.mounted) {
+        context.showSnackBar(context.appLocalization.networkError, duration: 8);
+      } else {
+        if (context.mounted) {
+          context.showSnackBar(context.appLocalization.generalError);
+        }
+      }
+      debugPrint("AppleSignInException:: $e");
+    } catch (e) {
+      AppOverlayLoader.hide();
+      debugPrint("AppleSignInException:: $e");
+    }
+  }
+
+  String generateNonce([int length = 32]) {
+    const charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
+    final random = math.Random.secure();
+    return List.generate(length, (_) => charset[random.nextInt(charset.length)]).join();
+  }
+
+  String sha256ofString(String input) {
+    final bytes = utf8.encode(input);
+    final digest = sha256.convert(bytes);
+    return digest.toString();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -130,16 +192,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   width: 50,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Image.asset(
-                    MyImages.apple,
-                    width: 50,
+              if (Platform.isIOS)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: GestureDetector(
+                    onTap: () {
+                      _signInWithApple(context);
+                    },
+                    child: Image.asset(
+                      MyImages.apple,
+                      width: 50,
+                    ),
                   ),
                 ),
-              ),
               GestureDetector(
                 onTap: () {},
                 child: Image.asset(
