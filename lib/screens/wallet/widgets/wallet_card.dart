@@ -24,7 +24,7 @@ class WalletCard extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 30.0,
-                    backgroundColor: context.colorPalette.blueD4B,
+                    backgroundColor: context.colorPalette.walletColor,
                     child: CircleAvatar(
                       radius: 26.0,
                       child: ClipOval(
@@ -45,7 +45,7 @@ class WalletCard extends StatelessWidget {
                           userData.name!,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            color: context.colorPalette.blueD4B,
+                            color: context.colorPalette.walletColor,
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),

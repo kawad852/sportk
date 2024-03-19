@@ -212,12 +212,12 @@ class _StatisticsInfoState extends State<StatisticsInfo> {
                                   color: context.colorPalette.blueD4B,
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       );
               },
-            )
+            ),
           ],
         );
       },
