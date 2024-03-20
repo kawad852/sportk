@@ -319,4 +319,16 @@ class FootBallProvider extends ChangeNotifier {
     );
     return snapshot;
   }
+
+  Future<PlayerSearchModel> fetchLeaguesByCountry({
+    required String id,
+  }) {
+    final snapshot = ApiService<PlayerSearchModel>().build(
+      sportsUrl: '${ApiUrl.leaguesByCountry}/$id${ApiUrl.auth}&locale=${MySharedPreferences.language}',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: PlayerSearchModel.fromJson,
+    );
+    return snapshot;
+  }
 }
