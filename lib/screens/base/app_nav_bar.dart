@@ -87,7 +87,7 @@ class _AppNavBarState extends State<AppNavBar> {
             final index = screens.indexOf(element);
             return NavBarItem(
               onTap: () {
-                if (index == 0 || index == 1) {
+                if (index == 0 || index == 1 || index == 2) {
                   _onSelect(index);
                 } else {
                   authProvider.checkIfUserAuthenticated(

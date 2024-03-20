@@ -208,5 +208,6 @@
   "longBalls":"كرات طويلة",
   "throughBalls":"كرات بينية",
   "cleansheets":"شباك نظيفة",
-  "goalsConceded":"الاهداف المستقبلة"
+  "goalsConceded":"الاهداف المستقبلة",
+  "localLeagues": "بطولات محلية"
 }

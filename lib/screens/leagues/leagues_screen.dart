@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/model/league_model.dart';
 import 'package:sportk/providers/common_provider.dart';
+import 'package:sportk/providers/football_provider.dart';
+import 'package:sportk/screens/league_info/league_info_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/favorite_button.dart';
+import 'package:sportk/widgets/league_tile.dart';
 import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 import 'package:sportk/widgets/vex/vex_loader.dart';
@@ -19,11 +22,13 @@ class LeaguesScreen extends StatefulWidget {
 
 class _LeaguesScreenState extends State<LeaguesScreen> {
   late CommonProvider _commonProvider;
+  late FootBallProvider _footBallProvider;
 
   @override
   void initState() {
     super.initState();
     _commonProvider = context.commonProvider;
+    _footBallProvider = context.footBallProvider;
   }
 
   @override
@@ -89,7 +94,11 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
 
                     final league = snapshot.docs[index] as LeagueData;
                     return GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        context.push(
+                          LeagueInfoScreen(leagueId: league.id!, subType: league.subType!),
+                        );
+                      },
                       child: SizedBox(
                         width: 100,
                         child: Column(
@@ -120,7 +129,62 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
                 ),
               );
             },
-          )
+          ),
+          VexPaginator(
+            query: (pageKey) async => _footBallProvider.fetchLeaguesByCountry(id: '97374'),
+            onFetching: (snapshot) async => snapshot.data!,
+            pageSize: 10,
+            onLoading: () {
+              return ShimmerLoading(
+                child: ListView.separated(
+                  itemCount: 3,
+                  separatorBuilder: (context, index) => const SizedBox(height: 5),
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return const LoadingBubble(
+                      height: 50,
+                    );
+                  },
+                ),
+              );
+            },
+            builder: (context, snapshot) {
+              if (snapshot.docs.isEmpty) {
+                return const SizedBox.shrink();
+              }
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ListTile(
+                    title: Text(
+                      context.appLocalization.localLeagues,
+                      style: context.textTheme.titleMedium,
+                    ),
+                  ),
+                  ListView.separated(
+                    itemCount: snapshot.docs.length,
+                    separatorBuilder: (context, index) => const SizedBox(height: 5),
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final league = snapshot.docs[index] as LeagueData;
+                      return LeagueTile(
+                        league: league,
+                        onTap: () {
+                          context.push(
+                            LeagueInfoScreen(leagueId: league.id!, subType: league.subType!),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ],
+              );
+            },
+          ),
         ],
       ),
     );

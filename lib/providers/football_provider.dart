@@ -6,6 +6,7 @@ import 'package:sportk/model/league_by_date_model.dart';
 import 'package:sportk/model/league_model.dart';
 import 'package:sportk/model/league_search_model.dart';
 import 'package:sportk/model/match_model.dart';
+import 'package:sportk/model/matches/our_league_model.dart';
 import 'package:sportk/model/player_model.dart';
 import 'package:sportk/model/player_search_model.dart';
 import 'package:sportk/model/player_statistics_model.dart';
@@ -320,14 +321,14 @@ class FootBallProvider extends ChangeNotifier {
     return snapshot;
   }
 
-  Future<PlayerSearchModel> fetchLeaguesByCountry({
+  Future<OurLeaguesModel> fetchLeaguesByCountry({
     required String id,
   }) {
-    final snapshot = ApiService<PlayerSearchModel>().build(
+    final snapshot = ApiService<OurLeaguesModel>().build(
       sportsUrl: '${ApiUrl.leaguesByCountry}/$id${ApiUrl.auth}&locale=${MySharedPreferences.language}',
       isPublic: true,
       apiType: ApiType.get,
-      builder: PlayerSearchModel.fromJson,
+      builder: OurLeaguesModel.fromJson,
     );
     return snapshot;
   }

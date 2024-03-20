@@ -208,5 +208,6 @@
   "longBalls":"Long Balls",
   "throughBalls":"Through Balls",
   "cleansheets":"Clean Sheets",
-  "goalsConceded":"Goals Conceded"
+  "goalsConceded":"Goals Conceded",
+  "localLeagues": "Local leagues"
 }
