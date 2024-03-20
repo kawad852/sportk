@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:sportk/model/country_info_model.dart';
 import 'package:sportk/model/player_statistics_model.dart';
@@ -31,10 +33,11 @@ class _StatisticsInfoState extends State<StatisticsInfo> {
         playerId: widget.playerId, seasonId: widget.seasonId);
     final player = await _playerStatisticsFuture;
     _countryFuture = _footBallProvider.fetchCountry(countryId: player.data!.countryId!);
-    return Future.wait([_playerStatisticsFuture, _countryFuture]);
+    return Future.wait(
+        [_playerStatisticsFuture, _countryFuture, statisticsFilters(player.data!.statistics!)]);
   }
 
-  void statisticsFilters(List<Statistic> statistics) {
+  Future<void> statisticsFilters(List<Statistic> statistics) async {
     statistics.map(
       (element) {
         element.details!.map((e) {
@@ -129,9 +132,7 @@ class _StatisticsInfoState extends State<StatisticsInfo> {
         );
       },
       onComplete: (context, snapshot) {
-        final statistics = snapshot.data![0] as PlayerStatisticsModel;
         final country = snapshot.data![1] as CountryInfoModel;
-        statisticsFilters(statistics.data!.statistics!);
         return Column(
           children: [
             Container(
@@ -182,42 +183,41 @@ class _StatisticsInfoState extends State<StatisticsInfo> {
               padding: const EdgeInsets.only(top: 5),
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
+                log(additionalStatistics.toString());
                 String key = additionalStatistics.keys.elementAt(index);
-                return additionalStatistics[key] == 0
-                    ? null
-                    : Container(
-                        width: double.infinity,
-                        height: 40,
-                        margin: const EdgeInsetsDirectional.only(end: 15),
-                        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                        decoration: BoxDecoration(
-                          color: context.colorPalette.grey3F3,
-                          borderRadius: BorderRadius.circular(10),
+                return Container(
+                  width: double.infinity,
+                  height: 40,
+                  margin: const EdgeInsetsDirectional.only(end: 15),
+                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  decoration: BoxDecoration(
+                    color: context.colorPalette.grey3F3,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          key,
+                          style: TextStyle(
+                            color: context.colorPalette.blueD4B,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                key,
-                                style: TextStyle(
-                                  color: context.colorPalette.blueD4B,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                "${additionalStatistics[key]}",
-                                style: TextStyle(
-                                  color: context.colorPalette.blueD4B,
-                                ),
-                              ),
-                            )
-                          ],
+                      ),
+                      Expanded(
+                        child: Text(
+                          "${additionalStatistics[key]}",
+                          style: TextStyle(
+                            color: context.colorPalette.blueD4B,
+                          ),
                         ),
-                      );
+                      ),
+                    ],
+                  ),
+                );
               },
-            )
+            ),
           ],
         );
       },

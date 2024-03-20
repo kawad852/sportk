@@ -95,13 +95,13 @@ class _SwapRequestsScreenState extends State<SwapRequestsScreen> {
                         switch (element.statusType) {
                           case 0:
                             status = context.appLocalization.rejected;
-                            colorStatus = context.colorPalette.red000;
+                            colorStatus = context.colorPalette.penddingColor;
                           case 1:
                             status = context.appLocalization.replaced;
                             colorStatus = context.colorPalette.green057;
                           case 2:
                             status = context.appLocalization.pending;
-                            colorStatus = context.colorPalette.red000;
+                            colorStatus = context.colorPalette.penddingColor;
                         }
                         return InkWell(
                           highlightColor: Colors.transparent,

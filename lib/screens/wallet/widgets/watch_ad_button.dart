@@ -14,7 +14,7 @@ class WatchAdButton extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
-        color: context.colorPalette.yellowF7A,
+        color: context.colorPalette.adButtonColor,
         borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
       ),
       margin: const EdgeInsetsDirectional.only(top: 30, bottom: 10),
@@ -37,7 +37,7 @@ class WatchAdButton extends StatelessWidget {
                   Text(
                     " $points ",
                     style: TextStyle(
-                      color: context.colorPalette.blueD4B,
+                      color: context.colorPalette.videoPlayColor,
                       fontSize: 14,
                     ),
                   ),
@@ -51,7 +51,10 @@ class WatchAdButton extends StatelessWidget {
                 ],
               ),
             ),
-            const CustomSvg(MyIcons.videoPlay)
+            CustomSvg(
+              MyIcons.videoPlay,
+              color: context.colorPalette.videoPlayColor,
+            ),
           ],
         ),
       ),

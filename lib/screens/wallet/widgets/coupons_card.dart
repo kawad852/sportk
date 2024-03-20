@@ -110,7 +110,7 @@ class _CouponsCardState extends State<CouponsCard> {
                                 padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: context.colorPalette.grey2F2,
+                                  color: context.colorPalette.walletContainerColor,
                                 ),
                                 child: Row(
                                   children: [
@@ -140,7 +140,7 @@ class _CouponsCardState extends State<CouponsCard> {
                             padding: const EdgeInsetsDirectional.symmetric(horizontal: 10),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              color: context.colorPalette.grey2F2,
+                              color: context.colorPalette.walletContainerColor,
                             ),
                             child: Column(
                               children: [

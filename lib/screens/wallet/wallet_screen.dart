@@ -44,7 +44,7 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
   final _vexKey = GlobalKey<VexPaginatorState>();
 
   Future<List<dynamic>> _initializeFutures() async {
-    _userFuture = _authProvider.getUserProfile(context,MySharedPreferences.user.id!);
+    _userFuture = _authProvider.getUserProfile(context, MySharedPreferences.user.id!);
     _pointsFuture = _commonProvider.getPoints();
     return Future.wait([_userFuture, _pointsFuture]);
   }
@@ -162,11 +162,11 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
                               ),
                             ),
                             Container(
-                              width: 180,
+                              width: 170,
                               height: 30,
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
-                                color: context.colorPalette.scaffoldColor,
+                                color: context.colorPalette.walletContainerColor,
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Text(
