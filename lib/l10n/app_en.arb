@@ -209,5 +209,6 @@
   "throughBalls":"Through Balls",
   "cleansheets":"Clean Sheets",
   "goalsConceded":"Goals Conceded",
-  "localLeagues": "Local leagues"
+  "localLeagues": "Local leagues",
+  "cantPredictMatch":"You cannot predict the result of this match now"
 }

@@ -209,5 +209,6 @@
   "throughBalls":"كرات بينية",
   "cleansheets":"شباك نظيفة",
   "goalsConceded":"الاهداف المستقبلة",
-  "localLeagues": "بطولات محلية"
+  "localLeagues": "بطولات محلية",
+  "cantPredictMatch":"لا يمكنك توقع نتيجة هذه المباراة الآن"
 }

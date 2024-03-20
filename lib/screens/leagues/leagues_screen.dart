@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/helper/ui_helper.dart';
 import 'package:sportk/model/league_model.dart';
 import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
@@ -91,12 +92,13 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
                     if (index == snapshot.docs.length) {
                       return VexLoader(snapshot.isFetchingMore);
                     }
-
+                    
                     final league = snapshot.docs[index] as LeagueData;
                     return GestureDetector(
                       onTap: () {
-                        context.push(
-                          LeagueInfoScreen(leagueId: league.id!, subType: league.subType!),
+                        UiHelper.navigateToLeagueInfo(
+                          context,
+                          leagueData: league,
                         );
                       },
                       child: SizedBox(
@@ -174,8 +176,9 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
                       return LeagueTile(
                         league: league,
                         onTap: () {
-                          context.push(
-                            LeagueInfoScreen(leagueId: league.id!, subType: league.subType!),
+                          UiHelper.navigateToLeagueInfo(
+                            context,
+                            leagueData: league,
                           );
                         },
                       );

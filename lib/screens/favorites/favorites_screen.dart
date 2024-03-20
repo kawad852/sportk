@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sportk/helper/ui_helper.dart';
 import 'package:sportk/model/favorite_model.dart';
 import 'package:sportk/model/league_model.dart';
 import 'package:sportk/providers/favorite_provider.dart';
-import 'package:sportk/screens/league_info/league_info_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
@@ -93,8 +93,12 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
           return Consumer<FavoriteProvider>(
             builder: (context, provider, child) {
               provider.favorites = snapshot.data!.data!;
-              final teamsFavorites = provider.favorites.where((element) => element.type == CompoTypeEnum.teams).toList();
-              final leagueFavorites = provider.favorites.where((element) => element.type == CompoTypeEnum.competitions).toList();
+              final teamsFavorites = provider.favorites
+                  .where((element) => element.type == CompoTypeEnum.teams)
+                  .toList();
+              final leagueFavorites = provider.favorites
+                  .where((element) => element.type == CompoTypeEnum.competitions)
+                  .toList();
               if (provider.favorites.isEmpty) {
                 return Center(
                   child: NoResults(
@@ -151,11 +155,9 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
                             return LeagueTile(
                               league: league,
                               onTap: () {
-                                context.push(
-                                  LeagueInfoScreen(
-                                    leagueId: league.id!,
-                                    subType: league.subType!,
-                                  ),
+                                UiHelper.navigateToLeagueInfo(
+                                  context, 
+                                  leagueData: leagueModel.data!,
                                 );
                               },
                               trailing: FavoriteButton(

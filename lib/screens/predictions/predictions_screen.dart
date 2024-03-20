@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/model/match_points_model.dart';
 import 'package:sportk/screens/predictions/widgets/container_card.dart';
 import 'package:sportk/screens/predictions/widgets/predictions_card.dart';
 import 'package:sportk/screens/predictions/widgets/predictions_container.dart';
@@ -7,7 +8,8 @@ import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/widgets/stretch_button.dart';
 
 class PredictionsScreen extends StatefulWidget {
-  const PredictionsScreen({super.key});
+  final PointsData pointsData;
+  const PredictionsScreen({super.key, required this.pointsData});
 
   @override
   State<PredictionsScreen> createState() => _PredictionsScreenState();

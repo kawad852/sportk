@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/helper/ui_helper.dart';
 import 'package:sportk/model/league_model.dart';
 import 'package:sportk/model/team_info_model.dart';
 import 'package:sportk/providers/football_provider.dart';
-import 'package:sportk/screens/champions_league/champions_league_screen.dart';
-import 'package:sportk/screens/league_info/league_info_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_theme.dart';
@@ -108,19 +107,11 @@ class _ClubStandingsState extends State<ClubStandings> {
                         highlightColor: Colors.transparent,
                         splashColor: Colors.transparent,
                         onTap: () {
-                          leagues[index].data!.subType == LeagueTypeEnum.cubInternational
-                              ? context.push(
-                                  ChampionsLeagueScreen(
-                                    leagueId: leagues[index].data!.id!,
-                                    teamId: widget.teamId,
-                                  ),
-                                )
-                              : context.push(
-                                  LeagueInfoScreen(
-                                    leagueId: leagues[index].data!.id!,
-                                    subType: leagues[index].data!.subType!,
-                                  ),
-                                );
+                          UiHelper.navigateToLeagueInfo(
+                            context,
+                            leagueData: leagues[index].data!,
+                            teamId: widget.teamId,
+                          );
                         },
                         child: Container(
                           height: 30,

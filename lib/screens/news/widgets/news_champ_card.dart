@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/helper/ui_helper.dart';
 import 'package:sportk/model/league_model.dart';
 import 'package:sportk/screens/league_info/league_info_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
@@ -17,13 +18,18 @@ class NewsChampCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.push(
-          LeagueInfoScreen(
-            leagueId: league.id!,
-            subType: league.subType!,
-            initialIndex: 4,
-          ),
+        UiHelper.navigateToLeagueInfo(
+          context,
+          leagueData: league,
+          isNews: true,
         );
+        // context.push(
+        //   LeagueInfoScreen(
+        //     leagueId: league.id!,
+        //     subType: league.subType!,
+        //     initialIndex: 4,
+        //   ),
+        // );
       },
       child: Container(
         width: 60,

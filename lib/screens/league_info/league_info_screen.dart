@@ -141,7 +141,7 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
                         labelPadding: const EdgeInsetsDirectional.symmetric(horizontal: 4),
                         padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
                         tabs: [
-                          if (widget.subType == LeagueTypeEnum.domestic) Text(context.appLocalization.standings),
+                          if (_isDomestic) Text(context.appLocalization.standings),
                           Text(context.appLocalization.scorers),
                           Text(context.appLocalization.table),
                           Text(context.appLocalization.news),
@@ -157,9 +157,9 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
             child: TabBarView(
               controller: _controller,
               children: [
-                if (widget.subType == LeagueTypeEnum.domestic) LeagueStandings(leagueId: widget.leagueId),
+                if (_isDomestic) LeagueStandings(leagueId: widget.leagueId),
                 LeagueScorers(leagueId: widget.leagueId),
-                widget.subType == LeagueTypeEnum.domestic ? LeagueMatches(leagueId: widget.leagueId) : ChampionsMatches(leagueId: widget.leagueId),
+                _isDomestic ? LeagueMatches(leagueId: widget.leagueId) : ChampionsMatches(leagueId: widget.leagueId),
                 NewTab(id: widget.leagueId, type: NewTypeEnum.league),
               ],
             ),

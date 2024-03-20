@@ -4,6 +4,7 @@ import 'package:sportk/model/comments_model.dart';
 import 'package:sportk/model/home_competitions_model.dart';
 import 'package:sportk/model/invitation_code_model.dart';
 import 'package:sportk/model/is_like_model.dart';
+import 'package:sportk/model/match_points_model.dart';
 import 'package:sportk/model/matches/live_matches_model.dart';
 import 'package:sportk/model/matches/our_league_model.dart';
 import 'package:sportk/model/new_model.dart';
@@ -175,6 +176,16 @@ class CommonProvider extends ChangeNotifier {
       isPublic: true,
       apiType: ApiType.get,
       builder: OurLeaguesModel.fromJson,
+    );
+    return snapshot;
+  }
+
+  Future<MatchPointsModel> getMatchPoints(int matchId) {
+    final snapshot = ApiService<MatchPointsModel>().build(
+      weCanUrl: "${ApiUrl.matchPoints}/$matchId",
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: MatchPointsModel.fromJson,
     );
     return snapshot;
   }

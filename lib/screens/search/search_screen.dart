@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sportk/helper/ui_helper.dart';
 import 'package:sportk/model/league_search_model.dart';
 import 'package:sportk/model/player_search_model.dart';
 import 'package:sportk/model/team_search_model.dart';
@@ -184,18 +185,10 @@ class _SearchScreenState extends State<SearchScreen> {
                               return LeagueTile(
                                 league: league,
                                 onTap: () {
-                                  league.subType == LeagueTypeEnum.cubInternational
-                                      ? context.push(
-                                          ChampionsLeagueScreen(
-                                            leagueId: id,
-                                          ),
-                                        )
-                                      : context.push(
-                                          LeagueInfoScreen(
-                                            leagueId: league.id!,
-                                            subType: league.subType!,
-                                          ),
-                                        );
+                                  UiHelper.navigateToLeagueInfo(
+                                    context,
+                                    leagueData: league,
+                                  );
                                 },
                                 trailing: FavoriteButton(id: id, type: CompoTypeEnum.competitions),
                               );

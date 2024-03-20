@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/helper/ui_helper.dart';
 import 'package:sportk/model/league_model.dart';
 import 'package:sportk/model/stage_model.dart';
 import 'package:sportk/providers/football_provider.dart';
-import 'package:sportk/screens/champions_league/champions_league_screen.dart';
-import 'package:sportk/screens/league_info/league_info_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
-import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
@@ -38,7 +36,9 @@ class _PhaseCardState extends State<PhaseCard> {
 
   Future<List<dynamic>> _initializeFutures() async {
     _leagueFuture = _footBallProvider.fetchLeague(leagueId: widget.leagueId);
-    _phaseFuture = widget.roundId != null ? _footBallProvider.fetchRound(roundId: widget.roundId!) : _footBallProvider.fetchStage(stageId: widget.stageId);
+    _phaseFuture = widget.roundId != null
+        ? _footBallProvider.fetchRound(roundId: widget.roundId!)
+        : _footBallProvider.fetchStage(stageId: widget.stageId);
 
     return Future.wait([_leagueFuture, _phaseFuture]);
   }
@@ -76,19 +76,11 @@ class _PhaseCardState extends State<PhaseCard> {
 
         return InkWell(
           onTap: () {
-            league.data!.subType == LeagueTypeEnum.cubInternational
-                ? context.push(
-                    ChampionsLeagueScreen(
-                      leagueId: widget.leagueId,
-                      teamId: widget.teamId,
-                    ),
-                  )
-                : context.push(
-                    LeagueInfoScreen(
-                      leagueId: widget.leagueId,
-                      subType: league.data!.subType!,
-                    ),
-                  );
+            UiHelper.navigateToLeagueInfo(
+              context,
+              leagueData: league.data!,
+              teamId: widget.teamId,
+            );
           },
           highlightColor: Colors.transparent,
           splashColor: Colors.transparent,
@@ -112,7 +104,9 @@ class _PhaseCardState extends State<PhaseCard> {
                 ),
                 Flexible(
                   child: Text(
-                    widget.roundId != null ? "${league.data!.name}-${context.appLocalization.week} ${phase.data!.name}" : "${league.data!.name}-${phase.data!.name}",
+                    widget.roundId != null
+                        ? "${league.data!.name}-${context.appLocalization.week} ${phase.data!.name}"
+                        : "${league.data!.name}-${phase.data!.name}",
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: context.colorPalette.blueD4B,
