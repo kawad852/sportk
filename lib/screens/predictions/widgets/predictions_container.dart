@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 
@@ -7,8 +6,16 @@ class PredictionsContainer extends StatefulWidget {
   final int index;
   final int selectedCard;
   final bool isDraw;
-  const PredictionsContainer(
-      {super.key, required this.index, required this.selectedCard, this.isDraw = false});
+  final String team;
+  final String teamLogo;
+  const PredictionsContainer({
+    super.key,
+    required this.index,
+    required this.selectedCard,
+    this.isDraw = false,
+    required this.team,
+    required this.teamLogo,
+  });
 
   @override
   State<PredictionsContainer> createState() => _PredictionsContainerState();
@@ -42,13 +49,13 @@ class _PredictionsContainerState extends State<PredictionsContainer> {
                 const SizedBox(
                   height: 10,
                 ),
-                const CustomNetworkImage(
-                  kFakeImage,
+                CustomNetworkImage(
+                  widget.teamLogo,
                   width: 50,
                   height: 50,
                 ),
                 Text(
-                  "Man city",
+                  widget.team,
                   style: TextStyle(
                     color: widget.selectedCard == widget.index
                         ? context.colorPalette.white

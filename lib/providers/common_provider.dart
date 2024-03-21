@@ -9,6 +9,7 @@ import 'package:sportk/model/matches/live_matches_model.dart';
 import 'package:sportk/model/matches/our_league_model.dart';
 import 'package:sportk/model/new_model.dart';
 import 'package:sportk/model/points_model.dart';
+import 'package:sportk/model/prediction_model.dart';
 import 'package:sportk/model/record_points_model.dart';
 import 'package:sportk/model/swap_requests_model.dart';
 import 'package:sportk/model/vouchers_model.dart';
@@ -186,6 +187,29 @@ class CommonProvider extends ChangeNotifier {
       isPublic: true,
       apiType: ApiType.get,
       builder: MatchPointsModel.fromJson,
+    );
+    return snapshot;
+  }
+
+  Future<PredictionModel> createPrediction({
+    required String matchId,
+    required String homeScore,
+    required String awayScore,
+    required String firstScoreId,
+    required String prediction,
+  }) {
+    final snapshot = ApiService<PredictionModel>().build(
+      weCanUrl: ApiUrl.prediction,
+      isPublic: false,
+      apiType: ApiType.post,
+      queryParams: {
+        "match_id": matchId,
+        "home_score": homeScore,
+        "away_score": awayScore,
+        "first_scorer_id": firstScoreId,
+        "prediction": prediction,
+      },
+      builder: PredictionModel.fromJson,
     );
     return snapshot;
   }

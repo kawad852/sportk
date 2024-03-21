@@ -57,5 +57,7 @@ class ApiUrl {
   static const String invitationCode = '/api/users/code';
   static const String notifications = '/api/notifications/user';
   static const String matchPoints = '/api/matches/points';
+  static const String prediction = '/api/predictions';
+
 
 }

@@ -1,9 +1,14 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:sportk/model/match_points_model.dart';
+import 'package:sportk/model/prediction_model.dart';
+import 'package:sportk/network/api_service.dart';
+import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/screens/predictions/widgets/container_card.dart';
 import 'package:sportk/screens/predictions/widgets/predictions_card.dart';
 import 'package:sportk/screens/predictions/widgets/predictions_container.dart';
-import 'package:sportk/screens/predictions/widgets/result_card.dart';
+import 'package:sportk/screens/predictions/widgets/result_picker.dart';
+import 'package:sportk/screens/predictions/widgets/team_name.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/widgets/stretch_button.dart';
 
@@ -16,15 +21,50 @@ class PredictionsScreen extends StatefulWidget {
 }
 
 class _PredictionsScreenState extends State<PredictionsScreen> {
-  int selectedWinning = 0;
-  int selectedFirstScore = 0;
+  int _selectedWinning = 0;
+  int _selectedFirstScore = 0;
+  bool _visibleResult = false;
+  bool _visibleFirstScore = false;
+
+  PointsData get pointData => widget.pointsData;
+
+  late CommonProvider _commonProvider;
+
+  // void createPrediction() {
+  //   ApiFutureBuilder<PredictionModel>().fetch(
+  //     context,
+  //     future: () async {
+  //       final prediction = _commonProvider.createPrediction(matchId: matchId, homeScore: homeScore, awayScore: awayScore, firstScoreId: firstScoreId, prediction: prediction);
+  //       return prediction;
+  //     },
+  //     onComplete: (snapshot) {
+  //       // if (snapshot.data!.status == 1) {
+  //       //   context.push(PredictionsScreen(pointsData: snapshot.data!));
+  //       // } else {
+  //       //   context.showSnackBar(context.appLocalization.cantPredictMatch);
+  //       // }
+  //     },
+  //   );
+  // }
+
+  @override
+  void initState() {
+    super.initState();
+    _commonProvider = context.commonProvider;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomSheet: StretchedButton(
-        onPressed: () {},
-        margin: const EdgeInsets.symmetric(horizontal: 5),
-        child: Text(context.appLocalization.confirm),
+      bottomSheet: Visibility(
+        visible: _visibleFirstScore,
+        child: ZoomIn(
+          child: StretchedButton(
+            onPressed: () {},
+            margin: const EdgeInsets.symmetric(horizontal: 5),
+            child: Text(context.appLocalization.confirm),
+          ),
+        ),
       ),
       body: CustomScrollView(
         slivers: [
@@ -48,7 +88,9 @@ class _PredictionsScreenState extends State<PredictionsScreen> {
           SliverToBoxAdapter(
             child: Column(
               children: [
-                PredictionsCard(predictionText: context.appLocalization.predTeamWin(10)),
+                PredictionsCard(
+                  predictionText: context.appLocalization.predTeamWin(pointData.teamsScorePoints!),
+                ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -63,13 +105,18 @@ class _PredictionsScreenState extends State<PredictionsScreen> {
                       return InkWell(
                         onTap: () {
                           setState(() {
-                            selectedWinning = index;
+                            _selectedWinning = index;
+                            if (!_visibleResult) {
+                              _visibleResult = true;
+                            }
                           });
                         },
                         child: PredictionsContainer(
                           index: index,
+                          teamLogo: index == 0 ? pointData.homeLogo! : pointData.awayLogo!,
+                          team: index == 0 ? pointData.homeName! : pointData.awayName!,
                           isDraw: index == 1 ? true : false,
-                          selectedCard: selectedWinning,
+                          selectedCard: _selectedWinning,
                         ),
                       );
                     },
@@ -81,53 +128,92 @@ class _PredictionsScreenState extends State<PredictionsScreen> {
           SliverPadding(
             padding: const EdgeInsets.symmetric(vertical: 10),
             sliver: SliverToBoxAdapter(
-              child: Column(
-                children: [
-                  PredictionsCard(predictionText: context.appLocalization.predResult(50)),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const ContainerCard(
-                    height: 75,
-                    child: ResultCard(),
-                  ),
-                ],
+              child: Visibility(
+                visible: _visibleResult,
+                child: Column(
+                  children: [
+                    PredictionsCard(
+                      predictionText:
+                          context.appLocalization.predResult(pointData.matchResultPoints!),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ContainerCard(
+                      height: 75,
+                      child: Row(
+                        children: [
+                          TeamName(name: pointData.homeName!),
+                          ResultPicker(onSelectedItemChanged: (value) {
+                            setState(() {
+                              if (!_visibleFirstScore) {
+                                _visibleFirstScore = true;
+                              }
+                            });
+                          }),
+                          VerticalDivider(
+                            color: context.colorPalette.greyAAA,
+                            thickness: 2,
+                            indent: 15,
+                            endIndent: 20,
+                          ),
+                          ResultPicker(onSelectedItemChanged: (value) {
+                            setState(() {
+                              if (!_visibleFirstScore) {
+                                _visibleFirstScore = true;
+                              }
+                            });
+                          }),
+                          TeamName(name: pointData.awayName!),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
           SliverToBoxAdapter(
-            child: Column(
-              children: [
-                PredictionsCard(predictionText: context.appLocalization.predFirstScore(10)),
-                const SizedBox(
-                  height: 10,
-                ),
-                ContainerCard(
-                  height: 120,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 2,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          setState(() {
-                            selectedFirstScore = index;
-                          });
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30),
-                          child: PredictionsContainer(
-                            index: index,
-                            selectedCard: selectedFirstScore,
-                          ),
-                        ),
-                      );
-                    },
+            child: Visibility(
+              visible: _visibleFirstScore,
+              child: Column(
+                children: [
+                  PredictionsCard(
+                    predictionText:
+                        context.appLocalization.predFirstScore(pointData.firstScorerPoints!),
                   ),
-                ),
-              ],
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ContainerCard(
+                    height: 120,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 2,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+                            setState(() {
+                              _selectedFirstScore = index;
+                            });
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                            child: PredictionsContainer(
+                              index: index,
+                              teamLogo: index == 0 ? pointData.homeLogo! : pointData.awayLogo!,
+                              team: index == 0 ? pointData.homeName! : pointData.awayName!,
+                              selectedCard: _selectedFirstScore,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

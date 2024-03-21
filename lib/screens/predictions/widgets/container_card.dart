@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:animate_do/animate_do.dart';
 import 'package:sportk/utils/base_extensions.dart';
 
 class ContainerCard extends StatelessWidget {
@@ -8,16 +9,18 @@ class ContainerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: height,
-      margin: const EdgeInsets.symmetric(horizontal: 15),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: context.colorPalette.grey3F3,
-        borderRadius: BorderRadius.circular(10),
+    return ZoomIn(
+      child: Container(
+        width: double.infinity,
+        height: height,
+        margin: const EdgeInsets.symmetric(horizontal: 15),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: context.colorPalette.grey3F3,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: child,
       ),
-      child: child,
     );
   }
 }

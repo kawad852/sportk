@@ -3,7 +3,6 @@ import 'package:sportk/helper/ui_helper.dart';
 import 'package:sportk/model/league_model.dart';
 import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
-import 'package:sportk/screens/league_info/league_info_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/widgets/custom_network_image.dart';

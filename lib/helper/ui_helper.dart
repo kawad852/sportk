@@ -35,9 +35,9 @@ class UiHelper {
               leagueId: leagueData.id!,
               subType: leagueData.subType!,
               initialIndex: isNews
-                  ? leagueData.subType == LeagueTypeEnum.domestic
-                      ? 3
-                      : 2
+                  ? leagueData.subType != LeagueTypeEnum.domestic
+                      ? 2
+                      : 3
                   : 0,
             ),
           );
