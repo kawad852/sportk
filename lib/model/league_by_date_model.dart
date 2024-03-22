@@ -12,20 +12,15 @@ class LeagueByDateModel {
   });
 
   factory LeagueByDateModel.fromJson(Map<String, dynamic> json) => LeagueByDateModel(
-        data: json["data"] == null
-            ? []
-            : List<MatchData>.from(json["data"]!.map((x) => MatchData.fromJson(x))),
-        subscription: json["subscription"] == null
-            ? []
-            : List<Subscription>.from(json["subscription"]!.map((x) => Subscription.fromJson(x))),
+        data: json["data"] == null ? [] : List<MatchData>.from(json["data"]!.map((x) => MatchData.fromJson(x))),
+        subscription: json["subscription"] == null ? [] : List<Subscription>.from(json["subscription"]!.map((x) => Subscription.fromJson(x))),
         rateLimit: json["rate_limit"] == null ? null : RateLimit.fromJson(json["rate_limit"]),
         timezone: json["timezone"],
       );
 
   Map<String, dynamic> toJson() => {
         "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
-        "subscription":
-            subscription == null ? [] : List<dynamic>.from(subscription!.map((x) => x.toJson())),
+        "subscription": subscription == null ? [] : List<dynamic>.from(subscription!.map((x) => x.toJson())),
         "rate_limit": rateLimit?.toJson(),
         "timezone": timezone,
       };
@@ -102,16 +97,10 @@ class MatchData {
         placeholder: json["placeholder"],
         hasOdds: json["has_odds"],
         startingAtTimestamp: json["starting_at_timestamp"],
-        statistics: json["statistics"] == null
-            ? []
-            : List<Statistic>.from(json["statistics"]!.map((x) => Statistic.fromJson(x))),
+        statistics: json["statistics"] == null ? [] : List<Statistic>.from(json["statistics"]!.map((x) => Statistic.fromJson(x))),
         state: json["state"] == null ? null : States.fromJson(json["state"]),
-        participants: json["participants"] == null
-            ? []
-            : List<Participant>.from(json["participants"]!.map((x) => Participant.fromJson(x))),
-        periods: json["periods"] == null
-            ? []
-            : List<Period>.from(json["periods"]!.map((x) => Period.fromJson(x))),
+        participants: json["participants"] == null ? [] : List<Participant>.from(json["participants"]!.map((x) => Participant.fromJson(x))),
+        periods: json["periods"] == null ? [] : List<Period>.from(json["periods"]!.map((x) => Period.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -134,13 +123,10 @@ class MatchData {
         "placeholder": placeholder,
         "has_odds": hasOdds,
         "starting_at_timestamp": startingAtTimestamp,
-        "statistics":
-            statistics == null ? [] : List<dynamic>.from(statistics!.map((x) => x.toJson())),
+        "statistics": statistics == null ? [] : List<dynamic>.from(statistics!.map((x) => x.toJson())),
         "state": state?.toJson(),
-        "participants":
-            participants == null ? [] : List<dynamic>.from(participants!.map((x) => x.toJson())),
-        "periods":
-            participants == null ? [] : List<dynamic>.from(participants!.map((x) => x.toJson())),
+        "participants": participants == null ? [] : List<dynamic>.from(participants!.map((x) => x.toJson())),
+        "periods": participants == null ? [] : List<dynamic>.from(participants!.map((x) => x.toJson())),
       };
 }
 
@@ -187,8 +173,7 @@ class Participant {
         founded: json["founded"],
         type: json["type"],
         placeholder: json["placeholder"],
-        lastPlayedAt:
-            json["last_played_at"] == null ? null : DateTime.parse(json["last_played_at"]),
+        lastPlayedAt: json["last_played_at"] == null ? null : DateTime.parse(json["last_played_at"]),
         meta: json["meta"] == null ? null : ParticipantMeta.fromJson(json["meta"]),
       );
 
@@ -283,9 +268,7 @@ class Period {
         minutes: json["minutes"],
         seconds: json["seconds"],
         hasTimer: json["has_timer"],
-        events: json["events"] == null
-            ? []
-            : List<Event>.from(json["events"]!.map((x) => Event.fromJson(x))),
+        events: json["events"] == null ? [] : List<Event>.from(json["events"]!.map((x) => Event.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -518,15 +501,9 @@ class Subscription {
 
   factory Subscription.fromJson(Map<String, dynamic> json) => Subscription(
         meta: json["meta"] == null ? null : SubscriptionMeta.fromJson(json["meta"]),
-        plans: json["plans"] == null
-            ? []
-            : List<Plan>.from(json["plans"]!.map((x) => Plan.fromJson(x))),
-        addOns: json["add_ons"] == null
-            ? []
-            : List<AddOn>.from(json["add_ons"]!.map((x) => AddOn.fromJson(x))),
-        widgets: json["widgets"] == null
-            ? []
-            : List<Widgets>.from(json["widgets"]!.map((x) => Widgets.fromJson(x))),
+        plans: json["plans"] == null ? [] : List<Plan>.from(json["plans"]!.map((x) => Plan.fromJson(x))),
+        addOns: json["add_ons"] == null ? [] : List<AddOn>.from(json["add_ons"]!.map((x) => AddOn.fromJson(x))),
+        widgets: json["widgets"] == null ? [] : List<Widgets>.from(json["widgets"]!.map((x) => Widgets.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {

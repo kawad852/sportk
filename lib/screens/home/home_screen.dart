@@ -75,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _commonProvider = context.commonProvider;
     _footBallProvider = context.footBallProvider;
     _selectedDate = _nowDate;
-    _commonProvider.initializeHome(context);
+    _commonProvider.initializeHome(context, date: _selectedDate);
   }
 
   @override
@@ -85,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
       withBackgroundColor: true,
       onRetry: () {
         setState(() {
-          _commonProvider.initializeHome(context);
+          _commonProvider.initializeHome(context, date: _selectedDate);
         });
       },
       onComplete: (context, snapshot) {
@@ -238,15 +238,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                     isLive: _isLive,
                                     index: index,
                                     length: allCompetitions.length,
-                                    callBack: (bool value) {
-                                      // msgs.add(value);
-                                      // if (index + 1 == allCompetitions.length) {
-                                      //   Future.microtask(() {
-                                      //     setState(() {});
-                                      //   });
-                                      //   print("masjabf::: $msgs");
-                                      // }
-                                    },
                                   );
                                 },
                               ),
