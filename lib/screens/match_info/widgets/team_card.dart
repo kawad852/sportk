@@ -5,7 +5,8 @@ import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/rounded_container.dart';
 
 class TeamCard extends StatelessWidget {
-  const TeamCard({super.key});
+  final String team;
+  const TeamCard({super.key, required this.team});
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +18,15 @@ class TeamCard extends StatelessWidget {
           height: 70,
         ),
         Padding(
-          padding: const EdgeInsetsDirectional.symmetric(vertical: 10),
-          child: Text(
-            "MAN United",
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: context.colorPalette.white),
+          padding: const EdgeInsetsDirectional.symmetric(vertical: 5, horizontal: 5),
+          child: SizedBox(
+            height: 40,
+            child: Text(
+              team,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+              style: TextStyle(color: context.colorPalette.white),
+            ),
           ),
         ),
         Row(

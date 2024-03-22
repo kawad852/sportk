@@ -12,7 +12,7 @@ class MatchCard extends StatelessWidget {
       children: [
         const Expanded(
           flex: 2,
-          child: TeamCard(),
+          child: TeamCard(team: "Man uni"),
         ),
         Expanded(
           flex: 3,
@@ -20,28 +20,33 @@ class MatchCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text(
-                    "2",
-                    style: TextStyle(
-                      color: context.colorPalette.white,
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Text(
+                      "2",
+                      style: TextStyle(
+                        color: context.colorPalette.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsetsDirectional.symmetric(horizontal: 8),
-                    child: Container(
-                      width: 64,
-                      height: 30,
-                      decoration: BoxDecoration(
-                        color: context.colorPalette.white.withOpacity(0.6),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Center(
+                  Column(
+                    children: [
+                      Container(
+                        width: 64,
+                        height: 30,
+                        margin: const EdgeInsetsDirectional.symmetric(horizontal: 20),
+                        decoration: BoxDecoration(
+                          color: context.colorPalette.white.withOpacity(0.6),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                         child: Text(
-                          "60",
+                          "6",
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             color: context.colorPalette.blueD4B,
                             fontSize: 20,
@@ -49,59 +54,59 @@ class MatchCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ),
+                      Text(
+                        "Second half",
+                        style: TextStyle(color: context.colorPalette.white),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        width: 64,
+                        height: 25,
+                        decoration: BoxDecoration(
+                          color: context.colorPalette.white.withOpacity(0.6),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 6,
+                              height: 6,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: context.colorPalette.red000,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              context.appLocalization.live,
+                              style: TextStyle(color: context.colorPalette.blueD4B),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                   Text(
                     "1",
                     style: TextStyle(
                       color: context.colorPalette.white,
-                      fontSize: 35,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],
-              ),
-              Text(
-                "Second half",
-                style: TextStyle(color: context.colorPalette.white),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                width: 64,
-                height: 25,
-                decoration: BoxDecoration(
-                  color: context.colorPalette.white.withOpacity(0.6),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 6,
-                      height: 6,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: context.colorPalette.red000,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      context.appLocalization.live,
-                      style: TextStyle(color: context.colorPalette.blueD4B),
-                    )
-                  ],
-                ),
               ),
             ],
           ),
         ),
         const Expanded(
           flex: 2,
-          child: TeamCard(),
+          child: TeamCard(team: "Man kljhkjhkjhkjhkjh"),
         ),
       ],
     );

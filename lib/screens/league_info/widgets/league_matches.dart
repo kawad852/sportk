@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:sportk/model/match_model.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/league_info/widgets/round_card.dart';
+import 'package:sportk/screens/match_info/match_info_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/web_view_screen.dart';
 import 'package:sportk/widgets/match_card.dart';
@@ -62,7 +63,7 @@ class _LeagueMatchesState extends State<LeagueMatches> with AutomaticKeepAliveCl
         builder: (context, snapshot) {
           final matches = snapshot.docs as List<MatchData>;
           return matches.isEmpty
-              ?const MatchEmptyResult()
+              ? const MatchEmptyResult()
               : SingleChildScrollView(
                   padding: const EdgeInsetsDirectional.symmetric(horizontal: 15, vertical: 10),
                   child: Column(
@@ -105,12 +106,13 @@ class _LeagueMatchesState extends State<LeagueMatches> with AutomaticKeepAliveCl
                                 highlightColor: Colors.transparent,
                                 splashColor: Colors.transparent,
                                 onTap: () async {
-                                  await context.push(WebViewScreen(
-                                    matchId: element.id!,
-                                  ));
-                                  setState(() {
-                                    _vexKey.currentState!.refresh();
-                                  });
+                                  context.push(MatchInfoScreen());
+                                  // await context.push(WebViewScreen(
+                                  //   matchId: element.id!,
+                                  // ));
+                                  // setState(() {
+                                  //   _vexKey.currentState!.refresh();
+                                  // });
                                 },
                                 child: MatchCard(element: element),
                               )

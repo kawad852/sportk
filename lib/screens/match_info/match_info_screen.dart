@@ -24,7 +24,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
   @override
   void initState() {
     super.initState();
-    _controller = TabController(length: 4, vsync: this);
+    _controller = TabController(length: 5, vsync: this);
   }
 
   @override
@@ -34,6 +34,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
         slivers: [
           SliverAppBar(
             leadingWidth: kBarLeadingWith,
+            collapsedHeight: kBarCollapsedHeight,
             pinned: true,
             leading: CustomBack(
               color: context.colorPalette.white,
@@ -44,39 +45,26 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                 icon: const CustomSvg(MyIcons.notification),
               ),
             ],
-            bottom: const PreferredSize(
-              preferredSize: Size.fromHeight(200),
-              child: Padding(
-                padding: EdgeInsetsDirectional.only(bottom: 65),
-                child: MatchCard(),
-              ),
-            ),
-            flexibleSpace: Stack(
-              children: [
-                Image.asset(
-                  MyImages.match,
-                  height: 270,
-                  fit: BoxFit.fill,
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    height: 90,
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: context.colorPalette.white.withOpacity(0.6),
-                          offset: const Offset(0, 0),
-                          blurRadius: 30,
-                          spreadRadius: 8,
-                        ),
-                      ],
-                    ),
+            flexibleSpace: Container(
+              alignment: Alignment.bottomCenter,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                    MyTheme.isLightTheme(context)
+                        ? MyImages.backgroundClub
+                        : MyImages.backgroundClubDark,
                   ),
+                  fit: BoxFit.cover,
                 ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  const MatchCard(),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
                     padding: const EdgeInsetsDirectional.symmetric(horizontal: 20),
                     child: Container(
                       height: 45,
@@ -87,11 +75,27 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                       ),
                       child: TabBar(
                         controller: _controller,
+                        isScrollable: true,
                         indicatorColor: context.colorPalette.blueD4B,
                         labelColor: context.colorPalette.blueD4B,
-                        labelPadding: const EdgeInsetsDirectional.symmetric(horizontal: 4),
-                        padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
+                        tabAlignment: TabAlignment.center,
+                        indicatorSize: TabBarIndicatorSize.label,
+                        //padding: const EdgeInsets.only(top: 8),
+                        labelPadding: const EdgeInsetsDirectional.only(bottom: 8, end: 30, top: 10),
+                        padding: const EdgeInsetsDirectional.only(start: 10),
                         tabs: [
+                          Row(
+                            children: [
+                              const CustomSvg(
+                                MyIcons.coin,
+                                fixedColor: true,
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              Text(context.appLocalization.predictAndWin),
+                            ],
+                          ),
                           Text(context.appLocalization.matchEvents),
                           Text(context.appLocalization.plan),
                           Text(context.appLocalization.statistics),
@@ -100,14 +104,15 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           SliverFillRemaining(
             child: TabBarView(
               controller: _controller,
-              children: const [
+              children: [
+                Text(context.appLocalization.predictAndWin),
                 MatchEvents(),
                 TeamsPlan(),
                 MatchStatistics(),
