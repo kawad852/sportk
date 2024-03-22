@@ -210,5 +210,6 @@
   "cleansheets":"شباك نظيفة",
   "goalsConceded":"الاهداف المستقبلة",
   "localLeagues": "بطولات محلية",
-  "cantPredictMatch":"لا يمكنك توقع نتيجة هذه المباراة الآن"
+  "cantPredictMatch":"لا يمكنك توقع نتيجة هذه المباراة الآن",
+  "successPrediction":"تمت إضافة توقعاتك للمباراة بنجاح"
 }

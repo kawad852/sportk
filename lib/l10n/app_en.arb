@@ -210,5 +210,6 @@
   "cleansheets":"Clean Sheets",
   "goalsConceded":"Goals Conceded",
   "localLeagues": "Local leagues",
-  "cantPredictMatch":"You cannot predict the result of this match now"
+  "cantPredictMatch":"You cannot predict the result of this match now",
+  "successPrediction":"Your prediction for the match has been added successfully"
 }
