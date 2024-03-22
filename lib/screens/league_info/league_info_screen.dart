@@ -80,9 +80,7 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
-                    MyTheme.isLightTheme(context)
-                        ? MyImages.backgroundLeague
-                        : MyImages.backgroundClubDark,
+                    MyTheme.isLightTheme(context) ? MyImages.backgroundLeague : MyImages.backgroundClubDark,
                   ),
                   fit: BoxFit.cover,
                 ),
@@ -161,9 +159,7 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
               children: [
                 if (_isDomestic) LeagueStandings(leagueId: widget.leagueId),
                 LeagueScorers(leagueId: widget.leagueId),
-                _isDomestic
-                    ? LeagueMatches(leagueId: widget.leagueId)
-                    : ChampionsMatches(leagueId: widget.leagueId),
+                _isDomestic ? LeagueMatches(leagueId: widget.leagueId) : ChampionsMatches(leagueId: widget.leagueId),
                 NewTab(id: widget.leagueId, type: NewTypeEnum.league),
               ],
             ),

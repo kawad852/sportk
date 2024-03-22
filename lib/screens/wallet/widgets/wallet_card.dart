@@ -15,81 +15,84 @@ class WalletCard extends StatelessWidget {
     return Selector<AuthProvider, UserData>(
       selector: (context, provider) => provider.user,
       builder: (context, userData, child) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              flex: 3,
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    radius: 30.0,
-                    backgroundColor: context.colorPalette.walletColor,
-                    child: CircleAvatar(
-                      radius: 26.0,
-                      child: ClipOval(
-                        child: CustomNetworkImage(
-                          userData.profileImg!,
+        return Builder(
+          builder: (context) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: Row(
+                    children: [
+                      CustomNetworkImage(
+                        userData.profileImg!,
+                        shape: BoxShape.circle,
+                        height: 60,
+                        width: 60,
+                        boxFit: BoxFit.contain,
+                        border: Border.all(
+                          color: context.colorPalette.walletColor,
+                          width: 3,
                         ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Flexible(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          userData.name!,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: context.colorPalette.walletColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                          ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              userData.name!,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: context.colorPalette.walletColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
+                            ),
+                            Text(
+                              userData.email!,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: context.colorPalette.text97,
+                              ),
+                            ),
+                          ],
                         ),
-                        Text(
-                          userData.email!,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: context.colorPalette.text97,
-                          ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  height: 35.0,
+                  padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: context.colorPalette.grey2F2,
+                  ),
+                  child: Row(
+                    children: [
+                      Text(
+                        "${userData.points}",
+                        style: TextStyle(
+                          color: context.colorPalette.blueD4B,
                         ),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      const CustomSvg(
+                        MyIcons.coin,
+                        fixedColor: true,
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-            Container(
-              height: 35.0,
-              padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: context.colorPalette.grey2F2,
-              ),
-              child: Row(
-                children: [
-                  Text(
-                    "${userData.points}",
-                    style: TextStyle(
-                      color: context.colorPalette.blueD4B,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 6,
-                  ),
-                  const CustomSvg(
-                    MyIcons.coin,
-                    fixedColor: true,
-                  ),
-                ],
-              ),
-            ),
-          ],
+                ),
+              ],
+            );
+          },
         );
       },
     );

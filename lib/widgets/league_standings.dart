@@ -101,8 +101,7 @@ class _LeagueStandingsState extends State<LeagueStandings> with AutomaticKeepAli
                       ...standings.data!.map((element) {
                         return TableRow(
                           decoration: BoxDecoration(
-                            color: widget.selectedTeamId != null &&
-                                    element.participantId == widget.selectedTeamId
+                            color: widget.selectedTeamId != null && element.participantId == widget.selectedTeamId
                                 ? context.colorPalette.blueABB
                                 : standings.data!.indexOf(element) % 2 == 0
                                     ? context.colorPalette.grey3F3
@@ -110,8 +109,7 @@ class _LeagueStandingsState extends State<LeagueStandings> with AutomaticKeepAli
                           ),
                           children: [
                             InkWell(
-                              onTap: widget.selectedTeamId != null &&
-                                      widget.selectedTeamId == element.participantId!
+                              onTap: widget.selectedTeamId != null && widget.selectedTeamId == element.participantId!
                                   ? null
                                   : () => context.push(
                                         ClubScreen(
