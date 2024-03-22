@@ -196,15 +196,15 @@ class _HomeScreenRefState extends State<HomeScreenRef> {
                         itemCount: leagueIds.length,
                         separatorBuilder: (context, index) => const SizedBox(height: 5),
                         itemBuilder: (context, index) {
-                          final match = matches[index];
+                          final league = matches[index].league!;
                           return Column(
                             children: [
                               LeagueTile(
-                                league: match.league!,
+                                league: league,
                                 onTap: () {
                                   UiHelper.navigateToLeagueInfo(
                                     context,
-                                    leagueData: match.league!,
+                                    leagueData: league,
                                   );
                                 },
                               ),
@@ -215,6 +215,7 @@ class _HomeScreenRefState extends State<HomeScreenRef> {
                                 padding: const EdgeInsets.symmetric(vertical: 5),
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index) {
+                                  final match = matches[index];
                                   int homeGoals = 0;
                                   int awayGoals = 0;
                                   int? minute;
