@@ -12,6 +12,7 @@ import 'package:sportk/model/player_search_model.dart';
 import 'package:sportk/model/player_statistics_model.dart';
 import 'package:sportk/model/season_by_league_model.dart';
 import 'package:sportk/model/season_info_model.dart';
+import 'package:sportk/model/single_match_model.dart';
 import 'package:sportk/model/squads_model.dart';
 import 'package:sportk/model/stage_model.dart';
 import 'package:sportk/model/standings_model.dart';
@@ -329,6 +330,18 @@ class FootBallProvider extends ChangeNotifier {
       isPublic: true,
       apiType: ApiType.get,
       builder: OurLeaguesModel.fromJson,
+    );
+    return snapshot;
+  }
+
+  Future<SingleMatchModel> fetchMatchById({
+    required int matchId,
+  }) {
+    final snapshot = ApiService<SingleMatchModel>().build(
+      sportsUrl: '${ApiUrl.matchById}/$matchId${ApiUrl.auth}&include=statistics;state;participants;periods.events&locale=${MySharedPreferences.language}',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: SingleMatchModel.fromJson,
     );
     return snapshot;
   }

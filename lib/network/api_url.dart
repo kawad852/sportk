@@ -26,6 +26,8 @@ class ApiUrl {
   static const String playersSearch = '/football/players/search';
   static const String leagueByTeam = '/football/fixtures/between';
   static const String leaguesByCountry = '/football/leagues/countries';
+  static const String matchById = '/football/fixtures';
+
 
   ///weCan url
   static const String login = '/api/login';

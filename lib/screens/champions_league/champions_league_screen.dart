@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/model/league_model.dart';
 import 'package:sportk/providers/football_provider.dart';
+import 'package:sportk/screens/league_info/widgets/league_news.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_images.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_back.dart';
@@ -16,7 +18,13 @@ import 'widgets/champions_matches.dart';
 class ChampionsLeagueScreen extends StatefulWidget {
   final int? teamId;
   final int leagueId;
-  const ChampionsLeagueScreen({super.key, this.teamId, required this.leagueId});
+  final int initialIndex;
+  const ChampionsLeagueScreen({
+    super.key,
+    this.teamId,
+    required this.leagueId,
+    this.initialIndex = 0,
+  });
 
   @override
   State<ChampionsLeagueScreen> createState() => _ChampionsLeagueScreenState();
@@ -35,7 +43,11 @@ class _ChampionsLeagueScreenState extends State<ChampionsLeagueScreen>
   @override
   void initState() {
     super.initState();
-    _controller = TabController(length: 3, vsync: this);
+    _controller = TabController(
+      length: 4,
+      vsync: this,
+      initialIndex: widget.initialIndex,
+    );
     _footBallProvider = context.footBallProvider;
     _initializeFuture();
   }
@@ -126,6 +138,7 @@ class _ChampionsLeagueScreenState extends State<ChampionsLeagueScreen>
                           Center(child: Text(context.appLocalization.groups)),
                           Center(child: Text(context.appLocalization.matches)),
                           Center(child: Text(context.appLocalization.scorers)),
+                          Center(child: Text(context.appLocalization.news)),
                         ],
                       ),
                     ),
@@ -141,6 +154,7 @@ class _ChampionsLeagueScreenState extends State<ChampionsLeagueScreen>
                 ChampionsGroups(teamId: widget.teamId, leagueId: widget.leagueId),
                 ChampionsMatches(leagueId: widget.leagueId),
                 LeagueScorers(leagueId: widget.leagueId),
+                NewTab(id: widget.leagueId, type: NewTypeEnum.league),
               ],
             ),
           ),

@@ -71,7 +71,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  const MatchCard(),
+                   MatchCard(matchId: widget.matchId),
                   const SizedBox(
                     height: 10,
                   ),
@@ -91,7 +91,6 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                         labelColor: context.colorPalette.blueD4B,
                         tabAlignment: TabAlignment.center,
                         indicatorSize: TabBarIndicatorSize.label,
-                        //padding: const EdgeInsets.only(top: 8),
                         labelPadding: const EdgeInsetsDirectional.only(bottom: 8, end: 30, top: 10),
                         padding: const EdgeInsetsDirectional.only(start: 10),
                         tabs: [
