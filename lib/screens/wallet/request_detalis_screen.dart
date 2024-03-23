@@ -52,7 +52,7 @@ class RequestDetalisScreen extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 15),
               decoration: BoxDecoration(
                 color: context.colorPalette.blueF9F,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -111,7 +111,7 @@ class RequestDetalisScreen extends StatelessWidget {
                       height: 45,
                       decoration: BoxDecoration(
                         color: context.colorPalette.blue1AD4B,
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
                       ),
                       child: Row(
                         children: [

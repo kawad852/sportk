@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/model/match_points_model.dart';
+import 'package:sportk/screens/match_info/predictions/predictions_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/utils/my_images.dart';
@@ -12,7 +14,15 @@ import 'package:sportk/screens/match_info/widgets/match_statistics.dart';
 import 'package:sportk/screens/match_info/widgets/teams_plan.dart';
 
 class MatchInfoScreen extends StatefulWidget {
-  const MatchInfoScreen({super.key});
+  final int matchId;
+  final PointsData pointsData;
+  final bool showPredict;
+  const MatchInfoScreen({
+    super.key,
+    required this.matchId,
+    required this.pointsData,
+    this.showPredict = false,
+  });
 
   @override
   State<MatchInfoScreen> createState() => _MatchInfoScreenState();
@@ -21,10 +31,11 @@ class MatchInfoScreen extends StatefulWidget {
 class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProviderStateMixin {
   late TabController _controller;
 
+  bool get _showPredict => widget.showPredict;
   @override
   void initState() {
     super.initState();
-    _controller = TabController(length: 5, vsync: this);
+    _controller = TabController(length: _showPredict ? 8 : 7, vsync: this);
   }
 
   @override
@@ -70,7 +81,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                       height: 45,
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
                         color: context.colorPalette.grey9E9,
                       ),
                       child: TabBar(
@@ -84,22 +95,26 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                         labelPadding: const EdgeInsetsDirectional.only(bottom: 8, end: 30, top: 10),
                         padding: const EdgeInsetsDirectional.only(start: 10),
                         tabs: [
-                          Row(
-                            children: [
-                              const CustomSvg(
-                                MyIcons.coin,
-                                fixedColor: true,
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Text(context.appLocalization.predictAndWin),
-                            ],
-                          ),
+                          if (_showPredict)
+                            Row(
+                              children: [
+                                const CustomSvg(
+                                  MyIcons.coin,
+                                  fixedColor: true,
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Text(context.appLocalization.predictAndWin),
+                              ],
+                            ),
                           Text(context.appLocalization.matchEvents),
                           Text(context.appLocalization.plan),
                           Text(context.appLocalization.statistics),
+                          Text(context.appLocalization.details),
                           Text(context.appLocalization.standings),
+                          Text(context.appLocalization.scorers),
+                          Text(context.appLocalization.headTwohead),
                         ],
                       ),
                     ),
@@ -112,11 +127,14 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
             child: TabBarView(
               controller: _controller,
               children: [
-                Text(context.appLocalization.predictAndWin),
+                if (_showPredict) PredictionsScreen(pointsData: widget.pointsData),
                 MatchEvents(),
                 TeamsPlan(),
                 MatchStatistics(),
+                Text(context.appLocalization.details),
                 LeagueStandings(leagueId: 564),
+                Text(context.appLocalization.scorers),
+                Text(context.appLocalization.headTwohead),
               ],
             ),
           ),

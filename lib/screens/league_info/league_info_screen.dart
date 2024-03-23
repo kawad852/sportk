@@ -131,7 +131,7 @@ class _LeagueInfoScreenState extends State<LeagueInfoScreen> with SingleTickerPr
                       height: 45,
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
                         color: context.colorPalette.grey9E9,
                       ),
                       child: TabBar(

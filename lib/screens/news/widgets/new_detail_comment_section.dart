@@ -6,6 +6,7 @@ import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/screens/news/widgets/comment_bubble.dart';
 import 'package:sportk/screens/news/widgets/comment_editor.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/vex/vex_paginator.dart';
 
@@ -62,7 +63,7 @@ class _NewDetailsCommentSectionState extends State<NewDetailsCommentSection> {
               margin: const EdgeInsets.only(top: 10),
               decoration: BoxDecoration(
                 color: context.colorPalette.grey3F3,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
               ),
               child: Padding(
                 padding: const EdgeInsetsDirectional.all(8.0),

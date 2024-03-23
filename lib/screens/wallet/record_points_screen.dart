@@ -4,6 +4,7 @@ import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/screens/wallet/widgets/points_loading.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
+import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_back.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
@@ -92,7 +93,7 @@ class _RecordPointsScreenState extends State<RecordPointsScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                           decoration: BoxDecoration(
                             color: context.colorPalette.blueF9F,
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
                           ),
                           child: Row(
                             children: [

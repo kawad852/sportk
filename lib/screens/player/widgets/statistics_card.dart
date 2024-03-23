@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 
 class StatisticsCard extends StatelessWidget {
@@ -37,7 +38,7 @@ class StatisticsCard extends StatelessWidget {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: context.colorPalette.blue4F0,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
           ),
           child: Text(
             text,

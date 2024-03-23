@@ -109,7 +109,7 @@ class _ChampionsLeagueScreenState extends State<ChampionsLeagueScreen>
                       height: 45,
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
                         color: context.colorPalette.grey9E9,
                       ),
                       child: TabBar(
@@ -120,7 +120,7 @@ class _ChampionsLeagueScreenState extends State<ChampionsLeagueScreen>
                         labelPadding: const EdgeInsetsDirectional.symmetric(horizontal: 0),
                         indicator: BoxDecoration(
                           color: context.colorPalette.tabColor,
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
                         ),
                         tabs: [
                           Center(child: Text(context.appLocalization.groups)),

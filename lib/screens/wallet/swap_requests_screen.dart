@@ -116,7 +116,7 @@ class _SwapRequestsScreenState extends State<SwapRequestsScreen> {
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             decoration: BoxDecoration(
                               color: context.colorPalette.blueF9F,
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,

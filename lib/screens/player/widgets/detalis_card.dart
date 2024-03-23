@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/my_theme.dart';
 
 class DetalisCard extends StatelessWidget {
   final String title;
@@ -18,7 +19,7 @@ class DetalisCard extends StatelessWidget {
       height: 50,
       decoration: BoxDecoration(
         color: context.colorPalette.grey3F3,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
       ),
       child: Padding(
         padding: const EdgeInsetsDirectional.only(start: 5),

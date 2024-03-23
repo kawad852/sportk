@@ -9,6 +9,7 @@ import 'package:sportk/screens/player/widgets/player_country.dart';
 import 'package:sportk/screens/player/widgets/statistics_card.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
+import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 
 class StatisticsInfo extends StatefulWidget {
@@ -141,7 +142,7 @@ class _StatisticsInfoState extends State<StatisticsInfo> {
               margin: const EdgeInsetsDirectional.only(end: 15, top: 15),
               decoration: BoxDecoration(
                 color: context.colorPalette.grey3F3,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
               ),
               child: Padding(
                 padding: const EdgeInsetsDirectional.only(start: 10, end: 10),
@@ -192,7 +193,7 @@ class _StatisticsInfoState extends State<StatisticsInfo> {
                   padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                   decoration: BoxDecoration(
                     color: context.colorPalette.grey3F3,
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
                   ),
                   child: Row(
                     children: [

@@ -4,7 +4,7 @@ import 'package:sportk/model/match_points_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/screens/chat/chat_screen.dart';
-import 'package:sportk/screens/predictions/predictions_screen.dart';
+import 'package:sportk/screens/match_info/predictions/predictions_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/shared_pref.dart';
 import 'package:sportk/widgets/stretch_button.dart';

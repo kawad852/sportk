@@ -54,10 +54,12 @@ class ColorPalette {
   Color get yellowF7A => const Color(0xFFF7AA05);
   Color get yellowF7A20 => const Color(0x33F7AA05);
   Color get yellowFCC => const Color(0xFFFCC200); //not used (match info)
+  Color get yellowFDD => const Color(0xFFFDD758); //not used (match info)
 
   //green
   Color get greenAD0 => const Color(0xFF00AD05); //not used (match info)
   Color get green057 => const Color(0xFF057008); //sooooon
+  Color get green54C => const Color(0xFF54C857); //sooooon
 
   Color get scaffoldColor => _isLightTheme ? white : const Color(0xFF0D1019);
 
@@ -77,5 +79,4 @@ class ColorPalette {
   Color get walletContainerColor => _isLightTheme ? white : const Color(0xFF515464);
 
   Color get penddingColor => _isLightTheme ? const Color(0xFFCC0000) : const Color(0xFFF7AA05);
-
 }

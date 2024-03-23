@@ -4,6 +4,7 @@ import 'package:sportk/model/auth_model.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
+import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 
@@ -69,7 +70,7 @@ class WalletCard extends StatelessWidget {
                   height: 35.0,
                   padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
                     color: context.colorPalette.grey2F2,
                   ),
                   child: Row(

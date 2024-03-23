@@ -211,5 +211,10 @@
   "goalsConceded":"Goals Conceded",
   "localLeagues": "Local leagues",
   "cantPredictMatch":"You cannot predict the result of this match now",
-  "successPrediction":"Your prediction for the match has been added successfully"
+  "successPrediction":"Your prediction for the match has been added successfully",
+  "details":"Details",
+  "headTwohead":"H Two H",
+  "viewersPredictions":"Viewers' predictions",
+  "alreadyPrediction":"You've made predictions for this match before",
+  "makePrediction":"Make prediction for this match and get sportk"
 }

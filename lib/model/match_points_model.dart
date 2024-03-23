@@ -46,6 +46,7 @@ class PointsData {
   String? competitionLogo;
   String? competitionId;
   int? status;
+  int? statusSoon;
   TotalPredictions? totalPredictions;
 
   PointsData({
@@ -68,6 +69,7 @@ class PointsData {
     this.competitionLogo,
     this.competitionId,
     this.status,
+    this.statusSoon,
     this.totalPredictions,
   });
 
@@ -91,6 +93,7 @@ class PointsData {
         competitionLogo: json["competition_logo"],
         competitionId: json["competition_id"],
         status: json["status"],
+        statusSoon: json["status_soon"],
         totalPredictions: json["total_predictions"] == null
             ? null
             : TotalPredictions.fromJson(json["total_predictions"]),
@@ -116,6 +119,7 @@ class PointsData {
         "competition_logo": competitionLogo,
         "competition_id": competitionId,
         "status": status,
+        "status_soon": statusSoon,
         "total_predictions": totalPredictions?.toJson(),
       };
 }

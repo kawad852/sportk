@@ -4,6 +4,7 @@ import 'package:sportk/model/standings_model.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/club/club_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/no_results.dart';
 import 'package:sportk/widgets/table_text.dart';
@@ -53,7 +54,7 @@ class _LeagueStandingsState extends State<LeagueStandings> with AutomaticKeepAli
             : SingleChildScrollView(
                 padding: const EdgeInsetsDirectional.symmetric(horizontal: 20, vertical: 5),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
                   child: Table(
                     columnWidths: const {
                       0: FlexColumnWidth(6.3),
@@ -101,7 +102,8 @@ class _LeagueStandingsState extends State<LeagueStandings> with AutomaticKeepAli
                       ...standings.data!.map((element) {
                         return TableRow(
                           decoration: BoxDecoration(
-                            color: widget.selectedTeamId != null && element.participantId == widget.selectedTeamId
+                            color: widget.selectedTeamId != null &&
+                                    element.participantId == widget.selectedTeamId
                                 ? context.colorPalette.blueABB
                                 : standings.data!.indexOf(element) % 2 == 0
                                     ? context.colorPalette.grey3F3
@@ -109,7 +111,8 @@ class _LeagueStandingsState extends State<LeagueStandings> with AutomaticKeepAli
                           ),
                           children: [
                             InkWell(
-                              onTap: widget.selectedTeamId != null && widget.selectedTeamId == element.participantId!
+                              onTap: widget.selectedTeamId != null &&
+                                      widget.selectedTeamId == element.participantId!
                                   ? null
                                   : () => context.push(
                                         ClubScreen(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 
 class ChampionshipsCard extends StatelessWidget {
@@ -71,7 +72,7 @@ class ChampionshipsCard extends StatelessWidget {
               margin: const EdgeInsets.all(5.0),
               decoration: BoxDecoration(
                 color: context.colorPalette.grey2F2,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
               ),
               child: Padding(
                 padding: const EdgeInsetsDirectional.symmetric(horizontal: 10),

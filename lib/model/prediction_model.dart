@@ -1,3 +1,5 @@
+import 'package:sportk/model/match_points_model.dart';
+
 class PredictionModel {
   bool? status;
   int? code;
@@ -35,6 +37,7 @@ class PredictionData {
   String? firstScorerName;
   String? prediction;
   int? totalPoints;
+  TotalPredictions? totalPredictions;
 
   PredictionData({
     this.matchId,
@@ -45,6 +48,7 @@ class PredictionData {
     this.firstScorerName,
     this.prediction,
     this.totalPoints,
+    this.totalPredictions,
   });
 
   factory PredictionData.fromJson(Map<String, dynamic> json) => PredictionData(
@@ -56,6 +60,9 @@ class PredictionData {
         firstScorerName: json["first_scorer_name"],
         prediction: json["prediction"],
         totalPoints: json["total_points"],
+        totalPredictions: json["total_predictions"] == null
+            ? null
+            : TotalPredictions.fromJson(json["total_predictions"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -67,5 +74,6 @@ class PredictionData {
         "first_scorer_name": firstScorerName,
         "prediction": prediction,
         "total_points": totalPoints,
+        "total_predictions": totalPredictions?.toJson(),
       };
 }

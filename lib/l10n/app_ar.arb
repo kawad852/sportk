@@ -211,5 +211,10 @@
   "goalsConceded":"الاهداف المستقبلة",
   "localLeagues": "بطولات محلية",
   "cantPredictMatch":"لا يمكنك توقع نتيجة هذه المباراة الآن",
-  "successPrediction":"تمت إضافة توقعاتك للمباراة بنجاح"
+  "successPrediction":"تمت إضافة توقعاتك للمباراة بنجاح",
+  "details":"التفاصيل",
+  "headTwohead":"المواجهات",
+  "viewersPredictions":"توقعات المشاهدين",
+  "alreadyPrediction":"لقد قمت بالتوقع لهذه المباراة من قبل",
+  "makePrediction":"قم بالتوقع لهذه المباراة واحصل على سبورتك"
 }

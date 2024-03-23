@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/screens/match_info/widgets/team_card.dart';
+import 'package:sportk/utils/my_theme.dart';
 
 class MatchCard extends StatelessWidget {
   const MatchCard({super.key});
@@ -42,7 +43,7 @@ class MatchCard extends StatelessWidget {
                         margin: const EdgeInsetsDirectional.symmetric(horizontal: 20),
                         decoration: BoxDecoration(
                           color: context.colorPalette.white.withOpacity(0.6),
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
                         ),
                         child: Text(
                           "6",
@@ -66,7 +67,7 @@ class MatchCard extends StatelessWidget {
                         height: 25,
                         decoration: BoxDecoration(
                           color: context.colorPalette.white.withOpacity(0.6),
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,

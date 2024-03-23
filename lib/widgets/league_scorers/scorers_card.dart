@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sportk/model/top_scorers_model.dart';
 import 'package:sportk/screens/player/player_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/league_scorers/penalty.dart';
 import 'package:sportk/widgets/team_name.dart';
@@ -25,7 +26,7 @@ class _ScorersCardState extends State<ScorersCard> with AutomaticKeepAliveClient
         height: 50,
         decoration: BoxDecoration(
           color: context.colorPalette.grey3F3,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
         ),
         child: Padding(
           padding: const EdgeInsetsDirectional.symmetric(horizontal: 10),

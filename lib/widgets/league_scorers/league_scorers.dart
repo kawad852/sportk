@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sportk/model/top_scorers_model.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/league_scorers/league_scorers_cell.dart';
 import 'package:sportk/widgets/league_scorers/league_scorers_loading.dart';
 import 'package:sportk/widgets/league_scorers/scorers_card.dart';
@@ -64,7 +65,7 @@ class _LeagueScorersState extends State<LeagueScorers> {
                       height: 40,
                       decoration: BoxDecoration(
                         color: context.colorPalette.grey3F3,
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
                       ),
                       child: Padding(
                         padding: const EdgeInsetsDirectional.symmetric(horizontal: 10),

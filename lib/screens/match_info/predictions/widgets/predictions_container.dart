@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 
 class PredictionsContainer extends StatefulWidget {
@@ -32,7 +33,7 @@ class _PredictionsContainerState extends State<PredictionsContainer> {
         color: widget.selectedCard == widget.index
             ? context.colorPalette.blueD4B
             : context.colorPalette.grey3F3,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
       ),
       child: widget.isDraw
           ? Text(
@@ -56,6 +57,7 @@ class _PredictionsContainerState extends State<PredictionsContainer> {
                 ),
                 Text(
                   widget.team,
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     color: widget.selectedCard == widget.index
                         ? context.colorPalette.white

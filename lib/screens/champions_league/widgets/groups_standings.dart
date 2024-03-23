@@ -74,7 +74,7 @@ class _GroupsStandingsState extends State<GroupsStandings> with AutomaticKeepAli
             shape: const Border(),
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
                 child: Table(
                   columnWidths: const {
                     0: FlexColumnWidth(6.3),

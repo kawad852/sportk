@@ -11,6 +11,7 @@ import 'package:sportk/screens/wallet/request_detalis_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
+import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/utils/shared_pref.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_svg.dart';
@@ -58,7 +59,7 @@ class _CouponsCardState extends State<CouponsCard> {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: context.colorPalette.grey2F2,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
       ),
       child: Padding(
         padding: const EdgeInsetsDirectional.symmetric(vertical: 10, horizontal: 10),
@@ -109,7 +110,7 @@ class _CouponsCardState extends State<CouponsCard> {
                                 height: 25.0,
                                 padding: const EdgeInsetsDirectional.symmetric(horizontal: 5),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
                                   color: context.colorPalette.walletContainerColor,
                                 ),
                                 child: Row(
@@ -139,7 +140,7 @@ class _CouponsCardState extends State<CouponsCard> {
                           child: Container(
                             padding: const EdgeInsetsDirectional.symmetric(horizontal: 10),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
                               color: context.colorPalette.walletContainerColor,
                             ),
                             child: Column(

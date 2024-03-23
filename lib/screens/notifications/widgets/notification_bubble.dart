@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/model/notificaion_model.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 
 class NotificationBubble extends StatelessWidget {
@@ -27,7 +28,7 @@ class NotificationBubble extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
         color: context.colorPalette.grey9F9,
       ),
       child: Row(

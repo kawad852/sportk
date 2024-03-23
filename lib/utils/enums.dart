@@ -24,6 +24,10 @@ class LeagueTypeEnum {
   static const String domestic = 'domestic';
   static const String cubInternational = 'cup_international';
 }
+class PredictionTypeEnum {
+  static const String count = 'count';
+  static const String percentage = 'percentage';
+}
 
 class CompoTypeEnum {
   static const String teams = '1';

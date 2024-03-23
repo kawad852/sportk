@@ -1,11 +1,16 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sportk/model/match_model.dart';
+import 'package:sportk/model/match_points_model.dart';
+import 'package:sportk/network/api_service.dart';
+import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/league_info/widgets/round_card.dart';
 import 'package:sportk/screens/match_info/match_info_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
-import 'package:sportk/web_view_screen.dart';
+import 'package:sportk/utils/shared_pref.dart';
 import 'package:sportk/widgets/match_card.dart';
 import 'package:sportk/widgets/match_empty_result.dart';
 import 'package:sportk/widgets/matches_loading.dart';
@@ -23,6 +28,7 @@ class LeagueMatches extends StatefulWidget {
 
 class _LeagueMatchesState extends State<LeagueMatches> with AutomaticKeepAliveClientMixin {
   late FootBallProvider _footBallProvider;
+  late CommonProvider _commonProvider;
   late Future<MatchModel> _matchesFuture;
 
   final _vexKey = GlobalKey<VexPaginatorState>();
@@ -37,10 +43,30 @@ class _LeagueMatchesState extends State<LeagueMatches> with AutomaticKeepAliveCl
     return _matchesFuture;
   }
 
+  void getMatchPoints(int matchId) {
+    ApiFutureBuilder<MatchPointsModel>().fetch(
+      context,
+      future: () async {
+        final matchPoints = _commonProvider.getMatchPoints(matchId);
+        return matchPoints;
+      },
+      onComplete: (snapshot) {
+        context.push(
+          MatchInfoScreen(
+            matchId: matchId,
+            pointsData: snapshot.data!,
+            showPredict: snapshot.data!.status == 1,
+          ),
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
     _footBallProvider = context.footBallProvider;
+    _commonProvider = context.commonProvider;
   }
 
   @override
@@ -106,7 +132,10 @@ class _LeagueMatchesState extends State<LeagueMatches> with AutomaticKeepAliveCl
                                 highlightColor: Colors.transparent,
                                 splashColor: Colors.transparent,
                                 onTap: () async {
-                                  context.push(MatchInfoScreen());
+                                  log(element.participants![0].id.toString());
+                                  log(element.id.toString());
+                                  log(MySharedPreferences.accessToken);
+                                  getMatchPoints(element.id!);
                                   // await context.push(WebViewScreen(
                                   //   matchId: element.id!,
                                   // ));

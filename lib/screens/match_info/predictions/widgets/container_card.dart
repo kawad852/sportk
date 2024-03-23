@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/my_theme.dart';
 
 class ContainerCard extends StatelessWidget {
   final double height;
@@ -13,11 +14,11 @@ class ContainerCard extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: height,
-        margin: const EdgeInsets.symmetric(horizontal: 15),
+        margin: const EdgeInsets.symmetric(horizontal: 20),
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: context.colorPalette.grey3F3,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
         ),
         child: child,
       ),

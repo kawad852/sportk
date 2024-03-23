@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/model/country_info_model.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 
 class PlayerCountry extends StatelessWidget {
@@ -16,7 +17,7 @@ class PlayerCountry extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
         color: context.colorPalette.grey3F3,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
       ),
       child: Row(
         children: [

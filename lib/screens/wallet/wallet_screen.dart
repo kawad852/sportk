@@ -15,6 +15,7 @@ import 'package:sportk/screens/wallet/widgets/wallet_loading.dart';
 import 'package:sportk/screens/wallet/widgets/watch_ad_button.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
+import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/utils/shared_pref.dart';
 import 'package:sportk/widgets/ads/google_rewarded.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
@@ -144,7 +145,7 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
                         width: double.infinity,
                         height: 54,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
                           color: context.colorPalette.blueF9F,
                         ),
                         child: Row(
@@ -167,7 +168,7 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
                                 color: context.colorPalette.walletContainerColor,
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
                               ),
                               child: Text(
                                 user.data!.invitationCode!,

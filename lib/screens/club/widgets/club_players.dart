@@ -6,6 +6,7 @@ import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/club/widgets/club_players_loading.dart';
 import 'package:sportk/screens/player/player_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
@@ -134,7 +135,7 @@ class _ClubPlayersState extends State<ClubPlayers> with AutomaticKeepAliveClient
                                 margin: const EdgeInsetsDirectional.only(bottom: 5),
                                 decoration: BoxDecoration(
                                   color: context.colorPalette.grey3F3,
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsetsDirectional.symmetric(horizontal: 8),
@@ -167,7 +168,7 @@ class _ClubPlayersState extends State<ClubPlayers> with AutomaticKeepAliveClient
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
                                           color: context.colorPalette.grey9E9,
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
                                         ),
                                         child: Text(
                                           players[index][myIndex].jerseyNumber?.toString() ?? "-",
