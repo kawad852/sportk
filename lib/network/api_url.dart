@@ -58,6 +58,5 @@ class ApiUrl {
   static const String notifications = '/api/notifications/user';
   static const String matchPoints = '/api/matches/points';
   static const String prediction = '/api/predictions';
-
-
+  static const String mainMatches = '/api/competitions/main';
 }

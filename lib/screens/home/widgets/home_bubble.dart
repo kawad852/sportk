@@ -5,9 +5,7 @@ import 'package:sportk/model/league_by_date_model.dart';
 import 'package:sportk/model/league_model.dart';
 import 'package:sportk/model/matches/live_matches_model.dart';
 import 'package:sportk/providers/football_provider.dart';
-import 'package:sportk/screens/champions_league/champions_league_screen.dart';
 import 'package:sportk/screens/home/widgets/live_bubble.dart';
-import 'package:sportk/screens/league_info/league_info_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_theme.dart';
@@ -28,7 +26,6 @@ class HomeBubble extends StatefulWidget {
   final bool isLive;
   final int index;
   final int length;
-  final Function(bool value) callBack;
 
   const HomeBubble({
     super.key,
@@ -39,7 +36,6 @@ class HomeBubble extends StatefulWidget {
     required this.type,
     required this.index,
     required this.length,
-    required this.callBack,
   });
 
   @override
@@ -121,7 +117,6 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
       },
       onComplete: (context, snapshot) {
         if (snapshot.data!.isEmpty) {
-          widget.callBack(true);
           return const SizedBox.shrink();
         }
         final leagueModel = snapshot.data![0] as LeagueModel;
@@ -129,16 +124,13 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
         List<MatchData> matches = [];
         if (widget.isLive) {
           final liveMatches = widget.lives.map((e) => e.matchId).toList();
-          matches =
-              matchModel.data!.where((element) => liveMatches.contains('${element.id}')).toList();
+          matches = matchModel.data!.where((element) => liveMatches.contains('${element.id}')).toList();
         } else {
           matches = matchModel.data!;
         }
         if (matches.isEmpty) {
-          widget.callBack(true);
           return const SizedBox.shrink();
         }
-        widget.callBack(false);
         return Column(
           children: [
             LeagueTile(
@@ -158,9 +150,7 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 final match = matches[index];
-                final liveMatch = widget.lives.singleWhere(
-                    (element) => element.matchId == '${match.id}',
-                    orElse: () => LiveData());
+                final liveMatch = widget.lives.singleWhere((element) => element.matchId == '${match.id}', orElse: () => LiveData());
                 int homeGoals = 0;
                 int awayGoals = 0;
                 int? minute;
@@ -243,9 +233,7 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  match.state!.id != 1 &&
-                                          match.state!.id != 13 &&
-                                          match.state!.id != 10
+                                  match.state!.id != 1 && match.state!.id != 13 && match.state!.id != 10
                                       ? Text(
                                           "$homeGoals",
                                           style: const TextStyle(
@@ -258,8 +246,7 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                                         ),
                                   match.state!.id == 3
                                       ? Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.only(start: 3, end: 3),
+                                          padding: const EdgeInsetsDirectional.only(start: 3, end: 3),
                                           child: MatchTimerCircle(
                                             currentTime: 45,
                                             goalsTime: goalsTime,
@@ -269,8 +256,7 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                                         )
                                       : minute != null
                                           ? Padding(
-                                              padding: const EdgeInsetsDirectional.only(
-                                                  start: 3, end: 3),
+                                              padding: const EdgeInsetsDirectional.only(start: 3, end: 3),
                                               child: MatchTimerCircle(
                                                 currentTime: minute!.toDouble(),
                                                 goalsTime: goalsTime,
@@ -305,9 +291,7 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                                                   ),
                                               ],
                                             ),
-                                  match.state!.id != 1 &&
-                                          match.state!.id != 13 &&
-                                          match.state!.id != 10
+                                  match.state!.id != 1 && match.state!.id != 13 && match.state!.id != 10
                                       ? Text(
                                           "$awayGoals",
                                           style: const TextStyle(

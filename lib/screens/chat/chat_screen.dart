@@ -12,6 +12,7 @@ import 'package:sportk/widgets/custom_firestore_query_builder.dart';
 
 class ChatScreen extends StatefulWidget {
   final int matchId;
+
   const ChatScreen({
     super.key,
     required this.matchId,

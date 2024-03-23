@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
 import 'package:sportk/model/comments_model.dart';
 import 'package:sportk/model/home_competitions_model.dart';
 import 'package:sportk/model/invitation_code_model.dart';
 import 'package:sportk/model/is_like_model.dart';
+import 'package:sportk/model/main_matches_model.dart';
 import 'package:sportk/model/match_points_model.dart';
 import 'package:sportk/model/matches/live_matches_model.dart';
 import 'package:sportk/model/matches/our_league_model.dart';
@@ -16,11 +16,12 @@ import 'package:sportk/model/vouchers_model.dart';
 import 'package:sportk/model/vouchers_replaced_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
-import 'package:sportk/providers/favorite_provider.dart';
+import 'package:sportk/utils/base_extensions.dart';
 
 class CommonProvider extends ChangeNotifier {
   late Future<HomeCompetitionsModel> leaguesFuture;
   late Future<LivesMatchesModel> liveMatchesFuture;
+  late Future<MainMatchesModel> mainMatchesFuture;
   late Future<List<dynamic>> leaguesAndLivesFutures;
 
   Future<HomeCompetitionsModel> fetchLeagues(int pageKey) {
@@ -33,6 +34,18 @@ class CommonProvider extends ChangeNotifier {
     return snapshot;
   }
 
+  void fetchMainMatches(
+    BuildContext context, {
+    required DateTime date,
+  }) {
+    mainMatchesFuture = ApiService<MainMatchesModel>().build(
+      weCanUrl: '${ApiUrl.mainMatches}/${date.formatDate(context, pattern: 'yyyy-MM-dd')}',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: MainMatchesModel.fromJson,
+    );
+  }
+
   void fetchLives() {
     liveMatchesFuture = ApiService<LivesMatchesModel>().build(
       weCanUrl: ApiUrl.livesMatches,
@@ -42,11 +55,13 @@ class CommonProvider extends ChangeNotifier {
     );
   }
 
-  void initializeHome(BuildContext context) {
-    final favoritesProvider = context.read<FavoriteProvider>();
+  void initializeHome(
+    BuildContext context, {
+    required DateTime date,
+  }) {
+    fetchMainMatches(context, date: date);
     fetchLives();
-    favoritesProvider.fetchFavs(context);
-    leaguesAndLivesFutures = Future.wait([favoritesProvider.favFuture, liveMatchesFuture]);
+    leaguesAndLivesFutures = Future.wait([liveMatchesFuture, mainMatchesFuture]);
   }
 
   Future<NewModel> fetchNews(

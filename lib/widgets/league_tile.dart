@@ -28,7 +28,7 @@ class LeagueTile extends StatelessWidget {
         height: 25,
       ),
       title: Text(
-        league.name!,
+        league.name!.toString(),
         overflow: TextOverflow.ellipsis,
       ),
       trailing: trailing,
