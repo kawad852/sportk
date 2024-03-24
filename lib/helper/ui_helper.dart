@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:sportk/alerts/feedback/app_feedback.dart';
 import 'package:sportk/model/league_model.dart';
+import 'package:sportk/model/match_points_model.dart';
+import 'package:sportk/network/api_service.dart';
+import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/screens/champions_league/champions_league_screen.dart';
 import 'package:sportk/screens/league_info/league_info_screen.dart';
+import 'package:sportk/screens/match_info/match_info_screen.dart';
 import 'package:sportk/screens/news/comments_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
@@ -96,5 +100,28 @@ class UiHelper {
       default:
         return context.appLocalization.pending;
     }
+  }
+
+  static navigateToMatchInfo(
+    BuildContext context, {
+    required int matchId,
+    required CommonProvider commonProvider,
+  }) {
+    ApiFutureBuilder<MatchPointsModel>().fetch(
+      context,
+      future: () async {
+        final matchPoints = commonProvider.getMatchPoints(matchId);
+        return matchPoints;
+      },
+      onComplete: (snapshot) {
+        context.push(
+          MatchInfoScreen(
+            matchId: matchId,
+            pointsData: snapshot.data!,
+            showPredict: snapshot.data!.status == 1,
+          ),
+        );
+      },
+    );
   }
 }

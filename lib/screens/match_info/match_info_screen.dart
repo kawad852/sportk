@@ -42,6 +42,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
+        physics: const NeverScrollableScrollPhysics(),
         slivers: [
           SliverAppBar(
             leadingWidth: kBarLeadingWith,
@@ -71,7 +72,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                   MatchCard(matchId: widget.matchId),
+                  MatchCard(matchId: widget.matchId),
                   const SizedBox(
                     height: 10,
                   ),

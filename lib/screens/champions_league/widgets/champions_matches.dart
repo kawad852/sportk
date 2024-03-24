@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:sportk/helper/ui_helper.dart';
 import 'package:sportk/model/match_model.dart';
+import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/champions_league/widgets/stage_card.dart';
 import 'package:sportk/utils/base_extensions.dart';
@@ -23,6 +25,7 @@ class ChampionsMatches extends StatefulWidget {
 class _ChampionsMatchesState extends State<ChampionsMatches> with AutomaticKeepAliveClientMixin {
   late FootBallProvider _footBallProvider;
   late Future<MatchModel> _matchesFuture;
+  late CommonProvider _commonProvider;
   final _vexKey = GlobalKey<VexPaginatorState>();
 
   Future<MatchModel> _initializeFuture(int pageKey) {
@@ -39,6 +42,7 @@ class _ChampionsMatchesState extends State<ChampionsMatches> with AutomaticKeepA
   void initState() {
     super.initState();
     _footBallProvider = context.footBallProvider;
+    _commonProvider = context.commonProvider;
   }
 
   @override
@@ -102,12 +106,14 @@ class _ChampionsMatchesState extends State<ChampionsMatches> with AutomaticKeepA
                                 highlightColor: Colors.transparent,
                                 splashColor: Colors.transparent,
                                 onTap: () async {
-                                  await context.push(WebViewScreen(
+                                  await UiHelper.navigateToMatchInfo(
+                                    context,
                                     matchId: element.id!,
-                                  ));
-                                  setState(() {
-                                    _vexKey.currentState!.refresh();
-                                  });
+                                    commonProvider: _commonProvider,
+                                  );
+                                  // setState(() {
+                                  //   _vexKey.currentState!.refresh();
+                                  // });
                                 },
                                 child: MatchCard(element: element),
                               )

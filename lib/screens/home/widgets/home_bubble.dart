@@ -4,6 +4,7 @@ import 'package:sportk/helper/ui_helper.dart';
 import 'package:sportk/model/league_by_date_model.dart';
 import 'package:sportk/model/league_model.dart';
 import 'package:sportk/model/matches/live_matches_model.dart';
+import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/home/widgets/live_bubble.dart';
 import 'package:sportk/utils/base_extensions.dart';
@@ -47,6 +48,7 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
   late FootBallProvider _footBallProvider;
   late Future<LeagueByDateModel> _teamsFuture;
   late Future<List<dynamic>> _futures;
+  late CommonProvider _commonProvider;
 
   int get _id => widget.id;
   String get _type => widget.type;
@@ -75,6 +77,7 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
   void initState() {
     super.initState();
     _footBallProvider = context.footBallProvider;
+    _commonProvider = context.commonProvider;
     _futures = _initializeFutures();
   }
 
@@ -124,7 +127,8 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
         List<MatchData> matches = [];
         if (widget.isLive) {
           final liveMatches = widget.lives.map((e) => e.matchId).toList();
-          matches = matchModel.data!.where((element) => liveMatches.contains('${element.id}')).toList();
+          matches =
+              matchModel.data!.where((element) => liveMatches.contains('${element.id}')).toList();
         } else {
           matches = matchModel.data!;
         }
@@ -150,7 +154,9 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 final match = matches[index];
-                final liveMatch = widget.lives.singleWhere((element) => element.matchId == '${match.id}', orElse: () => LiveData());
+                final liveMatch = widget.lives.singleWhere(
+                    (element) => element.matchId == '${match.id}',
+                    orElse: () => LiveData());
                 int homeGoals = 0;
                 int awayGoals = 0;
                 int? minute;
@@ -193,7 +199,11 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                 ).toSet();
                 return GestureDetector(
                   onTap: () {
-                    context.push(WebViewScreen(matchId: match.id!));
+                    UiHelper.navigateToMatchInfo(
+                      context,
+                      matchId: match.id!,
+                      commonProvider: _commonProvider,
+                    );
                   },
                   child: Builder(
                     builder: (context) {
@@ -233,12 +243,14 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  match.state!.id != 1 && match.state!.id != 13 && match.state!.id != 10
+                                  match.state!.id != 1 &&
+                                          match.state!.id != 13 &&
+                                          match.state!.id != 10
                                       ? Text(
                                           "$homeGoals",
                                           style: const TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 15,
+                                            fontSize: 16,
                                           ),
                                         )
                                       : const SizedBox(
@@ -246,7 +258,8 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                                         ),
                                   match.state!.id == 3
                                       ? Padding(
-                                          padding: const EdgeInsetsDirectional.only(start: 3, end: 3),
+                                          padding:
+                                              const EdgeInsetsDirectional.only(start: 3, end: 3),
                                           child: MatchTimerCircle(
                                             currentTime: 45,
                                             goalsTime: goalsTime,
@@ -256,7 +269,8 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                                         )
                                       : minute != null
                                           ? Padding(
-                                              padding: const EdgeInsetsDirectional.only(start: 3, end: 3),
+                                              padding: const EdgeInsetsDirectional.only(
+                                                  start: 3, end: 3),
                                               child: MatchTimerCircle(
                                                 currentTime: minute!.toDouble(),
                                                 goalsTime: goalsTime,
@@ -270,13 +284,14 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                                                 SizedBox(
                                                   width: 55,
                                                   child: Text(
-                                                    match.state!.name!,
+                                                    UiHelper.getMatchState(context,
+                                                        stateId: match.state!.id!),
                                                     textAlign: TextAlign.center,
-                                                    maxLines: 2,
+                                                    maxLines: 3,
                                                     overflow: TextOverflow.ellipsis,
                                                     style: TextStyle(
                                                       color: context.colorPalette.green057,
-                                                      fontSize: 10,
+                                                      fontSize: 12,
                                                       fontWeight: FontWeight.bold,
                                                     ),
                                                   ),
@@ -291,12 +306,14 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                                                   ),
                                               ],
                                             ),
-                                  match.state!.id != 1 && match.state!.id != 13 && match.state!.id != 10
+                                  match.state!.id != 1 &&
+                                          match.state!.id != 13 &&
+                                          match.state!.id != 10
                                       ? Text(
                                           "$awayGoals",
                                           style: const TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 15,
+                                            fontSize: 16,
                                           ),
                                         )
                                       : const SizedBox(
