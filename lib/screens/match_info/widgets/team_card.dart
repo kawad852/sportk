@@ -3,7 +3,7 @@ import 'package:sportk/model/match_model.dart';
 import 'package:sportk/screens/club/club_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
-import 'package:sportk/widgets/rounded_container.dart';
+import 'package:sportk/screens/match_info/widgets/rounded_container.dart';
 
 class TeamCard extends StatelessWidget {
   final Participant team;
