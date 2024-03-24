@@ -106,6 +106,7 @@ class UiHelper {
     BuildContext context, {
     required int matchId,
     required CommonProvider commonProvider,
+    required Function afterNavigate,
   }) {
     ApiFutureBuilder<MatchPointsModel>().fetch(
       context,
@@ -113,14 +114,15 @@ class UiHelper {
         final matchPoints = commonProvider.getMatchPoints(matchId);
         return matchPoints;
       },
-      onComplete: (snapshot) {
-        context.push(
+      onComplete: (snapshot) async {
+        await context.push(
           MatchInfoScreen(
             matchId: matchId,
             pointsData: snapshot.data!,
             showPredict: snapshot.data!.status == 1,
           ),
         );
+        afterNavigate();
       },
     );
   }

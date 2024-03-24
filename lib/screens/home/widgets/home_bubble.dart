@@ -203,6 +203,11 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                       context,
                       matchId: match.id!,
                       commonProvider: _commonProvider,
+                      afterNavigate: () {
+                        setState(() {
+                          _futures = _initializeFutures();
+                        });
+                      },
                     );
                   },
                   child: Builder(
@@ -284,8 +289,10 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                                                 SizedBox(
                                                   width: 55,
                                                   child: Text(
-                                                    UiHelper.getMatchState(context,
-                                                        stateId: match.state!.id!),
+                                                    UiHelper.getMatchState(
+                                                        context,
+                                                        stateId: match.state!.id!,
+                                                        ),
                                                     textAlign: TextAlign.center,
                                                     maxLines: 3,
                                                     overflow: TextOverflow.ellipsis,
@@ -300,7 +307,7 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                                                   Text(
                                                     DateFormat("HH:mm").format(match.startingAt!),
                                                     style: const TextStyle(
-                                                      fontSize: 8,
+                                                      fontSize: 10,
                                                       fontWeight: FontWeight.bold,
                                                     ),
                                                   ),

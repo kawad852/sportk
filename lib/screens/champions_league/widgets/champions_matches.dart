@@ -6,7 +6,6 @@ import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/champions_league/widgets/stage_card.dart';
 import 'package:sportk/utils/base_extensions.dart';
-import 'package:sportk/web_view_screen.dart';
 import 'package:sportk/widgets/match_card.dart';
 import 'package:sportk/widgets/match_empty_result.dart';
 import 'package:sportk/widgets/matches_loading.dart';
@@ -110,10 +109,12 @@ class _ChampionsMatchesState extends State<ChampionsMatches> with AutomaticKeepA
                                     context,
                                     matchId: element.id!,
                                     commonProvider: _commonProvider,
+                                    afterNavigate: () {
+                                      setState(() {
+                                        _vexKey.currentState!.refresh();
+                                      });
+                                    },
                                   );
-                                  // setState(() {
-                                  //   _vexKey.currentState!.refresh();
-                                  // });
                                 },
                                 child: MatchCard(element: element),
                               )

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:sportk/helper/ui_helper.dart';
 import 'package:sportk/model/match_model.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
@@ -136,14 +137,15 @@ class _MatchCardState extends State<MatchCard> {
                               SizedBox(
                                 width: 60,
                                 child: Text(
-                                  widget.element.state!.name!,
+                                  UiHelper.getMatchState(context,
+                                      stateId: widget.element.state!.id!),
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: context.colorPalette.green057,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 10,
+                                    fontSize: 11,
                                   ),
                                 ),
                               ),
@@ -151,7 +153,7 @@ class _MatchCardState extends State<MatchCard> {
                                 Text(
                                   DateFormat("yyyy-MM-dd").format(widget.element.startingAt!),
                                   style: const TextStyle(
-                                    fontSize: 8,
+                                    fontSize: 10,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -159,7 +161,7 @@ class _MatchCardState extends State<MatchCard> {
                                 Text(
                                   DateFormat("HH:mm").format(widget.element.startingAt!),
                                   style: const TextStyle(
-                                    fontSize: 8,
+                                    fontSize: 10,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:sportk/model/champions_groups_model.dart';
 import 'package:sportk/model/country_info_model.dart';
 import 'package:sportk/model/groups_standing_model.dart';
+import 'package:sportk/model/latest_match_team_model.dart';
 import 'package:sportk/model/league_by_date_model.dart';
 import 'package:sportk/model/league_model.dart';
 import 'package:sportk/model/league_search_model.dart';
@@ -342,6 +343,18 @@ class FootBallProvider extends ChangeNotifier {
       isPublic: true,
       apiType: ApiType.get,
       builder: SingleMatchModel.fromJson,
+    );
+    return snapshot;
+  }
+
+  Future<LatestMatchTeamModel> fetchLatestMatchTeam({
+    required int teamId,
+  }) {
+    final snapshot = ApiService<LatestMatchTeamModel>().build(
+      sportsUrl: '${ApiUrl.teamInfo}/$teamId${ApiUrl.auth}&include=latest&locale=${MySharedPreferences.language}',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: LatestMatchTeamModel.fromJson,
     );
     return snapshot;
   }

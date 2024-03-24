@@ -1,24 +1,90 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:sportk/model/latest_match_team_model.dart';
 import 'package:sportk/model/match_model.dart';
+import 'package:sportk/model/single_match_model.dart';
+import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/club/club_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/my_theme.dart';
+import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/screens/match_info/widgets/rounded_container.dart';
+import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
+import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 
-class TeamCard extends StatelessWidget {
+class TeamCard extends StatefulWidget {
   final Participant team;
   const TeamCard({super.key, required this.team});
+
+  @override
+  State<TeamCard> createState() => _TeamCardState();
+}
+
+class _TeamCardState extends State<TeamCard> {
+  late Future<List<dynamic>> _futures;
+  late FootBallProvider _footBallProvider;
+  late Future<LatestMatchTeamModel> _latestMatchFuture;
+  late Future<SingleMatchModel> _matchFuture;
+  final List<int> _fixters = [];
+  final List<dynamic> _latestMatchTeam = [];
+
+  Future<List<dynamic>> _initializeFutures() async {
+    _latestMatchFuture = _footBallProvider.fetchLatestMatchTeam(teamId: widget.team.id!);
+    final matches = await _latestMatchFuture;
+    matches.data!.latest!.map((e) {
+      if (matches.data!.latest!.indexOf(e) < 3) {
+        _fixters.add(e.id!);
+      }
+    }).toSet();
+
+    log(_fixters.toString());
+
+    return Future.wait(_fixters.map((fixter) async {
+      _matchFuture = _footBallProvider.fetchMatchById(matchId: fixter);
+      final singleMatch = await _matchFuture;
+      Participant team = Participant();
+      Participant against = Participant();
+      singleMatch.data!.participants!.map((e) async {
+        if (e.id == widget.team.id) {
+          team = e;
+        } else {
+          against = e;
+        }
+      }).toSet();
+      filterLatestMatch(team.meta!.winner!, against.meta!.winner!);
+    }).toSet());
+  }
+
+  filterLatestMatch(bool team, bool against) async {
+    switch ([team, against]) {
+      case [false, false]:
+        _latestMatchTeam.add({context.appLocalization.draw: context.colorPalette.yellowFCC});
+      case [true, false]:
+        _latestMatchTeam.add({context.appLocalization.winner: context.colorPalette.greenAD0});
+      case [false, true]:
+        _latestMatchTeam.add({context.appLocalization.loser: context.colorPalette.red000});
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _footBallProvider = context.footBallProvider;
+    _futures = _initializeFutures();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         CustomNetworkImage(
-          team.imagePath!,
+          widget.team.imagePath!,
           width: 70,
           height: 70,
           onTap: () {
-            context.push(ClubScreen(teamId: team.id!));
+            context.push(ClubScreen(teamId: widget.team.id!));
           },
         ),
         Padding(
@@ -26,7 +92,7 @@ class TeamCard extends StatelessWidget {
           child: SizedBox(
             height: 40,
             child: Text(
-              team.name!,
+              widget.team.name!,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
               maxLines: 2,
@@ -34,22 +100,54 @@ class TeamCard extends StatelessWidget {
             ),
           ),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            RoundedContainer(
-              color: context.colorPalette.greenAD0,
-              text: context.appLocalization.winner,
-            ),
-            RoundedContainer(
-              color: context.colorPalette.yellowFCC,
-              text: context.appLocalization.draw,
-            ),
-            RoundedContainer(
-              color: context.colorPalette.red000,
-              text: context.appLocalization.loser,
-            ),
-          ],
+        CustomFutureBuilder(
+          future: _futures,
+          onRetry: () {
+            setState(() {
+              _futures = _initializeFutures();
+            });
+          },
+          onError: (snapshot) => const SizedBox(height: 25),
+          onLoading: () {
+            return ShimmerLoading(
+              child: SizedBox(
+                height: 25,
+                child: ListView.builder(
+                  padding: EdgeInsets.zero,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 3,
+                  itemBuilder: (context, index) {
+                    return const LoadingBubble(
+                      width: 20,
+                      height: 20,
+                      margin: EdgeInsetsDirectional.only(end: 5),
+                      radius: MyTheme.radiusPrimary,
+                    );
+                  },
+                ),
+              ),
+            );
+          },
+          onComplete: (context, snapshot) {
+            return SizedBox(
+              height: 25,
+              child: ListView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                itemCount: _latestMatchTeam.length,
+                itemBuilder: (context, index) {
+                  log(_latestMatchTeam.toString());
+                  Map<String, Color> result = _latestMatchTeam[index];
+                  String key = result.keys.elementAt(0);
+                  return RoundedContainer(color: result[key]!, text: key);
+                },
+              ),
+            );
+          },
         ),
       ],
     );
