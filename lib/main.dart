@@ -20,6 +20,7 @@ import 'package:sportk/screens/base/app_nav_bar.dart';
 import 'package:sportk/screens/intro/intro_screen.dart';
 import 'package:sportk/screens/registration/registration_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/deep_linking_service.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/utils/shared_pref.dart';
@@ -93,6 +94,7 @@ class _MyAppState extends State<MyApp> {
     _commonProvider = context.commonProvider;
     _authProvider.initializeLocale(context);
     _authProvider.initUser();
+    DeepLinkingService.listenDynamicLinks();
     final v = PlatformDispatcher.instance.locale.countryCode;
   }
 
