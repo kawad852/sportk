@@ -8,27 +8,32 @@ class CustomBack extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        context.pop();
-      },
-      child: Row(
-        children: [
-          const SizedBox(
-            width: 10,
-          ),
-          Icon(
-            Icons.arrow_back_ios,
-            color: color ?? context.colorPalette.black,
-          ),
-          Text(
-            context.appLocalization.back,
-            style: TextStyle(
-              fontWeight: fontWeight ?? FontWeight.w600,
-              color: color ?? context.colorPalette.black,
+    final colorS = context.colorScheme.onSurface;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(40),
+        onTap: () {
+          context.pop();
+        },
+        child: Row(
+          children: [
+            const SizedBox(
+              width: 10,
             ),
-          ),
-        ],
+            Icon(
+              Icons.arrow_back_ios,
+              color: color ?? colorS,
+            ),
+            Text(
+              context.appLocalization.back,
+              style: TextStyle(
+                fontWeight: fontWeight ?? FontWeight.w600,
+                color: color ?? colorS,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
