@@ -32,6 +32,7 @@ class BaseEditor extends StatelessWidget {
   final Function()? onTapOutside;
   final bool? filled;
   final Color? fillColor;
+  final TextStyle? hintStyle;
 
   const BaseEditor({
     super.key,
@@ -64,6 +65,7 @@ class BaseEditor extends StatelessWidget {
     this.onTapOutside,
     this.filled,
     this.fillColor,
+    this.hintStyle,
   });
 
   @override
@@ -93,6 +95,7 @@ class BaseEditor extends StatelessWidget {
           floatingLabelBehavior: floatingLabelBehavior,
           alignLabelWithHint: true,
           helperText: helperText,
+          hintStyle: hintStyle,
         ),
         validator: validator,
         canRequestFocus: canRequestFocus,

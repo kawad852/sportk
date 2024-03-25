@@ -32,6 +32,16 @@ class _AppNavBarState extends State<AppNavBar> {
     MyIcons.wallet,
   ];
 
+  List<String> _getTitle(BuildContext context) {
+    return [
+      context.appLocalization.home,
+      context.appLocalization.news,
+      context.appLocalization.leagues,
+      context.appLocalization.favorites,
+      context.appLocalization.myWallet,
+    ];
+  }
+
   final screens = [
     const HomeScreen(),
     const NewsScreen(),
@@ -100,6 +110,7 @@ class _AppNavBarState extends State<AppNavBar> {
               },
               isSelected: _currentIndex == index,
               icon: items[index],
+              title: _getTitle(context)[index],
             );
           }).toList(),
         ),

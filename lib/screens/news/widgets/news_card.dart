@@ -59,12 +59,12 @@ class _NewsCardState extends State<NewsCard> {
           Padding(
             padding: const EdgeInsetsDirectional.all(8.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   _newData.title!,
                   maxLines: 2,
                   style: const TextStyle(
-                    fontSize: 10,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),

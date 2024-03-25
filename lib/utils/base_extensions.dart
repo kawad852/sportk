@@ -129,7 +129,7 @@ extension DateTimeExtension on DateTime {
     BuildContext context, {
     String pattern = 'dd-MM-yyyy',
   }) {
-    var date = DateFormat(pattern).format(this);
+    var date = DateFormat(pattern, context.languageCode).format(this);
     return date;
   }
 }

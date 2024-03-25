@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sportk/helper/lanucher_helper.dart';
 import 'package:sportk/model/new_model.dart';
+import 'package:sportk/screens/news/source_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
@@ -58,15 +58,17 @@ class NewsDetailsCard extends StatelessWidget {
             const CustomSvg(MyIcons.clock),
           ],
         ),
+        const SizedBox(height: 5),
         Text(
           newData.title!,
           style: TextStyle(
+            fontSize: 16,
             color: context.colorPalette.blueD4B,
             fontWeight: FontWeight.w600,
           ),
         ),
         Padding(
-          padding: const EdgeInsetsDirectional.only(top: 15, bottom: 15),
+          padding: const EdgeInsetsDirectional.only(top: 10, bottom: 15),
           child: Text(
             newData.content!,
           ),
@@ -74,12 +76,13 @@ class NewsDetailsCard extends StatelessWidget {
         if (newData.link != null)
           StretchedButton(
             onPressed: () {
-              LauncherHelper.lunch(context, newData.link!);
+              context.push(SourceScreen(url: newData.link!));
+              // LauncherHelper.lunch(context, newData.link!);
             },
             margin: const EdgeInsetsDirectional.only(bottom: 15),
             child: Text(
               context.appLocalization.newReadSource,
-              style: TextStyle(color: context.colorPalette.white),
+              style: TextStyle(color: context.colorScheme.onPrimary),
             ),
           ),
       ],
