@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sportk/helper/ui_helper.dart';
@@ -199,9 +201,12 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                 ).toSet();
                 return GestureDetector(
                   onTap: () {
+                    log(match.id.toString());
                     UiHelper.navigateToMatchInfo(
                       context,
                       matchId: match.id!,
+                      leagueId: match.leagueId!,
+                      subType: match.league!.subType!,
                       commonProvider: _commonProvider,
                       afterNavigate: () {
                         setState(() {

@@ -104,7 +104,7 @@ class FootBallProvider extends ChangeNotifier {
 
   Future<LeagueByDateModel> fetchLeagueByDate(BuildContext context, DateTime date, int id) {
     final snapshot = ApiService<LeagueByDateModel>().build(
-      sportsUrl: '${ApiUrl.compoByDate}/${date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&filters=fixtureLeagues:$id&include=statistics;state;participants;periods.events&locale=${MySharedPreferences.language}',
+      sportsUrl: '${ApiUrl.compoByDate}/${date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&filters=fixtureLeagues:$id&include=statistics;state;league;participants;periods.events&locale=${MySharedPreferences.language}',
       isPublic: true,
       apiType: ApiType.get,
       builder: LeagueByDateModel.fromJson,
@@ -114,7 +114,7 @@ class FootBallProvider extends ChangeNotifier {
 
   Future<LeagueByDateModel> fetchLeagueByTeam(BuildContext context, DateTime date, int id) {
     final snapshot = ApiService<LeagueByDateModel>().build(
-      sportsUrl: '${ApiUrl.leagueByTeam}/${date.formatDate(context, pattern: 'yyyy-MM-dd')}/${date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&include=statistics;state;participants;periods.events&locale=${MySharedPreferences.language}',
+      sportsUrl: '${ApiUrl.leagueByTeam}/${date.formatDate(context, pattern: 'yyyy-MM-dd')}/${date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&include=statistics;state;league;participants;periods.events&locale=${MySharedPreferences.language}',
       isPublic: true,
       apiType: ApiType.get,
       builder: LeagueByDateModel.fromJson,
@@ -240,7 +240,7 @@ class FootBallProvider extends ChangeNotifier {
     required int pageKey,
   }) {
     final snapshot = ApiService<MatchModel>().build(
-      sportsUrl: '${ApiUrl.match}/$startDate/$endDate${ApiUrl.auth}&include=statistics;state;participants;periods.events&filters=fixtureLeagues:$leagueId&page=$pageKey&locale=${MySharedPreferences.language}',
+      sportsUrl: '${ApiUrl.match}/$startDate/$endDate${ApiUrl.auth}&include=statistics;state;participants;league;periods.events&filters=fixtureLeagues:$leagueId&page=$pageKey&locale=${MySharedPreferences.language}',
       isPublic: true,
       apiType: ApiType.get,
       builder: MatchModel.fromJson,
@@ -279,7 +279,7 @@ class FootBallProvider extends ChangeNotifier {
     required int pageKey,
   }) {
     final snapshot = ApiService<MatchModel>().build(
-      sportsUrl: '${ApiUrl.match}/$startDate/$endDate/$teamId${ApiUrl.auth}&include=statistics;state;participants;periods.events&page=$pageKey&locale=${MySharedPreferences.language}',
+      sportsUrl: '${ApiUrl.match}/$startDate/$endDate/$teamId${ApiUrl.auth}&include=statistics;state;participants;league;periods.events&page=$pageKey&locale=${MySharedPreferences.language}',
       isPublic: true,
       apiType: ApiType.get,
       builder: MatchModel.fromJson,

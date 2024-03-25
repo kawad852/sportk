@@ -109,6 +109,8 @@ class _ClubMatchesState extends State<ClubMatches> with AutomaticKeepAliveClient
                                   await UiHelper.navigateToMatchInfo(
                                     context,
                                     matchId: element.id!,
+                                    leagueId: element.leagueId!,
+                                    subType: element.league!.subType!,
                                     commonProvider: _commonProvider,
                                     afterNavigate: () {
                                       setState(() {

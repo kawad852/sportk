@@ -79,4 +79,8 @@ class ColorPalette {
   Color get walletContainerColor => _isLightTheme ? white : const Color(0xFF515464);
 
   Color get penddingColor => _isLightTheme ? const Color(0xFFCC0000) : const Color(0xFFF7AA05);
+
+  Color get progressGreen => const Color(0xFF609B5E); 
+  Color get progressRed => const Color(0xFFCD1313); 
+
 }

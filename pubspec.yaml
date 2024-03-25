@@ -69,6 +69,7 @@ dependencies:
   animated_toggle_switch: ^0.8.1
   android_intent_plus: ^4.0.3
   url_launcher: ^6.2.5
+  percent_indicator: ^4.2.3
   
 
   #firebase

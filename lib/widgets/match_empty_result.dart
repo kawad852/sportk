@@ -8,9 +8,11 @@ class MatchEmptyResult extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return NoResults(
-      header: const Icon(FontAwesomeIcons.trophy),
-      title: context.appLocalization.noMatchesAtTheMoment,
+    return Center(
+      child: NoResults(
+        header: const Icon(FontAwesomeIcons.trophy),
+        title: context.appLocalization.noMatchesAtTheMoment,
+      ),
     );
   }
 }

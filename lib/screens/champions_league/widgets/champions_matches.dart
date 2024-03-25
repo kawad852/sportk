@@ -108,6 +108,8 @@ class _ChampionsMatchesState extends State<ChampionsMatches> with AutomaticKeepA
                                   await UiHelper.navigateToMatchInfo(
                                     context,
                                     matchId: element.id!,
+                                    leagueId: element.leagueId!,
+                                    subType: element.league!.subType!,
                                     commonProvider: _commonProvider,
                                     afterNavigate: () {
                                       setState(() {

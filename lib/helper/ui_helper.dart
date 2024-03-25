@@ -105,6 +105,8 @@ class UiHelper {
   static navigateToMatchInfo(
     BuildContext context, {
     required int matchId,
+    required int leagueId,
+    required String subType,
     required CommonProvider commonProvider,
     required Function afterNavigate,
   }) {
@@ -118,6 +120,8 @@ class UiHelper {
         await context.push(
           MatchInfoScreen(
             matchId: matchId,
+            leagueId:leagueId,
+            subType: subType,
             pointsData: snapshot.data!,
             showPredict: snapshot.data!.status == 1,
           ),

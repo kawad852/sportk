@@ -1,3 +1,5 @@
+import 'package:sportk/model/league_model.dart';
+
 class MatchModel {
   List<MatchData>? data;
   List<Subscription>? subscription;
@@ -53,6 +55,7 @@ class MatchData {
   int? startingAtTimestamp;
   List<Statistic>? statistics;
   States? state;
+  LeagueData? league;
   List<Participant>? participants;
   List<Period>? periods;
 
@@ -78,6 +81,7 @@ class MatchData {
     this.startingAtTimestamp,
     this.statistics,
     this.state,
+    this.league,
     this.participants,
     this.periods,
   });
@@ -106,6 +110,7 @@ class MatchData {
             ? []
             : List<Statistic>.from(json["statistics"]!.map((x) => Statistic.fromJson(x))),
         state: json["state"] == null ? null : States.fromJson(json["state"]),
+        league: json["league"] == null ? null : LeagueData.fromJson(json["league"]),
         participants: json["participants"] == null
             ? []
             : List<Participant>.from(json["participants"]!.map((x) => Participant.fromJson(x))),
@@ -134,6 +139,7 @@ class MatchData {
         "placeholder": placeholder,
         "has_odds": hasOdds,
         "starting_at_timestamp": startingAtTimestamp,
+        "league": league?.toJson(),
         "statistics":
             statistics == null ? [] : List<dynamic>.from(statistics!.map((x) => x.toJson())),
         "state": state?.toJson(),

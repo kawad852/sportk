@@ -240,5 +240,6 @@
   "deleted":"Deleted",
   "extraTimeBreak":"Extra Time-Break",
   "half2":"2nd Half",
-  "pending":"Pending"
+  "pending":"Pending",
+  "possession":"Possession"
 }

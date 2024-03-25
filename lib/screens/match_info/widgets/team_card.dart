@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:sportk/model/latest_match_team_model.dart';
 import 'package:sportk/model/match_model.dart';
@@ -28,7 +26,7 @@ class _TeamCardState extends State<TeamCard> {
   late Future<LatestMatchTeamModel> _latestMatchFuture;
   late Future<SingleMatchModel> _matchFuture;
   final List<int> _fixters = [];
-  final List<dynamic> _latestMatchTeam = [];
+  final Map<int, String> _latestMatchTeam = {};
 
   Future<List<dynamic>> _initializeFutures() async {
     _latestMatchFuture = _footBallProvider.fetchLatestMatchTeam(teamId: widget.team.id!);
@@ -39,32 +37,41 @@ class _TeamCardState extends State<TeamCard> {
       }
     }).toSet();
 
-    log(_fixters.toString());
-
     return Future.wait(_fixters.map((fixter) async {
       _matchFuture = _footBallProvider.fetchMatchById(matchId: fixter);
       final singleMatch = await _matchFuture;
       Participant team = Participant();
       Participant against = Participant();
-      singleMatch.data!.participants!.map((e) async {
+      singleMatch.data!.participants!.map((e) {
         if (e.id == widget.team.id) {
           team = e;
         } else {
           against = e;
         }
       }).toSet();
-      filterLatestMatch(team.meta!.winner!, against.meta!.winner!);
+      filterLatestMatch(team.meta!.winner, against.meta!.winner, _fixters.indexOf(fixter));
     }).toSet());
   }
 
-  filterLatestMatch(bool team, bool against) async {
+  filterLatestMatch(bool? team, bool? against, int index) {
     switch ([team, against]) {
       case [false, false]:
-        _latestMatchTeam.add({context.appLocalization.draw: context.colorPalette.yellowFCC});
+      case [null, null]:
+        _latestMatchTeam[index] = context.appLocalization.draw;
       case [true, false]:
-        _latestMatchTeam.add({context.appLocalization.winner: context.colorPalette.greenAD0});
+        _latestMatchTeam[index] = context.appLocalization.winner;
       case [false, true]:
-        _latestMatchTeam.add({context.appLocalization.loser: context.colorPalette.red000});
+        _latestMatchTeam[index] = context.appLocalization.loser;
+    }
+  }
+
+  Color getColorCard(String result) {
+    if (result == context.appLocalization.draw) {
+      return context.colorPalette.yellowFCC;
+    } else if (result == context.appLocalization.loser) {
+      return context.colorPalette.red000;
+    } else {
+      return context.colorPalette.greenAD0;
     }
   }
 
@@ -140,10 +147,11 @@ class _TeamCardState extends State<TeamCard> {
                 scrollDirection: Axis.horizontal,
                 itemCount: _latestMatchTeam.length,
                 itemBuilder: (context, index) {
-                  log(_latestMatchTeam.toString());
-                  Map<String, Color> result = _latestMatchTeam[index];
-                  String key = result.keys.elementAt(0);
-                  return RoundedContainer(color: result[key]!, text: key);
+                  String key = _latestMatchTeam[index]!;
+                  return RoundedContainer(
+                    color: getColorCard(key),
+                    text: key,
+                  );
                 },
               ),
             );
