@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -34,11 +36,44 @@ class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMi
   late Future<NewModel> _recommendedNewsFuture;
   late Future<NewModel> _compoNewsFuture;
 
+  Timer? _timer;
+  int? _firstNewId;
+  DateTime get _nowDate => DateTime.now();
+
+  Future<NewModel> _fetchRecent(int pageKey) {
+    return _commonProvider.fetchNews(pageKey, url: '${ApiUrl.news}?locale=${MySharedPreferences.language}').then((value) {
+      _firstNewId = value.data!.first.id;
+      return value;
+    });
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(
+      const Duration(minutes: 2),
+      (Timer t) async {
+        final newModel = await _fetchRecent(1);
+        final id = newModel.data!.first.id;
+        if (_firstNewId != id) {
+          setState(() {
+            _firstNewId = id;
+          });
+        }
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
+    _startTimer();
     _commonProvider = context.commonProvider;
     _authProvider = context.authProvider;
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -262,7 +297,8 @@ class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMi
               ),
             ),
             VexPaginator(
-              query: (pageKey) async => _commonProvider.fetchNews(pageKey, url: '${ApiUrl.news}?locale=${MySharedPreferences.language}'),
+              key: ValueKey(_firstNewId),
+              query: (pageKey) async => _fetchRecent(pageKey),
               onFetching: (snapshot) async => snapshot.data!,
               sliver: true,
               pageSize: 10,
