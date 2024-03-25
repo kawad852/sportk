@@ -204,7 +204,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       width: 50,
                     ),
                   ),
-                ),
+                )
+              else
+                const SizedBox(width: 20),
               GestureDetector(
                 onTap: () {},
                 child: Image.asset(

@@ -6,6 +6,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -42,8 +43,10 @@ Future<void> main() async {
   await MySharedPreferences.init();
   await MatchTimerCircle.loadBallImage();
   unawaited(MobileAds.instance.initialize());
-  // MySharedPreferences.clearStorage();
-  // MySharedPreferences.isPassedIntro = false;
+  await FlutterBranchSdk.init(useTestKey: true, enableLogging: false, disableTracking: false);
+  FlutterBranchSdk.validateSDKIntegration();
+  MySharedPreferences.clearStorage();
+  MySharedPreferences.isPassedIntro = false;
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   FirebaseMessaging.onBackgroundMessage(onBackgroundMessage);
   runApp(
