@@ -246,5 +246,7 @@
   "corners":"الركنيات",
   "goalkeepeSaves":"تصديات حارس المرمى",
   "counterAttacks":"المرتدات",
-  "statisticsNotAvailable":"إحصائيات المباراة ليست متاحة بعد"
+  "statisticsNotAvailable":"إحصائيات المباراة ليست متاحة بعد",
+  "homeEmptyMatchesTitle": "لا يوجد مباريات بتاريخ {date}",
+  "homeEmptyMatchesBody": "إختر يوم آخر وحاول مرة أخرى"
 }

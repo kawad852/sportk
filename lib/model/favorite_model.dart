@@ -40,6 +40,7 @@ class FavoriteData {
   Future<LeagueByDateModel>? teamsFuture;
   Future<List<dynamic>>? futures;
   bool hasMatches;
+  DateTime? date;
 
   FavoriteData({
     this.id,
@@ -52,6 +53,7 @@ class FavoriteData {
     this.teamsFuture,
     this.futures,
     this.hasMatches = true,
+    this.date,
   });
 
   factory FavoriteData.fromJson(Map<String, dynamic> json) => FavoriteData(
