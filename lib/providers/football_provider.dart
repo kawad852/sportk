@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:sportk/main.dart';
 import 'package:sportk/model/champions_groups_model.dart';
 import 'package:sportk/model/country_info_model.dart';
 import 'package:sportk/model/groups_standing_model.dart';
@@ -102,9 +103,9 @@ class FootBallProvider extends ChangeNotifier {
     return snapshot;
   }
 
-  Future<LeagueByDateModel> fetchLeagueByDate(BuildContext context, DateTime date, int id) {
+  Future<LeagueByDateModel> fetchLeagueByDate(DateTime date, int id) {
     final snapshot = ApiService<LeagueByDateModel>().build(
-      sportsUrl: '${ApiUrl.compoByDate}/${date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&filters=fixtureLeagues:$id&include=statistics;state;league;participants;periods.events&locale=${MySharedPreferences.language}',
+      sportsUrl: '${ApiUrl.compoByDate}/${date.formatDate(navigatorKey.currentState!.context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&filters=fixtureLeagues:$id&include=statistics;state;league;participants;periods.events&locale=${MySharedPreferences.language}',
       isPublic: true,
       apiType: ApiType.get,
       builder: LeagueByDateModel.fromJson,

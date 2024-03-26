@@ -217,7 +217,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               padding: const EdgeInsets.all(20).copyWith(top: 0),
                               sliver: SliverList.builder(
                                 key: ValueKey('${_selectedDate.microsecondsSinceEpoch}$_isLive'),
-                                itemCount: allCompetitions.length + 1,
+                                itemCount: allCompetitions.length,
                                 // separatorBuilder: (context, index) => const SizedBox(height: 1),
                                 itemBuilder: (context, index) {
                                   if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
@@ -230,6 +230,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                   final competition = allCompetitions[index];
                                   final liveLeagues = livesModel.data!.where((element) => element.competitionId == '${competition.favoritableId}').toList();
+                                  print("aklsfjalksfalksfakjsfjlkaslfkj");
                                   return HomeBubble(
                                     date: _selectedDate,
                                     id: competition.favoritableId!,
