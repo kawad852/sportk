@@ -241,5 +241,9 @@
   "extraTimeBreak":"معلقة وتستمر في وقت لاحق",
   "half2":"الشوط الثاني",
   "pending":"قيد الانتظار",
-  "possession":"الإستحواذ"
+  "possession":"الإستحواذ",
+  "corners":"الركنيات",
+  "goalkeepeSaves":"تصديات حارس المرمى",
+  "counterAttacks":"المرتدات",
+  "statisticsNotAvailable":"إحصائيات المباراة ليست متاحة بعد"
 }
