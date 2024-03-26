@@ -12,6 +12,7 @@ class RoundedContainer extends StatelessWidget {
       width: 20,
       height: 20,
       margin: const EdgeInsetsDirectional.only(end: 5),
+      alignment: Alignment.center,
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(5),

@@ -7,6 +7,7 @@ import 'package:sportk/screens/match_info/widgets/statistics_loading.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_theme.dart';
+import 'package:sportk/utils/shared_pref.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/no_results.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
@@ -153,10 +154,13 @@ class _MatchStatisticsState extends State<MatchStatistics> {
                               ),
                             ),
                             CircularPercentIndicator(
-                              radius: 37.0,
+                              radius: 39.0,
                               animation: true,
                               animationDuration: 1000,
                               lineWidth: 3.0,
+                              reverse: MySharedPreferences.language == LanguageEnum.arabic
+                                  ? false
+                                  : true,
                               percent: _possessionHome == 0 ? 0.5 : _possessionHome / 100,
                               center: Text(context.appLocalization.possession),
                               backgroundColor: context.colorPalette.progressRed,
