@@ -143,7 +143,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
               controller: _controller,
               children: [
                 if (_showPredict) PredictionsScreen(pointsData: widget.pointsData),
-                MatchEvents(),
+                MatchEvents(matchId: widget.matchId),
                 TeamsPlan(),
                 MatchStatistics(matchId: widget.matchId),
                 Text(context.appLocalization.details),

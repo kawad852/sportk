@@ -48,4 +48,10 @@ class MyIcons {
   static const String codeSuccess = '${_path}code_success.svg';
   static const String codeWrong = '${_path}code_wrong.svg';
   static const String cup = '${_path}cup.svg';
+  static const String substitution = '${_path}substitution.svg';
+  static const String matchEvent = '${_path}match_event.svg';
+  static const String varEvent = '${_path}var.svg';
+
+
+
 }
