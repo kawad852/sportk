@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:sportk/model/champions_groups_model.dart';
 import 'package:sportk/model/country_info_model.dart';
 import 'package:sportk/model/groups_standing_model.dart';
+import 'package:sportk/model/latest_match_team_model.dart';
 import 'package:sportk/model/league_by_date_model.dart';
 import 'package:sportk/model/league_model.dart';
 import 'package:sportk/model/league_search_model.dart';
@@ -103,7 +104,7 @@ class FootBallProvider extends ChangeNotifier {
 
   Future<LeagueByDateModel> fetchLeagueByDate(BuildContext context, DateTime date, int id) {
     final snapshot = ApiService<LeagueByDateModel>().build(
-      sportsUrl: '${ApiUrl.compoByDate}/${date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&filters=fixtureLeagues:$id&include=statistics;state;participants;periods.events&locale=${MySharedPreferences.language}',
+      sportsUrl: '${ApiUrl.compoByDate}/${date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&filters=fixtureLeagues:$id&include=statistics;state;league;participants;periods.events&locale=${MySharedPreferences.language}',
       isPublic: true,
       apiType: ApiType.get,
       builder: LeagueByDateModel.fromJson,
@@ -113,7 +114,7 @@ class FootBallProvider extends ChangeNotifier {
 
   Future<LeagueByDateModel> fetchLeagueByTeam(BuildContext context, DateTime date, int id) {
     final snapshot = ApiService<LeagueByDateModel>().build(
-      sportsUrl: '${ApiUrl.leagueByTeam}/${date.formatDate(context, pattern: 'yyyy-MM-dd')}/${date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&include=statistics;state;participants;periods.events&locale=${MySharedPreferences.language}',
+      sportsUrl: '${ApiUrl.leagueByTeam}/${date.formatDate(context, pattern: 'yyyy-MM-dd')}/${date.formatDate(context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&include=statistics;state;league;participants;periods.events&locale=${MySharedPreferences.language}',
       isPublic: true,
       apiType: ApiType.get,
       builder: LeagueByDateModel.fromJson,
@@ -239,7 +240,7 @@ class FootBallProvider extends ChangeNotifier {
     required int pageKey,
   }) {
     final snapshot = ApiService<MatchModel>().build(
-      sportsUrl: '${ApiUrl.match}/$startDate/$endDate${ApiUrl.auth}&include=statistics;state;participants;periods.events&filters=fixtureLeagues:$leagueId&page=$pageKey&locale=${MySharedPreferences.language}',
+      sportsUrl: '${ApiUrl.match}/$startDate/$endDate${ApiUrl.auth}&include=statistics;state;participants;league;periods.events&filters=fixtureLeagues:$leagueId&page=$pageKey&locale=${MySharedPreferences.language}',
       isPublic: true,
       apiType: ApiType.get,
       builder: MatchModel.fromJson,
@@ -278,7 +279,7 @@ class FootBallProvider extends ChangeNotifier {
     required int pageKey,
   }) {
     final snapshot = ApiService<MatchModel>().build(
-      sportsUrl: '${ApiUrl.match}/$startDate/$endDate/$teamId${ApiUrl.auth}&include=statistics;state;participants;periods.events&page=$pageKey&locale=${MySharedPreferences.language}',
+      sportsUrl: '${ApiUrl.match}/$startDate/$endDate/$teamId${ApiUrl.auth}&include=statistics;state;participants;league;periods.events&page=$pageKey&locale=${MySharedPreferences.language}',
       isPublic: true,
       apiType: ApiType.get,
       builder: MatchModel.fromJson,
@@ -342,6 +343,18 @@ class FootBallProvider extends ChangeNotifier {
       isPublic: true,
       apiType: ApiType.get,
       builder: SingleMatchModel.fromJson,
+    );
+    return snapshot;
+  }
+
+  Future<LatestMatchTeamModel> fetchLatestMatchTeam({
+    required int teamId,
+  }) {
+    final snapshot = ApiService<LatestMatchTeamModel>().build(
+      sportsUrl: '${ApiUrl.teamInfo}/$teamId${ApiUrl.auth}&include=latest&locale=${MySharedPreferences.language}',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: LatestMatchTeamModel.fromJson,
     );
     return snapshot;
   }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sportk/helper/ui_helper.dart';
@@ -199,10 +201,18 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                 ).toSet();
                 return GestureDetector(
                   onTap: () {
+                    log(match.id.toString());
                     UiHelper.navigateToMatchInfo(
                       context,
                       matchId: match.id!,
+                      leagueId: match.leagueId!,
+                      subType: match.league!.subType!,
                       commonProvider: _commonProvider,
+                      afterNavigate: () {
+                        setState(() {
+                          _futures = _initializeFutures();
+                        });
+                      },
                     );
                   },
                   child: Builder(
@@ -284,8 +294,10 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                                                 SizedBox(
                                                   width: 55,
                                                   child: Text(
-                                                    UiHelper.getMatchState(context,
-                                                        stateId: match.state!.id!),
+                                                    UiHelper.getMatchState(
+                                                        context,
+                                                        stateId: match.state!.id!,
+                                                        ),
                                                     textAlign: TextAlign.center,
                                                     maxLines: 3,
                                                     overflow: TextOverflow.ellipsis,
@@ -300,7 +312,7 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                                                   Text(
                                                     DateFormat("HH:mm").format(match.startingAt!),
                                                     style: const TextStyle(
-                                                      fontSize: 8,
+                                                      fontSize: 10,
                                                       fontWeight: FontWeight.bold,
                                                     ),
                                                   ),

@@ -55,14 +55,21 @@ class _PredictionsContainerState extends State<PredictionsContainer> {
                   width: 50,
                   height: 50,
                 ),
-                Text(
-                  widget.team,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: widget.selectedCard == widget.index
-                        ? context.colorPalette.white
-                        : context.colorPalette.black,
-                    fontWeight: FontWeight.bold,
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: Text(
+                      widget.team,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: TextStyle(
+                        color: widget.selectedCard == widget.index
+                            ? context.colorPalette.white
+                            : context.colorPalette.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
               ],

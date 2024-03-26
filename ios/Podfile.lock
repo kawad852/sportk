@@ -28,7 +28,7 @@ PODS:
     - Firebase/Auth (= 10.22.0)
     - firebase_core
     - Flutter
-  - firebase_core (2.27.1):
+  - firebase_core (2.27.2):
     - Firebase/CoreOnly (= 10.22.0)
     - Flutter
   - firebase_messaging (14.7.16):
@@ -316,7 +316,7 @@ SPEC CHECKSUMS:
   emoji_picker_flutter: fe2e6151c5b548e975d546e6eeb567daf0962a58
   Firebase: 797fd7297b7e1be954432743a0b3f90038e45a71
   firebase_auth: 6711003345db3b00476a3cd7a635ff97a012607a
-  firebase_core: d6dfb4cb86a9ebd92464bb8736075fe967211c97
+  firebase_core: cc49b6648d6dd7570d9273a616cb1205260db91e
   firebase_messaging: dbaec0f18838a632ce2fe1fe02d1f0c416239d1e
   FirebaseAppCheckInterop: a1955ce8c30f38f87e7d091630e871e91154d65d
   FirebaseAuth: bbe4c68f958504ba9e54aee181adbdf5b664fbc6

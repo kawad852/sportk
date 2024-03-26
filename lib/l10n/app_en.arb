@@ -241,5 +241,10 @@
   "extraTimeBreak":"Extra Time-Break",
   "half2":"2nd Half",
   "pending":"Pending",
+  "possession":"Possession",
+  "corners":"Corners",
+  "goalkeepeSaves":"Goalkeeper saves",
+  "counterAttacks":"Counter Attacks",
+  "statisticsNotAvailable":"Statistics for the match are not yet available",
   "home": "Home"
 }

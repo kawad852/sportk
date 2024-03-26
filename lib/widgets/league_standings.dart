@@ -13,7 +13,10 @@ import 'package:sportk/widgets/team_info.dart';
 class LeagueStandings extends StatefulWidget {
   final int leagueId;
   final int? selectedTeamId;
-  const LeagueStandings({super.key, required this.leagueId, this.selectedTeamId});
+  final int? selectedTeamId2;
+
+  const LeagueStandings(
+      {super.key, required this.leagueId, this.selectedTeamId, this.selectedTeamId2});
 
   @override
   State<LeagueStandings> createState() => _LeagueStandingsState();
@@ -102,8 +105,10 @@ class _LeagueStandingsState extends State<LeagueStandings> with AutomaticKeepAli
                       ...standings.data!.map((element) {
                         return TableRow(
                           decoration: BoxDecoration(
-                            color: widget.selectedTeamId != null &&
-                                    element.participantId == widget.selectedTeamId
+                            color: (widget.selectedTeamId != null &&
+                                        element.participantId == widget.selectedTeamId) ||
+                                    (widget.selectedTeamId2 != null &&
+                                        element.participantId == widget.selectedTeamId2)
                                 ? context.colorPalette.blueABB
                                 : standings.data!.indexOf(element) % 2 == 0
                                     ? context.colorPalette.grey3F3

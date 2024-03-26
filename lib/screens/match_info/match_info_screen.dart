@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/model/match_points_model.dart';
+import 'package:sportk/screens/champions_league/widgets/champions_matches.dart';
 import 'package:sportk/screens/match_info/predictions/predictions_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/utils/my_images.dart';
 import 'package:sportk/utils/my_theme.dart';
@@ -15,6 +17,8 @@ import 'package:sportk/screens/match_info/widgets/teams_plan.dart';
 
 class MatchInfoScreen extends StatefulWidget {
   final int matchId;
+  final int leagueId;
+  final String subType;
   final PointsData pointsData;
   final bool showPredict;
   const MatchInfoScreen({
@@ -22,6 +26,8 @@ class MatchInfoScreen extends StatefulWidget {
     required this.matchId,
     required this.pointsData,
     this.showPredict = false,
+    required this.leagueId,
+    required this.subType,
   });
 
   @override
@@ -32,6 +38,8 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
   late TabController _controller;
 
   bool get _showPredict => widget.showPredict;
+
+  bool get _isDomestic => widget.subType == LeagueTypeEnum.domestic;
   @override
   void initState() {
     super.initState();
@@ -72,7 +80,10 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  MatchCard(matchId: widget.matchId),
+                  MatchCard(
+                    matchId: widget.matchId,
+                    statusMatch: widget.pointsData.statusSoon!,
+                  ),
                   const SizedBox(
                     height: 10,
                   ),
@@ -88,8 +99,8 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                       child: TabBar(
                         controller: _controller,
                         isScrollable: true,
-                        indicatorColor: context.colorPalette.blueD4B,
-                        labelColor: context.colorPalette.blueD4B,
+                        indicatorColor: context.colorPalette.tabColor,
+                        labelColor: context.colorPalette.tabColor,
                         tabAlignment: TabAlignment.center,
                         indicatorSize: TabBarIndicatorSize.label,
                         labelPadding: const EdgeInsetsDirectional.only(bottom: 8, end: 30, top: 10),
@@ -112,7 +123,11 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                           Text(context.appLocalization.plan),
                           Text(context.appLocalization.statistics),
                           Text(context.appLocalization.details),
-                          Text(context.appLocalization.standings),
+                          Text(
+                            _isDomestic
+                                ? context.appLocalization.standings
+                                : context.appLocalization.table,
+                          ),
                           Text(context.appLocalization.scorers),
                           Text(context.appLocalization.headTwohead),
                         ],
@@ -130,9 +145,15 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                 if (_showPredict) PredictionsScreen(pointsData: widget.pointsData),
                 MatchEvents(),
                 TeamsPlan(),
-                MatchStatistics(),
+                MatchStatistics(matchId: widget.matchId),
                 Text(context.appLocalization.details),
-                LeagueStandings(leagueId: 564),
+                _isDomestic
+                    ? LeagueStandings(
+                        leagueId: widget.leagueId,
+                        selectedTeamId: int.parse(widget.pointsData.homeId!),
+                        selectedTeamId2: int.parse(widget.pointsData.awayId!),
+                      )
+                    : ChampionsMatches(leagueId: widget.leagueId),
                 Text(context.appLocalization.scorers),
                 Text(context.appLocalization.headTwohead),
               ],

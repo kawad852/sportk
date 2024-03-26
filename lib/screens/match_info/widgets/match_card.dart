@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:sportk/helper/ui_helper.dart';
 import 'package:sportk/model/match_model.dart';
 import 'package:sportk/model/single_match_model.dart';
@@ -11,7 +12,12 @@ import 'package:sportk/widgets/custom_future_builder.dart';
 
 class MatchCard extends StatefulWidget {
   final int matchId;
-  const MatchCard({super.key, required this.matchId});
+  final int statusMatch;
+  const MatchCard({
+    super.key,
+    required this.matchId,
+    required this.statusMatch,
+  });
 
   @override
   State<MatchCard> createState() => _MatchCardState();
@@ -122,7 +128,7 @@ class _MatchCardState extends State<MatchCard> {
                               borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
                             ),
                             child: Text(
-                              "6",
+                              "${minute ?? DateFormat("HH:mm").format(match.data!.startingAt!)}",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: context.colorPalette.blueD4B,
@@ -134,7 +140,12 @@ class _MatchCardState extends State<MatchCard> {
                           SizedBox(
                             width: 100,
                             child: Text(
-                              UiHelper.getMatchState(context, stateId: match.data!.state!.id!),
+                              widget.statusMatch == 0
+                                  ? context.appLocalization.startSoon
+                                  : UiHelper.getMatchState(
+                                      context,
+                                      stateId: match.data!.state!.id!,
+                                    ),
                               maxLines: 2,
                               textAlign: TextAlign.center,
                               overflow: TextOverflow.ellipsis,

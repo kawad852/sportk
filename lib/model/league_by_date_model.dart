@@ -1,3 +1,5 @@
+import 'package:sportk/model/league_model.dart';
+
 class LeagueByDateModel {
   List<MatchData>? data;
   List<Subscription>? subscription;
@@ -48,6 +50,7 @@ class MatchData {
   int? startingAtTimestamp;
   List<Statistic>? statistics;
   States? state;
+  LeagueData? league;
   List<Participant>? participants;
   List<Period>? periods;
 
@@ -73,6 +76,7 @@ class MatchData {
     this.startingAtTimestamp,
     this.statistics,
     this.state,
+    this.league,
     this.participants,
     this.periods,
   });
@@ -99,6 +103,7 @@ class MatchData {
         startingAtTimestamp: json["starting_at_timestamp"],
         statistics: json["statistics"] == null ? [] : List<Statistic>.from(json["statistics"]!.map((x) => Statistic.fromJson(x))),
         state: json["state"] == null ? null : States.fromJson(json["state"]),
+        league: json["league"] == null ? null : LeagueData.fromJson(json["league"]),
         participants: json["participants"] == null ? [] : List<Participant>.from(json["participants"]!.map((x) => Participant.fromJson(x))),
         periods: json["periods"] == null ? [] : List<Period>.from(json["periods"]!.map((x) => Period.fromJson(x))),
       );
@@ -125,6 +130,7 @@ class MatchData {
         "starting_at_timestamp": startingAtTimestamp,
         "statistics": statistics == null ? [] : List<dynamic>.from(statistics!.map((x) => x.toJson())),
         "state": state?.toJson(),
+        "league": league?.toJson(),
         "participants": participants == null ? [] : List<dynamic>.from(participants!.map((x) => x.toJson())),
         "periods": participants == null ? [] : List<dynamic>.from(participants!.map((x) => x.toJson())),
       };

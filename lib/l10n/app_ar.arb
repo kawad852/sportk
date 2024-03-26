@@ -240,6 +240,11 @@
   "deleted":"محذوفة",
   "extraTimeBreak":"معلقة وتستمر في وقت لاحق",
   "half2":"الشوط الثاني",
+  "home": "الرئيسية",
   "pending":"قيد الانتظار",
-  "home": "الرئيسية"
+  "possession":"الإستحواذ",
+  "corners":"الركنيات",
+  "goalkeepeSaves":"تصديات حارس المرمى",
+  "counterAttacks":"المرتدات",
+  "statisticsNotAvailable":"إحصائيات المباراة ليست متاحة بعد"
 }

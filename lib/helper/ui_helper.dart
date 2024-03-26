@@ -105,7 +105,10 @@ class UiHelper {
   static navigateToMatchInfo(
     BuildContext context, {
     required int matchId,
+    required int leagueId,
+    required String subType,
     required CommonProvider commonProvider,
+    required Function afterNavigate,
   }) {
     ApiFutureBuilder<MatchPointsModel>().fetch(
       context,
@@ -113,14 +116,17 @@ class UiHelper {
         final matchPoints = commonProvider.getMatchPoints(matchId);
         return matchPoints;
       },
-      onComplete: (snapshot) {
-        context.push(
+      onComplete: (snapshot) async {
+        await context.push(
           MatchInfoScreen(
             matchId: matchId,
+            leagueId:leagueId,
+            subType: subType,
             pointsData: snapshot.data!,
             showPredict: snapshot.data!.status == 1,
           ),
         );
+        afterNavigate();
       },
     );
   }
