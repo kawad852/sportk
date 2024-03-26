@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:animate_do/animate_do.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -35,14 +36,20 @@ class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMi
   late AuthProvider _authProvider;
   late Future<NewModel> _recommendedNewsFuture;
   late Future<NewModel> _compoNewsFuture;
+  late ScrollController _scrollController;
+
+  bool _hasRecommendedNews = false;
+  bool _showBubble = false;
 
   Timer? _timer;
   int? _firstNewId;
-  DateTime get _nowDate => DateTime.now();
+  DateTime _valueKey = DateTime.now();
 
   Future<NewModel> _fetchRecent(int pageKey) {
     return _commonProvider.fetchNews(pageKey, url: '${ApiUrl.news}?locale=${MySharedPreferences.language}').then((value) {
-      _firstNewId = value.data!.first.id;
+      if (pageKey == 1) {
+        _firstNewId = value.data!.first.id;
+      }
       return value;
     });
   }
@@ -54,8 +61,9 @@ class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMi
         final newModel = await _fetchRecent(1);
         final id = newModel.data!.first.id;
         if (_firstNewId != id) {
+          _firstNewId = id;
           setState(() {
-            _firstNewId = id;
+            _showBubble = true;
           });
         }
       },
@@ -68,11 +76,13 @@ class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMi
     _startTimer();
     _commonProvider = context.commonProvider;
     _authProvider = context.authProvider;
+    _scrollController = ScrollController();
   }
 
   @override
   void dispose() {
     _timer?.cancel();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -80,8 +90,41 @@ class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMi
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
+      floatingActionButton: _showBubble
+          ? ZoomIn(
+              child: GestureDetector(
+                onTap: () async {
+                  await _scrollController.animateTo(
+                    _hasRecommendedNews ? 400 : 200,
+                    duration: const Duration(seconds: 1),
+                    curve: Curves.easeIn,
+                  );
+                  setState(() {
+                    _showBubble = false;
+                    _valueKey = DateTime.now();
+                  });
+                },
+                child: Container(
+                  width: 131,
+                  height: 35,
+                  margin: const EdgeInsetsDirectional.only(top: 6),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: context.colorPalette.red000,
+                  ),
+                  child: Text(
+                    context.appLocalization.recentNews,
+                    style: TextStyle(color: context.colorPalette.white, fontSize: 18),
+                  ),
+                ),
+              ),
+            )
+          : null,
       body: SafeArea(
         child: CustomScrollView(
+          controller: _scrollController,
           slivers: [
             if (_authProvider.isAuthenticated)
               SliverToBoxAdapter(
@@ -121,8 +164,10 @@ class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMi
                   },
                   builder: (context, snapshot) {
                     if (snapshot.docs.isEmpty) {
+                      _hasRecommendedNews = false;
                       return const SizedBox.shrink();
                     }
+                    _hasRecommendedNews = true;
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -140,20 +185,6 @@ class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMi
                               style: TextStyle(
                                 color: context.colorPalette.blueD4B,
                                 fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            Container(
-                              width: 131,
-                              height: 35,
-                              margin: const EdgeInsetsDirectional.only(start: 6),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: context.colorPalette.red000,
-                              ),
-                              child: Text(
-                                "اخبار جديدة",
-                                style: TextStyle(color: context.colorPalette.white, fontSize: 18),
                               ),
                             ),
                           ],
@@ -280,6 +311,8 @@ class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMi
                 ),
               ),
             ),
+
+            ///Recent
             SliverPadding(
               padding: const EdgeInsetsDirectional.only(
                 top: 15,
@@ -297,7 +330,7 @@ class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMi
               ),
             ),
             VexPaginator(
-              key: ValueKey(_firstNewId),
+              key: ValueKey(_valueKey),
               query: (pageKey) async => _fetchRecent(pageKey),
               onFetching: (snapshot) async => snapshot.data!,
               sliver: true,
