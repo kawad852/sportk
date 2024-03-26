@@ -38,6 +38,8 @@ class FavoriteData {
   Object? globalKey;
   Future<LeagueModel>? leagueFuture;
   Future<LeagueByDateModel>? teamsFuture;
+  Future<List<dynamic>>? futures;
+  bool hasMatches;
 
   FavoriteData({
     this.id,
@@ -48,6 +50,8 @@ class FavoriteData {
     this.globalKey,
     this.leagueFuture,
     this.teamsFuture,
+    this.futures,
+    this.hasMatches = true,
   });
 
   factory FavoriteData.fromJson(Map<String, dynamic> json) => FavoriteData(

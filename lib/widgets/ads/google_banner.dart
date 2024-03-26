@@ -1,6 +1,5 @@
 import 'dart:io' show Platform;
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
@@ -19,8 +18,10 @@ class _GoogleBannerState extends State<GoogleBanner> {
   BannerAd? _bannerAd;
   bool _loading = true;
 
-  String get _iosUnitId => kDebugMode ? 'ca-app-pub-3940256099942544/2934735716' : 'ca-app-pub-4829894010518123/9965616162';
-  String get _androidUnitId => kDebugMode ? 'ca-app-pub-3940256099942544/6300978111' : 'ca-app-pub-4829894010518123/2719333926';
+  // String get _iosUnitId => kDebugMode ? 'ca-app-pub-3940256099942544/2934735716' : 'ca-app-pub-4829894010518123/9965616162';
+  String get _iosUnitId => 'ca-app-pub-3940256099942544/2934735716';
+  // String get _androidUnitId => kDebugMode ? 'ca-app-pub-3940256099942544/6300978111' : 'ca-app-pub-4829894010518123/2719333926';
+  String get _androidUnitId => 'ca-app-pub-3940256099942544/6300978111';
 
   void _toggleLoading(bool status) {
     setState(() {
