@@ -15,7 +15,6 @@ import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_svg.dart';
-import 'package:sportk/widgets/vex/vex_loader.dart';
 import 'package:sportk/widgets/vex/vex_paginator.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -215,32 +214,26 @@ class _HomeScreenState extends State<HomeScreen> {
                             }
                             return SliverPadding(
                               padding: const EdgeInsets.all(20).copyWith(top: 0),
-                              sliver: SliverList.builder(
-                                key: ValueKey('${_selectedDate.microsecondsSinceEpoch}$_isLive'),
-                                itemCount: allCompetitions.length,
-                                // separatorBuilder: (context, index) => const SizedBox(height: 1),
-                                itemBuilder: (context, index) {
-                                  if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
-                                    snapshot.fetchMore();
-                                  }
-
-                                  if (index == snapshot.docs.length) {
-                                    return VexLoader(snapshot.isFetchingMore);
-                                  }
-
-                                  final competition = allCompetitions[index];
-                                  final liveLeagues = livesModel.data!.where((element) => element.competitionId == '${competition.favoritableId}').toList();
-                                  print("aklsfjalksfalksfakjsfjlkaslfkj");
-                                  return HomeBubble(
-                                    date: _selectedDate,
-                                    id: competition.favoritableId!,
-                                    type: competition.type!,
-                                    lives: liveLeagues,
-                                    isLive: _isLive,
-                                    index: index,
-                                    length: allCompetitions.length,
-                                  );
-                                },
+                              sliver: SliverToBoxAdapter(
+                                child: Column(
+                                  key: ValueKey('${_selectedDate.microsecondsSinceEpoch}$_isLive'),
+                                  children: List.generate(
+                                    allCompetitions.length,
+                                    (index) {
+                                      final competition = allCompetitions[index];
+                                      final liveLeagues = livesModel.data!.where((element) => element.competitionId == '${competition.favoritableId}').toList();
+                                      return HomeBubble(
+                                        date: _selectedDate,
+                                        id: competition.favoritableId!,
+                                        type: competition.type!,
+                                        lives: liveLeagues,
+                                        isLive: _isLive,
+                                        index: index,
+                                        length: allCompetitions.length,
+                                      );
+                                    },
+                                  ),
+                                ),
                               ),
                             );
                           },
