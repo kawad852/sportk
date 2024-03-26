@@ -1,3 +1,6 @@
+import 'package:sportk/model/league_by_date_model.dart';
+import 'package:sportk/model/league_model.dart';
+
 class FavoriteModel {
   bool? status;
   int? code;
@@ -33,6 +36,8 @@ class FavoriteData {
   int? favoritableId;
   int? isFavorite;
   Object? globalKey;
+  Future<LeagueModel>? leagueFuture;
+  Future<LeagueByDateModel>? teamsFuture;
 
   FavoriteData({
     this.id,
@@ -41,6 +46,8 @@ class FavoriteData {
     this.favoritableId,
     this.isFavorite,
     this.globalKey,
+    this.leagueFuture,
+    this.teamsFuture,
   });
 
   factory FavoriteData.fromJson(Map<String, dynamic> json) => FavoriteData(
