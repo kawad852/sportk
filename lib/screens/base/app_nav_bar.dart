@@ -4,7 +4,7 @@ import 'package:sportk/notifications/cloud_messaging_service.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/screens/base/widgets/nav_bar_item.dart';
 import 'package:sportk/screens/favorites/favorites_screen.dart';
-import 'package:sportk/screens/home/home_screen.dart';
+import 'package:sportk/screens/home/khaled_home.dart';
 import 'package:sportk/screens/leagues/leagues_screen.dart';
 import 'package:sportk/screens/news/news_screen.dart';
 import 'package:sportk/screens/wallet/wallet_screen.dart';
@@ -32,8 +32,18 @@ class _AppNavBarState extends State<AppNavBar> {
     MyIcons.wallet,
   ];
 
+  List<String> _getTitle(BuildContext context) {
+    return [
+      context.appLocalization.home,
+      context.appLocalization.news,
+      context.appLocalization.leagues,
+      context.appLocalization.favorites,
+      context.appLocalization.myWallet,
+    ];
+  }
+
   final screens = [
-    const HomeScreen(),
+    const KhaledHomeScreen(),
     const NewsScreen(),
     const LeaguesScreen(),
     const FavoritesScreen(),
@@ -100,6 +110,7 @@ class _AppNavBarState extends State<AppNavBar> {
               },
               isSelected: _currentIndex == index,
               icon: items[index],
+              title: _getTitle(context)[index],
             );
           }).toList(),
         ),

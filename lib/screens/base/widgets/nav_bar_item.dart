@@ -6,16 +6,19 @@ class NavBarItem extends StatelessWidget {
   final VoidCallback onTap;
   final bool isSelected;
   final String icon;
+  final String title;
 
   const NavBarItem({
     super.key,
     required this.onTap,
     required this.isSelected,
     required this.icon,
+    required this.title,
   });
 
   @override
   Widget build(BuildContext context) {
+    final color = isSelected ? context.colorPalette.red100 : context.colorPalette.blueD4B;
     return Expanded(
       child: GestureDetector(
         onTap: onTap,
@@ -26,11 +29,24 @@ class NavBarItem extends StatelessWidget {
               scale: isSelected ? 1.2 : 1.0,
               duration: const Duration(milliseconds: 200),
               curve: Curves.easeInOut,
-              child: CustomSvg(
-                icon,
-                // height: 25,
-                width: 25,
-                color: isSelected ? context.colorPalette.red100 : context.colorPalette.blueD4B,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CustomSvg(
+                    icon,
+                    // height: 25,
+                    width: 25,
+                    color: color,
+                  ),
+                  Text(
+                    title,
+                    style: context.textTheme.labelSmall!.copyWith(
+                      color: color,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
             ),
           ),

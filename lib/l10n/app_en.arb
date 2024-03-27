@@ -245,5 +245,8 @@
   "corners":"Corners",
   "goalkeepeSaves":"Goalkeeper saves",
   "counterAttacks":"Counter Attacks",
-  "statisticsNotAvailable":"Statistics for the match are not yet available"
+  "statisticsNotAvailable":"Statistics for the match are not yet available",
+  "home": "Home",
+  "homeEmptyMatchesTitle": "No Matches Found in {date}",
+  "homeEmptyMatchesBody": "Try selecting a different date."
 }

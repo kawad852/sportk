@@ -46,7 +46,7 @@ class LiveSwitch extends StatelessWidget {
                 child: Text(
                   context.appLocalization.live,
                   style: context.textTheme.labelSmall!.copyWith(
-                    color: active ? context.colorPalette.white : null,
+                    color: active ? context.colorScheme.inverseSurface : context.colorScheme.surface,
                   ),
                 ),
               ),

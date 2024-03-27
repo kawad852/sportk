@@ -97,6 +97,9 @@ class _CommentEditorState extends State<CommentEditor> {
             hintText: context.appLocalization.addCommentHere,
             maxLines: null,
             keyboardType: TextInputType.multiline,
+            hintStyle: TextStyle(
+              color: context.colorScheme.onInverseSurface,
+            ),
           ),
         ),
         IconButton.filled(
