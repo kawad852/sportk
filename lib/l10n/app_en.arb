@@ -248,5 +248,17 @@
   "statisticsNotAvailable":"Statistics for the match are not yet available",
   "home": "Home",
   "homeEmptyMatchesTitle": "No Matches Found in {date}",
-  "homeEmptyMatchesBody": "Try selecting a different date."
+  "homeEmptyMatchesBody": "Try selecting a different date.",
+  "goal":"goal",
+  "ownGoal":"own-goal",
+  "penaltyScored":"Penalty Scored",
+  "penaltyMissed":"Penalty Missed",
+  "yellowRedCard":"Second yellow",
+  "penalties":"Penalties",
+  "goalCancelled":"Goal Cancelled",
+  "penaltyCancelled":"Penalty cancelled",
+  "penaltyConfirmed":"Penalty confirmed",
+  "goalConfirmed":"Goal confirmed",
+  "goalUnderReview":"Goal under review",
+  "eventsNotAvailable":"Match events are not yet available"
 }

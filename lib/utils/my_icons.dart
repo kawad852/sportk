@@ -51,6 +51,12 @@ class MyIcons {
   static const String substitution = '${_path}substitution.svg';
   static const String matchEvent = '${_path}match_event.svg';
   static const String varEvent = '${_path}var.svg';
+  static const String penaltyMissed = '${_path}penalty_missed.svg';
+  static const String penaltyScored = '${_path}penalty_scored.svg';
+  static const String yellowRedCard = '${_path}yellow_red.svg';
+
+
+
 
 
 

@@ -1,5 +1,18 @@
 enum NewTypeEnum { league, team }
 
+enum MatchEventEnum {
+  matchEvent,
+  varEvent,
+  goal,
+  ownGoal,
+  penaltyScored,
+  penaltyMissed,
+  substitution,
+  yellowCard,
+  redCard,
+  yellowRedCard,
+}
+
 class LanguageEnum {
   static const String english = 'en';
   static const String arabic = 'ar';
@@ -13,6 +26,7 @@ class ThemeEnum {
 class LocationEnum {
   static const String home = 'home';
   static const String away = 'away';
+  static const String center = 'center';
 }
 
 class LikeType {
@@ -24,6 +38,7 @@ class LeagueTypeEnum {
   static const String domestic = 'domestic';
   static const String cubInternational = 'cup_international';
 }
+
 class PredictionTypeEnum {
   static const String count = 'count';
   static const String percentage = 'percentage';
@@ -47,4 +62,14 @@ class EmailJsEnum {
   static const serviceId = "service_85zuv8l"; // service_dga8ga8
   static const templateId = "template_4w6bflf"; //template_kibj8m3
   static const userId = "QIWycTMidTmWWH1ro"; //kdJ4pcQ38XFqx54Lk
+}
+
+class VarEnum {
+  static const String goalDisallowed = 'Goal Disallowed';
+  static const String penaltyDisallowed = 'Penalty Disallowed';
+  static const String penaltyConfirmed = 'Penalty confirmed';
+  static const String penaltyCancelled = 'Penalty cancelled';
+  static const String goalCancelled = 'Goal cancelled';
+  static const String goalConfirmed = 'Goal confirmed';
+  static const String goalUnderReview = 'Goal under review';
 }

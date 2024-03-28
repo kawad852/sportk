@@ -248,5 +248,17 @@
   "counterAttacks":"المرتدات",
   "statisticsNotAvailable":"إحصائيات المباراة ليست متاحة بعد",
   "homeEmptyMatchesTitle": "لا يوجد مباريات بتاريخ {date}",
-  "homeEmptyMatchesBody": "إختر يوم آخر وحاول مرة أخرى"
+  "homeEmptyMatchesBody": "إختر يوم آخر وحاول مرة أخرى",
+  "goal":"هدف",
+  "ownGoal":"هدف في مرماه",
+  "penaltyScored":"ركلة جزاء ناجحة",
+  "penaltyMissed":"ركلة جزاء ضائعة",
+  "yellowRedCard":"صفراء ثانية",
+  "penalties":"ضربات الجزاء",
+  "goalCancelled":"هدف ملغي",
+  "penaltyCancelled":"جزاء ملغية",
+  "penaltyConfirmed":"تأكيد ركلة الجزاء",
+  "goalConfirmed":"تأكيد الهدف",
+  "goalUnderReview":"هدف قيد المراجعة",
+  "eventsNotAvailable":"أحداث المباراة ليست متاحة بعد"
 }
