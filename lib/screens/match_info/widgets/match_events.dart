@@ -111,7 +111,7 @@ class _MatchEventsState extends State<MatchEvents> with AutomaticKeepAliveClient
       case VarEnum.goalUnderReview:
         return context.appLocalization.goalUnderReview;
       default:
-        return "-";
+        return name;
     }
   }
 

@@ -62,7 +62,17 @@ class _MatchCardState extends State<MatchCard> {
         final match = snapshot.data!;
         bool showGoals = match.data!.state!.id != 1 &&
             match.data!.state!.id != 13 &&
-            match.data!.state!.id != 10;
+            match.data!.state!.id != 10 &&
+            match.data!.state!.id != 11 &&
+            match.data!.state!.id != 12 &&
+            match.data!.state!.id != 14 &&
+            match.data!.state!.id != 15 &&
+            match.data!.state!.id != 16 &&
+            match.data!.state!.id != 17 &&
+            match.data!.state!.id != 19 &&
+            match.data!.state!.id != 20 &&
+            match.data!.state!.id != 21 &&
+            match.data!.state!.id != 26;
 
         int homeGoals = 0;
         int awayGoals = 0;

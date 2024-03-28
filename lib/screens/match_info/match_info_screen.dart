@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sportk/model/match_points_model.dart';
 import 'package:sportk/screens/champions_league/widgets/champions_matches.dart';
 import 'package:sportk/screens/match_info/predictions/predictions_screen.dart';
+import 'package:sportk/screens/match_info/widgets/head_to_head.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
@@ -155,7 +156,10 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                       )
                     : ChampionsMatches(leagueId: widget.leagueId),
                 Text(context.appLocalization.scorers),
-                Text(context.appLocalization.headTwohead),
+                HeadToHead(
+                  fisrtTeamId: int.parse(widget.pointsData.homeId!),
+                  secondTeamId: int.parse(widget.pointsData.awayId!),
+                ),
               ],
             ),
           ),

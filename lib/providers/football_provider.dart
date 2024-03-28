@@ -372,4 +372,17 @@ class FootBallProvider extends ChangeNotifier {
     );
     return snapshot;
   }
+
+  Future<MatchModel> fetchHeadToHeadMatches({
+    required int firstTeamId,
+    required int secondTeamId,
+  }) {
+    final snapshot = ApiService<MatchModel>().build(
+      sportsUrl: '${ApiUrl.headToHead}/$firstTeamId/$secondTeamId${ApiUrl.auth}&include=statistics;state;participants;league;periods.events&locale=${MySharedPreferences.language}',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: MatchModel.fromJson,
+    );
+    return snapshot;
+  }
 }

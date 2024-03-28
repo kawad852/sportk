@@ -28,7 +28,7 @@ class PhaseCard extends StatefulWidget {
   State<PhaseCard> createState() => _PhaseCardState();
 }
 
-class _PhaseCardState extends State<PhaseCard> {
+class _PhaseCardState extends State<PhaseCard> with AutomaticKeepAliveClientMixin {
   late Future<List<dynamic>> _futures;
   late FootBallProvider _footBallProvider;
   late Future<LeagueModel> _leagueFuture;
@@ -52,6 +52,7 @@ class _PhaseCardState extends State<PhaseCard> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return CustomFutureBuilder(
       future: _futures,
       onRetry: () {
@@ -122,4 +123,7 @@ class _PhaseCardState extends State<PhaseCard> {
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
