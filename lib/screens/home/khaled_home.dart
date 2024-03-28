@@ -38,7 +38,7 @@ class KhaledHomeScreen extends StatefulWidget {
   State<KhaledHomeScreen> createState() => _KhaledHomeScreenState();
 }
 
-class _KhaledHomeScreenState extends State<KhaledHomeScreen> {
+class _KhaledHomeScreenState extends State<KhaledHomeScreen> with AutomaticKeepAliveClientMixin {
   late CommonProvider _commonProvider;
   late FootBallProvider _footBallProvider;
   bool _isLive = false;
@@ -109,6 +109,7 @@ class _KhaledHomeScreenState extends State<KhaledHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return CustomFutureBuilder(
       future: _commonProvider.leaguesAndLivesFutures,
       withBackgroundColor: true,
@@ -548,4 +549,7 @@ class _KhaledHomeScreenState extends State<KhaledHomeScreen> {
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

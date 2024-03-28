@@ -46,9 +46,9 @@ class LikeButtons extends StatelessWidget {
             );
           },
           icon: CustomSvg(
-            MyIcons.dislike,
+            likeType == LikeType.disLike ? MyIcons.dislikeFilled : MyIcons.dislikeOutlined,
             width: 25,
-            color: likeType == LikeType.disLike ? context.colorPalette.red000 : null,
+            // color: likeType == LikeType.disLike ? context.colorPalette.red000 : null,
           ),
         ),
       ],

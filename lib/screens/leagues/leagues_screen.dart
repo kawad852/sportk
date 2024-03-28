@@ -20,7 +20,7 @@ class LeaguesScreen extends StatefulWidget {
   State<LeaguesScreen> createState() => _LeaguesScreenState();
 }
 
-class _LeaguesScreenState extends State<LeaguesScreen> {
+class _LeaguesScreenState extends State<LeaguesScreen> with AutomaticKeepAliveClientMixin {
   late CommonProvider _commonProvider;
   late FootBallProvider _footBallProvider;
 
@@ -33,6 +33,7 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(),
       body: ListView(
@@ -91,7 +92,7 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
                     if (index == snapshot.docs.length) {
                       return VexLoader(snapshot.isFetchingMore);
                     }
-                    
+
                     final league = snapshot.docs[index] as LeagueData;
                     return GestureDetector(
                       onTap: () {
@@ -191,4 +192,7 @@ class _LeaguesScreenState extends State<LeaguesScreen> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
