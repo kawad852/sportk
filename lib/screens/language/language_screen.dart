@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/providers/app_provider.dart';
+import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/screens/base/app_nav_bar.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
@@ -14,10 +15,19 @@ class LanguageScreen extends StatefulWidget {
 
 class _LanguageScreenState extends State<LanguageScreen> {
   late AppProvider _appProvider;
+  late AuthProvider _authProvider;
   late String _selectedLanguage;
 
   void _submit(BuildContext context) {
     _appProvider.changeLanguage(context, languageCode: _selectedLanguage);
+    if (_authProvider.isAuthenticated) {
+      context.authProvider.updateProfile(
+        context,
+        {
+          'locale': _appProvider.appLocale,
+        },
+      );
+    }
     context.pushAndRemoveUntil(const AppNavBar());
   }
 
@@ -25,6 +35,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
   void initState() {
     super.initState();
     _appProvider = context.appProvider;
+    _authProvider = context.authProvider;
     _selectedLanguage = _appProvider.appLocale.languageCode;
   }
 

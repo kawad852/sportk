@@ -51,6 +51,7 @@ class AuthProvider extends ChangeNotifier {
             "name": displayName,
             "email": email,
             "profile_img": photoURL,
+            "locale": MySharedPreferences.language,
             "favorites": favoritesProvider.favorites
                 .map((e) => {
                       'favoritable_id': e.favoritableId,
