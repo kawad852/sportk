@@ -6,7 +6,7 @@ import 'package:sportk/widgets/custom_svg.dart';
 
 class LikeButtons extends StatelessWidget {
   final int? likeType;
-  final Function(int? likeType) onPressed;
+  final Function(int? likeType, bool like) onPressed;
 
   const LikeButtons({
     super.key,
@@ -15,10 +15,12 @@ class LikeButtons extends StatelessWidget {
   });
 
   bool get _isLike => likeType == LikeType.like;
+  bool get _isDisLike => likeType == LikeType.disLike;
 
   @override
   Widget build(BuildContext context) {
     final authProvider = context.authProvider;
+    final commonProvider = context.commonProvider;
     return Row(
       children: [
         IconButton(
@@ -26,7 +28,7 @@ class LikeButtons extends StatelessWidget {
             authProvider.checkIfUserAuthenticated(
               context,
               callback: () {
-                onPressed(_isLike ? null : 1);
+                onPressed(_isLike ? null : 1, true);
               },
             );
           },
@@ -41,14 +43,14 @@ class LikeButtons extends StatelessWidget {
             authProvider.checkIfUserAuthenticated(
               context,
               callback: () {
-                onPressed(_isLike ? 0 : null);
+                onPressed(_isDisLike ? null : 0, false);
               },
             );
           },
           icon: CustomSvg(
             likeType == LikeType.disLike ? MyIcons.dislikeFilled : MyIcons.dislikeOutlined,
             width: 25,
-            // color: likeType == LikeType.disLike ? context.colorPalette.red000 : null,
+            color: likeType == LikeType.disLike ? context.colorPalette.red000 : null,
           ),
         ),
       ],

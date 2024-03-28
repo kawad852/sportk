@@ -519,18 +519,11 @@ class _KhaledHomeScreenState extends State<KhaledHomeScreen> with AutomaticKeepA
                                           );
                                         },
                                       ),
-                                      Builder(
-                                        builder: (context) {
-                                          if ((index % 4 == 0) && competition.hasMatches) {
-                                            return const Padding(
-                                              padding: EdgeInsets.symmetric(vertical: 5),
-                                              child: GoogleBanner(),
-                                            );
-                                          } else {
-                                            return const SizedBox.shrink();
-                                          }
-                                        },
-                                      ),
+                                      if (competition.hasMatches)
+                                        const Padding(
+                                          padding: EdgeInsets.symmetric(vertical: 5),
+                                          child: GoogleBanner(),
+                                        ),
                                     ],
                                   );
                                 },

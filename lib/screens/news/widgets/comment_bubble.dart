@@ -26,25 +26,42 @@ class _CommentBubbleState extends State<CommentBubble> with AutomaticKeepAliveCl
   late final Animation<double> _animation;
   late AuthProvider _authProvider;
   late CommonProvider _commonProvider;
+  late CommentData _comment;
 
-  CommentData get _comment => widget.comment;
+  int? get _initialLikeType => widget.comment.likeType;
+  int? get _initialNumberOfLikes => widget.comment.numberOfLikes;
 
-  void _toggleLike(int? likeType) {
-    _comment.likeType = likeType;
-    if (likeType == null) {
-      if (widget.comment.likeType == LikeType.like) {
-        _comment.numberOfLikes = _comment.numberOfLikes! - 1;
-      }
-      _comment.likeType = null;
-      _commonProvider.removeLike(_comment.id!, true);
-      print("likeType::: ${_comment.likeType}");
-      return;
-    }
-    if (_comment.likeType == LikeType.like) {
+  void _toggleLike(int? likeType, bool fromLike) {
+    if (likeType == LikeType.like) {
+      _commonProvider.like(_comment.id!, likeType!, isComment: true);
       _comment.numberOfLikes = _comment.numberOfLikes! + 1;
     }
-    _commonProvider.like(_comment.id!, likeType, isComment: true);
-    print("likeType::: ${_comment.likeType}");
+    if (likeType == LikeType.disLike) {
+      _commonProvider.like(_comment.id!, likeType!, isComment: true);
+      if (_comment.likeType == LikeType.like) {
+        _comment.numberOfLikes = _comment.numberOfLikes! - 1;
+      }
+    }
+    if (likeType == null) {
+      _commonProvider.removeLike(_comment.id!, true);
+      if (fromLike) {
+        _comment.numberOfLikes = _comment.numberOfLikes! - 1;
+      }
+    }
+    _comment.likeType = likeType;
+
+    ///
+    // if (likeType == null) {
+    //   _comment.likeType = null;
+    //   _commonProvider.removeLike(_comment.id!, true);
+    //   print("likeType::: ${_comment.likeType}");
+    //   return;
+    // }
+    // if (_comment.likeType == LikeType.like) {
+    //   _comment.numberOfLikes = _comment.numberOfLikes! + 1;
+    // }
+    // _commonProvider.like(_comment.id!, likeType, isComment: true);
+    // print("likeType::: ${_comment.likeType}");
   }
 
   @override
@@ -52,6 +69,7 @@ class _CommentBubbleState extends State<CommentBubble> with AutomaticKeepAliveCl
     super.initState();
     _authProvider = context.authProvider;
     _commonProvider = context.commonProvider;
+    _comment = CommentData.fromJson(widget.comment.toJson());
     // _controller = AnimationController(
     //   duration: const Duration(seconds: 1),
     //   vsync: this,
@@ -131,9 +149,9 @@ class _CommentBubbleState extends State<CommentBubble> with AutomaticKeepAliveCl
                         ),
                         ZoomIn(
                           child: LikeButtons(
-                            onPressed: (likeType) {
+                            onPressed: (likeType, like) {
                               setState(() {
-                                _toggleLike(likeType);
+                                _toggleLike(likeType, like);
                               });
                             },
                             likeType: _comment.likeType,
