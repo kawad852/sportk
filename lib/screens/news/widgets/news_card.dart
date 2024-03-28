@@ -4,7 +4,6 @@ import 'package:sportk/helper/ui_helper.dart';
 import 'package:sportk/model/new_model.dart';
 import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/screens/news/news_details_screen.dart';
-import 'package:sportk/screens/news/widgets/like_button.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
@@ -112,23 +111,23 @@ class _NewsCardState extends State<NewsCard> {
                       builder: (context, setState) {
                         return Row(
                           children: [
-                            ZoomIn(
-                              child: LikeButton(
-                                isLike: _newData.isLiked!,
-                                onPressed: () {
-                                  setState(() {
-                                    _newData.isLiked = !_newData.isLiked!;
-                                    if (_newData.isLiked!) {
-                                      _newData.numberOfLikes = _newData.numberOfLikes! + 1;
-                                      _commonProvider.like(_newData.id!, true, isComment: false);
-                                    } else {
-                                      _newData.numberOfLikes = _newData.numberOfLikes! - 1;
-                                      _commonProvider.removeLike(_newData.id!, false);
-                                    }
-                                  });
-                                },
-                              ),
-                            ),
+                            // ZoomIn(
+                            //   child: LikeButtons(
+                            //     isLike: _newData.isLiked!,
+                            //     onPressed: (isLike) {
+                            //       setState(() {
+                            //         _newData.isLiked = !_newData.isLiked!;
+                            //         if (_newData.isLiked!) {
+                            //           _newData.numberOfLikes = _newData.numberOfLikes! + 1;
+                            //           _commonProvider.like(_newData.id!, true, isComment: false);
+                            //         } else {
+                            //           _newData.numberOfLikes = _newData.numberOfLikes! - 1;
+                            //           _commonProvider.removeLike(_newData.id!, false);
+                            //         }
+                            //       });
+                            //     },
+                            //   ),
+                            // ),
                             const SizedBox(
                               width: 5,
                             ),

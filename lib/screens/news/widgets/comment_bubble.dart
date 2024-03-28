@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:sportk/model/comment_model.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/providers/common_provider.dart';
-import 'package:sportk/screens/news/widgets/like_button.dart';
+import 'package:sportk/screens/news/widgets/like_buttons.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 
@@ -27,6 +28,24 @@ class _CommentBubbleState extends State<CommentBubble> with AutomaticKeepAliveCl
   late CommonProvider _commonProvider;
 
   CommentData get _comment => widget.comment;
+
+  void _toggleLike(int? likeType) {
+    _comment.likeType = likeType;
+    if (likeType == null) {
+      if (widget.comment.likeType == LikeType.like) {
+        _comment.numberOfLikes = _comment.numberOfLikes! - 1;
+      }
+      _comment.likeType = null;
+      _commonProvider.removeLike(_comment.id!, true);
+      print("likeType::: ${_comment.likeType}");
+      return;
+    }
+    if (_comment.likeType == LikeType.like) {
+      _comment.numberOfLikes = _comment.numberOfLikes! + 1;
+    }
+    _commonProvider.like(_comment.id!, likeType, isComment: true);
+    print("likeType::: ${_comment.likeType}");
+  }
 
   @override
   void initState() {
@@ -111,20 +130,13 @@ class _CommentBubbleState extends State<CommentBubble> with AutomaticKeepAliveCl
                           ),
                         ),
                         ZoomIn(
-                          child: LikeButton(
-                            onPressed: () {
+                          child: LikeButtons(
+                            onPressed: (likeType) {
                               setState(() {
-                                _comment.isLiked = !_comment.isLiked!;
-                                if (_comment.isLiked!) {
-                                  _comment.numberOfLikes = _comment.numberOfLikes! + 1;
-                                  _commonProvider.like(_comment.id!, true, isComment: true);
-                                } else {
-                                  _comment.numberOfLikes = _comment.numberOfLikes! - 1;
-                                  _commonProvider.removeLike(_comment.id!, true);
-                                }
+                                _toggleLike(likeType);
                               });
                             },
-                            isLike: _comment.isLiked!,
+                            likeType: _comment.likeType,
                           ),
                         ),
                       ],

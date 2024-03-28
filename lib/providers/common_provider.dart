@@ -100,7 +100,7 @@ class CommonProvider extends ChangeNotifier {
 
   Future<IsLikeModel> like(
     int id,
-    bool isLike, {
+    int likeType, {
     required bool isComment,
   }) {
     Map<String, dynamic> queryParams = {};
@@ -109,7 +109,7 @@ class CommonProvider extends ChangeNotifier {
     } else {
       queryParams['blog_id'] = id;
     }
-    queryParams['type'] = isLike ? 1 : 0;
+    queryParams['type'] = likeType;
 
     final snapshot = ApiService<IsLikeModel>().build(
       weCanUrl: ApiUrl.like,

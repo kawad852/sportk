@@ -48,4 +48,5 @@ class MyIcons {
   static const String codeSuccess = '${_path}code_success.svg';
   static const String codeWrong = '${_path}code_wrong.svg';
   static const String cup = '${_path}cup.svg';
+  static const String dislike = '${_path}dislike.svg';
 }

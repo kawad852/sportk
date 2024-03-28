@@ -93,13 +93,10 @@ class _CommentEditorState extends State<CommentEditor> {
           child: BaseEditor(
             controller: _controller,
             filled: true,
-            fillColor: context.colorPalette.white,
+            fillColor: context.colorScheme.background,
             hintText: context.appLocalization.addCommentHere,
             maxLines: null,
             keyboardType: TextInputType.multiline,
-            hintStyle: TextStyle(
-              color: context.colorScheme.onInverseSurface,
-            ),
           ),
         ),
         IconButton.filled(

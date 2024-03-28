@@ -30,7 +30,7 @@ class CommentData {
   int? id;
   String? comment;
   int? blogId;
-  bool? isLiked;
+  int? likeType;
   int? numberOfLikes;
   User? user;
 
@@ -38,7 +38,7 @@ class CommentData {
     this.id,
     this.comment,
     this.blogId,
-    this.isLiked,
+    this.likeType,
     this.numberOfLikes,
     this.user,
   });
@@ -47,7 +47,7 @@ class CommentData {
         id: json["id"],
         comment: json["comment"],
         blogId: json["blog_id"],
-        isLiked: json["is_liked"] ?? false,
+        likeType: json["like_type"],
         numberOfLikes: json["number_of_likes"],
         user: json["user"] == null ? null : User.fromJson(json["user"]),
       );
@@ -56,7 +56,7 @@ class CommentData {
         "id": id,
         "comment": comment,
         "blog_id": blogId,
-        "is_liked": isLiked,
+        "like_type": likeType,
         "number_of_likes": numberOfLikes,
         "user": user?.toJson(),
       };
