@@ -30,7 +30,7 @@ class ColorPalette {
   Color get blueE2F => _isLightTheme ? const Color(0x66E2F1FC) : const Color(0xFF151925);
   Color get blue1F8 => const Color(0xFF1F85CD); //same dark and light
   Color get blue19A => const Color(0xFF5E819A); // color feed_back
-  Color get blue9FE => const Color(0xFFF3F9FE); // live switch
+  Color get blue9FE => _isLightTheme ? const Color(0xFFF3F9FE) : const Color(0xFFC5C8D7); // live switch
   Color get blueF9F => _isLightTheme ? const Color(0xFFF9F9F9) : const Color(0xFF151925);
   Color get blue8E3 => const Color(0xFFC8D8E3); //not used
   Color get blue4F0 => _isLightTheme ? const Color(0xFFE2E4F0) : const Color(0xFF202538);
@@ -80,7 +80,6 @@ class ColorPalette {
 
   Color get penddingColor => _isLightTheme ? const Color(0xFFCC0000) : const Color(0xFFF7AA05);
 
-  Color get progressGreen => const Color(0xFF609B5E); 
-  Color get progressRed => const Color(0xFFCD1313); 
-
+  Color get progressGreen => const Color(0xFF609B5E);
+  Color get progressRed => const Color(0xFFCD1313);
 }
