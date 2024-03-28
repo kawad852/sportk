@@ -97,7 +97,8 @@ class _EventCardState extends State<EventCard> {
                                     alignment: Alignment.topRight,
                                     child: CustomSvg(
                                       getIcon(_matchEventModel.matchEventEnum),
-                                      fixedColor: true,
+                                      fixedColor: _matchEventModel.matchEventEnum !=
+                                          MatchEventEnum.varEvent,
                                     ),
                                   ),
                                 ),
@@ -199,7 +200,8 @@ class _EventCardState extends State<EventCard> {
                           _isSpecialEvent
                               ? CustomSvg(
                                   getIcon(_matchEventModel.matchEventEnum),
-                                  fixedColor: true,
+                                  fixedColor:
+                                      _matchEventModel.matchEventEnum != MatchEventEnum.varEvent,
                                 )
                               : CustomNetworkImage(
                                   _matchEventModel.playerImage ?? "",

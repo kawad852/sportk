@@ -30,6 +30,7 @@ class _MatchEventsState extends State<MatchEvents> with AutomaticKeepAliveClient
   late Future<MatchPointsModel> _matchPointsFuture;
   late Future<SingleMatchEventModel> _matchEventFuture;
   List<MatchEventModel> event = [];
+  List<MatchEventModel> subEvent = [];
 
   Future<List<dynamic>> _initializeFutures() async {
     _matchPointsFuture = _commonProvider.getMatchPoints(widget.matchId);
@@ -91,7 +92,7 @@ class _MatchEventsState extends State<MatchEvents> with AutomaticKeepAliveClient
       case 21:
         return context.appLocalization.yellowRedCard;
       default:
-        return "";
+        return "-";
     }
   }
 
@@ -110,7 +111,7 @@ class _MatchEventsState extends State<MatchEvents> with AutomaticKeepAliveClient
       case VarEnum.goalUnderReview:
         return context.appLocalization.goalUnderReview;
       default:
-        return "";
+        return "-";
     }
   }
 
@@ -125,63 +126,68 @@ class _MatchEventsState extends State<MatchEvents> with AutomaticKeepAliveClient
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return CustomFutureBuilder(
-      future: _futures,
-      onRetry: () {
+    return RefreshIndicator(
+      onRefresh: () async {
         setState(() {
           _futures = _initializeFutures();
         });
       },
-      onLoading: () => const ShimmerLoading(child: StatisticsLoading()),
-      onComplete: (context, snapshot) {
-        final matchPoint = snapshot.data![0] as MatchPointsModel;
-        final match = snapshot.data![1] as SingleMatchEventModel;
-        bool showPrediction = matchPoint.data!.totalPredictions!.home == 0 &&
-            matchPoint.data!.totalPredictions!.away == 0 &&
-            matchPoint.data!.totalPredictions!.draw == 0;
-        if (event.isNotEmpty) {
-          event.clear();
-        }
-        match.data!.periods!.map(
-          (period) {
-            event.add(
-              MatchEventModel(
-                locationEnum: LocationEnum.center,
-                matchEventEnum: MatchEventEnum.matchEvent,
-                eventName: getEventName(period.typeId!),
-              ),
-            );
-
-            Future.wait(period.events!.map((e) async {
-              event.add(
-                MatchEventModel(
-                  locationEnum:
-                      widget.homeId == e.participantId ? LocationEnum.home : LocationEnum.away,
-                  matchEventEnum: getEventType(e.typeId!),
-                  minute: e.minute,
-                  playerImage: e.player!.imagePath,
-                  playerName1: e.player!.name!,
-                  playerName2: e.relatedPlayerName,
-                  eventName: e.typeId == 10 ? getEventVar(e.addition!) : getEventName(e.typeId!),
-                ),
-              );
-            }).toSet());
-
+      child: SingleChildScrollView(
+        child: CustomFutureBuilder(
+          future: _futures,
+          onRetry: () {
+            setState(() {
+              _futures = _initializeFutures();
+            });
           },
-        ).toSet();
-        return match.data!.periods!.isEmpty
-            ? NoResults(
-                header: const Icon(FontAwesomeIcons.baseball),
-                title: context.appLocalization.eventsNotAvailable,
-              )
-            : RefreshIndicator(
-                onRefresh: () async {
-                  setState(() {
-                    _futures = _initializeFutures();
-                  });
-                },
-                child: SingleChildScrollView(
-                  child: Column(
+          onLoading: () => const ShimmerLoading(child: StatisticsLoading()),
+          onComplete: (context, snapshot) {
+            final matchPoint = snapshot.data![0] as MatchPointsModel;
+            final match = snapshot.data![1] as SingleMatchEventModel;
+            bool showPrediction = matchPoint.data!.totalPredictions!.home == 0 &&
+                matchPoint.data!.totalPredictions!.away == 0 &&
+                matchPoint.data!.totalPredictions!.draw == 0;
+            if (event.isNotEmpty) {
+              event.clear();
+              subEvent.clear();
+            }
+            match.data!.periods!.map(
+              (period) {
+                event.add(
+                  MatchEventModel(
+                    locationEnum: LocationEnum.center,
+                    matchEventEnum: MatchEventEnum.matchEvent,
+                    eventName: getEventName(period.typeId!),
+                  ),
+                );
+
+                Future.wait(period.events!.map((e) async {
+                  subEvent.add(
+                    MatchEventModel(
+                      locationEnum:
+                          widget.homeId == e.participantId ? LocationEnum.home : LocationEnum.away,
+                      matchEventEnum: getEventType(e.typeId!),
+                      minute: e.minute,
+                      playerImage: e.player!.imagePath,
+                      playerName1: e.player!.name!,
+                      playerName2: e.relatedPlayerName,
+                      eventName:
+                          e.typeId == 10 ? getEventVar(e.addition!) : getEventName(e.typeId!),
+                    ),
+                  );
+                }).toSet());
+
+                subEvent.sort((a, b) => a.minute!.compareTo(b.minute!));
+                event.addAll(subEvent);
+                subEvent.clear();
+              },
+            ).toSet();
+            return match.data!.periods!.isEmpty
+                ? NoResults(
+                    header: const Icon(FontAwesomeIcons.baseball),
+                    title: context.appLocalization.eventsNotAvailable,
+                  )
+                : Column(
                     children: [
                       if (!showPrediction)
                         Padding(
@@ -205,10 +211,10 @@ class _MatchEventsState extends State<MatchEvents> with AutomaticKeepAliveClient
                         },
                       ),
                     ],
-                  ),
-                ),
-              );
-      },
+                  );
+          },
+        ),
+      ),
     );
   }
 
