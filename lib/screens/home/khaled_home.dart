@@ -8,11 +8,9 @@ import 'package:sportk/model/favorite_model.dart';
 import 'package:sportk/model/home_competitions_model.dart';
 import 'package:sportk/model/league_by_date_model.dart';
 import 'package:sportk/model/league_model.dart';
-import 'package:sportk/model/matches/live_matches_model.dart';
 import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/home/widgets/arrow_button.dart';
-import 'package:sportk/screens/home/widgets/live_bubble.dart';
 import 'package:sportk/screens/home/widgets/live_switch.dart';
 import 'package:sportk/screens/notifications/notifications_screen.dart';
 import 'package:sportk/screens/profile/profile_screen.dart';
@@ -51,6 +49,8 @@ class _KhaledHomeScreenState extends State<KhaledHomeScreen> with AutomaticKeepA
   DateTime get _minDate => _nowDate.subtract(Duration(days: _maxDuration));
 
   DateTime get _maxDate => _nowDate.add(Duration(days: _maxDuration));
+
+  List<int> get _liveStateIds => [2, 3, 4, 6, 9, 22, 25];
 
   String _formattedDate(BuildContext context) => _selectedDate.formatDate(context, pattern: 'EEE, MMM d');
 
@@ -120,15 +120,12 @@ class _KhaledHomeScreenState extends State<KhaledHomeScreen> with AutomaticKeepA
       },
       onComplete: (context, snapshot) {
         final leaguesModel = snapshot.data![0] as HomeCompetitionsModel;
-        final favoritesModel = snapshot.data![1] as FavoriteModel;
-        final livesModel = snapshot.data![2] as LivesMatchesModel;
 
         final competitions = leaguesModel.competitions as List<String>;
-        List<FavoriteData> allCompetitions = [...[], ...competitions.map((e) => FavoriteData(favoritableId: int.parse(e), type: CompoTypeEnum.competitions)).toList()];
-        if (_isLive) {
-          final liveIds = livesModel.data!.map((e) => e.competitionId).toList();
-          allCompetitions = allCompetitions.where((element) => liveIds.contains('${element.favoritableId}')).toList();
-        }
+        List<FavoriteData> allCompetitions = competitions.map((e) => FavoriteData(favoritableId: int.parse(e), type: CompoTypeEnum.competitions)).toList();
+
+        /// remove this later
+        allCompetitions = allCompetitions.take(10).toList();
         return Scaffold(
           drawer: const ProfileScreen(),
           body: NestedScrollView(
@@ -238,7 +235,6 @@ class _KhaledHomeScreenState extends State<KhaledHomeScreen> with AutomaticKeepA
                             allCompetitions.length,
                             (index) {
                               final competition = allCompetitions[index];
-                              final liveLeagues = livesModel.data!.where((element) => element.competitionId == '${competition.favoritableId}').toList();
                               if (competition.date != _selectedDate) {
                                 competition.date = _selectedDate;
                                 competition.futures = null;
@@ -247,11 +243,7 @@ class _KhaledHomeScreenState extends State<KhaledHomeScreen> with AutomaticKeepA
                               return CustomFutureBuilder(
                                 key: ValueKey(index),
                                 future: competition.futures!,
-                                onRetry: () {
-                                  setState(() {
-                                    // _initializeFutures();
-                                  });
-                                },
+                                onRetry: () {},
                                 onLoading: () {
                                   return ShimmerLoading(
                                     child: Column(
@@ -285,8 +277,10 @@ class _KhaledHomeScreenState extends State<KhaledHomeScreen> with AutomaticKeepA
                                   final matchModel = snapshot.data![1] as LeagueByDateModel;
                                   List<MatchData> matches = [];
                                   if (_isLive) {
-                                    final liveMatches = liveLeagues.map((e) => e.matchId).toList();
-                                    matches = matchModel.data!.where((element) => liveMatches.contains('${element.id}')).toList();
+                                    matches = matchModel.data!.where((element) {
+                                      final stateId = element.state?.id;
+                                      return _liveStateIds.contains(stateId);
+                                    }).toList();
                                   } else {
                                     matches = matchModel.data!;
                                   }
@@ -320,7 +314,6 @@ class _KhaledHomeScreenState extends State<KhaledHomeScreen> with AutomaticKeepA
                                         physics: const NeverScrollableScrollPhysics(),
                                         itemBuilder: (context, index) {
                                           final match = matches[index];
-                                          final liveMatch = liveLeagues.singleWhere((element) => element.matchId == '${match.id}', orElse: () => LiveData());
                                           int homeGoals = 0;
                                           int awayGoals = 0;
                                           int? minute;
@@ -510,7 +503,6 @@ class _KhaledHomeScreenState extends State<KhaledHomeScreen> with AutomaticKeepA
                                                           ),
                                                         ),
                                                       ),
-                                                      if (liveMatch.id != null) LiveBubble(liveData: liveMatch),
                                                     ],
                                                   ),
                                                 );

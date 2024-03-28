@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
 import 'package:sportk/model/comments_model.dart';
 import 'package:sportk/model/home_competitions_model.dart';
 import 'package:sportk/model/invitation_code_model.dart';
@@ -17,7 +16,6 @@ import 'package:sportk/model/vouchers_model.dart';
 import 'package:sportk/model/vouchers_replaced_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
-import 'package:sportk/providers/favorite_provider.dart';
 import 'package:sportk/utils/base_extensions.dart';
 
 class CommonProvider extends ChangeNotifier {
@@ -62,12 +60,12 @@ class CommonProvider extends ChangeNotifier {
     required DateTime date,
   }) {
     // fetchMainMatches(context, date: date);
-    fetchLives();
-    final favoritesProvider = context.read<FavoriteProvider>();
-    favoritesProvider.fetchFavs(context);
+    // fetchLives();
+    // final favoritesProvider = context.read<FavoriteProvider>();
+    // favoritesProvider.fetchFavs(context);
     leaguesFuture = fetchLeagues(1);
     // leaguesAndLivesFutures = Future.wait([liveMatchesFuture, mainMatchesFuture]);
-    leaguesAndLivesFutures = Future.wait([leaguesFuture, favoritesProvider.favFuture, liveMatchesFuture]);
+    leaguesAndLivesFutures = Future.wait([leaguesFuture]);
   }
 
   Future<NewModel> fetchNews(
