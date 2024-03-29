@@ -36,7 +36,7 @@ class NavBarItem extends StatelessWidget {
                   CustomSvg(
                     icon,
                     // height: 25,
-                    width: 25,
+                    // width: 25,
                     color: color,
                   ),
                   Text(

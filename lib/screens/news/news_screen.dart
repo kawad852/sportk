@@ -43,7 +43,7 @@ class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMi
 
   Timer? _timer;
   int? _firstNewId;
-  DateTime _valueKey = DateTime.now();
+  final _vexKey = GlobalKey<VexPaginatorState>();
 
   Future<NewModel> _fetchRecent(int pageKey) {
     return _commonProvider.fetchNews(pageKey, url: '${ApiUrl.news}?locale=${MySharedPreferences.language}').then((value) {
@@ -102,7 +102,7 @@ class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMi
                   );
                   setState(() {
                     _showBubble = false;
-                    _valueKey = DateTime.now();
+                    _vexKey.currentState?.refresh();
                   });
                 },
                 child: Container(
@@ -330,7 +330,7 @@ class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMi
               ),
             ),
             VexPaginator(
-              key: ValueKey(_valueKey),
+              key: _vexKey,
               query: (pageKey) async => _fetchRecent(pageKey),
               onFetching: (snapshot) async => snapshot.data!,
               sliver: true,
@@ -371,8 +371,13 @@ class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMi
                       }
 
                       final newData = snapshot.docs[index] as NewData;
-                      return NewsCard(
-                        newData: newData,
+                      return Column(
+                        children: [
+                          NewsCard(
+                            newData: newData,
+                          ),
+                          if (index != 0 && index % 3 == 0) const GoogleBanner(),
+                        ],
                       );
                     },
                   ),

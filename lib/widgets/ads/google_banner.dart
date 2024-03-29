@@ -5,9 +5,11 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class GoogleBanner extends StatefulWidget {
   final Widget? onLoading;
+  final AdSize adSize;
   const GoogleBanner({
     super.key,
     this.onLoading,
+    this.adSize = AdSize.fullBanner,
   });
 
   @override
@@ -23,6 +25,8 @@ class _GoogleBannerState extends State<GoogleBanner> {
   // String get _androidUnitId => kDebugMode ? 'ca-app-pub-3940256099942544/6300978111' : 'ca-app-pub-4829894010518123/2719333926';
   String get _androidUnitId => 'ca-app-pub-3940256099942544/6300978111';
 
+  AdSize get _adSize => widget.adSize;
+
   void _toggleLoading(bool status) {
     setState(() {
       _loading = status;
@@ -32,7 +36,7 @@ class _GoogleBannerState extends State<GoogleBanner> {
   /// Loads a banner ad.
   void _loadAd() {
     final bannerAd = BannerAd(
-      size: AdSize.banner,
+      size: _adSize,
       adUnitId: Platform.isAndroid ? _androidUnitId : _iosUnitId,
       request: const AdRequest(),
       listener: BannerAdListener(
@@ -79,8 +83,8 @@ class _GoogleBannerState extends State<GoogleBanner> {
       return const SizedBox.shrink();
     }
     return SizedBox(
-      width: AdSize.banner.width.toDouble(),
-      height: AdSize.banner.height.toDouble(),
+      width: _adSize.width.toDouble(),
+      height: _adSize.height.toDouble(),
       child: AdWidget(ad: _bannerAd!),
     );
   }
