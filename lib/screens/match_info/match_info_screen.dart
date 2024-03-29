@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sportk/model/match_points_model.dart';
 import 'package:sportk/screens/champions_league/widgets/champions_matches.dart';
 import 'package:sportk/screens/match_info/predictions/predictions_screen.dart';
-import 'package:sportk/screens/match_info/widgets/match_card.dart';
-import 'package:sportk/screens/match_info/widgets/match_events.dart';
-import 'package:sportk/screens/match_info/widgets/match_statistics.dart';
-import 'package:sportk/screens/match_info/widgets/teams_plan.dart';
+import 'package:sportk/screens/match_info/widgets/head_to_head.dart';
+import 'package:sportk/screens/match_info/widgets/match_scorers.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
@@ -14,6 +12,10 @@ import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_back.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 import 'package:sportk/widgets/league_standings.dart';
+import 'package:sportk/screens/match_info/widgets/match_card.dart';
+import 'package:sportk/screens/match_info/widgets/match_events.dart';
+import 'package:sportk/screens/match_info/widgets/match_statistics.dart';
+import 'package:sportk/screens/match_info/widgets/teams_plan.dart';
 
 class MatchInfoScreen extends StatefulWidget {
   final int matchId;
@@ -70,7 +72,9 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
-                    MyTheme.isLightTheme(context) ? MyImages.backgroundClub : MyImages.backgroundClubDark,
+                    MyTheme.isLightTheme(context)
+                        ? MyImages.backgroundClub
+                        : MyImages.backgroundClubDark,
                   ),
                   fit: BoxFit.cover,
                 ),
@@ -96,6 +100,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                       ),
                       child: TabBar(
                         controller: _controller,
+                        dividerColor: Colors.transparent,
                         isScrollable: true,
                         indicatorColor: context.colorPalette.tabColor,
                         labelColor: context.colorPalette.tabColor,
@@ -122,7 +127,9 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                           Text(context.appLocalization.statistics),
                           Text(context.appLocalization.details),
                           Text(
-                            _isDomestic ? context.appLocalization.standings : context.appLocalization.table,
+                            _isDomestic
+                                ? context.appLocalization.standings
+                                : context.appLocalization.table,
                           ),
                           Text(context.appLocalization.scorers),
                           Text(context.appLocalization.headTwohead),
@@ -139,7 +146,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
               controller: _controller,
               children: [
                 if (_showPredict) PredictionsScreen(pointsData: widget.pointsData),
-                MatchEvents(),
+                MatchEvents(matchId: widget.matchId, homeId: int.parse(widget.pointsData.homeId!)),
                 TeamsPlan(),
                 MatchStatistics(matchId: widget.matchId),
                 Text(context.appLocalization.details),
@@ -150,8 +157,11 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                         selectedTeamId2: int.parse(widget.pointsData.awayId!),
                       )
                     : ChampionsMatches(leagueId: widget.leagueId),
-                Text(context.appLocalization.scorers),
-                Text(context.appLocalization.headTwohead),
+                MatchScorers(leagueId: widget.leagueId),
+                HeadToHead(
+                  fisrtTeamId: int.parse(widget.pointsData.homeId!),
+                  secondTeamId: int.parse(widget.pointsData.awayId!),
+                ),
               ],
             ),
           ),

@@ -7,7 +7,7 @@ class LeagueScorersLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return SingleChildScrollView(
       padding: const EdgeInsetsDirectional.symmetric(horizontal: 20, vertical: 10),
       child: Column(
         children: [
@@ -19,6 +19,7 @@ class LeagueScorersLoading extends StatelessWidget {
           ListView.builder(
             padding: EdgeInsets.zero,
             shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             scrollDirection: Axis.vertical,
             itemCount: 8,
             itemBuilder: (BuildContext context, int index) {

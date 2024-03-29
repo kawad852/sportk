@@ -56,6 +56,7 @@ class _ScorersCardState extends State<ScorersCard> with AutomaticKeepAliveClient
                       Flexible(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               widget.topScoreData.player!.displayName!,

@@ -48,6 +48,18 @@ class MyIcons {
   static const String codeSuccess = '${_path}code_success.svg';
   static const String codeWrong = '${_path}code_wrong.svg';
   static const String cup = '${_path}cup.svg';
+  static const String substitution = '${_path}substitution.svg';
+  static const String matchEvent = '${_path}match_event.svg';
+  static const String varEvent = '${_path}var.svg';
+  static const String penaltyMissed = '${_path}penalty_missed.svg';
+  static const String penaltyScored = '${_path}penalty_scored.svg';
+  static const String yellowRedCard = '${_path}yellow_red.svg';
+
+
+
+
+
+
   static const String dislikeFilled = '${_path}dislike_filled.svg';
   static const String dislikeOutlined = '${_path}dislike_outlined.svg';
 }

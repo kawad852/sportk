@@ -7,7 +7,7 @@ class StatisticsLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
@@ -21,8 +21,8 @@ class StatisticsLoading extends StatelessWidget {
             itemCount: 10,
             separatorBuilder: (context, index) => const SizedBox(height: 5),
             shrinkWrap: true,
-            padding: const EdgeInsets.only(top: 5, bottom: 10),
             physics: const NeverScrollableScrollPhysics(),
+            padding: const EdgeInsets.only(top: 5, bottom: 10),
             itemBuilder: (context, index) {
               return const LoadingBubble(
                 width: double.infinity,

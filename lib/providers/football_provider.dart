@@ -14,6 +14,7 @@ import 'package:sportk/model/player_search_model.dart';
 import 'package:sportk/model/player_statistics_model.dart';
 import 'package:sportk/model/season_by_league_model.dart';
 import 'package:sportk/model/season_info_model.dart';
+import 'package:sportk/model/single_match_event_model.dart';
 import 'package:sportk/model/single_match_model.dart';
 import 'package:sportk/model/squads_model.dart';
 import 'package:sportk/model/stage_model.dart';
@@ -151,9 +152,10 @@ class FootBallProvider extends ChangeNotifier {
   Future<TopScorersModel> fetchTopScorers({
     required int seasonId,
     required int pageKey,
+    required int topScorerType,
   }) {
     final snapshot = ApiService<TopScorersModel>().build(
-      sportsUrl: '${ApiUrl.topScorers}/$seasonId${ApiUrl.auth}&include=player&filters=seasonTopscorerTypes:208&page=$pageKey&locale=${MySharedPreferences.language}',
+      sportsUrl: '${ApiUrl.topScorers}/$seasonId${ApiUrl.auth}&include=player&filters=seasonTopscorerTypes:$topScorerType&page=$pageKey&locale=${MySharedPreferences.language}',
       isPublic: true,
       apiType: ApiType.get,
       builder: TopScorersModel.fromJson,
@@ -356,6 +358,31 @@ class FootBallProvider extends ChangeNotifier {
       isPublic: true,
       apiType: ApiType.get,
       builder: LatestMatchTeamModel.fromJson,
+    );
+    return snapshot;
+  }
+
+  Future<SingleMatchEventModel> fetchMatchEventById({
+    required int matchId,
+  }) {
+    final snapshot = ApiService<SingleMatchEventModel>().build(
+      sportsUrl: '${ApiUrl.matchById}/$matchId${ApiUrl.auth}&include=periods.events.type;periods.events.player;participants&locale=${MySharedPreferences.language}',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: SingleMatchEventModel.fromJson,
+    );
+    return snapshot;
+  }
+
+  Future<MatchModel> fetchHeadToHeadMatches({
+    required int firstTeamId,
+    required int secondTeamId,
+  }) {
+    final snapshot = ApiService<MatchModel>().build(
+      sportsUrl: '${ApiUrl.headToHead}/$firstTeamId/$secondTeamId${ApiUrl.auth}&include=statistics;state;participants;league;periods.events&locale=${MySharedPreferences.language}',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: MatchModel.fromJson,
     );
     return snapshot;
   }

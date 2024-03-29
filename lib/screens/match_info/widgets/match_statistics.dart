@@ -20,7 +20,7 @@ class MatchStatistics extends StatefulWidget {
   State<MatchStatistics> createState() => _MatchStatisticsState();
 }
 
-class _MatchStatisticsState extends State<MatchStatistics> {
+class _MatchStatisticsState extends State<MatchStatistics> with AutomaticKeepAliveClientMixin {
   late FootBallProvider _footBallProvider;
   late Future<SingleMatchModel> _matchFuture;
   Map<String, int> homeStatistics = {};
@@ -96,6 +96,7 @@ class _MatchStatisticsState extends State<MatchStatistics> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return CustomFutureBuilder(
       future: _matchFuture,
       onRetry: () {
@@ -277,4 +278,7 @@ class _MatchStatisticsState extends State<MatchStatistics> {
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

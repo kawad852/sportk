@@ -26,6 +26,19 @@ class _MatchCardState extends State<MatchCard> {
     int awayGoals = 0;
     int? minute;
     int? timeAdded;
+    bool showGoals = widget.element.state!.id != 1 &&
+        widget.element.state!.id != 13 &&
+        widget.element.state!.id != 10 &&
+        widget.element.state!.id != 11 &&
+        widget.element.state!.id != 12 &&
+        widget.element.state!.id != 14 &&
+        widget.element.state!.id != 15 &&
+        widget.element.state!.id != 16 &&
+        widget.element.state!.id != 17 &&
+        widget.element.state!.id != 19 &&
+        widget.element.state!.id != 20 &&
+        widget.element.state!.id != 21 &&
+        widget.element.state!.id != 26;
     List<double> goalsTime = [];
     Participant teamHome = Participant();
     Participant teamAway = Participant();
@@ -98,9 +111,7 @@ class _MatchCardState extends State<MatchCard> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                widget.element.state!.id != 1 &&
-                        widget.element.state!.id != 13 &&
-                        widget.element.state!.id != 10
+                showGoals
                     ? Text(
                         "$homeGoals",
                         style: const TextStyle(
@@ -167,9 +178,7 @@ class _MatchCardState extends State<MatchCard> {
                                 ),
                             ],
                           ),
-                widget.element.state!.id != 1 &&
-                        widget.element.state!.id != 13 &&
-                        widget.element.state!.id != 10
+                showGoals
                     ? Text(
                         "$awayGoals",
                         style: const TextStyle(
