@@ -2,7 +2,7 @@ class LivesMatchesModel {
   bool? status;
   int? code;
   String? msg;
-  List<LiveData>? data;
+  LiveData? data;
 
   LivesMatchesModel({
     this.status,
@@ -15,14 +15,16 @@ class LivesMatchesModel {
         status: json["status"],
         code: json["code"],
         msg: json["msg"],
-        data: json["data"] == null ? [] : List<LiveData>.from(json["data"]!.map((x) => LiveData.fromJson(x))),
+        data: json["data"] == null ? null : LiveData.fromJson(json["data"]),
+        // data: json["data"] == null ? [] : List<LiveData>.from(json["data"]!.map((x) => LiveData.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
         "code": code,
         "msg": msg,
-        "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
+        "data": data?.toJson(),
+        // "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 

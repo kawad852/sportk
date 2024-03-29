@@ -53,8 +53,11 @@ class _LeagueBuilderState extends State<LeagueBuilder> with AutomaticKeepAliveCl
         );
       },
       onComplete: (context, snapshot) {
-        final league = snapshot.data!;
-        return widget.builder(context, league);
+        final league = snapshot.data;
+        if (league?.data == null) {
+          return const SizedBox.shrink();
+        }
+        return widget.builder(context, league!);
       },
     );
   }

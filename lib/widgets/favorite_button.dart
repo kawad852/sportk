@@ -62,7 +62,7 @@ class _FavoriteButtonState extends State<FavoriteButton> {
             ),
             child: CustomSvg(
               isFav ? MyIcons.starFilled : MyIcons.starOutlined,
-              color: context.colorScheme.primary,
+              color: context.colorScheme.inversePrimary,
             ),
           ),
         );

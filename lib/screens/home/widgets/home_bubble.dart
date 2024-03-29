@@ -8,7 +8,6 @@ import 'package:sportk/model/league_model.dart';
 import 'package:sportk/model/matches/live_matches_model.dart';
 import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
-import 'package:sportk/screens/home/widgets/live_bubble.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_theme.dart';
@@ -346,7 +345,7 @@ class HomeBubbleState extends State<HomeBubble> with AutomaticKeepAliveClientMix
                                 ),
                               ),
                             ),
-                            if (liveMatch.id != null) LiveBubble(liveData: liveMatch),
+                            // if (liveMatch.id != null) LiveBubble(liveData: liveMatch),
                           ],
                         ),
                       );

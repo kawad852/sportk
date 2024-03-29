@@ -199,8 +199,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         final competitions = snapshot.docs as List<String>;
                         List<FavoriteData> allCompetitions = [...favoritesModel.data!, ...competitions.map((e) => FavoriteData(favoritableId: int.parse(e), type: CompoTypeEnum.competitions)).toList()];
                         if (_isLive) {
-                          final liveIds = livesModel.data!.map((e) => e.competitionId).toList();
-                          allCompetitions = allCompetitions.where((element) => liveIds.contains('${element.favoritableId}')).toList();
+                          // final liveIds = livesModel.data!.map((e) => e.competitionId).toList();
+                          // allCompetitions = allCompetitions.where((element) => liveIds.contains('${element.favoritableId}')).toList();
                         }
                         return Consumer<FootBallProvider>(
                           builder: (context, provider, child) {
@@ -221,12 +221,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                     allCompetitions.length,
                                     (index) {
                                       final competition = allCompetitions[index];
-                                      final liveLeagues = livesModel.data!.where((element) => element.competitionId == '${competition.favoritableId}').toList();
+                                      // final liveLeagues = livesModel.data!.where((element) => element.competitionId == '${competition.favoritableId}').toList();
+                                      final liveLeagues = [];
                                       return HomeBubble(
                                         date: _selectedDate,
                                         id: competition.favoritableId!,
                                         type: competition.type!,
-                                        lives: liveLeagues,
+                                        lives: const [],
                                         isLive: _isLive,
                                         index: index,
                                         length: allCompetitions.length,

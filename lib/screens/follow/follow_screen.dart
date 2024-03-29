@@ -65,6 +65,8 @@ class _FollowScreenState extends State<FollowScreen> with AutomaticKeepAliveClie
     super.build(context);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: context.colorScheme.background,
+        surfaceTintColor: context.colorScheme.background,
         title: Text(context.appLocalization.followYourTeam),
         actions: [
           TextButton(

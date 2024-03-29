@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:sportk/model/match_points_model.dart';
 import 'package:sportk/screens/champions_league/widgets/champions_matches.dart';
 import 'package:sportk/screens/match_info/predictions/predictions_screen.dart';
+import 'package:sportk/screens/match_info/widgets/match_card.dart';
+import 'package:sportk/screens/match_info/widgets/match_events.dart';
+import 'package:sportk/screens/match_info/widgets/match_statistics.dart';
+import 'package:sportk/screens/match_info/widgets/teams_plan.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
@@ -10,10 +14,6 @@ import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_back.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 import 'package:sportk/widgets/league_standings.dart';
-import 'package:sportk/screens/match_info/widgets/match_card.dart';
-import 'package:sportk/screens/match_info/widgets/match_events.dart';
-import 'package:sportk/screens/match_info/widgets/match_statistics.dart';
-import 'package:sportk/screens/match_info/widgets/teams_plan.dart';
 
 class MatchInfoScreen extends StatefulWidget {
   final int matchId;
@@ -70,9 +70,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
-                    MyTheme.isLightTheme(context)
-                        ? MyImages.backgroundClub
-                        : MyImages.backgroundClubDark,
+                    MyTheme.isLightTheme(context) ? MyImages.backgroundClub : MyImages.backgroundClubDark,
                   ),
                   fit: BoxFit.cover,
                 ),
@@ -124,9 +122,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                           Text(context.appLocalization.statistics),
                           Text(context.appLocalization.details),
                           Text(
-                            _isDomestic
-                                ? context.appLocalization.standings
-                                : context.appLocalization.table,
+                            _isDomestic ? context.appLocalization.standings : context.appLocalization.table,
                           ),
                           Text(context.appLocalization.scorers),
                           Text(context.appLocalization.headTwohead),

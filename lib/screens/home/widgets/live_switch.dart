@@ -1,6 +1,7 @@
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/my_theme.dart';
 
 class LiveSwitch extends StatelessWidget {
   final bool active;
@@ -46,7 +47,7 @@ class LiveSwitch extends StatelessWidget {
                 child: Text(
                   context.appLocalization.live,
                   style: context.textTheme.labelSmall!.copyWith(
-                    color: active ? context.colorScheme.surface : context.colorScheme.inverseSurface,
+                    color: MyTheme.isLightTheme(context) ? (active ? context.colorScheme.surface : context.colorScheme.inverseSurface) : (active ? context.colorScheme.onSurface : context.colorScheme.surface),
                   ),
                 ),
               ),
