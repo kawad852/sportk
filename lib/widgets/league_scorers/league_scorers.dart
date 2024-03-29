@@ -27,7 +27,10 @@ class _LeagueScorersState extends State<LeagueScorers> {
     final seasonFuture = _footBallProvider.fetchSeasonByLeague(leagueId: widget.leagueId);
     final season = await seasonFuture;
     final topScorersFuture = _footBallProvider.fetchTopScorers(
-        seasonId: season.data!.currentseason!.id!, pageKey: pageKey);
+      seasonId: season.data!.currentseason!.id!,
+      topScorerType: 208,
+      pageKey: pageKey,
+    );
     return topScorersFuture;
   }
 

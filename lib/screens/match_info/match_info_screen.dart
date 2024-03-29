@@ -3,6 +3,7 @@ import 'package:sportk/model/match_points_model.dart';
 import 'package:sportk/screens/champions_league/widgets/champions_matches.dart';
 import 'package:sportk/screens/match_info/predictions/predictions_screen.dart';
 import 'package:sportk/screens/match_info/widgets/head_to_head.dart';
+import 'package:sportk/screens/match_info/widgets/match_scorers.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
@@ -99,6 +100,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                       ),
                       child: TabBar(
                         controller: _controller,
+                        dividerColor: Colors.transparent,
                         isScrollable: true,
                         indicatorColor: context.colorPalette.tabColor,
                         labelColor: context.colorPalette.tabColor,
@@ -155,7 +157,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                         selectedTeamId2: int.parse(widget.pointsData.awayId!),
                       )
                     : ChampionsMatches(leagueId: widget.leagueId),
-                Text(context.appLocalization.scorers),
+                MatchScorers(leagueId: widget.leagueId),
                 HeadToHead(
                   fisrtTeamId: int.parse(widget.pointsData.homeId!),
                   secondTeamId: int.parse(widget.pointsData.awayId!),

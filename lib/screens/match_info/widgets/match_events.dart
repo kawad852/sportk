@@ -73,7 +73,7 @@ class _MatchEventsState extends State<MatchEvents> with AutomaticKeepAliveClient
         return context.appLocalization.half2;
       case 3:
         return context.appLocalization.extraTime;
-      case 4:
+      case 5:
         return context.appLocalization.penalties;
       case 14:
         return context.appLocalization.goal;

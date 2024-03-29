@@ -119,6 +119,7 @@ class _ClubScreenState extends State<ClubScreen> with SingleTickerProviderStateM
                       ),
                       child: TabBar(
                         controller: _controller,
+                        dividerColor: Colors.transparent,
                         indicatorColor: context.colorPalette.tabColor,
                         labelColor: context.colorPalette.tabColor,
                         labelPadding: const EdgeInsetsDirectional.symmetric(horizontal: 4),

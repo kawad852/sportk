@@ -260,5 +260,8 @@
   "penaltyConfirmed":"تأكيد ركلة الجزاء",
   "goalConfirmed":"تأكيد الهدف",
   "goalUnderReview":"هدف قيد المراجعة",
-  "eventsNotAvailable":"أحداث المباراة ليست متاحة بعد"
+  "eventsNotAvailable":"أحداث المباراة ليست متاحة بعد",
+  "assisters":"الصناع",
+  "noAsisstersAvailable":"لا توجد معلومات متاحة عن الصناع في الوقت الحالي",
+  "noInfoConfrontations":"لا تتوفر معلومات عن المواجهات"
 }

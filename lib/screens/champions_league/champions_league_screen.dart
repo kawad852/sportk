@@ -126,6 +126,7 @@ class _ChampionsLeagueScreenState extends State<ChampionsLeagueScreen>
                       ),
                       child: TabBar(
                         controller: _controller,
+                        dividerColor: Colors.transparent,
                         indicatorSize: TabBarIndicatorSize.label,
                         labelColor: context.colorPalette.white,
                         unselectedLabelColor: context.colorPalette.blueD4B,

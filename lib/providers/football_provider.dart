@@ -152,9 +152,10 @@ class FootBallProvider extends ChangeNotifier {
   Future<TopScorersModel> fetchTopScorers({
     required int seasonId,
     required int pageKey,
+    required int topScorerType,
   }) {
     final snapshot = ApiService<TopScorersModel>().build(
-      sportsUrl: '${ApiUrl.topScorers}/$seasonId${ApiUrl.auth}&include=player&filters=seasonTopscorerTypes:208&page=$pageKey&locale=${MySharedPreferences.language}',
+      sportsUrl: '${ApiUrl.topScorers}/$seasonId${ApiUrl.auth}&include=player&filters=seasonTopscorerTypes:$topScorerType&page=$pageKey&locale=${MySharedPreferences.language}',
       isPublic: true,
       apiType: ApiType.get,
       builder: TopScorersModel.fromJson,

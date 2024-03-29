@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sportk/helper/ui_helper.dart';
 import 'package:sportk/model/match_model.dart';
 import 'package:sportk/providers/common_provider.dart';
@@ -8,6 +9,7 @@ import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/match_card.dart';
+import 'package:sportk/widgets/no_results.dart';
 import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 
@@ -78,39 +80,44 @@ class _HeadToHeadState extends State<HeadToHead> with AutomaticKeepAliveClientMi
       ),
       onComplete: (context, snapshot) {
         final matches = snapshot.data!;
-        return ListView.builder(
-          itemCount: matches.data!.length,
-          shrinkWrap: true,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          itemBuilder: (context, index) {
-            final elemant = matches.data![index];
-            return Column(
-              children: [
-                PhaseCard(
-                  teamId: widget.fisrtTeamId,
-                  stageId: elemant.stageId!,
-                  leagueId: elemant.leagueId!,
-                  roundId: elemant.roundId,
-                ),
-                InkWell(
-                  highlightColor: Colors.transparent,
-                  splashColor: Colors.transparent,
-                  onTap: () async {
-                    await UiHelper.navigateToMatchInfo(
-                      context,
-                      matchId: elemant.id!,
-                      leagueId: elemant.leagueId!,
-                      subType: elemant.league!.subType!,
-                      commonProvider: _commonProvider,
-                      afterNavigate: () {},
-                    );
-                  },
-                  child: MatchCard(element: elemant),
-                )
-              ],
-            );
-          },
-        );
+        return matches.data!.isEmpty
+            ? NoResults(
+                header: const Icon(FontAwesomeIcons.baseball),
+                title: context.appLocalization.noInfoConfrontations,
+              )
+            : ListView.builder(
+                itemCount: matches.data!.length,
+                shrinkWrap: true,
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                itemBuilder: (context, index) {
+                  final elemant = matches.data![index];
+                  return Column(
+                    children: [
+                      PhaseCard(
+                        teamId: widget.fisrtTeamId,
+                        stageId: elemant.stageId!,
+                        leagueId: elemant.leagueId!,
+                        roundId: elemant.roundId,
+                      ),
+                      InkWell(
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        onTap: () async {
+                          await UiHelper.navigateToMatchInfo(
+                            context,
+                            matchId: elemant.id!,
+                            leagueId: elemant.leagueId!,
+                            subType: elemant.league!.subType!,
+                            commonProvider: _commonProvider,
+                            afterNavigate: () {},
+                          );
+                        },
+                        child: MatchCard(element: elemant),
+                      )
+                    ],
+                  );
+                },
+              );
       },
     );
   }

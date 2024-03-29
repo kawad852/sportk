@@ -10,6 +10,10 @@ class MatchTimerCircle extends StatefulWidget {
   final List<double> goalsTime;
   final int? timeAdded;
   final bool isHalfTime;
+  final double width;
+  final double height;
+  final Color? minuteColor;
+  final double? fontsize;
 
   const MatchTimerCircle({
     super.key,
@@ -17,6 +21,10 @@ class MatchTimerCircle extends StatefulWidget {
     required this.goalsTime,
     required this.timeAdded,
     this.isHalfTime = false,
+    this.width = 40,
+    this.height = 50,
+    this.minuteColor,
+    this.fontsize,
   });
 
   static late ui.Image ballImage;
@@ -35,7 +43,7 @@ class _MatchTimerCircleState extends State<MatchTimerCircle> {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      size: const Size(40, 50),
+      size: Size(widget.width, widget.height),
       painter: MatchTimerPainter(
         currentTime: widget.currentTime,
         goalsTime: widget.goalsTime,
@@ -43,10 +51,16 @@ class _MatchTimerCircleState extends State<MatchTimerCircle> {
         isHalfTime: widget.isHalfTime,
       ),
       child: SizedBox(
-        width: 40,
-        height: 50,
+        width: widget.width,
+        height: widget.height,
         child: Center(
-          child: Text("${widget.currentTime.round().toInt().toString()}'"),
+          child: Text(
+            "${widget.currentTime.round().toInt().toString()}'",
+            style: TextStyle(
+              color: widget.minuteColor,
+              fontSize: widget.fontsize,
+            ),
+          ),
         ),
       ),
     );
