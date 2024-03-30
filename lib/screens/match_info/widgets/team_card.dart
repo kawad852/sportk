@@ -143,6 +143,7 @@ class _TeamCardState extends State<TeamCard> {
               child: ListView.builder(
                 padding: EdgeInsets.zero,
                 shrinkWrap: true,
+                reverse: true,
                 physics: const NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 itemCount: _latestMatchTeam.length,

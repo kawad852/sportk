@@ -13,4 +13,6 @@ class MyImages {
   static const String backgroundClubDark = '${_path}background_club_dark.png';
   static const String backgroundLeague = '${_path}background_league.png';
   static const String goalsEvent = '${_path}goals_event.png';
+  static const String matchPlan = '${_path}match_plan.png';
+
 }

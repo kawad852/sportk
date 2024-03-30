@@ -263,5 +263,10 @@
   "eventsNotAvailable":"Match events are not yet available",
   "assisters":"Assisters",
   "noAsisstersAvailable":"No information about the assisters is available at the moment",
-  "noInfoConfrontations":"There is no information available about the confrontations"
+  "noInfoConfrontations":"There is no information available about the confrontations",
+  "championship":"Championship",
+  "stage":"Stage",
+  "matchStadium":"Match stadium",
+  "matchTime":"Match time",
+  "matchDate":"Match date"
 }
