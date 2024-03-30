@@ -125,7 +125,7 @@ class _KhaledHomeScreenState extends State<KhaledHomeScreen> with AutomaticKeepA
         List<FavoriteData> allCompetitions = competitions.map((e) => FavoriteData(favoritableId: int.parse(e), type: CompoTypeEnum.competitions)).toList();
 
         /// remove this later
-        allCompetitions = allCompetitions.take(10).toList();
+        // allCompetitions = allCompetitions.take(10).toList();
         return Scaffold(
           drawer: const ProfileScreen(),
           body: NestedScrollView(
