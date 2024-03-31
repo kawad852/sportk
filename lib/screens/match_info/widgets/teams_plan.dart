@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:sportk/model/match_plan_model.dart';
 import 'package:sportk/providers/football_provider.dart';
@@ -36,9 +34,6 @@ class _TeamsPlanState extends State<TeamsPlan> with SingleTickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    String form = "4-2-3-1";
-    List<String> a = form.split("-");
-    log(a.toString());
     return CustomFutureBuilder(
       future: _matchPlansFuture,
       onRetry: () {
