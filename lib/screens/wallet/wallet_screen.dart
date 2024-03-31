@@ -5,6 +5,7 @@ import 'package:sportk/model/user_model.dart';
 import 'package:sportk/model/vouchers_model.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/providers/common_provider.dart';
+import 'package:sportk/screens/profile/profile_screen.dart';
 import 'package:sportk/screens/wallet/record_points_screen.dart';
 import 'package:sportk/screens/wallet/swap_requests_screen.dart';
 import 'package:sportk/screens/wallet/widgets/coupons_card.dart';
@@ -20,6 +21,7 @@ import 'package:sportk/utils/shared_pref.dart';
 import 'package:sportk/widgets/ads/google_rewarded.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_svg.dart';
+import 'package:sportk/widgets/menu_button.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 import 'package:sportk/widgets/vex/vex_loader.dart';
 import 'package:sportk/widgets/vex/vex_paginator.dart';
@@ -67,15 +69,13 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+      drawer: const ProfileScreen(),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             pinned: true,
             centerTitle: true,
-            leading: IconButton(
-              onPressed: () {},
-              icon: const CustomSvg(MyIcons.sort),
-            ),
+            leading: const MenuButton(),
             title: Text(
               context.appLocalization.myWallet,
               style: const TextStyle(fontWeight: FontWeight.bold),
@@ -180,8 +180,7 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
                             ),
                             IconButton(
                               onPressed: () {
-                                Clipboard.setData(ClipboardData(text: user.data!.invitationCode!))
-                                    .then(
+                                Clipboard.setData(ClipboardData(text: user.data!.invitationCode!)).then(
                                   (value) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(

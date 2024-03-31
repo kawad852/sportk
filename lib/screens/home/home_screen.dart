@@ -25,6 +25,7 @@ import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 import 'package:sportk/widgets/league_tile.dart';
 import 'package:sportk/widgets/match_timer_circle.dart';
+import 'package:sportk/widgets/menu_button.dart';
 import 'package:sportk/widgets/no_results.dart';
 import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
@@ -133,12 +134,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                   sliver: SliverAppBar.medium(
                     pinned: true,
                     forceElevated: innerBoxIsScrolled,
-                    leading: IconButton(
-                      onPressed: () {
-                        Scaffold.of(context).openDrawer();
-                      },
-                      icon: const CustomSvg(MyIcons.menu),
-                    ),
+                    leading: const MenuButton(),
                     title: Text(
                       _formattedDate(context),
                       style: context.textTheme.labelLarge,
