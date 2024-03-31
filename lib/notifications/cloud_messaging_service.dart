@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:sportk/main.dart';
 import 'package:sportk/notifications/local_notifications_service.dart';
+import 'package:sportk/notifications/notifications_routes_service.dart';
 
 class CloudMessagingService {
   void requestPermission() async {
@@ -36,7 +38,6 @@ class CloudMessagingService {
   void _handleBackgroundMessage(RemoteMessage message) {
     final data = message.notification;
     debugPrint("ReceivedNotification::\nType:: Background\nTitle:: ${data?.title}\nBody:: ${data?.body}\nData:: ${message.data}");
-    // final notificationDataModel = NotificationData.fromJson(message.data);
-    // NotificationsRouteService().toggle(navigatorKey.currentContext!, notificationDataModel);
+    NotificationsRouteService().toggle(navigatorKey.currentContext!, message.data);
   }
 }

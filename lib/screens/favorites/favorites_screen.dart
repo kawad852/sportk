@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sportk/helper/ui_helper.dart';
-import 'package:sportk/model/favorite_model.dart';
 import 'package:sportk/model/league_model.dart';
 import 'package:sportk/providers/favorite_provider.dart';
+import 'package:sportk/screens/profile/profile_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
@@ -14,6 +14,7 @@ import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 import 'package:sportk/widgets/favorite_button.dart';
 import 'package:sportk/widgets/league_tile.dart';
+import 'package:sportk/widgets/menu_button.dart';
 import 'package:sportk/widgets/no_results.dart';
 import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
@@ -28,28 +29,24 @@ class FavoritesScreen extends StatefulWidget {
 
 class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAliveClientMixin {
   late FavoriteProvider _favoriteProvider;
-  late Future<FavoriteModel?> _favoritesFuture;
-
-  void _initializeFuture() {
-    _favoritesFuture = _favoriteProvider.fetchFavs(context);
-  }
 
   @override
   void initState() {
     super.initState();
     _favoriteProvider = context.favoriteProvider;
-    _initializeFuture();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+      drawer: const ProfileScreen(),
       appBar: AppBar(
+        leading: const MenuButton(),
         title: Text(context.appLocalization.favorites),
       ),
       body: CustomFutureBuilder(
-        future: _favoritesFuture,
+        future: _favoriteProvider.favFuture,
         onRetry: () {},
         onLoading: () {
           return Column(
@@ -93,12 +90,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
           return Consumer<FavoriteProvider>(
             builder: (context, provider, child) {
               provider.favorites = snapshot.data!.data!;
-              final teamsFavorites = provider.favorites
-                  .where((element) => element.type == CompoTypeEnum.teams)
-                  .toList();
-              final leagueFavorites = provider.favorites
-                  .where((element) => element.type == CompoTypeEnum.competitions)
-                  .toList();
+              final teamsFavorites = provider.favorites.where((element) => element.type == CompoTypeEnum.teams).toList();
+              final leagueFavorites = provider.favorites.where((element) => element.type == CompoTypeEnum.competitions).toList();
               if (provider.favorites.isEmpty) {
                 return Center(
                   child: NoResults(
@@ -156,7 +149,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
                               league: league,
                               onTap: () {
                                 UiHelper.navigateToLeagueInfo(
-                                  context, 
+                                  context,
                                   leagueData: leagueModel.data!,
                                 );
                               },

@@ -63,9 +63,11 @@ class AuthProvider extends ChangeNotifier {
         );
         return socialLoginFuture;
       },
-      onComplete: (snapshot) {
+      onComplete: (snapshot) async {
         if (snapshot.status == true) {
+          await context.favoriteProvider.fetchFavs(context);
           MySharedPreferences.accessToken = snapshot.data!.token!;
+          if (!context.mounted) return;
           updateUser(context, userModel: snapshot.data!.user);
           if (_lastRouteName == null) {
             if (snapshot.data!.user!.invitationCodeStatus == 0) {

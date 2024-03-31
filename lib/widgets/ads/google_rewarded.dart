@@ -1,6 +1,5 @@
 import 'dart:io' show Platform;
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:sportk/utils/base_extensions.dart';
@@ -22,8 +21,9 @@ class GoogleRewarded extends StatefulWidget {
 class _GoogleRewardedState extends State<GoogleRewarded> {
   RewardedAd? _rewardedAd;
 
-  String get _iosUnitId => kDebugMode ? '' : '';
-  String get _androidUnitId => kDebugMode ? 'ca-app-pub-3940256099942544/5224354917' : 'ca-app-pub-4829894010518123/7748299329';
+  String get _iosUnitId => 'ca-app-pub-3940256099942544/1712485313';
+  // String get _androidUnitId => kDebugMode ? 'ca-app-pub-3940256099942544/5224354917' : 'ca-app-pub-4829894010518123/7748299329';
+  String get _androidUnitId => 'ca-app-pub-3940256099942544/5224354917';
 
   void showAd(BuildContext context) {
     final authProvider = context.authProvider;

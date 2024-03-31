@@ -108,7 +108,7 @@ class FootBallProvider extends ChangeNotifier {
 
   Future<LeagueByDateModel> fetchLeagueByDate(DateTime date, int id) {
     final snapshot = ApiService<LeagueByDateModel>().build(
-      sportsUrl: '${ApiUrl.compoByDate}/${date.formatDate(navigatorKey.currentState!.context, pattern: 'yyyy-MM-dd')}${ApiUrl.auth}&filters=fixtureLeagues:$id&include=statistics;state;league;participants;periods.events&locale=${MySharedPreferences.language}',
+      sportsUrl: '${ApiUrl.compoByDate}/${date.formatDate(navigatorKey.currentState!.context, pattern: 'yyyy-MM-dd', withLocale: false)}${ApiUrl.auth}&filters=fixtureLeagues:$id&include=statistics;state;league;participants;periods.events&locale=${MySharedPreferences.language}',
       isPublic: true,
       apiType: ApiType.get,
       builder: LeagueByDateModel.fromJson,
@@ -388,7 +388,8 @@ class FootBallProvider extends ChangeNotifier {
     );
     return snapshot;
   }
-   Future<MatchDetalisModel> fetchMatchDetalisById({
+
+  Future<MatchDetalisModel> fetchMatchDetalisById({
     required int matchId,
   }) {
     final snapshot = ApiService<MatchDetalisModel>().build(

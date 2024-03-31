@@ -46,11 +46,11 @@ class NotificationBubble extends StatelessWidget {
               children: [
                 _buildText(notification.title!),
                 _buildText(notification.content!),
-                const Align(
+                Align(
                   alignment: AlignmentDirectional.centerEnd,
                   child: Text(
-                    '22.3.4',
-                    style: TextStyle(
+                    notification.createdAt!.formatDate(context, pattern: 'dd.MM.yyyy'),
+                    style: const TextStyle(
                       fontSize: 10,
                     ),
                   ),

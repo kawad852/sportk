@@ -128,8 +128,9 @@ extension DateTimeExtension on DateTime {
   String formatDate(
     BuildContext context, {
     String pattern = 'dd-MM-yyyy',
+    bool withLocale = true,
   }) {
-    var date = DateFormat(pattern, context.languageCode).format(this);
+    var date = DateFormat(pattern, withLocale ? context.languageCode : null).format(this);
     return date;
   }
 }

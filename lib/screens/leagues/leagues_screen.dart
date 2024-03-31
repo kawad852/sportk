@@ -3,11 +3,13 @@ import 'package:sportk/helper/ui_helper.dart';
 import 'package:sportk/model/league_model.dart';
 import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
+import 'package:sportk/screens/profile/profile_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/favorite_button.dart';
 import 'package:sportk/widgets/league_tile.dart';
+import 'package:sportk/widgets/menu_button.dart';
 import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 import 'package:sportk/widgets/vex/vex_loader.dart';
@@ -35,7 +37,10 @@ class _LeaguesScreenState extends State<LeaguesScreen> with AutomaticKeepAliveCl
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      appBar: AppBar(),
+      drawer: const ProfileScreen(),
+      appBar: AppBar(
+        leading: const MenuButton(),
+      ),
       body: ListView(
         children: [
           ListTile(

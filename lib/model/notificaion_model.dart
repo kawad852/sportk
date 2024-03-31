@@ -30,22 +30,26 @@ class NotificationData {
   int? id;
   String? title;
   String? content;
+  String? createdAt;
 
   NotificationData({
     this.id,
     this.title,
     this.content,
+    this.createdAt,
   });
 
   factory NotificationData.fromJson(Map<String, dynamic> json) => NotificationData(
         id: json["id"],
         title: json["title"],
+        createdAt: json["created_at"],
         content: json["content"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "title": title,
+        "created_at": createdAt,
         "content": content,
       };
 }

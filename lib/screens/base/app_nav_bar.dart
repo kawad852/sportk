@@ -4,7 +4,7 @@ import 'package:sportk/notifications/cloud_messaging_service.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/screens/base/widgets/nav_bar_item.dart';
 import 'package:sportk/screens/favorites/favorites_screen.dart';
-import 'package:sportk/screens/home/khaled_home.dart';
+import 'package:sportk/screens/home/home_screen.dart';
 import 'package:sportk/screens/leagues/leagues_screen.dart';
 import 'package:sportk/screens/news/news_screen.dart';
 import 'package:sportk/screens/wallet/wallet_screen.dart';
@@ -12,7 +12,11 @@ import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
 
 class AppNavBar extends StatefulWidget {
-  const AppNavBar({super.key});
+  final bool initFav;
+  const AppNavBar({
+    super.key,
+    this.initFav = false,
+  });
 
   @override
   State<AppNavBar> createState() => _AppNavBarState();
@@ -43,7 +47,7 @@ class _AppNavBarState extends State<AppNavBar> {
   }
 
   final screens = [
-    const KhaledHomeScreen(),
+    const HomeScreen(),
     const NewsScreen(),
     const LeaguesScreen(),
     const FavoritesScreen(),
@@ -65,6 +69,9 @@ class _AppNavBarState extends State<AppNavBar> {
     authProvider.updateDeviceToken(context);
     cloudMessagingService.init(context);
     cloudMessagingService.requestPermission();
+    if (widget.initFav) {
+      context.favoriteProvider.fetchFavs(context);
+    }
   }
 
   @override
