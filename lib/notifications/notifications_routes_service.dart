@@ -7,13 +7,13 @@ import 'package:sportk/utils/enums.dart';
 class NotificationsRouteService {
   void toggle(BuildContext context, Map<String, dynamic> data) {
     try {
-      final id = data['id'] as int?;
+      final id = data['id'] as String?;
       final type = data['type'] as String?;
       switch (type) {
         case NotificationsType.blog:
           navigatorKey.currentState!.push(
             MaterialPageRoute(
-              builder: (context) => NewsDetailsScreen(newId: id!),
+              builder: (context) => NewsDetailsScreen(newId: int.parse(id!)),
             ),
           );
           break;
