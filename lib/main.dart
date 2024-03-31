@@ -77,7 +77,7 @@ class _MyAppState extends State<MyApp> {
 
   Widget _toggleRoute(BuildContext context) {
     if (_authProvider.user.id != null) {
-      return const AppNavBar();
+      return const AppNavBar(initFav: true);
     } else {
       if (MySharedPreferences.isPassedIntro) {
         return const RegistrationScreen();

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sportk/helper/ui_helper.dart';
-import 'package:sportk/model/favorite_model.dart';
 import 'package:sportk/model/league_model.dart';
 import 'package:sportk/providers/favorite_provider.dart';
 import 'package:sportk/screens/profile/profile_screen.dart';
@@ -30,17 +29,11 @@ class FavoritesScreen extends StatefulWidget {
 
 class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAliveClientMixin {
   late FavoriteProvider _favoriteProvider;
-  late Future<FavoriteModel?> _favoritesFuture;
-
-  void _initializeFuture() {
-    _favoritesFuture = _favoriteProvider.fetchFavs(context);
-  }
 
   @override
   void initState() {
     super.initState();
     _favoriteProvider = context.favoriteProvider;
-    _initializeFuture();
   }
 
   @override
@@ -53,7 +46,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
         title: Text(context.appLocalization.favorites),
       ),
       body: CustomFutureBuilder(
-        future: _favoritesFuture,
+        future: _favoriteProvider.favFuture,
         onRetry: () {},
         onLoading: () {
           return Column(

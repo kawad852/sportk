@@ -12,7 +12,11 @@ import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
 
 class AppNavBar extends StatefulWidget {
-  const AppNavBar({super.key});
+  final bool initFav;
+  const AppNavBar({
+    super.key,
+    this.initFav = false,
+  });
 
   @override
   State<AppNavBar> createState() => _AppNavBarState();
@@ -65,6 +69,9 @@ class _AppNavBarState extends State<AppNavBar> {
     authProvider.updateDeviceToken(context);
     cloudMessagingService.init(context);
     cloudMessagingService.requestPermission();
+    if (widget.initFav) {
+      context.favoriteProvider.fetchFavs(context);
+    }
   }
 
   @override
