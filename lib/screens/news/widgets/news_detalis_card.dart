@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/model/new_model.dart';
-import 'package:sportk/screens/news/source_screen.dart';
+import 'package:sportk/screens/web/web_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
@@ -76,7 +76,7 @@ class NewsDetailsCard extends StatelessWidget {
         if (newData.link != null)
           StretchedButton(
             onPressed: () {
-              context.push(SourceScreen(url: newData.link!));
+              context.push(WebScreen(url: newData.link!));
               // LauncherHelper.lunch(context, newData.link!);
             },
             margin: const EdgeInsetsDirectional.only(bottom: 15),

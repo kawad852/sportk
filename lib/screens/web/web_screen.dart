@@ -32,13 +32,8 @@ class _WebScreenState extends State<WebScreen> {
           onProgress: _updateLoading,
           onPageStarted: (String url) {},
           onPageFinished: (String url) {},
-          onWebResourceError: (WebResourceError error) {
-            print('myError::: $error');
-          },
+          onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest request) {
-            if (request.url.startsWith('https://www.youtube.com/')) {
-              return NavigationDecision.prevent;
-            }
             return NavigationDecision.navigate;
           },
         ),
@@ -55,6 +50,7 @@ class _WebScreenState extends State<WebScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: _loadingValue < 100
           ? const Padding(
@@ -62,11 +58,8 @@ class _WebScreenState extends State<WebScreen> {
               child: LinearProgressIndicator(),
             )
           : null,
-      body: Padding(
-        padding: const EdgeInsetsDirectional.symmetric(vertical: 50),
-        child: WebViewWidget(
-          controller: controller,
-        ),
+      body: WebViewWidget(
+        controller: controller,
       ),
     );
   }
