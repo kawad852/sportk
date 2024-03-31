@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
 import 'package:sportk/helper/ui_helper.dart';
 import 'package:sportk/model/favorite_model.dart';
@@ -507,7 +508,9 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                       if (competition.hasMatches)
                                         const Padding(
                                           padding: EdgeInsets.symmetric(vertical: 5),
-                                          child: GoogleBanner(),
+                                          child: GoogleBanner(
+                                            adSize: AdSize.largeBanner,
+                                          ),
                                         ),
                                     ],
                                   );
