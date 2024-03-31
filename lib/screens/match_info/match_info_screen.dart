@@ -3,6 +3,7 @@ import 'package:sportk/model/match_points_model.dart';
 import 'package:sportk/screens/champions_league/widgets/champions_matches.dart';
 import 'package:sportk/screens/match_info/predictions/predictions_screen.dart';
 import 'package:sportk/screens/match_info/widgets/head_to_head.dart';
+import 'package:sportk/screens/match_info/widgets/match_detalis.dart';
 import 'package:sportk/screens/match_info/widgets/match_scorers.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
@@ -147,9 +148,9 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
               children: [
                 if (_showPredict) PredictionsScreen(pointsData: widget.pointsData),
                 MatchEvents(matchId: widget.matchId, homeId: int.parse(widget.pointsData.homeId!)),
-                TeamsPlan(),
+                TeamsPlan(matchId: widget.matchId),
                 MatchStatistics(matchId: widget.matchId),
-                Text(context.appLocalization.details),
+                MatchDetalis(matchId: widget.matchId),
                 _isDomestic
                     ? LeagueStandings(
                         leagueId: widget.leagueId,

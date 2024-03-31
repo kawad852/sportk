@@ -7,7 +7,9 @@ import 'package:sportk/model/latest_match_team_model.dart';
 import 'package:sportk/model/league_by_date_model.dart';
 import 'package:sportk/model/league_model.dart';
 import 'package:sportk/model/league_search_model.dart';
+import 'package:sportk/model/match_detalis_model.dart';
 import 'package:sportk/model/match_model.dart';
+import 'package:sportk/model/match_plan_model.dart';
 import 'package:sportk/model/matches/our_league_model.dart';
 import 'package:sportk/model/player_model.dart';
 import 'package:sportk/model/player_search_model.dart';
@@ -383,6 +385,29 @@ class FootBallProvider extends ChangeNotifier {
       isPublic: true,
       apiType: ApiType.get,
       builder: MatchModel.fromJson,
+    );
+    return snapshot;
+  }
+   Future<MatchDetalisModel> fetchMatchDetalisById({
+    required int matchId,
+  }) {
+    final snapshot = ApiService<MatchDetalisModel>().build(
+      sportsUrl: '${ApiUrl.matchById}/$matchId${ApiUrl.auth}&include=league;venue;stage;round&locale=${MySharedPreferences.language}',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: MatchDetalisModel.fromJson,
+    );
+    return snapshot;
+  }
+
+  Future<MatchPlanModel> fetchMatchPlansById({
+    required int matchId,
+  }) {
+    final snapshot = ApiService<MatchPlanModel>().build(
+      sportsUrl: '${ApiUrl.matchById}/$matchId${ApiUrl.auth}&include=coaches;formations;lineups.player;participants&locale=${MySharedPreferences.language}',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: MatchPlanModel.fromJson,
     );
     return snapshot;
   }

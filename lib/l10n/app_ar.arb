@@ -263,5 +263,10 @@
   "eventsNotAvailable":"أحداث المباراة ليست متاحة بعد",
   "assisters":"الصناع",
   "noAsisstersAvailable":"لا توجد معلومات متاحة عن الصناع في الوقت الحالي",
-  "noInfoConfrontations":"لا تتوفر معلومات عن المواجهات"
+  "noInfoConfrontations":"لا تتوفر معلومات عن المواجهات",
+  "championship":"البطولة",
+  "stage":"الجولة",
+  "matchStadium":"ملعب المباراة",
+  "matchTime":"وقت المباراة",
+  "matchDate":"تاريخ المباراة"
 }
