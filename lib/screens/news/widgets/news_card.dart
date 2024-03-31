@@ -4,7 +4,9 @@ import 'package:sportk/helper/ui_helper.dart';
 import 'package:sportk/model/new_model.dart';
 import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/screens/news/news_details_screen.dart';
+import 'package:sportk/screens/news/widgets/like_buttons.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_svg.dart';
@@ -25,6 +27,26 @@ class _NewsCardState extends State<NewsCard> {
   late CommonProvider _commonProvider;
 
   NewData get _newData => widget.newData;
+
+  void _toggleLike(int? likeType, bool fromLike) {
+    if (likeType == LikeType.like) {
+      _commonProvider.like(_newData.id!, likeType!, isComment: true);
+      _newData.numberOfLikes = _newData.numberOfLikes! + 1;
+    }
+    if (likeType == LikeType.disLike) {
+      _commonProvider.like(_newData.id!, likeType!, isComment: true);
+      if (_newData.likeType == LikeType.like) {
+        _newData.numberOfLikes = _newData.numberOfLikes! - 1;
+      }
+    }
+    if (likeType == null) {
+      _commonProvider.removeLike(_newData.id!, true);
+      if (fromLike) {
+        _newData.numberOfLikes = _newData.numberOfLikes! - 1;
+      }
+    }
+    _newData.likeType = likeType;
+  }
 
   @override
   void initState() {
@@ -128,6 +150,7 @@ class _NewsCardState extends State<NewsCard> {
                             //     },
                             //   ),
                             // ),
+
                             const SizedBox(
                               width: 5,
                             ),
@@ -142,6 +165,16 @@ class _NewsCardState extends State<NewsCard> {
                                   key: ValueKey<int>(_newData.numberOfLikes!),
                                   style: TextStyle(color: context.colorPalette.red000),
                                 ),
+                              ),
+                            ),
+                            ZoomIn(
+                              child: LikeButtons(
+                                onPressed: (likeType, like) {
+                                  setState(() {
+                                    _toggleLike(likeType, like);
+                                  });
+                                },
+                                likeType: _newData.likeType,
                               ),
                             ),
                           ],

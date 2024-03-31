@@ -49,19 +49,6 @@ class _CommentBubbleState extends State<CommentBubble> with AutomaticKeepAliveCl
       }
     }
     _comment.likeType = likeType;
-
-    ///
-    // if (likeType == null) {
-    //   _comment.likeType = null;
-    //   _commonProvider.removeLike(_comment.id!, true);
-    //   print("likeType::: ${_comment.likeType}");
-    //   return;
-    // }
-    // if (_comment.likeType == LikeType.like) {
-    //   _comment.numberOfLikes = _comment.numberOfLikes! + 1;
-    // }
-    // _commonProvider.like(_comment.id!, likeType, isComment: true);
-    // print("likeType::: ${_comment.likeType}");
   }
 
   @override
