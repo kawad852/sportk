@@ -50,6 +50,12 @@ class CompoTypeEnum {
   static const String blogs = '3';
 }
 
+class NotificationsType {
+  static const String blog = 'blog';
+  static const String match = 'match';
+  static const String url = 'url';
+}
+
 class BlogsType {
   static String recommended = 'user';
   static String teams(int id) => 'teams/$id';

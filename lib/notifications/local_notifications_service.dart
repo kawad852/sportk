@@ -4,6 +4,8 @@ import 'dart:developer';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:sportk/main.dart';
+import 'package:sportk/notifications/notifications_routes_service.dart';
 import 'package:sportk/utils/base_extensions.dart';
 
 class LocalNotificationsService {
@@ -21,11 +23,10 @@ class LocalNotificationsService {
     await _flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: (message) {
-        // if (message.payload != null && message.payload!.isNotEmpty) {
-        // Map<String, dynamic> data = json.decode(message.payload!);
-        // final notificationDataModel = NotificationData.fromJson(data);
-        // NotificationsRouteService().toggle(navigatorKey.currentContext!, notificationDataModel);
-        // }
+        if (message.payload != null && message.payload!.isNotEmpty) {
+          Map<String, dynamic> data = json.decode(message.payload!);
+          NotificationsRouteService().toggle(navigatorKey.currentContext!, data);
+        }
       },
     );
   }
