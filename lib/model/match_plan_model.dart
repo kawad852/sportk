@@ -1,9 +1,10 @@
-import 'package:sportk/model/match_model.dart';
+import 'package:sportk/model/match_model.dart' as match_model;
+import 'package:sportk/model/single_match_event_model.dart';
 
 class MatchPlanModel {
     PlanData? data;
-    List<Subscription>? subscription;
-    RateLimit? rateLimit;
+    List<match_model.Subscription>? subscription;
+    match_model.RateLimit? rateLimit;
     String? timezone;
 
     MatchPlanModel({
@@ -15,8 +16,8 @@ class MatchPlanModel {
 
     factory MatchPlanModel.fromJson(Map<String, dynamic> json) => MatchPlanModel(
         data: json["data"] == null ? null : PlanData.fromJson(json["data"]),
-        subscription: json["subscription"] == null ? [] : List<Subscription>.from(json["subscription"]!.map((x) => Subscription.fromJson(x))),
-        rateLimit: json["rate_limit"] == null ? null : RateLimit.fromJson(json["rate_limit"]),
+        subscription: json["subscription"] == null ? [] : List<match_model.Subscription>.from(json["subscription"]!.map((x) => match_model.Subscription.fromJson(x))),
+        rateLimit: json["rate_limit"] == null ? null : match_model.RateLimit.fromJson(json["rate_limit"]),
         timezone: json["timezone"],
     );
 
@@ -52,6 +53,7 @@ class PlanData {
     List<Formation>? formations;
     List<Lineup>? lineups;
     List<Participant>? participants;
+    List<Period>? periods;
 
     PlanData({
         this.id,
@@ -77,6 +79,7 @@ class PlanData {
         this.formations,
         this.lineups,
         this.participants,
+        this.periods,
     });
 
     factory PlanData.fromJson(Map<String, dynamic> json) => PlanData(
@@ -103,6 +106,7 @@ class PlanData {
         formations: json["formations"] == null ? [] : List<Formation>.from(json["formations"]!.map((x) => Formation.fromJson(x))),
         lineups: json["lineups"] == null ? [] : List<Lineup>.from(json["lineups"]!.map((x) => Lineup.fromJson(x))),
         participants: json["participants"] == null ? [] : List<Participant>.from(json["participants"]!.map((x) => Participant.fromJson(x))),
+        periods: json["periods"] == null ? [] : List<Period>.from(json["periods"]!.map((x) => Period.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
@@ -129,6 +133,7 @@ class PlanData {
         "formations": formations == null ? [] : List<dynamic>.from(formations!.map((x) => x.toJson())),
         "lineups": lineups == null ? [] : List<dynamic>.from(lineups!.map((x) => x.toJson())),
         "participants": participants == null ? [] : List<dynamic>.from(participants!.map((x) => x.toJson())),
+        "periods": periods == null ? [] : List<dynamic>.from(periods!.map((x) => x.toJson())),
     };
 }
 

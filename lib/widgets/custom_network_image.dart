@@ -9,6 +9,7 @@ class CustomNetworkImage extends StatelessWidget {
   final double? width;
   final double? height;
   final EdgeInsetsGeometry? margin;
+  final EdgeInsetsGeometry? padding;
   final BoxFit boxFit;
   final ColorFilter? colorFilter;
   final Widget? child;
@@ -27,6 +28,7 @@ class CustomNetworkImage extends StatelessWidget {
     this.width,
     this.height,
     this.margin,
+    this.padding,
     this.boxFit = BoxFit.cover,
     this.colorFilter,
     this.shape,
@@ -47,6 +49,7 @@ class CustomNetworkImage extends StatelessWidget {
       width: width,
       height: height,
       margin: margin,
+      padding: padding,
       alignment: alignment,
       decoration: BoxDecoration(
         shape: shape ?? BoxShape.rectangle,

@@ -7,27 +7,32 @@ class ShareAppText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: [
-        Text(
-          context.appLocalization.shareAppWithFriends,
-          style: const TextStyle(
-            fontSize: 8.5,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        Text(
-          " $points ${context.appLocalization.sportk}",
-          style: TextStyle(
-            fontSize: 8.5,
-            color: context.colorPalette.yellowF7A,
-            fontWeight: FontWeight.w600,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              context.appLocalization.shareAppWithFriends,
+              style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            Text(
+              " $points ${context.appLocalization.sportk}",
+              style: TextStyle(
+                fontSize: 13,
+                color: context.colorPalette.yellowF7A,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
         ),
         Text(
           context.appLocalization.everyRegistration,
           style: const TextStyle(
-            fontSize: 8.5,
+            fontSize: 13,
             fontWeight: FontWeight.w600,
           ),
         ),

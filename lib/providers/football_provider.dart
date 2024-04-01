@@ -405,7 +405,7 @@ class FootBallProvider extends ChangeNotifier {
     required int matchId,
   }) {
     final snapshot = ApiService<MatchPlanModel>().build(
-      sportsUrl: '${ApiUrl.matchById}/$matchId${ApiUrl.auth}&include=coaches;formations;lineups.player;participants&locale=${MySharedPreferences.language}',
+      sportsUrl: '${ApiUrl.matchById}/$matchId${ApiUrl.auth}&include=coaches;formations;lineups.player;participants;periods.events.player;&locale=${MySharedPreferences.language}',
       isPublic: true,
       apiType: ApiType.get,
       builder: MatchPlanModel.fromJson,

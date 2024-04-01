@@ -95,10 +95,15 @@ class _ChampionsLeagueScreenState extends State<ChampionsLeagueScreen>
                         padding: const EdgeInsetsDirectional.only(bottom: 30),
                         child: Column(
                           children: [
-                            CustomNetworkImage(
-                              league.data!.imagePath!,
-                              width: 100,
-                              height: 100,
+                            CircleAvatar(
+                              radius: 70,
+                              backgroundColor: context.colorPalette.league,
+                              child: CustomNetworkImage(
+                                league.data!.imagePath!,
+                                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                                width: 100,
+                                height: 100,
+                              ),
                             ),
                             const SizedBox(
                               height: 10,

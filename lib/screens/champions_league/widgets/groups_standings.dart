@@ -51,7 +51,7 @@ class _GroupsStandingsState extends State<GroupsStandings> with AutomaticKeepAli
         child: LoadingBubble(
           width: double.infinity,
           height: 50,
-          margin: EdgeInsetsDirectional.symmetric(vertical: 5, horizontal: 10),
+          margin: EdgeInsetsDirectional.symmetric(vertical: 5, horizontal: 20),
           radius: MyTheme.radiusPrimary,
         ),
       ),
@@ -64,10 +64,10 @@ class _GroupsStandingsState extends State<GroupsStandings> with AutomaticKeepAli
           },
         ).toSet();
         return Padding(
-          padding: const EdgeInsetsDirectional.symmetric(vertical: 5),
+          padding: const EdgeInsetsDirectional.symmetric(vertical: 5, horizontal: 20),
           child: ExpansionTile(
             initiallyExpanded: widget.teamId != null && teamId.contains(widget.teamId),
-            childrenPadding: const EdgeInsetsDirectional.symmetric(horizontal: 20, vertical: 5),
+            childrenPadding: const EdgeInsetsDirectional.symmetric(vertical: 5),
             backgroundColor: context.colorPalette.grey3F3,
             collapsedBackgroundColor: context.colorPalette.grey3F3,
             title: Text(standings.data![0].group!.name!),

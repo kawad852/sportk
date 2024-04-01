@@ -10,7 +10,7 @@ class ColorPalette {
 
   bool get _isLightTheme => MyTheme.isLightTheme(_context);
 
-  // TODO: Mihyar: consider the dark Theme
+ 
   ///grey
   Color get grey2F2 => _isLightTheme ? const Color(0xFFF2F2F2) : const Color(0xFF151925);
   Color get grey3F3 => _isLightTheme ? const Color(0xFFF3F3F3) : const Color(0xFF151925);
@@ -30,7 +30,8 @@ class ColorPalette {
   Color get blueE2F => _isLightTheme ? const Color(0x66E2F1FC) : const Color(0xFF151925);
   Color get blue1F8 => const Color(0xFF1F85CD); //same dark and light
   Color get blue19A => const Color(0xFF5E819A); // color feed_back
-  Color get blue9FE => _isLightTheme ? const Color(0xFFF3F9FE) : const Color(0xFFC5C8D7); // live switch
+  Color get blue9FE =>
+      _isLightTheme ? const Color(0xFFF3F9FE) : const Color(0xFFC5C8D7); // live switch
   Color get blueF9F => _isLightTheme ? const Color(0xFFF9F9F9) : const Color(0xFF151925);
   Color get blue8E3 => const Color(0xFFC8D8E3); //not used
   Color get blue4F0 => _isLightTheme ? const Color(0xFFE2E4F0) : const Color(0xFF202538);
@@ -55,6 +56,7 @@ class ColorPalette {
   Color get yellowF7A20 => const Color(0x33F7AA05);
   Color get yellowFCC => const Color(0xFFFCC200); //not used (match info)
   Color get yellowFDD => const Color(0xFFFDD758); //not used (match info)
+  Color get orange => const Color(0xFFF77905);
 
   //green
   Color get greenAD0 => const Color(0xFF00AD05); //not used (match info)
@@ -82,4 +84,5 @@ class ColorPalette {
 
   Color get progressGreen => const Color(0xFF609B5E);
   Color get progressRed => const Color(0xFFCD1313);
+  Color get league => _isLightTheme ? Colors.transparent : white.withOpacity(0.3);
 }

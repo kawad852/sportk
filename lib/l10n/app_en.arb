@@ -268,5 +268,9 @@
   "stage":"Stage",
   "matchStadium":"Match stadium",
   "matchTime":"Match time",
-  "matchDate":"Match date"
+  "matchDate":"Match date",
+  "coach":"Coach",
+  "substitutions":"Substitutions",
+  "bench":"Bench",
+  "lineupNotAvailable":"The match lineup is not available at this time"
 }

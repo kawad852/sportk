@@ -9,11 +9,11 @@ class LeagueLoading extends StatelessWidget {
     return const Padding(
       padding: EdgeInsetsDirectional.only(bottom: 30),
       child: Column(
-         mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           LoadingBubble(
-            width: 100,
-            height: 100,
+            width: 125,
+            height: 125,
             shape: BoxShape.circle,
           ),
           SizedBox(

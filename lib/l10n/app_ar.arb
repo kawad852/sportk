@@ -268,5 +268,9 @@
   "stage":"الجولة",
   "matchStadium":"ملعب المباراة",
   "matchTime":"وقت المباراة",
-  "matchDate":"تاريخ المباراة"
+  "matchDate":"تاريخ المباراة",
+  "coach":"المدرب",
+  "substitutions":"التبديلات",
+  "bench":"دكة البدلاء",
+  "lineupNotAvailable":"تشكيلة المباراة غير متوفرة في الوقت الحالي"
 }

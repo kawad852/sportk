@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/model/match_plan_model.dart';
+import 'package:sportk/model/single_match_event_model.dart' as event;
+import 'package:sportk/screens/match_info/widgets/player_card.dart';
 import 'package:sportk/screens/player/player_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_images.dart';
 import 'package:sportk/utils/my_theme.dart';
+import 'package:sportk/utils/shared_pref.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 
 class PlanCard extends StatefulWidget {
@@ -11,12 +15,14 @@ class PlanCard extends StatefulWidget {
   final List<Lineup> lineup;
   final List<Lineup> bench;
   final Coach coach;
+  final List<event.Event> substitution;
   const PlanCard({
     super.key,
     required this.formation,
     required this.lineup,
     required this.bench,
     required this.coach,
+    required this.substitution,
   });
 
   @override
@@ -95,7 +101,7 @@ class _PlanCardState extends State<PlanCard> {
                         child: ListView.builder(
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
-                          reverse: true,
+                          reverse: MySharedPreferences.language != LanguageEnum.arabic,
                           scrollDirection: Axis.horizontal,
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: int.parse(plan[index]),
@@ -109,9 +115,32 @@ class _PlanCardState extends State<PlanCard> {
                                     width: 47,
                                     height: 47,
                                     shape: BoxShape.circle,
+                                    alignment: Alignment.center,
                                     onTap: () => context.push(
                                       PlayerScreen(playerId: part[index].player!.id!),
                                     ),
+                                    child: part[index].jerseyNumber == null
+                                        ? null
+                                        : Align(
+                                            alignment: Alignment.bottomRight,
+                                            child: Container(
+                                              width: 25,
+                                              height: 15,
+                                              decoration: BoxDecoration(
+                                                color: context.colorPalette.orange,
+                                                borderRadius:
+                                                    BorderRadius.circular(MyTheme.radiusSecondary),
+                                              ),
+                                              child: Text(
+                                                part[index].jerseyNumber.toString(),
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: context.colorPalette.white,
+                                                  fontSize: 10,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                   ),
                                   SizedBox(
                                     width: 50,
@@ -133,6 +162,121 @@ class _PlanCardState extends State<PlanCard> {
                           },
                         ),
                       ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(context.appLocalization.coach),
+                PlayerCard(
+                  playerId: widget.coach.id!,
+                  playerImage: widget.coach.imagePath!,
+                  playerName: widget.coach.name!,
+                ),
+              ],
+            ),
+          ),
+          if (widget.substitution.isNotEmpty)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(context.appLocalization.substitutions),
+                ListView.separated(
+                  itemCount: widget.substitution.length,
+                  separatorBuilder: (context, index) => const SizedBox(height: 5),
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.only(top: 5, bottom: 10),
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () => context
+                          .push(PlayerScreen(playerId: widget.substitution[index].player!.id!)),
+                      child: Container(
+                        width: double.infinity,
+                        height: 50,
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        decoration: BoxDecoration(
+                          color: context.colorPalette.grey3F3,
+                          borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
+                        ),
+                        child: Row(
+                          children: [
+                            CustomNetworkImage(
+                              widget.substitution[index].player!.imagePath!,
+                              width: 35,
+                              height: 35,
+                              shape: BoxShape.circle,
+                            ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.arrow_forward_rounded,
+                                        color: context.colorPalette.greenAD0,
+                                      ),
+                                      Flexible(
+                                        child: Text(
+                                          widget.substitution[index].player!.name!,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.arrow_back_rounded,
+                                        color: context.colorPalette.red100,
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Flexible(
+                                        child: Text(
+                                          widget.substitution[index].relatedPlayerName!,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(context.appLocalization.bench),
+                ListView.separated(
+                  itemCount: widget.bench.length,
+                  separatorBuilder: (context, index) => const SizedBox(height: 5),
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.only(top: 5, bottom: 10),
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return PlayerCard(
+                      playerId: widget.bench[index].playerId!,
+                      playerImage: widget.bench[index].player!.imagePath!,
+                      playerName: widget.bench[index].player!.name!,
+                      jerseyNumber: widget.bench[index].jerseyNumber,
                     );
                   },
                 ),

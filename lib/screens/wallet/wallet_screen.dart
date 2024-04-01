@@ -25,7 +25,6 @@ import 'package:sportk/widgets/menu_button.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 import 'package:sportk/widgets/vex/vex_loader.dart';
 import 'package:sportk/widgets/vex/vex_paginator.dart';
-
 import 'widgets/vouchers_loading.dart';
 
 class WalletScreen extends StatefulWidget {

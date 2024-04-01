@@ -86,7 +86,14 @@ class WalletLoading extends StatelessWidget {
         ),
         LoadingBubble(
           width: double.infinity,
-          height: 8,
+          height: 12,
+          margin: EdgeInsets.symmetric(horizontal: 20),
+          radius: MyTheme.radiusSecondary,
+        ),
+        LoadingBubble(
+          width: double.infinity,
+          height: 12,
+          margin: EdgeInsets.symmetric(horizontal: 50, vertical: 3),
           radius: MyTheme.radiusSecondary,
         ),
         SizedBox(
