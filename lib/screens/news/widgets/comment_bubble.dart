@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:sportk/helper/ui_helper.dart';
 import 'package:sportk/model/comment_model.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/providers/common_provider.dart';
@@ -150,7 +151,19 @@ class _CommentBubbleState extends State<CommentBubble> with AutomaticKeepAliveCl
                 ),
               ],
             ),
-            Text(_comment.comment!),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(_comment.comment!),
+                ),
+                TextButton(
+                  onPressed: () {
+                    UiHelper.showCommentsSheet(context, _comment.id!, isReply: true);
+                  },
+                  child: Text("Reply"),
+                ),
+              ],
+            ),
           ],
         ),
       ),

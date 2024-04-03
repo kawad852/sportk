@@ -12,11 +12,18 @@ import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 
 class UiHelper {
-  static showCommentsSheet(BuildContext context, int newId) {
+  static showCommentsSheet(
+    BuildContext context,
+    int newId, {
+    bool isReply = false,
+  }) {
     context.showBottomSheet(
       context,
       builder: (context) {
-        return CommentsScreen(newId: newId);
+        return CommentsScreen(
+          newId: newId,
+          isReply: isReply,
+        );
       },
     );
   }
@@ -120,7 +127,7 @@ class UiHelper {
         await context.push(
           MatchInfoScreen(
             matchId: matchId,
-            leagueId:leagueId,
+            leagueId: leagueId,
             subType: subType,
             pointsData: snapshot.data!,
             showPredict: snapshot.data!.status == 1,

@@ -268,5 +268,8 @@
   "stage":"Stage",
   "matchStadium":"Match stadium",
   "matchTime":"Match time",
-  "matchDate":"Match date"
+  "matchDate":"Match date",
+  "replies": "Replies",
+  "comments": "Comments",
+  "addReply": "Add a reply"
 }

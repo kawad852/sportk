@@ -268,5 +268,8 @@
   "stage":"الجولة",
   "matchStadium":"ملعب المباراة",
   "matchTime":"وقت المباراة",
-  "matchDate":"تاريخ المباراة"
+  "matchDate":"تاريخ المباراة",
+  "replies": "الردود",
+  "comments": "التعليقات",
+  "addReply": "أضف رداً"
 }
