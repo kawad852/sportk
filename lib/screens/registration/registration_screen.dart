@@ -149,7 +149,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: widget.hideGuestButton,
         actions: [
           if (!widget.hideGuestButton)
             TextButton(
