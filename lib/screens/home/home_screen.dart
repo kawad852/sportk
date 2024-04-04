@@ -505,7 +505,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                           );
                                         },
                                       ),
-                                      if (competition.hasMatches)
+                                      if (competition.hasMatches && (index % 3 == 0))
                                         const Padding(
                                           padding: EdgeInsets.symmetric(vertical: 5),
                                           child: GoogleBanner(

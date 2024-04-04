@@ -8,8 +8,6 @@ import 'package:sportk/model/player_search_model.dart';
 import 'package:sportk/model/team_search_model.dart';
 import 'package:sportk/providers/favorite_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
-import 'package:sportk/screens/champions_league/champions_league_screen.dart';
-import 'package:sportk/screens/league_info/league_info_screen.dart';
 import 'package:sportk/screens/player/player_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';

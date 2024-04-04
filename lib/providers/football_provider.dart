@@ -28,6 +28,7 @@ import 'package:sportk/model/top_scorers_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/shared_pref.dart';
 
 class FootBallProvider extends ChangeNotifier {
@@ -295,10 +296,17 @@ class FootBallProvider extends ChangeNotifier {
   Future<LeagueSearchModel> searchLeagues({
     required String query,
   }) {
+    final isArabic = MySharedPreferences.language == LanguageEnum.arabic;
     final snapshot = ApiService<LeagueSearchModel>().build(
-      sportsUrl: '${ApiUrl.leagueSearch}/$query${ApiUrl.auth}&locale=${MySharedPreferences.language}',
+      sportsUrl: isArabic ? null : '${ApiUrl.leagueSearch}/$query${ApiUrl.auth}&locale=${MySharedPreferences.language}',
+      weCanUrl: isArabic ? ApiUrl.arabicSearch : null,
       isPublic: true,
-      apiType: ApiType.get,
+      apiType: isArabic ? ApiType.post : ApiType.get,
+      queryParams: isArabic
+          ? {
+              'input': query,
+            }
+          : null,
       builder: LeagueSearchModel.fromJson,
     );
     return snapshot;
@@ -307,10 +315,17 @@ class FootBallProvider extends ChangeNotifier {
   Future<TeamSearchModel> searchTeams({
     required String query,
   }) {
+    final isArabic = MySharedPreferences.language == LanguageEnum.arabic;
     final snapshot = ApiService<TeamSearchModel>().build(
-      sportsUrl: '${ApiUrl.teamsSearch}/$query${ApiUrl.auth}&locale=${MySharedPreferences.language}',
+      sportsUrl: isArabic ? null : '${ApiUrl.teamsSearch}/$query${ApiUrl.auth}&locale=${MySharedPreferences.language}',
+      weCanUrl: isArabic ? ApiUrl.arabicSearch : null,
       isPublic: true,
-      apiType: ApiType.get,
+      apiType: isArabic ? ApiType.post : ApiType.get,
+      queryParams: isArabic
+          ? {
+              'input': query,
+            }
+          : null,
       builder: TeamSearchModel.fromJson,
     );
     return snapshot;

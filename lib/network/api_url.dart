@@ -29,8 +29,6 @@ class ApiUrl {
   static const String matchById = '/football/fixtures';
   static const String headToHead = '/football/fixtures/head-to-head';
 
-
-
   ///weCan url
   static const String login = '/api/login';
   static const String intro = '/api/introductions';
@@ -63,4 +61,5 @@ class ApiUrl {
   static const String matchPoints = '/api/matches/points';
   static const String prediction = '/api/predictions';
   static const String mainMatches = '/api/competitions/main';
+  static const String arabicSearch = '/api/teams/competitions/search';
 }
