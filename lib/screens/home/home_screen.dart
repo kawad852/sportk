@@ -278,6 +278,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                   } else {
                                     matches = matchModel.data!;
                                   }
+
                                   if (matches.isEmpty) {
                                     competition.hasMatches = false;
                                     if (allCompetitions.every((element) => !element.hasMatches)) {
@@ -289,6 +290,8 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                     }
                                     return const SizedBox.shrink();
                                   }
+                                  final matchesCompetitions = allCompetitions.where((element) => element.hasMatches).toList();
+                                  print("akejfhaejkfhaejkfh:::: ${matchesCompetitions.length % index}");
                                   return Column(
                                     children: [
                                       LeagueTile(
@@ -505,7 +508,8 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                           );
                                         },
                                       ),
-                                      if (competition.hasMatches && (index % 3 == 0))
+                                      // if (competition.hasMatches && (index % 3 == 0))
+                                      if (index % 4 == 0)
                                         const Padding(
                                           padding: EdgeInsets.symmetric(vertical: 5),
                                           child: GoogleBanner(
