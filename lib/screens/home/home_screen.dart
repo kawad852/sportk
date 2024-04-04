@@ -285,7 +285,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                       return NoResults(
                                         header: const Icon(FontAwesomeIcons.trophy),
                                         title: _isLive ? context.appLocalization.homeEmptyLiveMatchesTitle : context.appLocalization.homeEmptyMatchesTitle(_formattedDate(context)),
-                                        body: context.appLocalization.homeEmptyMatchesBody,
+                                        body: _isLive ? '' : context.appLocalization.homeEmptyMatchesBody,
                                       );
                                     }
                                     return const SizedBox.shrink();
