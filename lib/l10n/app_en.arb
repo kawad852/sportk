@@ -272,5 +272,8 @@
   "coach":"Coach",
   "substitutions":"Substitutions",
   "bench":"Bench",
-  "lineupNotAvailable":"The match lineup is not available at this time"
+  "lineupNotAvailable":"The match lineup is not available at this time",
+  "replies": "Replies",
+  "comments": "Comments",
+  "addReply": "Add a reply"
 }

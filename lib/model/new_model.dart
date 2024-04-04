@@ -69,7 +69,7 @@ class NewData {
         sourceImage: json["source_image"] ?? '',
         publicationTime: json["publication_time"],
         tags: json["tags"] == null ? [] : List<Tag>.from(json["tags"]!.map((x) => Tag.fromJson(x))),
-        numberOfLikes: json["number_of_likes"],
+        numberOfLikes: json["number_of_likes"] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {

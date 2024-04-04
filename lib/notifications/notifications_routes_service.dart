@@ -29,6 +29,7 @@ class NotificationsRouteService {
           );
           break;
         case NotificationsType.match:
+        case NotificationsType.live:
           ApiFutureBuilder<MatchPointsModel>().fetch(
             context,
             future: () async {

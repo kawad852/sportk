@@ -53,6 +53,7 @@ class CompoTypeEnum {
 class NotificationsType {
   static const String blog = 'blog';
   static const String match = 'match';
+  static const String live = 'live';
   static const String url = 'url';
 }
 

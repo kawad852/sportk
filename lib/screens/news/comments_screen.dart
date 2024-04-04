@@ -9,10 +9,12 @@ import 'package:sportk/widgets/vex/vex_paginator.dart';
 
 class CommentsScreen extends StatefulWidget {
   final int newId;
+  final bool isReply;
 
   const CommentsScreen({
     super.key,
     required this.newId,
+    required this.isReply,
   });
 
   @override
@@ -23,6 +25,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
   late CommonProvider _commonProvider;
 
   int get _newId => widget.newId;
+  bool get _isReply => widget.isReply;
 
   @override
   void initState() {
@@ -49,24 +52,40 @@ class _CommentsScreenState extends State<CommentsScreen> {
               },
             ),
           ),
-          body: ListView.separated(
-            itemCount: snapshot.docs.length + 1,
-            separatorBuilder: (context, index) => const SizedBox(height: 5),
-            padding: const EdgeInsets.all(20).copyWith(bottom: 80),
-            itemBuilder: (context, index) {
-              if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
-                snapshot.fetchMore();
-              }
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ListTile(
+                titleTextStyle: context.textTheme.headlineSmall!.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                ),
+                title: Text(
+                  _isReply ? context.appLocalization.replies : context.appLocalization.comments,
+                ),
+              ),
+              Expanded(
+                child: ListView.separated(
+                  itemCount: snapshot.docs.length + 1,
+                  separatorBuilder: (context, index) => const SizedBox(height: 5),
+                  padding: const EdgeInsets.all(20).copyWith(bottom: 80),
+                  itemBuilder: (context, index) {
+                    if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
+                      snapshot.fetchMore();
+                    }
 
-              if (index == snapshot.docs.length) {
-                return VexLoader(snapshot.isFetchingMore);
-              }
+                    if (index == snapshot.docs.length) {
+                      return VexLoader(snapshot.isFetchingMore);
+                    }
 
-              final comment = snapshot.docs[index] as CommentData;
-              return CommentBubble(
-                comment: comment,
-              );
-            },
+                    final comment = snapshot.docs[index] as CommentData;
+                    return CommentBubble(
+                      comment: comment,
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         );
       },
