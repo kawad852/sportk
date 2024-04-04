@@ -248,6 +248,7 @@
   "statisticsNotAvailable":"Statistics for the match are not yet available",
   "home": "Home",
   "homeEmptyMatchesTitle": "No Matches Found in {date}",
+  "homeEmptyLiveMatchesTitle": "No Live Matches Found",
   "homeEmptyMatchesBody": "Try selecting a different date.",
   "goal":"goal",
   "ownGoal":"own-goal",

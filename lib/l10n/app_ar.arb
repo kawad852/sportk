@@ -248,6 +248,7 @@
   "counterAttacks":"المرتدات",
   "statisticsNotAvailable":"إحصائيات المباراة ليست متاحة بعد",
   "homeEmptyMatchesTitle": "لا يوجد مباريات بتاريخ {date}",
+  "homeEmptyLiveMatchesTitle": "لا يوجد مباريات جارية حاليا",
   "homeEmptyMatchesBody": "إختر يوم آخر وحاول مرة أخرى",
   "goal":"هدف",
   "ownGoal":"هدف في مرماه",

@@ -283,7 +283,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                     if (allCompetitions.every((element) => !element.hasMatches)) {
                                       return NoResults(
                                         header: const Icon(FontAwesomeIcons.trophy),
-                                        title: context.appLocalization.homeEmptyMatchesTitle(_formattedDate(context)),
+                                        title: _isLive ? context.appLocalization.homeEmptyLiveMatchesTitle : context.appLocalization.homeEmptyMatchesTitle(_formattedDate(context)),
                                         body: context.appLocalization.homeEmptyMatchesBody,
                                       );
                                     }
