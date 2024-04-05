@@ -54,6 +54,8 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
 
   List<int> get _liveStateIds => [2, 3, 4, 6, 9, 22, 25];
 
+  List<int> get _showGoals => [1,13,10,11,12,14,15,16,17,19,20,21,26];
+
   String _formattedDate(BuildContext context) => _selectedDate.formatDate(context, pattern: 'EEE, MMM d');
 
   Future<void> _showDatePicker(BuildContext context) async {
@@ -405,8 +407,8 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                                         child: Row(
                                                           mainAxisAlignment: MainAxisAlignment.center,
                                                           children: [
-                                                            match.state!.id != 1 && match.state!.id != 13 && match.state!.id != 10
-                                                                ? Text(
+                                                             ! _showGoals.contains(match.state!.id!)?
+                                                                 Text(
                                                                     "$homeGoals",
                                                                     style: const TextStyle(
                                                                       fontWeight: FontWeight.bold,
@@ -466,8 +468,8 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                                                             ),
                                                                         ],
                                                                       ),
-                                                            match.state!.id != 1 && match.state!.id != 13 && match.state!.id != 10
-                                                                ? Text(
+                                                            ! _showGoals.contains(match.state!.id!)?
+                                                                 Text(
                                                                     "$awayGoals",
                                                                     style: const TextStyle(
                                                                       fontWeight: FontWeight.bold,
