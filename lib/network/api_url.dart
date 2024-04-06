@@ -36,6 +36,7 @@ class ApiUrl {
   static const String showLive = '/api/lives/match';
   static const String comments = '/api/comments';
   static const String newComments = '/api/blogs/comments';
+  static const String replies = '/api/comments/replies';
   static const String user = '/api/users';
   static const String like = '/api/likes';
   static const String ourTeams = '/api/teams';

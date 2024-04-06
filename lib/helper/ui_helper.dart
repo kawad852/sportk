@@ -12,20 +12,20 @@ import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 
 class UiHelper {
-  static showCommentsSheet(
+  static Future<dynamic> showCommentsSheet(
     BuildContext context,
     int newId, {
-    bool isReply = false,
+    int? commentId,
   }) {
-    context.showBottomSheet(
+    return context.showBottomSheet(
       context,
       builder: (context) {
         return CommentsScreen(
           newId: newId,
-          isReply: isReply,
+          commentId: commentId,
         );
       },
-    );
+    ).then((value) => value);
   }
 
   static navigateToLeagueInfo(

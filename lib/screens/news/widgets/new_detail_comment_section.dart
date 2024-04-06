@@ -136,7 +136,11 @@ class _NewDetailsCommentSectionState extends State<NewDetailsCommentSection> {
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   final comment = snapshot.docs[index] as CommentData;
-                  return CommentBubble(comment: comment);
+                  return CommentBubble(
+                    comment: comment,
+                    newId: _newId,
+                    isReply: false,
+                  );
                 },
               ),
             ],

@@ -96,6 +96,16 @@ class CommonProvider extends ChangeNotifier {
     return snapshot;
   }
 
+  Future<CommentsModel> fetchReplies(int id, int pageKey) {
+    final snapshot = ApiService<CommentsModel>().build(
+      weCanUrl: '${ApiUrl.replies}/$id?page=$pageKey',
+      isPublic: false,
+      apiType: ApiType.get,
+      builder: CommentsModel.fromJson,
+    );
+    return snapshot;
+  }
+
   Future<IsLikeModel> like(
     int id,
     int likeType, {

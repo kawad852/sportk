@@ -9,12 +9,12 @@ import 'package:sportk/widgets/vex/vex_paginator.dart';
 
 class CommentsScreen extends StatefulWidget {
   final int newId;
-  final bool isReply;
+  final int? commentId;
 
   const CommentsScreen({
     super.key,
     required this.newId,
-    required this.isReply,
+    required this.commentId,
   });
 
   @override
@@ -25,7 +25,8 @@ class _CommentsScreenState extends State<CommentsScreen> {
   late CommonProvider _commonProvider;
 
   int get _newId => widget.newId;
-  bool get _isReply => widget.isReply;
+  int? get _commentId => widget.commentId;
+  bool get _isReply => widget.commentId != null;
 
   @override
   void initState() {
@@ -36,7 +37,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
   @override
   Widget build(BuildContext context) {
     return VexPaginator(
-      query: (pageKey) async => _commonProvider.fetchComments(_newId, pageKey),
+      query: (pageKey) async => _isReply ? _commonProvider.fetchReplies(_commentId!, pageKey) : _commonProvider.fetchComments(_newId, pageKey),
       onFetching: (snapshot) async => snapshot.data!,
       pageSize: 10,
       builder: (context, snapshot) {
@@ -44,6 +45,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
           backgroundColor: Colors.transparent,
           bottomSheet: BottomAppBar(
             child: CommentEditor(
+              commentId: _commentId,
               newId: _newId,
               onAdd: (comment) {
                 setState(() {
@@ -61,7 +63,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                   fontSize: 22,
                 ),
                 title: Text(
-                  _isReply ? context.appLocalization.replies : context.appLocalization.comments,
+                  _commentId != null ? context.appLocalization.replies : context.appLocalization.comments,
                 ),
               ),
               Expanded(
@@ -80,7 +82,9 @@ class _CommentsScreenState extends State<CommentsScreen> {
 
                     final comment = snapshot.docs[index] as CommentData;
                     return CommentBubble(
+                      newId: _newId,
                       comment: comment,
+                      isReply: _isReply,
                     );
                   },
                 ),

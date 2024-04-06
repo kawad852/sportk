@@ -11,11 +11,15 @@ import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 
 class CommentBubble extends StatefulWidget {
+  final int newId;
   final CommentData comment;
+  final bool isReply;
 
   const CommentBubble({
     super.key,
     required this.comment,
+    required this.newId,
+    required this.isReply,
   });
 
   @override
@@ -29,8 +33,12 @@ class _CommentBubbleState extends State<CommentBubble> with AutomaticKeepAliveCl
   late CommonProvider _commonProvider;
   late CommentData _comment;
 
+  late int _repliesCount;
+
   int? get _initialLikeType => widget.comment.likeType;
   int? get _initialNumberOfLikes => widget.comment.numberOfLikes;
+
+  bool get _isReply => widget.isReply;
 
   void _toggleLike(int? likeType, bool fromLike) {
     if (likeType == LikeType.like) {
@@ -57,7 +65,10 @@ class _CommentBubbleState extends State<CommentBubble> with AutomaticKeepAliveCl
     super.initState();
     _authProvider = context.authProvider;
     _commonProvider = context.commonProvider;
+    print("ajskfhakjsfh:::: ${widget.comment.toJson()}");
     _comment = CommentData.fromJson(widget.comment.toJson());
+    _repliesCount = _comment.replies!.length;
+    print("_repliesCount::: ${_repliesCount}");
     // _controller = AnimationController(
     //   duration: const Duration(seconds: 1),
     //   vsync: this,
@@ -156,12 +167,21 @@ class _CommentBubbleState extends State<CommentBubble> with AutomaticKeepAliveCl
                 Expanded(
                   child: Text(_comment.comment!),
                 ),
-                TextButton(
-                  onPressed: () {
-                    UiHelper.showCommentsSheet(context, _comment.id!, isReply: true);
-                  },
-                  child: Text("Reply"),
-                ),
+                if (!_isReply)
+                  StatefulBuilder(builder: (context, setState) {
+                    return TextButton(
+                      onPressed: () {
+                        UiHelper.showCommentsSheet(context, widget.newId, commentId: _comment.id).then((value) {
+                          if (value != null && value) {
+                            setState(() {
+                              _repliesCount++;
+                            });
+                          }
+                        });
+                      },
+                      child: Text(_repliesCount == 0 ? context.appLocalization.reply : "$_repliesCount ${_repliesCount > 1 ? context.appLocalization.replies : context.appLocalization.reply}"),
+                    );
+                  }),
               ],
             ),
           ],

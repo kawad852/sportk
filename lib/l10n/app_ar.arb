@@ -276,5 +276,6 @@
   "lineupNotAvailable":"تشكيلة المباراة غير متوفرة في الوقت الحالي",
   "replies": "الردود",
   "comments": "التعليقات",
-  "addReply": "أضف رداً"
+  "addReply": "أضف رداً",
+  "reply": "الرد"
 }

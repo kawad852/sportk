@@ -13,6 +13,7 @@ import 'package:sportk/widgets/custom_svg.dart';
 
 class CommentEditor extends StatefulWidget {
   final int newId;
+  final int? commentId;
 
   final Function(CommentData comment) onAdd;
 
@@ -20,6 +21,7 @@ class CommentEditor extends StatefulWidget {
     super.key,
     required this.newId,
     required this.onAdd,
+    this.commentId,
   });
 
   @override
@@ -31,6 +33,9 @@ class _CommentEditorState extends State<CommentEditor> {
   late AuthProvider _authProvider;
   late TextEditingController _controller;
   Future<CommentModel>? _commentFuture;
+
+  int? get _commentId => widget.commentId;
+  bool get _isReply => widget.commentId != null;
 
   Future<void> _addComment() async {
     ApiFutureBuilder<CommentModel>().fetch(
@@ -44,6 +49,7 @@ class _CommentEditorState extends State<CommentEditor> {
           queryParams: {
             "blog_id": widget.newId,
             "comment": _controller.text,
+            "parent_id": _commentId,
           },
           builder: CommentModel.fromJson,
         );
@@ -94,7 +100,7 @@ class _CommentEditorState extends State<CommentEditor> {
             controller: _controller,
             filled: true,
             fillColor: context.colorScheme.background,
-            hintText: context.appLocalization.addCommentHere,
+            hintText: _isReply ? context.appLocalization.addReply : context.appLocalization.addCommentHere,
             maxLines: null,
             keyboardType: TextInputType.multiline,
           ),

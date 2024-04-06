@@ -33,6 +33,7 @@ class CommentData {
   int? likeType;
   int? numberOfLikes;
   User? user;
+  List<CommentData>? replies;
 
   CommentData({
     this.id,
@@ -41,6 +42,7 @@ class CommentData {
     this.likeType,
     this.numberOfLikes,
     this.user,
+    this.replies,
   });
 
   factory CommentData.fromJson(Map<String, dynamic> json) => CommentData(
@@ -50,6 +52,7 @@ class CommentData {
         likeType: json["like_type"],
         numberOfLikes: json["number_of_likes"],
         user: json["user"] == null ? null : User.fromJson(json["user"]),
+        replies: json["replies"] == null ? [] : List<CommentData>.from(json["replies"]!.map((x) => CommentData.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -59,6 +62,7 @@ class CommentData {
         "like_type": likeType,
         "number_of_likes": numberOfLikes,
         "user": user?.toJson(),
+        "replies": replies == null ? [] : List<dynamic>.from(replies!.map((x) => x.toJson())),
       };
 }
 

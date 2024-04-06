@@ -276,5 +276,6 @@
   "lineupNotAvailable":"The match lineup is not available at this time",
   "replies": "Replies",
   "comments": "Comments",
-  "addReply": "Add a reply"
+  "addReply": "Add a reply",
+  "reply": "Reply"
 }
