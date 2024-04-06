@@ -105,11 +105,11 @@ class _MyAppState extends State<MyApp> {
         final isLight = appProvider.appTheme == ThemeEnum.light;
         var seedColorScheme = ColorScheme.fromSeed(
           seedColor: const Color(0xFF032D4B),
-          primary: const Color(0xFF032D4B),
           brightness: isLight ? Brightness.light : Brightness.dark,
         );
         seedColorScheme = seedColorScheme.copyWith(
           background: isLight ? context.colorPalette.white : const Color(0xFF0D1019),
+          primary: isLight ? const Color(0xFF032D4B) : null,
         );
         return MaterialApp(
           navigatorKey: navigatorKey,
