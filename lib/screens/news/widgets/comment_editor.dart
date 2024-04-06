@@ -7,6 +7,7 @@ import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
+import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/base_editor.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_svg.dart';
@@ -99,7 +100,7 @@ class _CommentEditorState extends State<CommentEditor> {
           child: BaseEditor(
             controller: _controller,
             filled: true,
-            fillColor: context.colorScheme.background,
+            fillColor: context.colorScheme.outlineVariant.withOpacity(0.40),
             hintText: _isReply ? context.appLocalization.addReply : context.appLocalization.addCommentHere,
             maxLines: null,
             keyboardType: TextInputType.multiline,
@@ -124,8 +125,13 @@ class _CommentEditorState extends State<CommentEditor> {
             ),
           ),
           icon: _commentFuture == null
-              ? const CustomSvg(
+              ? CustomSvg(
                   MyIcons.send,
+                  color: _controller.text.isNotEmpty
+                      ? MyTheme.isLightTheme(context)
+                          ? context.colorScheme.surface
+                          : context.colorScheme.inverseSurface
+                      : context.colorScheme.outline,
                 )
               : CustomFutureBuilder(
                   future: _commentFuture!,
