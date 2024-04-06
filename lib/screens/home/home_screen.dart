@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:intl/intl.dart';
 import 'package:sportk/helper/ui_helper.dart';
 import 'package:sportk/model/favorite_model.dart';
 import 'package:sportk/model/home_competitions_model.dart';
@@ -54,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
 
   List<int> get _liveStateIds => [2, 3, 4, 6, 9, 22, 25];
 
-  List<int> get _showGoals => [1,13,10,11,12,14,15,16,17,19,20,21,26];
+  List<int> get _showGoals => [1, 13, 10, 11, 12, 14, 15, 16, 17, 19, 20, 21, 26];
 
   String _formattedDate(BuildContext context) => _selectedDate.formatDate(context, pattern: 'EEE, MMM d');
 
@@ -292,8 +291,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                     }
                                     return const SizedBox.shrink();
                                   }
-                                  final matchesCompetitions = allCompetitions.where((element) => element.hasMatches).toList();
-                                  print("akejfhaejkfhaejkfh:::: ${matchesCompetitions.length % index}");
+                                  // final matchesCompetitions = allCompetitions.where((element) => element.hasMatches).toList();
                                   return Column(
                                     children: [
                                       LeagueTile(
@@ -407,8 +405,8 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                                         child: Row(
                                                           mainAxisAlignment: MainAxisAlignment.center,
                                                           children: [
-                                                             ! _showGoals.contains(match.state!.id!)?
-                                                                 Text(
+                                                            !_showGoals.contains(match.state!.id!)
+                                                                ? Text(
                                                                     "$homeGoals",
                                                                     style: const TextStyle(
                                                                       fontWeight: FontWeight.bold,
@@ -468,8 +466,8 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                                                             ),
                                                                         ],
                                                                       ),
-                                                            ! _showGoals.contains(match.state!.id!)?
-                                                                 Text(
+                                                            !_showGoals.contains(match.state!.id!)
+                                                                ? Text(
                                                                     "$awayGoals",
                                                                     style: const TextStyle(
                                                                       fontWeight: FontWeight.bold,
