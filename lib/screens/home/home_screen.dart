@@ -460,7 +460,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                                                           ),
                                                                           if (match.state!.id == 1)
                                                                             Text(
-                                                                              DateFormat("HH:mm").format(match.startingAt!),
+                                                                              match.startingAt!.convertToLocal(context),
                                                                               style: const TextStyle(
                                                                                 fontSize: 10,
                                                                                 fontWeight: FontWeight.bold,

@@ -134,3 +134,15 @@ extension DateTimeExtension on DateTime {
     return date;
   }
 }
+
+extension UTCTimeExtension on DateTime {
+  String convertToLocal(
+    BuildContext context, {
+    String pattern = "h:mm a",
+  }) {
+    final utcTime=DateTime.utc(year, month, day, hour, minute, second);
+    final localTime = utcTime.toLocal();
+    var date = DateFormat(pattern).format(localTime);
+    return date;
+  }
+}

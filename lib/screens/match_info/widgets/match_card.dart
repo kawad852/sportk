@@ -167,7 +167,7 @@ class _MatchCardState extends State<MatchCard> {
                                     borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
                                   ),
                                   child: Text(
-                                    DateFormat("HH:mm").format(match.data!.startingAt!),
+                                    match.data!.startingAt!.convertToLocal(context),
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: context.colorPalette.blueD4B,

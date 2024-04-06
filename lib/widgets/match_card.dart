@@ -170,7 +170,7 @@ class _MatchCardState extends State<MatchCard> {
                                 ),
                               if (widget.element.state!.id == 1)
                                 Text(
-                                  DateFormat("HH:mm").format(widget.element.startingAt!),
+                                  widget.element.startingAt!.convertToLocal(context),
                                   style: const TextStyle(
                                     fontSize: 10,
                                     fontWeight: FontWeight.bold,
