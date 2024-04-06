@@ -50,6 +50,9 @@ class _CommentsScreenState extends State<CommentsScreen> {
               onAdd: (comment) {
                 setState(() {
                   snapshot.docs.insert(0, comment);
+                  if (_isReply) {
+                    _commonProvider.didReply = true;
+                  }
                 });
               },
             ),

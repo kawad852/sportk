@@ -19,6 +19,10 @@ import 'package:sportk/network/api_url.dart';
 import 'package:sportk/utils/base_extensions.dart';
 
 class CommonProvider extends ChangeNotifier {
+  bool didReply = false;
+
+  void initDidReply() => didReply = false;
+
   late Future<HomeCompetitionsModel> leaguesFuture;
   late Future<LivesMatchesModel> liveMatchesFuture;
   late Future<MainMatchesModel> mainMatchesFuture;

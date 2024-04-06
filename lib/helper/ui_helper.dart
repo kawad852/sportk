@@ -16,7 +16,7 @@ class UiHelper {
     BuildContext context,
     int newId, {
     int? commentId,
-  }) {
+  }) async {
     return context.showBottomSheet(
       context,
       builder: (context) {
@@ -25,7 +25,9 @@ class UiHelper {
           commentId: commentId,
         );
       },
-    ).then((value) => value);
+    ).then((value) {
+      return value;
+    });
   }
 
   static navigateToLeagueInfo(
