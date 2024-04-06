@@ -375,6 +375,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                                     color: context.colorPalette.homeMatchBubble,
                                                     borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
                                                     border: Border.all(color: context.colorPalette.grey0F5),
+                                                    boxShadow: UiHelper.getShadow(context),
                                                   ),
                                                   margin: const EdgeInsets.symmetric(vertical: 5),
                                                   child: Row(
