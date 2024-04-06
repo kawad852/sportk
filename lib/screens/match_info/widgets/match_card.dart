@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:sportk/helper/ui_helper.dart';
 import 'package:sportk/model/match_model.dart';
 import 'package:sportk/model/single_match_model.dart';
@@ -90,7 +89,7 @@ class _MatchCardState extends State<MatchCard> {
             timeAdded = period.timeAdded == null ? 30 : 30 + period.timeAdded!;
           }
           period.events!.map((event) {
-            if (event.typeId == 14 || event.typeId == 16) {
+            if (event.typeId == 14 || event.typeId == 16 || event.typeId == 15) {
               goalsTime.add(event.minute!.toDouble());
             }
           }).toSet();
