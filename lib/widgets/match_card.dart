@@ -148,8 +148,7 @@ class _MatchCardState extends State<MatchCard> {
                               SizedBox(
                                 width: 60,
                                 child: Text(
-                                  UiHelper.getMatchState(context,
-                                      stateId: widget.element.state!.id!),
+                                  UiHelper.getMatchState(context, stateId: widget.element.state!.id!),
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
                                   textAlign: TextAlign.center,

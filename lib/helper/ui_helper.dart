@@ -139,4 +139,15 @@ class UiHelper {
       },
     );
   }
+
+  static List<BoxShadow> getShadow(BuildContext context) {
+    return [
+      BoxShadow(
+        color: context.colorScheme.inverseSurface.withOpacity(0.3), // Semi-transparent gray shadow
+        blurRadius: 1,
+        spreadRadius: 0.2,
+        offset: const Offset(0.5, 0.5), // Shadow slightly shifted down and right
+      )
+    ];
+  }
 }

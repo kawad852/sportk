@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/helper/ui_helper.dart';
 import 'package:sportk/model/league_model.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_theme.dart';
@@ -22,6 +23,7 @@ class LeagueTile extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(MyTheme.radiusPrimary),
         color: context.colorPalette.blue4F0,
+        boxShadow: UiHelper.getShadow(context),
       ),
       child: ListTile(
         onTap: onTap,
@@ -32,6 +34,10 @@ class LeagueTile extends StatelessWidget {
           shape: BoxShape.circle,
           width: 25,
           height: 25,
+        ),
+        titleTextStyle: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: context.colorScheme.onSurface,
         ),
         title: Text(
           league.name!.toString(),

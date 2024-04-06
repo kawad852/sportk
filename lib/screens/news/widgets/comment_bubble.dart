@@ -173,7 +173,6 @@ class _CommentBubbleState extends State<CommentBubble> with AutomaticKeepAliveCl
                       onPressed: () {
                         _commonProvider.initDidReply();
                         UiHelper.showCommentsSheet(context, widget.newId, commentId: _comment.id).then((value) {
-                          print("value:::: ${_commonProvider.didReply}");
                           if (_commonProvider.didReply) {
                             setState(() {
                               _repliesCount++;

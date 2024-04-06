@@ -3,10 +3,8 @@ import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -20,7 +18,6 @@ import 'package:sportk/screens/base/app_nav_bar.dart';
 import 'package:sportk/screens/intro/intro_screen.dart';
 import 'package:sportk/screens/registration/registration_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
-import 'package:sportk/utils/deep_linking_service.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/utils/shared_pref.dart';
@@ -44,8 +41,8 @@ Future<void> main() async {
   await MySharedPreferences.init();
   await MatchTimerCircle.loadBallImage();
   unawaited(MobileAds.instance.initialize());
-  await FlutterBranchSdk.init(useTestKey: true, enableLogging: false, disableTracking: false);
-  FlutterBranchSdk.validateSDKIntegration();
+  // await FlutterBranchSdk.init(useTestKey: true, enableLogging: false, disableTracking: false);
+  // FlutterBranchSdk.validateSDKIntegration();
   // MySharedPreferences.clearStorage();
   // MySharedPreferences.isPassedIntro = false;
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
@@ -94,8 +91,8 @@ class _MyAppState extends State<MyApp> {
     _commonProvider = context.commonProvider;
     _authProvider.initializeLocale(context);
     _authProvider.initUser();
-    DeepLinkingService.listenDynamicLinks();
-    final v = PlatformDispatcher.instance.locale.countryCode;
+    // DeepLinkingService.listenDynamicLinks();
+    // final v = PlatformDispatcher.instance.locale.countryCode;
   }
 
   @override
