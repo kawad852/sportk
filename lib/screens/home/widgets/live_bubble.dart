@@ -1,9 +1,9 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:sportk/helper/lanucher_helper.dart';
 import 'package:sportk/model/matches/live_matches_model.dart';
 import 'package:sportk/network/api_service.dart';
 import 'package:sportk/network/api_url.dart';
+import 'package:sportk/screens/web/web_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
@@ -50,7 +50,7 @@ class _LiveBubbleState extends State<LiveBubble> {
           return ZoomIn(
             child: GestureDetector(
               onTap: () {
-                LauncherHelper.lunch(context, snapshot.data!.data!.link!);
+                context.push(WebScreen(url: snapshot.data!.data!.link!));
               },
               child: Container(
                 width: 64,

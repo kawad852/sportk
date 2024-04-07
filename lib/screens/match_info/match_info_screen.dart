@@ -3,8 +3,12 @@ import 'package:sportk/model/match_points_model.dart';
 import 'package:sportk/screens/champions_league/widgets/champions_matches.dart';
 import 'package:sportk/screens/match_info/predictions/predictions_screen.dart';
 import 'package:sportk/screens/match_info/widgets/head_to_head.dart';
+import 'package:sportk/screens/match_info/widgets/match_card.dart';
 import 'package:sportk/screens/match_info/widgets/match_detalis.dart';
+import 'package:sportk/screens/match_info/widgets/match_events.dart';
 import 'package:sportk/screens/match_info/widgets/match_scorers.dart';
+import 'package:sportk/screens/match_info/widgets/match_statistics.dart';
+import 'package:sportk/screens/match_info/widgets/teams_plan.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
@@ -13,10 +17,6 @@ import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_back.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 import 'package:sportk/widgets/league_standings.dart';
-import 'package:sportk/screens/match_info/widgets/match_card.dart';
-import 'package:sportk/screens/match_info/widgets/match_events.dart';
-import 'package:sportk/screens/match_info/widgets/match_statistics.dart';
-import 'package:sportk/screens/match_info/widgets/teams_plan.dart';
 
 class MatchInfoScreen extends StatefulWidget {
   final int matchId;
@@ -38,19 +38,15 @@ class MatchInfoScreen extends StatefulWidget {
 }
 
 class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProviderStateMixin {
-  late TabController _controller;
+  TabController? _controller;
 
   bool get _showPredict => widget.showPredict;
 
   bool get _isDomestic => widget.subType == LeagueTypeEnum.domestic;
-  @override
-  void initState() {
-    super.initState();
-    _controller = TabController(length: _showPredict ? 8 : 7, vsync: this);
-  }
 
   @override
   Widget build(BuildContext context) {
+    _controller ??= TabController(length: _showPredict ? 8 : 7, vsync: this);
     return Scaffold(
       body: CustomScrollView(
         physics: const NeverScrollableScrollPhysics(),
@@ -73,9 +69,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
-                    MyTheme.isLightTheme(context)
-                        ? MyImages.backgroundClub
-                        : MyImages.backgroundClubDark,
+                    MyTheme.isLightTheme(context) ? MyImages.backgroundClub : MyImages.backgroundClubDark,
                   ),
                   fit: BoxFit.cover,
                 ),
@@ -128,9 +122,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                           Text(context.appLocalization.statistics),
                           Text(context.appLocalization.details),
                           Text(
-                            _isDomestic
-                                ? context.appLocalization.standings
-                                : context.appLocalization.table,
+                            _isDomestic ? context.appLocalization.standings : context.appLocalization.table,
                           ),
                           Text(context.appLocalization.scorers),
                           Text(context.appLocalization.headTwohead),
