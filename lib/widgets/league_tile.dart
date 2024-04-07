@@ -35,13 +35,13 @@ class LeagueTile extends StatelessWidget {
           width: 25,
           height: 25,
         ),
-        titleTextStyle: TextStyle(
-          fontWeight: FontWeight.bold,
-          color: context.colorScheme.onSurface,
-        ),
         title: Text(
           league.name!.toString(),
           overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: context.colorScheme.onSurface,
+          ),
         ),
         trailing: trailing,
       ),

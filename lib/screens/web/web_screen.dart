@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/widgets/ads/google_banner.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebScreen extends StatefulWidget {
@@ -63,6 +64,9 @@ class _WebScreenState extends State<WebScreen> {
               child: LinearProgressIndicator(),
             )
           : null,
+      bottomNavigationBar: const BottomAppBar(
+        child: GoogleBanner(),
+      ),
       body: WebViewWidget(
         controller: controller,
       ),
