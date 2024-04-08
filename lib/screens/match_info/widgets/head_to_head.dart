@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sportk/helper/ui_helper.dart';
 import 'package:sportk/model/match_model.dart';
-import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/club/widgets/phase_card.dart';
 import 'package:sportk/utils/base_extensions.dart';
@@ -25,7 +24,6 @@ class HeadToHead extends StatefulWidget {
 
 class _HeadToHeadState extends State<HeadToHead> with AutomaticKeepAliveClientMixin {
   late FootBallProvider _footBallProvider;
-  late CommonProvider _commonProvider;
   late Future<MatchModel> _headToHeadFuture;
 
   void _initializeFuture() {
@@ -39,7 +37,6 @@ class _HeadToHeadState extends State<HeadToHead> with AutomaticKeepAliveClientMi
   void initState() {
     super.initState();
     _footBallProvider = context.footBallProvider;
-    _commonProvider = context.commonProvider;
     _initializeFuture();
   }
 
@@ -108,7 +105,6 @@ class _HeadToHeadState extends State<HeadToHead> with AutomaticKeepAliveClientMi
                             matchId: elemant.id!,
                             leagueId: elemant.leagueId!,
                             subType: elemant.league!.subType!,
-                            commonProvider: _commonProvider,
                             afterNavigate: () {},
                           );
                         },

@@ -359,7 +359,6 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                                 matchId: match.id!,
                                                 leagueId: match.leagueId!,
                                                 subType: match.league!.subType!,
-                                                commonProvider: _commonProvider,
                                                 afterNavigate: () {
                                                   setState(() {
                                                     // _futures = _initializeFutures();

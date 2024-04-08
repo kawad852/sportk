@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sportk/helper/ui_helper.dart';
 import 'package:sportk/model/match_model.dart';
-import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/club/widgets/phase_card.dart';
 import 'package:sportk/utils/base_extensions.dart';
@@ -24,7 +23,6 @@ class ClubMatches extends StatefulWidget {
 class _ClubMatchesState extends State<ClubMatches> with AutomaticKeepAliveClientMixin {
   late FootBallProvider _footBallProvider;
   late Future<MatchModel> _matchesFuture;
-  late CommonProvider _commonProvider;
   final _vexKey = GlobalKey<VexPaginatorState>();
 
   Future<MatchModel> _initializeFuture(int pageKey) {
@@ -41,7 +39,6 @@ class _ClubMatchesState extends State<ClubMatches> with AutomaticKeepAliveClient
   void initState() {
     super.initState();
     _footBallProvider = context.footBallProvider;
-    _commonProvider = context.commonProvider;
   }
 
   @override
@@ -111,7 +108,6 @@ class _ClubMatchesState extends State<ClubMatches> with AutomaticKeepAliveClient
                                     matchId: element.id!,
                                     leagueId: element.leagueId!,
                                     subType: element.league!.subType!,
-                                    commonProvider: _commonProvider,
                                     afterNavigate: () {
                                       setState(() {
                                         _vexKey.currentState!.refresh();

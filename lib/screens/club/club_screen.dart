@@ -142,7 +142,7 @@ class _ClubScreenState extends State<ClubScreen> with SingleTickerProviderStateM
               controller: _controller,
               children: [
                 ClubMatches(teamId: widget.teamId),
-                NewTab(id: widget.teamId, type: NewTypeEnum.league),
+                NewTab(id: widget.teamId, type: NewTypeEnum.team),
                 ClubStandings(teamId: widget.teamId),
                 ClubPlayers(teamId: widget.teamId),
               ],
