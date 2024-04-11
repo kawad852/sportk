@@ -20,7 +20,7 @@ class ChampionsMatches extends StatefulWidget {
   State<ChampionsMatches> createState() => _ChampionsMatchesState();
 }
 
-class _ChampionsMatchesState extends State<ChampionsMatches> with AutomaticKeepAliveClientMixin {
+class _ChampionsMatchesState extends State<ChampionsMatches> with AutomaticKeepAliveClientMixin, WidgetsBindingObserver {
   late FootBallProvider _footBallProvider;
   late Future<MatchModel> _matchesFuture;
   final _vexKey = GlobalKey<VexPaginatorState>();
@@ -38,7 +38,24 @@ class _ChampionsMatchesState extends State<ChampionsMatches> with AutomaticKeepA
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _footBallProvider = context.footBallProvider;
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.paused) {
+      setState(() {
+        _vexKey.currentState!.refresh();
+      });
+    }
   }
 
   @override
@@ -64,6 +81,7 @@ class _ChampionsMatchesState extends State<ChampionsMatches> with AutomaticKeepA
           return matches.isEmpty
               ? const MatchEmptyResult()
               : SingleChildScrollView(
+                  physics:const AlwaysScrollableScrollPhysics(),
                   padding: const EdgeInsetsDirectional.symmetric(horizontal: 15, vertical: 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

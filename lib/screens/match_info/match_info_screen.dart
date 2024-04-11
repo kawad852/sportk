@@ -35,7 +35,7 @@ class MatchInfoScreen extends StatefulWidget {
   State<MatchInfoScreen> createState() => _MatchInfoScreenState();
 }
 
-class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProviderStateMixin {
+class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProviderStateMixin,WidgetsBindingObserver {
   TabController? _controller;
 
   bool get _isDomestic => widget.subType == LeagueTypeEnum.domestic;
@@ -53,6 +53,23 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
     super.initState();
     _commonProvider = context.commonProvider;
     _initializeFuture();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.paused) {
+       setState(() {
+          _initializeFuture();
+        });
+    }
   }
 
   @override

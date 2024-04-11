@@ -37,7 +37,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMixin {
+class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMixin,WidgetsBindingObserver {
   late CommonProvider _commonProvider;
   late FootBallProvider _footBallProvider;
   bool _isLive = false;
@@ -108,6 +108,22 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     _footBallProvider = context.footBallProvider;
     _selectedDate = _nowDate;
     _commonProvider.initializeHome(context, date: _selectedDate);
+    WidgetsBinding.instance.addObserver(this);
+  }
+    @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.paused) {
+      setState(() {
+       
+      });
+    }
   }
 
   @override
@@ -218,314 +234,323 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
             },
             body: Builder(
               builder: (context) {
-                return CustomScrollView(
-                  slivers: [
-                    SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
-                    SliverPadding(
-                      padding: const EdgeInsets.all(20).copyWith(top: 0),
-                      sliver: SliverToBoxAdapter(
-                        child: Column(
-                          key: ValueKey('${_selectedDate.microsecondsSinceEpoch}$_isLive'),
-                          children: List.generate(
-                            allCompetitions.length,
-                            (index) {
-                              final competition = allCompetitions[index];
-                              if (competition.date != _selectedDate) {
-                                competition.date = _selectedDate;
-                                competition.futures = null;
-                                competition.futures = _initializeFutures(competition.favoritableId!, competition.type!);
-                              }
-                              return CustomFutureBuilder(
-                                key: ValueKey(index),
-                                future: competition.futures!,
-                                onRetry: () {},
-                                onLoading: () {
-                                  return ShimmerLoading(
-                                    child: Column(
+                return RefreshIndicator(
+                  displacement: 81.0,
+                  onRefresh: ()async{
+                    setState(() {
+                      
+                    });
+                  },
+                  child: CustomScrollView(
+                    physics:const AlwaysScrollableScrollPhysics(),
+                    slivers: [
+                      SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
+                      SliverPadding(
+                        padding: const EdgeInsets.all(20).copyWith(top: 0),
+                        sliver: SliverToBoxAdapter(
+                          child: Column(
+                            key: ValueKey('${_selectedDate.microsecondsSinceEpoch}$_isLive'),
+                            children: List.generate(
+                              allCompetitions.length,
+                              (index) {
+                                final competition = allCompetitions[index];
+                                if (competition.date != _selectedDate) {
+                                  competition.date = _selectedDate;
+                                  competition.futures = null;
+                                  competition.futures = _initializeFutures(competition.favoritableId!, competition.type!);
+                                }
+                                return CustomFutureBuilder(
+                                  key: ValueKey(index),
+                                  future: competition.futures!,
+                                  onRetry: () {},
+                                  onLoading: () {
+                                    return ShimmerLoading(
+                                      child: Column(
+                                        children: [
+                                          const LoadingBubble(
+                                            height: 50,
+                                            margin: EdgeInsets.only(bottom: 5),
+                                            radius: MyTheme.radiusPrimary,
+                                          ),
+                                          ListView.separated(
+                                            itemCount: 20,
+                                            separatorBuilder: (context, index) => const SizedBox(height: 5),
+                                            shrinkWrap: true,
+                                            padding: const EdgeInsets.symmetric(vertical: 5),
+                                            physics: const NeverScrollableScrollPhysics(),
+                                            itemBuilder: (context, index) {
+                                              return const LoadingBubble(
+                                                height: 65,
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                  onError: (snapshot) {
+                                    return const SizedBox.shrink();
+                                  },
+                                  onComplete: (context, snapshot) {
+                                    final leagueModel = snapshot.data![0] as LeagueModel;
+                                    final matchModel = snapshot.data![1] as LeagueByDateModel;
+                                    List<MatchData> matches = [];
+                                    if (_isLive) {
+                                      matches = matchModel.data!.where((element) {
+                                        final stateId = element.state?.id;
+                                        return _liveStateIds.contains(stateId);
+                                      }).toList();
+                                    } else {
+                                      matches = matchModel.data!;
+                                    }
+                            
+                                    if (matches.isEmpty) {
+                                      competition.hasMatches = false;
+                                      if (allCompetitions.every((element) => !element.hasMatches)) {
+                                        return NoResults(
+                                          header: const Icon(FontAwesomeIcons.trophy),
+                                          title: _isLive ? context.appLocalization.homeEmptyLiveMatchesTitle : context.appLocalization.homeEmptyMatchesTitle(_formattedDate(context)),
+                                          body: _isLive ? '' : context.appLocalization.homeEmptyMatchesBody,
+                                        );
+                                      }
+                                      return const SizedBox.shrink();
+                                    }
+                                    // final matchesCompetitions = allCompetitions.where((element) => element.hasMatches).toList();
+                                    return Column(
                                       children: [
-                                        const LoadingBubble(
-                                          height: 50,
-                                          margin: EdgeInsets.only(bottom: 5),
-                                          radius: MyTheme.radiusPrimary,
+                                        LeagueTile(
+                                          league: leagueModel.data!,
+                                          onTap: () {
+                                            UiHelper.navigateToLeagueInfo(
+                                              context,
+                                              leagueData: leagueModel.data!,
+                                            );
+                                          },
                                         ),
                                         ListView.separated(
-                                          itemCount: 20,
+                                          itemCount: matches.length,
                                           separatorBuilder: (context, index) => const SizedBox(height: 5),
                                           shrinkWrap: true,
                                           padding: const EdgeInsets.symmetric(vertical: 5),
                                           physics: const NeverScrollableScrollPhysics(),
                                           itemBuilder: (context, index) {
-                                            return const LoadingBubble(
-                                              height: 65,
+                                            final match = matches[index];
+                                            int homeGoals = 0;
+                                            int awayGoals = 0;
+                                            int? minute;
+                                            int? timeAdded;
+                                            List<double> goalsTime = [];
+                                            Participant teamHome = Participant();
+                                            Participant teamAway = Participant();
+                                            match.participants!.map((e) {
+                                              if (e.meta!.location == LocationEnum.home) {
+                                                teamHome = e;
+                                              } else {
+                                                teamAway = e;
+                                              }
+                                            }).toSet();
+                                            match.periods!.map((period) {
+                                              if (period.hasTimer! && (period.typeId == 2 || period.typeId == 1)) {
+                                                minute = period.minutes;
+                                                timeAdded = period.timeAdded;
+                                              } else if (period.hasTimer! && period.typeId == 3) {
+                                                minute = period.minutes;
+                                                timeAdded = period.timeAdded == null ? 30 : 30 + period.timeAdded!;
+                                              }
+                                              period.events!.map((event) {
+                                                if (event.typeId == 14 || event.typeId == 16 || event.typeId == 15) {
+                                                  goalsTime.add(event.minute!.toDouble());
+                                                }
+                                              }).toSet();
+                                            }).toSet();
+                                            match.statistics!.map(
+                                              (e) {
+                                                if (e.typeId == 52) {
+                                                  switch (e.location) {
+                                                    case LocationEnum.home:
+                                                      homeGoals = e.data!.value!;
+                                                    case LocationEnum.away:
+                                                      awayGoals = e.data!.value!;
+                                                  }
+                                                }
+                                              },
+                                            ).toSet();
+                                            return GestureDetector(
+                                              onTap: () {
+                                                log(match.id.toString());
+                                                UiHelper.navigateToMatchInfo(
+                                                  context,
+                                                  matchId: match.id!,
+                                                  leagueId: match.leagueId!,
+                                                  subType: match.league!.subType!,
+                                                  afterNavigate: () {
+                                                    setState(() {
+                                                      // _futures = _initializeFutures();
+                                                    });
+                                                  },
+                                                );
+                                              },
+                                              child: Builder(
+                                                builder: (context) {
+                                                  return Container(
+                                                    height: 65,
+                                                    decoration: BoxDecoration(
+                                                      color: context.colorPalette.homeMatchBubble,
+                                                      borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
+                                                      border: Border.all(color: context.colorPalette.grey0F5),
+                                                      boxShadow: UiHelper.getShadow(context),
+                                                    ),
+                                                    margin: const EdgeInsets.symmetric(vertical: 5),
+                                                    child: Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                      children: [
+                                                        Expanded(
+                                                          flex: 1,
+                                                          child: Text(
+                                                            teamHome.name!,
+                                                            textAlign: TextAlign.center,
+                                                            overflow: TextOverflow.ellipsis,
+                                                            maxLines: 2,
+                                                            style: TextStyle(
+                                                              color: context.colorPalette.blueD4B,
+                                                              fontWeight: FontWeight.bold,
+                                                              fontSize: 12,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        CustomNetworkImage(
+                                                          teamHome.imagePath!,
+                                                          width: 30,
+                                                          height: 30,
+                                                          shape: BoxShape.circle,
+                                                        ),
+                                                        Expanded(
+                                                          flex: 1,
+                                                          child: Row(
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: [
+                                                              !_showGoals.contains(match.state!.id!)
+                                                                  ? Text(
+                                                                      "$homeGoals",
+                                                                      style: const TextStyle(
+                                                                        fontWeight: FontWeight.bold,
+                                                                        fontSize: 16,
+                                                                      ),
+                                                                    )
+                                                                  : const SizedBox(
+                                                                      width: 6,
+                                                                    ),
+                                                              match.state!.id == 3
+                                                                  ? Padding(
+                                                                      padding: const EdgeInsetsDirectional.only(start: 3, end: 3),
+                                                                      child: MatchTimerCircle(
+                                                                        currentTime: 45,
+                                                                        goalsTime: goalsTime,
+                                                                        timeAdded: 0,
+                                                                        isHalfTime: true,
+                                                                      ),
+                                                                    )
+                                                                  : minute != null
+                                                                      ? Padding(
+                                                                          padding: const EdgeInsetsDirectional.only(start: 3, end: 3),
+                                                                          child: MatchTimerCircle(
+                                                                            currentTime: minute!.toDouble(),
+                                                                            goalsTime: goalsTime,
+                                                                            timeAdded: timeAdded,
+                                                                          ),
+                                                                        )
+                                                                      : Column(
+                                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                          children: [
+                                                                            SizedBox(
+                                                                              width: 55,
+                                                                              child: Text(
+                                                                                UiHelper.getMatchState(
+                                                                                  context,
+                                                                                  stateId: match.state!.id!,
+                                                                                ),
+                                                                                textAlign: TextAlign.center,
+                                                                                maxLines: 3,
+                                                                                overflow: TextOverflow.ellipsis,
+                                                                                style: TextStyle(
+                                                                                  color: context.colorPalette.green057,
+                                                                                  fontSize: 12,
+                                                                                  fontWeight: FontWeight.bold,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            if (match.state!.id == 1)
+                                                                              Text(
+                                                                                match.startingAt!.convertToLocal(context),
+                                                                                style: const TextStyle(
+                                                                                  fontSize: 10,
+                                                                                  fontWeight: FontWeight.bold,
+                                                                                ),
+                                                                              ),
+                                                                          ],
+                                                                        ),
+                                                              !_showGoals.contains(match.state!.id!)
+                                                                  ? Text(
+                                                                      "$awayGoals",
+                                                                      style: const TextStyle(
+                                                                        fontWeight: FontWeight.bold,
+                                                                        fontSize: 16,
+                                                                      ),
+                                                                    )
+                                                                  : const SizedBox(
+                                                                      width: 6,
+                                                                    )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        CustomNetworkImage(
+                                                          teamAway.imagePath!,
+                                                          width: 30,
+                                                          height: 30,
+                                                          shape: BoxShape.circle,
+                                                        ),
+                                                        Expanded(
+                                                          flex: 1,
+                                                          child: Text(
+                                                            teamAway.name!,
+                                                            textAlign: TextAlign.center,
+                                                            overflow: TextOverflow.ellipsis,
+                                                            maxLines: 2,
+                                                            style: TextStyle(
+                                                              color: context.colorPalette.blueD4B,
+                                                              fontWeight: FontWeight.bold,
+                                                              fontSize: 12,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                },
+                                              ),
                                             );
                                           },
                                         ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                                onError: (snapshot) {
-                                  return const SizedBox.shrink();
-                                },
-                                onComplete: (context, snapshot) {
-                                  final leagueModel = snapshot.data![0] as LeagueModel;
-                                  final matchModel = snapshot.data![1] as LeagueByDateModel;
-                                  List<MatchData> matches = [];
-                                  if (_isLive) {
-                                    matches = matchModel.data!.where((element) {
-                                      final stateId = element.state?.id;
-                                      return _liveStateIds.contains(stateId);
-                                    }).toList();
-                                  } else {
-                                    matches = matchModel.data!;
-                                  }
-
-                                  if (matches.isEmpty) {
-                                    competition.hasMatches = false;
-                                    if (allCompetitions.every((element) => !element.hasMatches)) {
-                                      return NoResults(
-                                        header: const Icon(FontAwesomeIcons.trophy),
-                                        title: _isLive ? context.appLocalization.homeEmptyLiveMatchesTitle : context.appLocalization.homeEmptyMatchesTitle(_formattedDate(context)),
-                                        body: _isLive ? '' : context.appLocalization.homeEmptyMatchesBody,
-                                      );
-                                    }
-                                    return const SizedBox.shrink();
-                                  }
-                                  // final matchesCompetitions = allCompetitions.where((element) => element.hasMatches).toList();
-                                  return Column(
-                                    children: [
-                                      LeagueTile(
-                                        league: leagueModel.data!,
-                                        onTap: () {
-                                          UiHelper.navigateToLeagueInfo(
-                                            context,
-                                            leagueData: leagueModel.data!,
-                                          );
-                                        },
-                                      ),
-                                      ListView.separated(
-                                        itemCount: matches.length,
-                                        separatorBuilder: (context, index) => const SizedBox(height: 5),
-                                        shrinkWrap: true,
-                                        padding: const EdgeInsets.symmetric(vertical: 5),
-                                        physics: const NeverScrollableScrollPhysics(),
-                                        itemBuilder: (context, index) {
-                                          final match = matches[index];
-                                          int homeGoals = 0;
-                                          int awayGoals = 0;
-                                          int? minute;
-                                          int? timeAdded;
-                                          List<double> goalsTime = [];
-                                          Participant teamHome = Participant();
-                                          Participant teamAway = Participant();
-                                          match.participants!.map((e) {
-                                            if (e.meta!.location == LocationEnum.home) {
-                                              teamHome = e;
-                                            } else {
-                                              teamAway = e;
-                                            }
-                                          }).toSet();
-                                          match.periods!.map((period) {
-                                            if (period.hasTimer! && (period.typeId == 2 || period.typeId == 1)) {
-                                              minute = period.minutes;
-                                              timeAdded = period.timeAdded;
-                                            } else if (period.hasTimer! && period.typeId == 3) {
-                                              minute = period.minutes;
-                                              timeAdded = period.timeAdded == null ? 30 : 30 + period.timeAdded!;
-                                            }
-                                            period.events!.map((event) {
-                                              if (event.typeId == 14 || event.typeId == 16 || event.typeId == 15) {
-                                                goalsTime.add(event.minute!.toDouble());
-                                              }
-                                            }).toSet();
-                                          }).toSet();
-                                          match.statistics!.map(
-                                            (e) {
-                                              if (e.typeId == 52) {
-                                                switch (e.location) {
-                                                  case LocationEnum.home:
-                                                    homeGoals = e.data!.value!;
-                                                  case LocationEnum.away:
-                                                    awayGoals = e.data!.value!;
-                                                }
-                                              }
-                                            },
-                                          ).toSet();
-                                          return GestureDetector(
-                                            onTap: () {
-                                              log(match.id.toString());
-                                              UiHelper.navigateToMatchInfo(
-                                                context,
-                                                matchId: match.id!,
-                                                leagueId: match.leagueId!,
-                                                subType: match.league!.subType!,
-                                                afterNavigate: () {
-                                                  setState(() {
-                                                    // _futures = _initializeFutures();
-                                                  });
-                                                },
-                                              );
-                                            },
-                                            child: Builder(
-                                              builder: (context) {
-                                                return Container(
-                                                  height: 65,
-                                                  decoration: BoxDecoration(
-                                                    color: context.colorPalette.homeMatchBubble,
-                                                    borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
-                                                    border: Border.all(color: context.colorPalette.grey0F5),
-                                                    boxShadow: UiHelper.getShadow(context),
-                                                  ),
-                                                  margin: const EdgeInsets.symmetric(vertical: 5),
-                                                  child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                    children: [
-                                                      Expanded(
-                                                        flex: 1,
-                                                        child: Text(
-                                                          teamHome.name!,
-                                                          textAlign: TextAlign.center,
-                                                          overflow: TextOverflow.ellipsis,
-                                                          maxLines: 2,
-                                                          style: TextStyle(
-                                                            color: context.colorPalette.blueD4B,
-                                                            fontWeight: FontWeight.bold,
-                                                            fontSize: 12,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      CustomNetworkImage(
-                                                        teamHome.imagePath!,
-                                                        width: 30,
-                                                        height: 30,
-                                                        shape: BoxShape.circle,
-                                                      ),
-                                                      Expanded(
-                                                        flex: 1,
-                                                        child: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                          children: [
-                                                            !_showGoals.contains(match.state!.id!)
-                                                                ? Text(
-                                                                    "$homeGoals",
-                                                                    style: const TextStyle(
-                                                                      fontWeight: FontWeight.bold,
-                                                                      fontSize: 16,
-                                                                    ),
-                                                                  )
-                                                                : const SizedBox(
-                                                                    width: 6,
-                                                                  ),
-                                                            match.state!.id == 3
-                                                                ? Padding(
-                                                                    padding: const EdgeInsetsDirectional.only(start: 3, end: 3),
-                                                                    child: MatchTimerCircle(
-                                                                      currentTime: 45,
-                                                                      goalsTime: goalsTime,
-                                                                      timeAdded: 0,
-                                                                      isHalfTime: true,
-                                                                    ),
-                                                                  )
-                                                                : minute != null
-                                                                    ? Padding(
-                                                                        padding: const EdgeInsetsDirectional.only(start: 3, end: 3),
-                                                                        child: MatchTimerCircle(
-                                                                          currentTime: minute!.toDouble(),
-                                                                          goalsTime: goalsTime,
-                                                                          timeAdded: timeAdded,
-                                                                        ),
-                                                                      )
-                                                                    : Column(
-                                                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                                        children: [
-                                                                          SizedBox(
-                                                                            width: 55,
-                                                                            child: Text(
-                                                                              UiHelper.getMatchState(
-                                                                                context,
-                                                                                stateId: match.state!.id!,
-                                                                              ),
-                                                                              textAlign: TextAlign.center,
-                                                                              maxLines: 3,
-                                                                              overflow: TextOverflow.ellipsis,
-                                                                              style: TextStyle(
-                                                                                color: context.colorPalette.green057,
-                                                                                fontSize: 12,
-                                                                                fontWeight: FontWeight.bold,
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                          if (match.state!.id == 1)
-                                                                            Text(
-                                                                              match.startingAt!.convertToLocal(context),
-                                                                              style: const TextStyle(
-                                                                                fontSize: 10,
-                                                                                fontWeight: FontWeight.bold,
-                                                                              ),
-                                                                            ),
-                                                                        ],
-                                                                      ),
-                                                            !_showGoals.contains(match.state!.id!)
-                                                                ? Text(
-                                                                    "$awayGoals",
-                                                                    style: const TextStyle(
-                                                                      fontWeight: FontWeight.bold,
-                                                                      fontSize: 16,
-                                                                    ),
-                                                                  )
-                                                                : const SizedBox(
-                                                                    width: 6,
-                                                                  )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      CustomNetworkImage(
-                                                        teamAway.imagePath!,
-                                                        width: 30,
-                                                        height: 30,
-                                                        shape: BoxShape.circle,
-                                                      ),
-                                                      Expanded(
-                                                        flex: 1,
-                                                        child: Text(
-                                                          teamAway.name!,
-                                                          textAlign: TextAlign.center,
-                                                          overflow: TextOverflow.ellipsis,
-                                                          maxLines: 2,
-                                                          style: TextStyle(
-                                                            color: context.colorPalette.blueD4B,
-                                                            fontWeight: FontWeight.bold,
-                                                            fontSize: 12,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                );
-                                              },
+                                        // if (competition.hasMatches && (index % 3 == 0))
+                                        if (index % 4 == 0)
+                                          const Padding(
+                                            padding: EdgeInsets.symmetric(vertical: 5),
+                                            child: GoogleBanner(
+                                              adSize: AdSize.largeBanner,
                                             ),
-                                          );
-                                        },
-                                      ),
-                                      // if (competition.hasMatches && (index % 3 == 0))
-                                      if (index % 4 == 0)
-                                        const Padding(
-                                          padding: EdgeInsets.symmetric(vertical: 5),
-                                          child: GoogleBanner(
-                                            adSize: AdSize.largeBanner,
                                           ),
-                                        ),
-                                    ],
-                                  );
-                                },
-                              );
-                            },
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 );
               },
             ),

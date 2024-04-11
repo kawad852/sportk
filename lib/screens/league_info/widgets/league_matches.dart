@@ -20,7 +20,7 @@ class LeagueMatches extends StatefulWidget {
   State<LeagueMatches> createState() => _LeagueMatchesState();
 }
 
-class _LeagueMatchesState extends State<LeagueMatches> with AutomaticKeepAliveClientMixin {
+class _LeagueMatchesState extends State<LeagueMatches> with AutomaticKeepAliveClientMixin,WidgetsBindingObserver {
   late FootBallProvider _footBallProvider;
   late Future<MatchModel> _matchesFuture;
 
@@ -39,7 +39,24 @@ class _LeagueMatchesState extends State<LeagueMatches> with AutomaticKeepAliveCl
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _footBallProvider = context.footBallProvider;
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.paused) {
+      setState(() {
+        _vexKey.currentState!.refresh();
+      });
+    }
   }
 
   @override
@@ -64,6 +81,7 @@ class _LeagueMatchesState extends State<LeagueMatches> with AutomaticKeepAliveCl
           return matches.isEmpty
               ? const MatchEmptyResult()
               : SingleChildScrollView(
+                  physics:const AlwaysScrollableScrollPhysics(),
                   padding: const EdgeInsetsDirectional.symmetric(horizontal: 15, vertical: 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
