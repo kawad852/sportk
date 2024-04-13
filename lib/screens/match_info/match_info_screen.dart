@@ -35,7 +35,7 @@ class MatchInfoScreen extends StatefulWidget {
   State<MatchInfoScreen> createState() => _MatchInfoScreenState();
 }
 
-class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProviderStateMixin,WidgetsBindingObserver {
+class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   TabController? _controller;
 
   bool get _isDomestic => widget.subType == LeagueTypeEnum.domestic;
@@ -66,9 +66,9 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.paused) {
-       setState(() {
-          _initializeFuture();
-        });
+      setState(() {
+        _initializeFuture();
+      });
     }
   }
 
@@ -76,6 +76,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
   Widget build(BuildContext context) {
     return CustomFutureBuilder(
       future: _matchPointsFuture,
+      withBackgroundColor: true,
       onRetry: () {
         setState(() {
           _initializeFuture();
@@ -108,9 +109,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(
-                        MyTheme.isLightTheme(context)
-                            ? MyImages.backgroundClub
-                            : MyImages.backgroundClubDark,
+                        MyTheme.isLightTheme(context) ? MyImages.backgroundClub : MyImages.backgroundClubDark,
                       ),
                       fit: BoxFit.cover,
                     ),
@@ -142,8 +141,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                             labelColor: context.colorPalette.tabColor,
                             tabAlignment: TabAlignment.center,
                             indicatorSize: TabBarIndicatorSize.label,
-                            labelPadding:
-                                const EdgeInsetsDirectional.only(bottom: 8, end: 30, top: 10),
+                            labelPadding: const EdgeInsetsDirectional.only(bottom: 8, end: 30, top: 10),
                             padding: const EdgeInsetsDirectional.only(start: 10),
                             tabs: [
                               if (showPredict)
@@ -164,9 +162,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                               Text(context.appLocalization.statistics),
                               Text(context.appLocalization.details),
                               Text(
-                                _isDomestic
-                                    ? context.appLocalization.standings
-                                    : context.appLocalization.table,
+                                _isDomestic ? context.appLocalization.standings : context.appLocalization.table,
                               ),
                               Text(context.appLocalization.scorers),
                               Text(context.appLocalization.headTwohead),
