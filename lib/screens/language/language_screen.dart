@@ -24,7 +24,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
       context.authProvider.updateProfile(
         context,
         {
-          'locale': _appProvider.appLocale,
+          'locale': _appProvider.appLocale.languageCode,
         },
       );
     }
