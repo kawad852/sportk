@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:sportk/model/match_detalis_model.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/utils/base_extensions.dart';
@@ -34,7 +33,7 @@ class _MatchDetalisState extends State<MatchDetalis> with AutomaticKeepAliveClie
     _matchDetalis[context.appLocalization.matchStadium] =
         detalis.data?.venue?.name ?? context.appLocalization.unknown;
     _matchDetalis[context.appLocalization.matchTime] =
-        DateFormat("HH:mm").format(detalis.data!.startingAt!);
+        detalis.data!.startingAt!.convertToLocal(context);
     _matchDetalis[context.appLocalization.matchDate] =
         detalis.data!.startingAt!.formatDate(context, pattern: 'EEEE, dd-MM-yyyy');
   }

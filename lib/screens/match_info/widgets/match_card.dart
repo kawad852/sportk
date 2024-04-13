@@ -3,6 +3,7 @@ import 'package:sportk/helper/ui_helper.dart';
 import 'package:sportk/model/match_model.dart';
 import 'package:sportk/model/single_match_model.dart';
 import 'package:sportk/providers/football_provider.dart';
+import 'package:sportk/screens/home/widgets/live_bubble.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/screens/match_info/widgets/team_card.dart';
 import 'package:sportk/utils/enums.dart';
@@ -203,34 +204,7 @@ class _MatchCardState extends State<MatchCard> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    width: 64,
-                    height: 25,
-                    decoration: BoxDecoration(
-                      color: context.colorPalette.white.withOpacity(0.6),
-                      borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 6,
-                          height: 6,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: context.colorPalette.red000,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          context.appLocalization.live,
-                          style: TextStyle(color: context.colorPalette.blueD4B),
-                        )
-                      ],
-                    ),
-                  ),
+                 LiveBubble(matchId: widget.matchId),
                 ],
               ),
             ),
