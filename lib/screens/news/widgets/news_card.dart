@@ -6,6 +6,7 @@ import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/screens/news/news_details_screen.dart';
 import 'package:sportk/screens/news/widgets/like_buttons.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/deep_linking_service.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
@@ -181,7 +182,16 @@ class _NewsCardState extends State<NewsCard> {
                     },
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      DeepLinkingService.share(
+                        context,
+                        id: _newData.id!.toString(),
+                        type: NotificationsType.blog,
+                        title: _newData.title!,
+                        description: _newData.content!,
+                        imageURL: _newData.image!,
+                      );
+                    },
                     icon: const CustomSvg(
                       MyIcons.download,
                       width: 25,

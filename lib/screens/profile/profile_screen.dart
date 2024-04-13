@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sportk/providers/app_provider.dart';
@@ -14,6 +15,7 @@ import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/utils/my_theme.dart';
+import 'package:sportk/utils/shared_pref.dart';
 import 'package:sportk/widgets/custom_back.dart';
 import 'package:sportk/widgets/stretch_button.dart';
 
@@ -27,6 +29,17 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   late AppProvider _appProvider;
   late AuthProvider _authProvider;
+
+  void _toggleNotification() {
+    setState(() {
+      MySharedPreferences.notificationsEnabled = !MySharedPreferences.notificationsEnabled;
+    });
+    if (MySharedPreferences.notificationsEnabled) {
+      FirebaseMessaging.instance.getToken();
+    } else {
+      FirebaseMessaging.instance.deleteToken();
+    }
+  }
 
   @override
   void initState() {
@@ -66,6 +79,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: [
           if (_authProvider.isAuthenticated) ...[
             ProfileHeader(title: context.appLocalization.mySettings),
+            StatefulBuilder(
+              builder: (context, setState) {
+                return ProfileTile(
+                  onTap: () {
+                    _toggleNotification();
+                  },
+                  title: context.appLocalization.notifications,
+                  icon: MyIcons.bell,
+                  trailing: Switch(
+                    value: MySharedPreferences.notificationsEnabled,
+                    onChanged: (value) {
+                      _toggleNotification();
+                    },
+                  ),
+                );
+              },
+            ),
             Selector<AppProvider, String>(
               selector: (context, provider) => provider.appTheme,
               builder: (context, appTheme, child) {
