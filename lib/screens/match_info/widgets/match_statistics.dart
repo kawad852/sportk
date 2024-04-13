@@ -133,6 +133,7 @@ class _MatchStatisticsState extends State<MatchStatistics> with AutomaticKeepAli
                 },
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
+                  physics:const AlwaysScrollableScrollPhysics(),
                   child: Column(
                     children: [
                       Container(

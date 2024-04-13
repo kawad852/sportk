@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:sportk/alerts/feedback/app_feedback.dart';
 import 'package:sportk/model/league_model.dart';
-import 'package:sportk/model/match_points_model.dart';
-import 'package:sportk/network/api_service.dart';
-import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/screens/champions_league/champions_league_screen.dart';
 import 'package:sportk/screens/league_info/league_info_screen.dart';
 import 'package:sportk/screens/match_info/match_info_screen.dart';
@@ -116,28 +113,16 @@ class UiHelper {
     required int matchId,
     required int leagueId,
     required String subType,
-    required CommonProvider commonProvider,
     required Function afterNavigate,
-  }) {
-    ApiFutureBuilder<MatchPointsModel>().fetch(
-      context,
-      future: () async {
-        final matchPoints = commonProvider.getMatchPoints(matchId);
-        return matchPoints;
-      },
-      onComplete: (snapshot) async {
-        await context.push(
+  }) async{
+    await context.push(
           MatchInfoScreen(
             matchId: matchId,
             leagueId: leagueId,
             subType: subType,
-            pointsData: snapshot.data!,
-            showPredict: snapshot.data!.status == 1,
           ),
         );
         afterNavigate();
-      },
-    );
   }
 
   static List<BoxShadow> getShadow(BuildContext context) {

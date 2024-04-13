@@ -52,6 +52,7 @@ class _ChampionsLeagueScreenState extends State<ChampionsLeagueScreen>
     _initializeFuture();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
