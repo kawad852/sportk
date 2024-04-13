@@ -31,7 +31,7 @@ class _PredictionsContainerState extends State<PredictionsContainer> {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: widget.selectedCard == widget.index
-            ? context.colorPalette.blueD4B
+            ? context.colorPalette.selectedPrediction
             : context.colorPalette.grey3F3,
         borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
       ),
@@ -41,7 +41,7 @@ class _PredictionsContainerState extends State<PredictionsContainer> {
               style: TextStyle(
                 color: widget.selectedCard == widget.index
                     ? context.colorPalette.white
-                    : context.colorPalette.black,
+                    : context.colorPalette.unSelectedPredText,
                 fontWeight: FontWeight.bold,
               ),
             )
@@ -66,7 +66,7 @@ class _PredictionsContainerState extends State<PredictionsContainer> {
                       style: TextStyle(
                         color: widget.selectedCard == widget.index
                             ? context.colorPalette.white
-                            : context.colorPalette.black,
+                            : context.colorPalette.unSelectedPredText,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

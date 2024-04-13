@@ -35,7 +35,7 @@ class _ViewersPredictionsState extends State<ViewersPredictions> {
         padding: const EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
-          color: context.colorPalette.blueD4B,
+          color: context.colorPalette.viewersPredictions,
         ),
         child: Column(
           children: [

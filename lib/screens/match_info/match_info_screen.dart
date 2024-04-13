@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:sportk/alerts/feedback/app_feedback.dart';
 import 'package:sportk/model/match_points_model.dart';
 import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/screens/champions_league/widgets/champions_matches.dart';
+import 'package:sportk/screens/chat/chat_screen.dart';
 import 'package:sportk/screens/match_info/predictions/predictions_screen.dart';
 import 'package:sportk/screens/match_info/widgets/head_to_head.dart';
 import 'package:sportk/screens/match_info/widgets/match_card.dart';
@@ -19,6 +21,7 @@ import 'package:sportk/widgets/custom_back.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 import 'package:sportk/widgets/league_standings.dart';
+import 'package:sportk/widgets/stretch_button.dart';
 
 class MatchInfoScreen extends StatefulWidget {
   final int matchId;
@@ -35,7 +38,8 @@ class MatchInfoScreen extends StatefulWidget {
   State<MatchInfoScreen> createState() => _MatchInfoScreenState();
 }
 
-class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProviderStateMixin, WidgetsBindingObserver {
+class _MatchInfoScreenState extends State<MatchInfoScreen>
+    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   TabController? _controller;
 
   bool get _isDomestic => widget.subType == LeagueTypeEnum.domestic;
@@ -88,6 +92,19 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
         final showPredict = pointsData!.status == 1;
         _controller ??= TabController(length: showPredict ? 8 : 7, vsync: this);
         return Scaffold(
+          bottomNavigationBar: StretchedButton(
+            onPressed: () {
+              context.showBottomSheet(
+                context,
+                maxHeight: context.mediaQuery.height * 0.63,
+                builder: (context) {
+                  return ChatScreen(matchId: widget.matchId);
+                },
+              );
+            },
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: Text(context.appLocalization.chat),
+          ),
           body: CustomScrollView(
             physics: const NeverScrollableScrollPhysics(),
             slivers: [
@@ -109,7 +126,9 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(
-                        MyTheme.isLightTheme(context) ? MyImages.backgroundClub : MyImages.backgroundClubDark,
+                        MyTheme.isLightTheme(context)
+                            ? MyImages.backgroundClub
+                            : MyImages.backgroundClubDark,
                       ),
                       fit: BoxFit.cover,
                     ),
@@ -141,7 +160,8 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                             labelColor: context.colorPalette.tabColor,
                             tabAlignment: TabAlignment.center,
                             indicatorSize: TabBarIndicatorSize.label,
-                            labelPadding: const EdgeInsetsDirectional.only(bottom: 8, end: 30, top: 10),
+                            labelPadding:
+                                const EdgeInsetsDirectional.only(bottom: 8, end: 30, top: 10),
                             padding: const EdgeInsetsDirectional.only(start: 10),
                             tabs: [
                               if (showPredict)
@@ -162,7 +182,9 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                               Text(context.appLocalization.statistics),
                               Text(context.appLocalization.details),
                               Text(
-                                _isDomestic ? context.appLocalization.standings : context.appLocalization.table,
+                                _isDomestic
+                                    ? context.appLocalization.standings
+                                    : context.appLocalization.table,
                               ),
                               Text(context.appLocalization.scorers),
                               Text(context.appLocalization.headTwohead),

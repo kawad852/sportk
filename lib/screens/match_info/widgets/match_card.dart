@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:sportk/helper/ui_helper.dart';
 import 'package:sportk/model/match_model.dart';
@@ -27,7 +29,8 @@ class MatchCard extends StatefulWidget {
 class _MatchCardState extends State<MatchCard> {
   late FootBallProvider _footBallProvider;
   late Future<SingleMatchModel> _matchFuture;
-
+  Duration difference = const Duration(hours: 0, minutes: 0, seconds: 0);
+  Timer? _timer;
   void _initializeFuture() {
     _matchFuture = _footBallProvider.fetchMatchById(matchId: widget.matchId);
   }
@@ -37,6 +40,31 @@ class _MatchCardState extends State<MatchCard> {
     super.initState();
     _footBallProvider = context.footBallProvider;
     _initializeFuture();
+  }
+
+  void showTimer(DateTime date, int state) {
+    final utcTime =DateTime.utc(date.year, date.month, date.day, date.hour, date.minute, date.second);
+    final localTime = utcTime.toLocal();
+    difference = localTime.difference(DateTime.now());
+    if (difference.inHours <= 24 && state == 1) {
+      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        setState(() {
+          difference -= const Duration(seconds: 1);
+        });
+        if (difference.isNegative ||
+            difference == const Duration(hours: 0, minutes: 0, seconds: 0)) {
+          setState(() {
+            timer.cancel();
+          });
+        }
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -61,6 +89,7 @@ class _MatchCardState extends State<MatchCard> {
       },
       onComplete: (context, snapshot) {
         final match = snapshot.data!;
+        showTimer(match.data!.startingAt!, match.data!.state!.id!);
         bool showGoals = match.data!.state!.id != 1 &&
             match.data!.state!.id != 13 &&
             match.data!.state!.id != 10 &&
@@ -201,10 +230,18 @@ class _MatchCardState extends State<MatchCard> {
                       style: TextStyle(color: context.colorPalette.white),
                     ),
                   ),
+                  if (!difference.isNegative && match.data!.state!.id == 1&&difference.inHours <= 24)
+                    Text(
+                      "${difference.inHours}:${difference.inMinutes.remainder(60)}:${difference.inSeconds.remainder(60)}",
+                      style: TextStyle(
+                        color: context.colorPalette.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   const SizedBox(
                     height: 10,
                   ),
-                 LiveBubble(matchId: widget.matchId),
+                  LiveBubble(matchId: widget.matchId),
                 ],
               ),
             ),
