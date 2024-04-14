@@ -12,6 +12,7 @@ import 'package:sportk/model/points_model.dart';
 import 'package:sportk/model/prediction_model.dart';
 import 'package:sportk/model/record_points_model.dart';
 import 'package:sportk/model/swap_requests_model.dart';
+import 'package:sportk/model/tracker_model.dart';
 import 'package:sportk/model/vouchers_model.dart';
 import 'package:sportk/model/vouchers_replaced_model.dart';
 import 'package:sportk/network/api_service.dart';
@@ -243,6 +244,16 @@ class CommonProvider extends ChangeNotifier {
         "prediction": prediction,
       },
       builder: PredictionModel.fromJson,
+    );
+    return snapshot;
+  }
+
+  Future<TrackerModel> fetchTracker(int matchId) {
+    final snapshot = ApiService<TrackerModel>().build(
+      weCanUrl: "${ApiUrl.tracker}/$matchId",
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: TrackerModel.fromJson,
     );
     return snapshot;
   }

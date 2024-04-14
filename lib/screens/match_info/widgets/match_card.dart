@@ -43,7 +43,7 @@ class _MatchCardState extends State<MatchCard> {
   }
 
   void showTimer(DateTime date, int state) {
-    final utcTime =DateTime.utc(date.year, date.month, date.day, date.hour, date.minute, date.second);
+    final utcTime = DateTime.utc(date.year, date.month, date.day, date.hour, date.minute, date.second);
     final localTime = utcTime.toLocal();
     difference = localTime.difference(DateTime.now());
     if (difference.inHours <= 24 && state == 1) {
@@ -187,24 +187,41 @@ class _MatchCardState extends State<MatchCard> {
                                   minuteColor: context.colorPalette.white,
                                   fontsize: 19,
                                 )
-                              : Container(
-                                  width: 64,
-                                  height: 30,
-                                  margin: const EdgeInsetsDirectional.symmetric(horizontal: 20),
-                                  decoration: BoxDecoration(
-                                    color: context.colorPalette.white.withOpacity(0.6),
-                                    borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
-                                  ),
-                                  child: Text(
-                                    match.data!.startingAt!.convertToLocal(context),
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: context.colorPalette.blueD4B,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600,
+                              : match.data!.state!.id == 1
+                                  ? Container(
+                                      width: 64,
+                                      height: 30,
+                                      margin: const EdgeInsetsDirectional.symmetric(horizontal: 20),
+                                      decoration: BoxDecoration(
+                                        color: context.colorPalette.white.withOpacity(0.6),
+                                        borderRadius:
+                                            BorderRadius.circular(MyTheme.radiusSecondary),
+                                      ),
+                                      child: Text(
+                                        match.data!.startingAt!.convertToLocal(context),
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: context.colorPalette.blueD4B,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    )
+                                  : SizedBox(
+                                      width: 100,
+                                      child: Text(
+                                        widget.statusMatch == 0
+                                            ? context.appLocalization.startSoon
+                                            : UiHelper.getMatchState(
+                                                context,
+                                                stateId: match.data!.state!.id!,
+                                              ),
+                                        maxLines: 2,
+                                        textAlign: TextAlign.center,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(color: context.colorPalette.white),
+                                      ),
                                     ),
-                                  ),
-                                ),
                       Text(
                         showGoals ? "$awayGoals" : "",
                         style: TextStyle(
@@ -215,22 +232,23 @@ class _MatchCardState extends State<MatchCard> {
                       ),
                     ],
                   ),
-                  SizedBox(
-                    width: 100,
-                    child: Text(
-                      widget.statusMatch == 0
-                          ? context.appLocalization.startSoon
-                          : UiHelper.getMatchState(
-                              context,
-                              stateId: match.data!.state!.id!,
-                            ),
-                      maxLines: 2,
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(color: context.colorPalette.white),
+                  if (match.data!.state!.id == 1 || minute != null || match.data!.state!.id == 3)
+                    SizedBox(
+                      width: 100,
+                      child: Text(
+                        widget.statusMatch == 0
+                            ? context.appLocalization.startSoon
+                            : UiHelper.getMatchState(
+                                context,
+                                stateId: match.data!.state!.id!,
+                              ),
+                        maxLines: 2,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(color: context.colorPalette.white),
+                      ),
                     ),
-                  ),
-                  if (!difference.isNegative && match.data!.state!.id == 1&&difference.inHours <= 24)
+                  if (!difference.isNegative && match.data!.state!.id == 1 && difference.inHours <= 24)
                     Text(
                       "${difference.inHours}:${difference.inMinutes.remainder(60)}:${difference.inSeconds.remainder(60)}",
                       style: TextStyle(
