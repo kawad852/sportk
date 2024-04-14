@@ -314,7 +314,8 @@ class FootBallProvider extends ChangeNotifier {
   Future<TeamSearchModel> searchTeams({
     required String query,
   }) {
-    final isArabic = MySharedPreferences.language == LanguageEnum.arabic;
+    final englishRegex = RegExp(r'[a-zA-Z]');
+    final isArabic = MySharedPreferences.language == LanguageEnum.arabic || !englishRegex.hasMatch(query);
     final snapshot = ApiService<TeamSearchModel>().build(
       sportsUrl: isArabic ? null : '${ApiUrl.teamsSearch}/$query${ApiUrl.auth}&locale=${MySharedPreferences.language}',
       weCanUrl: isArabic ? ApiUrl.arabicSearch : null,

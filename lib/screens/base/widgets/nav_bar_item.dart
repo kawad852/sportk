@@ -7,6 +7,7 @@ class NavBarItem extends StatelessWidget {
   final bool isSelected;
   final String icon;
   final String title;
+  final double? width;
 
   const NavBarItem({
     super.key,
@@ -14,6 +15,7 @@ class NavBarItem extends StatelessWidget {
     required this.isSelected,
     required this.icon,
     required this.title,
+    this.width,
   });
 
   @override
@@ -36,7 +38,7 @@ class NavBarItem extends StatelessWidget {
                   CustomSvg(
                     icon,
                     // height: 25,
-                    // width: 25,
+                    width: width,
                     color: color,
                   ),
                   Text(

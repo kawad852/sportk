@@ -23,7 +23,7 @@ class StretchedButton extends StatelessWidget {
       child: FilledButton(
         onPressed: onPressed,
         style: FilledButton.styleFrom(
-          backgroundColor: backgroundColor ?? context.colorPalette.blueD4B,
+          backgroundColor: backgroundColor ?? (MyTheme.isLightTheme(context) ? context.colorPalette.blueD4B : context.colorScheme.primary),
           minimumSize: Size.fromHeight(context.systemButtonHeight + 4),
           textStyle: TextStyle(fontSize: 17, fontFamily: MyTheme.fontFamily),
         ),

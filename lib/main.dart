@@ -44,7 +44,7 @@ Future<void> main() async {
   await MatchTimerCircle.loadBallImage();
   unawaited(MobileAds.instance.initialize());
   await FlutterBranchSdk.init(useTestKey: true, enableLogging: false, disableTracking: false);
-  FlutterBranchSdk.validateSDKIntegration();
+  // FlutterBranchSdk.validateSDKIntegration();
   // MySharedPreferences.clearStorage();
   // MySharedPreferences.isPassedIntro = false;
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);

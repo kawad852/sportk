@@ -8,5 +8,10 @@
 	<array>
 		<string>Default</string>
 	</array>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>u7jd1.test-app.link</string>
+		<string>u7jd1-alternate.test-app.link</string>
+	</array>
 </dict>
 </plist>
