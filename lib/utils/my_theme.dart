@@ -72,8 +72,10 @@ class MyTheme {
           ),
         ),
       ),
-      bottomAppBarTheme: const BottomAppBarTheme(
-        surfaceTintColor: Colors.transparent,
+      bottomAppBarTheme: BottomAppBarTheme(
+        surfaceTintColor: colorScheme.background,
+        color: colorScheme.background,
+        elevation: 0,
       ),
       inputDecorationTheme: inputDecorationTheme(context, colorScheme),
     );

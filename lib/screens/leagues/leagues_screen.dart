@@ -39,6 +39,7 @@ class _LeaguesScreenState extends State<LeaguesScreen> with AutomaticKeepAliveCl
     return Scaffold(
       drawer: const ProfileScreen(),
       appBar: AppBar(
+        title: Text(context.appLocalization.leagues),
         leading: const MenuButton(),
       ),
       body: ListView(

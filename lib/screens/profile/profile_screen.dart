@@ -56,7 +56,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         leading: const CustomBack(),
         title: Text(context.appLocalization.menu),
       ),
-      bottomSheet: BottomAppBar(
+      bottomNavigationBar: BottomAppBar(
         child: Consumer<AuthProvider>(
           builder: (context, authProvider, child) {
             return Center(
@@ -77,43 +77,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          if (_authProvider.isAuthenticated) ...[
-            ProfileHeader(title: context.appLocalization.mySettings),
-            StatefulBuilder(
-              builder: (context, setState) {
-                return ProfileTile(
-                  onTap: () {
-                    _toggleNotification();
-                  },
-                  title: context.appLocalization.notifications,
-                  icon: MyIcons.bell,
-                  trailing: Switch(
-                    value: MySharedPreferences.notificationsEnabled,
-                    onChanged: (value) {
-                      _toggleNotification();
-                    },
-                  ),
-                );
-              },
-            ),
-            Selector<AppProvider, String>(
-              selector: (context, provider) => provider.appTheme,
-              builder: (context, appTheme, child) {
-                return ProfileTile(
-                  onTap: () {
+          ProfileHeader(title: context.appLocalization.mySettings),
+          // StatefulBuilder(
+          //   builder: (context, setState) {
+          //     return ProfileTile(
+          //       onTap: () {
+          //         _toggleNotification();
+          //       },
+          //       title: context.appLocalization.notifications,
+          //       icon: MyIcons.bell,
+          //       trailing: Switch(
+          //         value: MySharedPreferences.notificationsEnabled,
+          //         onChanged: (value) {
+          //           _toggleNotification();
+          //         },
+          //       ),
+          //     );
+          //   },
+          // ),
+          Selector<AppProvider, String>(
+            selector: (context, provider) => provider.appTheme,
+            builder: (context, appTheme, child) {
+              return ProfileTile(
+                onTap: () {
+                  _appProvider.changeTheme(context, theme: appTheme == ThemeEnum.light ? ThemeEnum.dark : ThemeEnum.light);
+                },
+                title: context.appLocalization.nightMode,
+                icon: MyIcons.moon,
+                trailing: Switch(
+                  value: appTheme == ThemeEnum.dark,
+                  onChanged: (value) {
                     _appProvider.changeTheme(context, theme: appTheme == ThemeEnum.light ? ThemeEnum.dark : ThemeEnum.light);
                   },
-                  title: context.appLocalization.nightMode,
-                  icon: MyIcons.moon,
-                  trailing: Switch(
-                    value: appTheme == ThemeEnum.dark,
-                    onChanged: (value) {
-                      _appProvider.changeTheme(context, theme: appTheme == ThemeEnum.light ? ThemeEnum.dark : ThemeEnum.light);
-                    },
-                  ),
-                );
-              },
-            ),
+                ),
+              );
+            },
+          ),
+          if (_authProvider.isAuthenticated) ...[
             ProfileTile(
               onTap: () {
                 context.push(const EditProfileScreen());
@@ -121,14 +121,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
               title: context.appLocalization.profileSettings,
               icon: MyIcons.settings,
             ),
-            ProfileTile(
-              onTap: () {
-                context.push(const LanguageScreen());
-              },
-              title: context.appLocalization.appLanguage,
-              icon: MyIcons.language,
-            ),
           ],
+          ProfileTile(
+            onTap: () {
+              context.push(const LanguageScreen());
+            },
+            title: context.appLocalization.appLanguage,
+            icon: MyIcons.language,
+          ),
+
           ProfileHeader(title: context.appLocalization.application),
           ProfileTile(
             onTap: () {
