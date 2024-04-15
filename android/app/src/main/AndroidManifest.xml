@@ -97,7 +97,7 @@
             android:value="2" />
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-4829894010518123~5345497260"/>
+            android:value="ca-app-pub-8512331571054304~7702006757"/>
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="appchannel"/>
