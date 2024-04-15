@@ -37,7 +37,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMixin,WidgetsBindingObserver {
+class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMixin, WidgetsBindingObserver {
   late CommonProvider _commonProvider;
   late FootBallProvider _footBallProvider;
   bool _isLive = false;
@@ -110,7 +110,8 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     _commonProvider.initializeHome(context, date: _selectedDate);
     WidgetsBinding.instance.addObserver(this);
   }
-    @override
+
+  @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
@@ -120,9 +121,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.paused) {
-      setState(() {
-       
-      });
+      setState(() {});
     }
   }
 
@@ -236,13 +235,11 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
               builder: (context) {
                 return RefreshIndicator(
                   displacement: 81.0,
-                  onRefresh: ()async{
-                    setState(() {
-                      
-                    });
+                  onRefresh: () async {
+                    setState(() {});
                   },
                   child: CustomScrollView(
-                    physics:const AlwaysScrollableScrollPhysics(),
+                    physics: const AlwaysScrollableScrollPhysics(),
                     slivers: [
                       SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
                       SliverPadding(
@@ -303,7 +300,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                     } else {
                                       matches = matchModel.data!;
                                     }
-                            
+
                                     if (matches.isEmpty) {
                                       competition.hasMatches = false;
                                       if (allCompetitions.every((element) => !element.hasMatches)) {
@@ -537,7 +534,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                           const Padding(
                                             padding: EdgeInsets.symmetric(vertical: 5),
                                             child: GoogleBanner(
-                                              adSize: AdSize.largeBanner,
+                                              adSize: AdSize.fullBanner,
                                             ),
                                           ),
                                       ],

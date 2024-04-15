@@ -25,6 +25,7 @@ import 'package:sportk/widgets/menu_button.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 import 'package:sportk/widgets/vex/vex_loader.dart';
 import 'package:sportk/widgets/vex/vex_paginator.dart';
+
 import 'widgets/vouchers_loading.dart';
 
 class WalletScreen extends StatefulWidget {
@@ -108,6 +109,7 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
                       const WalletCard(),
                       GoogleRewarded(
                         points: int.parse(adPoints),
+                        onClose: () {},
                         child: WatchAdButton(
                           points: adPoints,
                           onPressed: () {},
@@ -176,8 +178,7 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
                             ),
                             IconButton(
                               onPressed: () {
-                                Clipboard.setData(ClipboardData(text: user.data!.invitationCode!))
-                                    .then(
+                                Clipboard.setData(ClipboardData(text: user.data!.invitationCode!)).then(
                                   (value) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(

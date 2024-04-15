@@ -47,4 +47,7 @@ class MySharedPreferences {
 
   static bool get notificationsEnabled => _sharedPreferences.getBool('notificationsEnabled') ?? true;
   static set notificationsEnabled(bool value) => _sharedPreferences.setBool('notificationsEnabled', value);
+
+  static bool get showAd => _sharedPreferences.getBool('showAd') ?? true;
+  static set showAd(bool value) => _sharedPreferences.setBool('showAd', value);
 }

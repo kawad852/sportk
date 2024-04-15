@@ -7,11 +7,13 @@ import 'package:sportk/utils/base_extensions.dart';
 class GoogleRewarded extends StatefulWidget {
   final Widget child;
   final int points;
+  final Function() onClose;
 
   const GoogleRewarded({
     super.key,
     required this.child,
     required this.points,
+    required this.onClose,
   });
 
   @override
@@ -32,15 +34,18 @@ class _GoogleRewardedState extends State<GoogleRewarded> {
         setState(() {
           _rewardedAd = null;
         });
-        authProvider.user.points = authProvider.user.points! + widget.points;
-        authProvider.updateProfile(
-          context,
-          {
-            'points': authProvider.user.points,
-          },
-          update: false,
-        );
-        authProvider.updateUser(context);
+        widget.onClose();
+        if (authProvider.isAuthenticated && widget.points > 0) {
+          authProvider.user.points = authProvider.user.points! + widget.points;
+          authProvider.updateProfile(
+            context,
+            {
+              'points': authProvider.user.points,
+            },
+            update: false,
+          );
+          authProvider.updateUser(context);
+        }
       },
     );
   }

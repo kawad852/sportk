@@ -9,6 +9,8 @@ import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/deep_linking_service.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
+import 'package:sportk/utils/shared_pref.dart';
+import 'package:sportk/widgets/ads/google_rewarded.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 
@@ -68,13 +70,21 @@ class _NewsCardState extends State<NewsCard> {
         children: [
           ClipRRect(
             borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
-            child: CustomNetworkImage(
-              _newData.image!,
-              onTap: () {
+            child: GoogleRewarded(
+              points: 0,
+              onClose: () {
                 context.push(NewsDetailsScreen(newId: _newData.id!));
               },
-              radius: 0,
-              height: 153,
+              child: CustomNetworkImage(
+                _newData.image!,
+                onTap: MySharedPreferences.showAd
+                    ? null
+                    : () {
+                        context.push(NewsDetailsScreen(newId: _newData.id!));
+                      },
+                radius: 0,
+                height: 153,
+              ),
             ),
           ),
           Padding(

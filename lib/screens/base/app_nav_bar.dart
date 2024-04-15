@@ -10,6 +10,7 @@ import 'package:sportk/screens/news/news_screen.dart';
 import 'package:sportk/screens/wallet/wallet_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
+import 'package:sportk/utils/shared_pref.dart';
 
 class AppNavBar extends StatefulWidget {
   final bool initFav;
@@ -72,6 +73,7 @@ class _AppNavBarState extends State<AppNavBar> {
     if (widget.initFav) {
       context.favoriteProvider.fetchFavs(context);
     }
+    MySharedPreferences.showAd = true;
   }
 
   @override

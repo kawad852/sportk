@@ -376,7 +376,10 @@ class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMi
                           NewsCard(
                             newData: newData,
                           ),
-                          if (index != 0 && index % 3 == 0) const GoogleBanner(),
+                          if (index != 0 && index % 3 == 0)
+                            const GoogleBanner(
+                              adSize: AdSize.mediumRectangle,
+                            ),
                         ],
                       );
                     },
