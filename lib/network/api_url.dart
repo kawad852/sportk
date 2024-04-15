@@ -64,4 +64,6 @@ class ApiUrl {
   static const String prediction = '/api/predictions';
   static const String mainMatches = '/api/competitions/main';
   static const String arabicSearch = '/api/teams/competitions/search';
+  static const String tracker = '/api/trackers';
+
 }

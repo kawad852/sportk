@@ -75,10 +75,7 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
             pinned: true,
             centerTitle: true,
             leading: const MenuButton(),
-            title: Text(
-              context.appLocalization.myWallet,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
+            title: Text(context.appLocalization.myWallet),
           ),
           SliverPadding(
             padding: const EdgeInsetsDirectional.symmetric(horizontal: 15, vertical: 10),
@@ -179,7 +176,8 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
                             ),
                             IconButton(
                               onPressed: () {
-                                Clipboard.setData(ClipboardData(text: user.data!.invitationCode!)).then(
+                                Clipboard.setData(ClipboardData(text: user.data!.invitationCode!))
+                                    .then(
                                   (value) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(

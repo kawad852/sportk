@@ -23,10 +23,12 @@ class PredictionsScreen extends StatefulWidget {
 }
 
 class _PredictionsScreenState extends State<PredictionsScreen> with AutomaticKeepAliveClientMixin {
-  int _selectedWinning = 0;
-  int _selectedFirstScore = 0;
+  late ScrollController controller;
+  int _selectedWinning = 3;
+  int _selectedFirstScore = 3;
   bool _visibleResult = false;
   bool _visibleFirstScore = false;
+  bool _visibleConfirm = false;
   int _homeScore = 1;
   int _awayScore = 1;
   late String _firstScoreId;
@@ -73,9 +75,18 @@ class _PredictionsScreenState extends State<PredictionsScreen> with AutomaticKee
     );
   }
 
+  void _scrollDown() {
+    controller.animateTo(
+      controller.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 800),
+      curve: Curves.fastOutSlowIn,
+    );
+  }
+
   @override
   void initState() {
     super.initState();
+    controller = ScrollController();
     _commonProvider = context.commonProvider;
     _firstScoreId = pointData.homeId!;
     _prediction = pointData.homeId!;
@@ -83,9 +94,16 @@ class _PredictionsScreenState extends State<PredictionsScreen> with AutomaticKee
   }
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     super.build(context);
     return SingleChildScrollView(
+      controller: controller,
       child: Column(
         children: [
           const SizedBox(
@@ -120,6 +138,7 @@ class _PredictionsScreenState extends State<PredictionsScreen> with AutomaticKee
                             if (!_visibleResult) {
                               _visibleResult = true;
                             }
+
                             switch (index) {
                               case 0:
                                 _prediction = pointData.homeId!;
@@ -129,6 +148,7 @@ class _PredictionsScreenState extends State<PredictionsScreen> with AutomaticKee
                                 _prediction = pointData.awayId!;
                             }
                           });
+                          _scrollDown();
                         },
                         child: PredictionsContainer(
                           index: index,
@@ -169,6 +189,7 @@ class _PredictionsScreenState extends State<PredictionsScreen> with AutomaticKee
                             }
                             _homeScore = value;
                           });
+                          _scrollDown();
                         }),
                         VerticalDivider(
                           color: context.colorPalette.greyAAA,
@@ -182,6 +203,7 @@ class _PredictionsScreenState extends State<PredictionsScreen> with AutomaticKee
                               _visibleFirstScore = true;
                             }
                             _awayScore = value;
+                            _scrollDown();
                           });
                         }),
                         TeamName(name: pointData.awayName!),
@@ -214,9 +236,13 @@ class _PredictionsScreenState extends State<PredictionsScreen> with AutomaticKee
                       return InkWell(
                         onTap: () {
                           setState(() {
+                            if (!_visibleConfirm) {
+                              _visibleConfirm = true;
+                            }
                             _selectedFirstScore = index;
+                            _firstScoreId = index == 0 ? pointData.homeId! : pointData.awayId!;
                           });
-                          _firstScoreId = index == 0 ? pointData.homeId! : pointData.awayId!;
+                          _scrollDown();
                         },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -235,14 +261,20 @@ class _PredictionsScreenState extends State<PredictionsScreen> with AutomaticKee
             ),
           ),
           Visibility(
-            visible: _visibleFirstScore,
+            visible: _visibleConfirm,
             child: ZoomIn(
               child: StretchedButton(
                 onPressed: () {
                   createPrediction();
                 },
-                margin: const EdgeInsets.symmetric(horizontal: 5),
-                child: Text(context.appLocalization.confirm),
+                backgroundColor: context.colorPalette.grey3F3,
+                margin: const EdgeInsets.symmetric(horizontal: 80),
+                child: Text(
+                  context.appLocalization.confirm,
+                  style: TextStyle(
+                    color: context.colorPalette.blueD4B,
+                  ),
+                ),
               ),
             ),
           ),
