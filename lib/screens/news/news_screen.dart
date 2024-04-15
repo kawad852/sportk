@@ -47,7 +47,7 @@ class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMi
 
   Future<NewModel> _fetchRecent(int pageKey) {
     return _commonProvider.fetchNews(pageKey, url: '${ApiUrl.news}?locale=${MySharedPreferences.language}').then((value) {
-      if (pageKey == 1) {
+      if (pageKey == 1 && value.data!.isNotEmpty) {
         _firstNewId = value.data!.first.id;
       }
       return value;
