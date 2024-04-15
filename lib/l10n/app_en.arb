@@ -277,5 +277,6 @@
   "replies": "Replies",
   "comments": "Comments",
   "addReply": "Add a reply",
-  "reply": "Reply"
+  "reply": "Reply",
+  "liveTracking":"Live tracking"
 }

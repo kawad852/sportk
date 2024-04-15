@@ -277,5 +277,6 @@
   "replies": "الردود",
   "comments": "التعليقات",
   "addReply": "أضف رداً",
-  "reply": "الرد"
+  "reply": "الرد",
+  "liveTracking":"تتبع مباشر"
 }
