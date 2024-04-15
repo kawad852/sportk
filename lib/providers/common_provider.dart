@@ -214,6 +214,16 @@ class CommonProvider extends ChangeNotifier {
     return snapshot;
   }
 
+  Future<OurLeaguesModel> fetchTrendingLeagues(int pageKey) {
+    final snapshot = ApiService<OurLeaguesModel>().build(
+      weCanUrl: '${ApiUrl.trendingCompetitions}?page=$pageKey',
+      isPublic: true,
+      apiType: ApiType.get,
+      builder: OurLeaguesModel.fromJson,
+    );
+    return snapshot;
+  }
+
   Future<MatchPointsModel> getMatchPoints(int matchId) {
     final snapshot = ApiService<MatchPointsModel>().build(
       weCanUrl: "${ApiUrl.matchPoints}/$matchId",

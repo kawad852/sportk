@@ -41,6 +41,7 @@ class ApiUrl {
   static const String like = '/api/likes';
   static const String ourTeams = '/api/teams';
   static const String ourLeagues = '/api/competitions';
+  static const String trendingCompetitions = '/api/competitions/trendy';
   static const String livesMatches = '/api/lives';
   static const String homeComp = '/api/competitions/home';
   static const String dislikeComment = '/api/likes/comments/destroy';

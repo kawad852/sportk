@@ -51,7 +51,7 @@ class _LeaguesScreenState extends State<LeaguesScreen> with AutomaticKeepAliveCl
             ),
           ),
           VexPaginator(
-            query: (pageKey) async => _commonProvider.fetchOurLeagues(pageKey),
+            query: (pageKey) async => _commonProvider.fetchTrendingLeagues(pageKey),
             onFetching: (snapshot) async => snapshot.data!,
             pageSize: 10,
             onLoading: () {
