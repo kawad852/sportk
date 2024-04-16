@@ -47,7 +47,7 @@ class _LiveTrackingState extends State<LiveTracking> {
     
     </head>
     <body>
-      <embed type="text/html" src="${widget.link}" width=340 height="400">
+      <embed type="text/html" src="${widget.link}" width="100%" height="500">
     </body>
     </html>
     ''', baseUrl: "https://thesportk.com");

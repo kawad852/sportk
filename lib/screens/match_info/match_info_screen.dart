@@ -114,7 +114,9 @@ class _MatchInfoScreenState extends State<MatchInfoScreen>
                 ? showTracker
                     ? 9
                     : 8
-                : 7,
+                : showTracker
+                    ? 8
+                    : 7,
             vsync: this);
         return Scaffold(
           bottomNavigationBar: StretchedButton(
