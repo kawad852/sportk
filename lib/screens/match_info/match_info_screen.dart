@@ -98,9 +98,17 @@ class _MatchInfoScreenState extends State<MatchInfoScreen>
         final pointsData = matchPoints.data;
         final showPredict = pointsData!.status == 1;
         final showTracker = matchTracker.data != null;
-        final matchLink = MySharedPreferences.language == LanguageEnum.english
-            ? matchTracker.data?.trackerLinkEn ?? ""
-            : matchTracker.data?.trackerLinkAr ?? "";
+        String matchLink = "";
+        switch ([MySharedPreferences.language, MySharedPreferences.theme]) {
+          case [LanguageEnum.english, ThemeEnum.light]:
+            matchLink = matchTracker.data?.trackerLinkEn ?? "";
+          case [LanguageEnum.english, ThemeEnum.dark]:
+            matchLink = matchTracker.data?.darkTrackerLinkEn ?? "";
+          case [LanguageEnum.arabic, ThemeEnum.light]:
+            matchLink = matchTracker.data?.trackerLinkAr ?? "";
+          case [LanguageEnum.arabic, ThemeEnum.dark]:
+            matchLink = matchTracker.data?.darkTrackerLinkAr ?? "";
+        }
         _controller ??= TabController(
             length: showPredict
                 ? showTracker
@@ -216,7 +224,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen>
               ),
               SliverFillRemaining(
                 child: TabBarView(
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: showTracker ? const NeverScrollableScrollPhysics() : null,
                   controller: _controller,
                   children: [
                     if (showTracker) LiveTracking(link: matchLink),

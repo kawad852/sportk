@@ -44,10 +44,10 @@ class _LiveTrackingState extends State<LiveTracking> {
     <html>
     <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="merchandise.css"> 
+    
     </head>
     <body>
-      <embed type="text/html" src="${widget.link}">
+      <embed type="text/html" src="${widget.link}" width=340 height="400">
     </body>
     </html>
     ''', baseUrl: "https://thesportk.com");
@@ -69,11 +69,8 @@ class _LiveTrackingState extends State<LiveTracking> {
               child: LinearProgressIndicator(),
             )
           : null,
-      body: Padding(
-        padding: const EdgeInsetsDirectional.symmetric(vertical: 50),
-        child: WebViewWidget(
-          controller: controller,
-        ),
+      body: WebViewWidget(
+        controller: controller,
       ),
     );
   }
