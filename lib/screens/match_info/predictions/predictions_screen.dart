@@ -12,6 +12,7 @@ import 'package:sportk/screens/match_info/predictions/widgets/result_picker.dart
 import 'package:sportk/screens/match_info/predictions/widgets/team_name.dart';
 import 'package:sportk/screens/match_info/predictions/widgets/viewers_predictions.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/enums.dart';
 import 'package:sportk/widgets/stretch_button.dart';
 
 class PredictionsScreen extends StatefulWidget {
@@ -60,15 +61,30 @@ class _PredictionsScreenState extends State<PredictionsScreen> with AutomaticKee
         );
         if (snapshot.code == 200) {
           setState(() {
-            totalPredictions = TotalPredictions(
-              home: _prediction == pointData.homeId
-                  ? totalPredictions.home! + 1
-                  : totalPredictions.home,
-              away: _prediction == pointData.awayId
-                  ? totalPredictions.away! + 1
-                  : totalPredictions.away,
-              draw: _prediction == "draw" ? totalPredictions.draw! + 1 : totalPredictions.draw,
-            );
+            if (pointData.resultDisplay == PredictionTypeEnum.count) {
+              totalPredictions = TotalPredictions(
+                home: _prediction == pointData.homeId
+                    ? totalPredictions.home! + 1
+                    : totalPredictions.home,
+                away: _prediction == pointData.awayId
+                    ? totalPredictions.away! + 1
+                    : totalPredictions.away,
+                draw: _prediction == "draw" ? totalPredictions.draw! + 1 : totalPredictions.draw,
+              );
+            } else if (pointData.resultDisplay == PredictionTypeEnum.count &&
+                totalPredictions.home == 0 &&
+                totalPredictions.away == 0 &&
+                totalPredictions.draw == 0) {
+              totalPredictions = TotalPredictions(
+                home: _prediction == pointData.homeId
+                    ? totalPredictions.home! + 100
+                    : totalPredictions.home,
+                away: _prediction == pointData.awayId
+                    ? totalPredictions.away! + 100
+                    : totalPredictions.away,
+                draw: _prediction == "draw" ? totalPredictions.draw! + 100 : totalPredictions.draw,
+              );
+            }
           });
         }
       },

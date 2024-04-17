@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/alerts/feedback/app_feedback.dart';
 import 'package:sportk/model/match_points_model.dart';
+import 'package:sportk/model/tracker_model.dart';
 import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/screens/champions_league/widgets/champions_matches.dart';
 import 'package:sportk/screens/chat/chat_screen.dart';
 import 'package:sportk/screens/match_info/predictions/predictions_screen.dart';
 import 'package:sportk/screens/match_info/widgets/head_to_head.dart';
+import 'package:sportk/screens/match_info/widgets/live_tracking.dart';
 import 'package:sportk/screens/match_info/widgets/match_card.dart';
 import 'package:sportk/screens/match_info/widgets/match_detalis.dart';
 import 'package:sportk/screens/match_info/widgets/match_events.dart';
@@ -17,6 +19,7 @@ import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/utils/my_images.dart';
 import 'package:sportk/utils/my_theme.dart';
+import 'package:sportk/utils/shared_pref.dart';
 import 'package:sportk/widgets/custom_back.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_svg.dart';
@@ -44,19 +47,22 @@ class _MatchInfoScreenState extends State<MatchInfoScreen>
 
   bool get _isDomestic => widget.subType == LeagueTypeEnum.domestic;
 
+  late Future<List<dynamic>> _futures;
   late CommonProvider _commonProvider;
-
+  late Future<TrackerModel> _trackerFuture;
   late Future<MatchPointsModel> _matchPointsFuture;
 
-  void _initializeFuture() {
+  Future<List<dynamic>> _initializeFutures() async {
     _matchPointsFuture = _commonProvider.getMatchPoints(widget.matchId);
+    _trackerFuture = _commonProvider.fetchTracker(widget.matchId);
+    return Future.wait([_matchPointsFuture, _trackerFuture]);
   }
 
   @override
   void initState() {
     super.initState();
     _commonProvider = context.commonProvider;
-    _initializeFuture();
+    _futures = _initializeFutures();
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -71,7 +77,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen>
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.paused) {
       setState(() {
-        _initializeFuture();
+        _futures = _initializeFutures();
       });
     }
   }
@@ -79,18 +85,39 @@ class _MatchInfoScreenState extends State<MatchInfoScreen>
   @override
   Widget build(BuildContext context) {
     return CustomFutureBuilder(
-      future: _matchPointsFuture,
+      future: _futures,
       withBackgroundColor: true,
       onRetry: () {
         setState(() {
-          _initializeFuture();
+          _futures = _initializeFutures();
         });
       },
       onComplete: (context, snapshot) {
-        final matchPoints = snapshot.data!;
+        final matchPoints = snapshot.data![0] as MatchPointsModel;
+        final matchTracker = snapshot.data![1] as TrackerModel;
         final pointsData = matchPoints.data;
         final showPredict = pointsData!.status == 1;
-        _controller ??= TabController(length: showPredict ? 8 : 7, vsync: this);
+        final showTracker = matchTracker.data != null;
+        String matchLink = "";
+        switch ([MySharedPreferences.language, MySharedPreferences.theme]) {
+          case [LanguageEnum.english, ThemeEnum.light]:
+            matchLink = matchTracker.data?.trackerLinkEn ?? "";
+          case [LanguageEnum.english, ThemeEnum.dark]:
+            matchLink = matchTracker.data?.darkTrackerLinkEn ?? "";
+          case [LanguageEnum.arabic, ThemeEnum.light]:
+            matchLink = matchTracker.data?.trackerLinkAr ?? "";
+          case [LanguageEnum.arabic, ThemeEnum.dark]:
+            matchLink = matchTracker.data?.darkTrackerLinkAr ?? "";
+        }
+        _controller ??= TabController(
+            length: showPredict
+                ? showTracker
+                    ? 9
+                    : 8
+                : showTracker
+                    ? 8
+                    : 7,
+            vsync: this);
         return Scaffold(
           bottomNavigationBar: StretchedButton(
             onPressed: () {
@@ -164,6 +191,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen>
                                 const EdgeInsetsDirectional.only(bottom: 8, end: 30, top: 10),
                             padding: const EdgeInsetsDirectional.only(start: 10),
                             tabs: [
+                              if (showTracker) Text(context.appLocalization.liveTracking),
                               if (showPredict)
                                 Row(
                                   children: [
@@ -198,8 +226,10 @@ class _MatchInfoScreenState extends State<MatchInfoScreen>
               ),
               SliverFillRemaining(
                 child: TabBarView(
+                  physics: showTracker ? const NeverScrollableScrollPhysics() : null,
                   controller: _controller,
                   children: [
+                    if (showTracker) LiveTracking(link: matchLink),
                     if (showPredict) PredictionsScreen(pointsData: pointsData),
                     MatchEvents(matchId: widget.matchId, homeId: int.parse(pointsData.homeId!)),
                     TeamsPlan(matchId: widget.matchId),

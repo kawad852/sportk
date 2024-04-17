@@ -139,9 +139,9 @@ class TotalPredictions {
 
   factory TotalPredictions.fromJson(Map<String, dynamic> json) => TotalPredictions(
         id: json["id"],
-        home: json["home"],
-        away: json["away"],
-        draw: json["draw"],
+        home: json["home"] is double? json["home"].toInt():json["home"],
+        away: json["away"] is double? json["away"].toInt():json["away"],
+        draw: json["draw"] is double? json["draw"].toInt():json["draw"],
       );
 
   Map<String, dynamic> toJson() => {

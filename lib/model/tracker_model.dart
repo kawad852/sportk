@@ -33,6 +33,8 @@ class TrackerData {
     DateTime? matchTime;
     String? trackerLinkEn;
     String? trackerLinkAr;
+    String? darkTrackerLinkEn;
+    String? darkTrackerLinkAr;
 
     TrackerData({
         this.id,
@@ -41,6 +43,8 @@ class TrackerData {
         this.matchTime,
         this.trackerLinkEn,
         this.trackerLinkAr,
+        this.darkTrackerLinkEn,
+        this.darkTrackerLinkAr,
     });
 
     factory TrackerData.fromJson(Map<String, dynamic> json) => TrackerData(
@@ -50,6 +54,8 @@ class TrackerData {
         matchTime: json["match_time"] == null ? null : DateTime.parse(json["match_time"]),
         trackerLinkEn: json["tracker_link_en"],
         trackerLinkAr: json["tracker_link_ar"],
+        darkTrackerLinkEn: json["dark_tracker_link_en"],
+        darkTrackerLinkAr: json["dark_tracker_link_ar"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -59,5 +65,7 @@ class TrackerData {
         "match_time": matchTime?.toIso8601String(),
         "tracker_link_en": trackerLinkEn,
         "tracker_link_ar": trackerLinkAr,
+        "dark_tracker_link_en": darkTrackerLinkEn,
+        "dark_tracker_link_ar": darkTrackerLinkAr,
     };
 }

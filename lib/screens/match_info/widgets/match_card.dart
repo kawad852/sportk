@@ -191,6 +191,7 @@ class _MatchCardState extends State<MatchCard> {
                                   ? Container(
                                       width: 64,
                                       height: 30,
+                                      alignment: Alignment.center,
                                       margin: const EdgeInsetsDirectional.symmetric(horizontal: 20),
                                       decoration: BoxDecoration(
                                         color: context.colorPalette.white.withOpacity(0.6),
