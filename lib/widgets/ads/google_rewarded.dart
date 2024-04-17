@@ -24,8 +24,8 @@ class GoogleRewarded extends StatefulWidget {
 class _GoogleRewardedState extends State<GoogleRewarded> {
   RewardedAd? _rewardedAd;
 
-  String get _iosUnitId => kDebugMode ? 'ca-app-pub-3940256099942544/1712485313' : 'ca-app-pub-8512331571054304/8016867377';
-  String get _androidUnitId => kDebugMode ? 'ca-app-pub-3940256099942544/5224354917' : 'ca-app-pub-8512331571054304/2334130007';
+  String get _iosUnitId => kDebugMode ? 'ca-app-pub-3940256099942544/1712485313' : 'ca-app-pub-8512331571054304/4115536411';
+  String get _androidUnitId => kDebugMode ? 'ca-app-pub-3940256099942544/5224354917' : 'ca-app-pub-8512331571054304/8099863518';
 
   void showAd(BuildContext context) {
     final authProvider = context.authProvider;
