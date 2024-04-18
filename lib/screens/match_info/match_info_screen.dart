@@ -63,6 +63,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen>
   @override
   void initState() {
     super.initState();
+
     _commonProvider = context.commonProvider;
     _futures = _initializeFutures();
     WidgetsBinding.instance.addObserver(this);

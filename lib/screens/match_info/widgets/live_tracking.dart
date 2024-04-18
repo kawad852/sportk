@@ -24,6 +24,7 @@ class _LiveTrackingState extends State<LiveTracking> {
   void _initialize() async {
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..enableZoom(false)
       ..setBackgroundColor(const Color(0x00000000))
       ..setNavigationDelegate(
         NavigationDelegate(

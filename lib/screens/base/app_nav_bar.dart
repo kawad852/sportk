@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:sportk/notifications/cloud_messaging_service.dart';
 import 'package:sportk/providers/auth_provider.dart';
@@ -62,6 +63,26 @@ class _AppNavBarState extends State<AppNavBar> {
     _pageController.jumpToPage(_currentIndex);
   }
 
+  Future<bool> _checkPermission(BuildContext context) async {
+    const permission =   Permission.audio;
+    final status = await permission.status;
+    if (status != PermissionStatus.granted) {
+      final result = await permission.request();
+      if (result == PermissionStatus.granted) {
+        return true;
+      } else if (result == PermissionStatus.denied) {
+        return false;
+      } else if (result == PermissionStatus.permanentlyDenied) {
+        if (context.mounted) {
+          //_showLocationErrorSnackBar(context, source);
+        }
+      }
+    } else {
+      return true;
+    }
+    return false;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -70,9 +91,11 @@ class _AppNavBarState extends State<AppNavBar> {
     authProvider.updateDeviceToken(context);
     cloudMessagingService.init(context);
     cloudMessagingService.requestPermission();
+    _checkPermission(context);
     if (widget.initFav) {
       context.favoriteProvider.fetchFavs(context);
     }
+    
     MySharedPreferences.showAd = true;
   }
 

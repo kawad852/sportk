@@ -30,7 +30,6 @@ class _MatchCardState extends State<MatchCard> {
   late FootBallProvider _footBallProvider;
   late Future<SingleMatchModel> _matchFuture;
   Duration difference = const Duration(hours: 0, minutes: 0, seconds: 0);
-  Timer? _timer;
   void _initializeFuture() {
     _matchFuture = _footBallProvider.fetchMatchById(matchId: widget.matchId);
   }
@@ -43,29 +42,12 @@ class _MatchCardState extends State<MatchCard> {
   }
 
   void showTimer(DateTime date, int state) {
-    final utcTime = DateTime.utc(date.year, date.month, date.day, date.hour, date.minute, date.second);
+    final utcTime =
+        DateTime.utc(date.year, date.month, date.day, date.hour, date.minute, date.second);
     final localTime = utcTime.toLocal();
     difference = localTime.difference(DateTime.now());
-    if (difference.inHours <= 24 && state == 1) {
-      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-        setState(() {
-          difference -= const Duration(seconds: 1);
-        });
-        if (difference.isNegative ||
-            difference == const Duration(hours: 0, minutes: 0, seconds: 0)) {
-          setState(() {
-            timer.cancel();
-          });
-        }
-      });
-    }
   }
 
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -249,14 +231,24 @@ class _MatchCardState extends State<MatchCard> {
                         style: TextStyle(color: context.colorPalette.white),
                       ),
                     ),
-                  if (!difference.isNegative && match.data!.state!.id == 1 && difference.inHours <= 24)
-                    Text(
-                      "${difference.inHours}:${difference.inMinutes.remainder(60)}:${difference.inSeconds.remainder(60)}",
-                      style: TextStyle(
-                        color: context.colorPalette.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                  if (!difference.isNegative &&
+                      match.data!.state!.id == 1 &&
+                      difference.inHours <= 24)
+                    TweenAnimationBuilder<Duration>(
+                        duration: difference,
+                        tween: Tween(begin: difference, end: Duration.zero),
+                        builder: (BuildContext context, Duration value, Widget? child) {
+                          final hours = value.inHours;
+                          final minutes = value.inMinutes.remainder(60);
+                          final seconds = value.inSeconds.remainder(60);
+                          return Text(
+                            "$hours:$minutes:$seconds",
+                            style: TextStyle(
+                              color: context.colorPalette.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          );
+                        }),
                   const SizedBox(
                     height: 10,
                   ),
