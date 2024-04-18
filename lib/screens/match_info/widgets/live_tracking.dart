@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:sportk/widgets/ads/google_banner.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class LiveTracking extends StatefulWidget {
@@ -44,10 +46,9 @@ class _LiveTrackingState extends State<LiveTracking> {
     <html>
     <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     </head>
     <body>
-      <embed type="text/html" src="${widget.link}" width="100%" height="500">
+      <embed type="text/html" src="${widget.link}" width="100%" height="250">
     </body>
     </html>
     ''', baseUrl: "https://thesportk.com");
@@ -69,8 +70,22 @@ class _LiveTrackingState extends State<LiveTracking> {
               child: LinearProgressIndicator(),
             )
           : null,
-      body: WebViewWidget(
-        controller: controller,
+      body: Column(
+        children: [
+          SizedBox(
+            width: double.infinity,
+            height: 250,
+            child: WebViewWidget(
+              controller: controller,
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+            child: GoogleBanner(
+              adSize: AdSize.fullBanner,
+            ),
+          )
+        ],
       ),
     );
   }

@@ -24,6 +24,8 @@ import 'package:sportk/widgets/custom_back.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 import 'package:sportk/widgets/league_standings.dart';
+import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
+import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 import 'package:sportk/widgets/stretch_button.dart';
 
 class MatchInfoScreen extends StatefulWidget {
@@ -91,6 +93,17 @@ class _MatchInfoScreenState extends State<MatchInfoScreen>
         setState(() {
           _futures = _initializeFutures();
         });
+      },
+      onLoading: () {
+        return Scaffold(
+          bottomNavigationBar: ShimmerLoading(
+            child: LoadingBubble(
+              width: double.infinity,
+              height: context.systemButtonHeight + 4,
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+            ),
+          ),
+        );
       },
       onComplete: (context, snapshot) {
         final matchPoints = snapshot.data![0] as MatchPointsModel;
