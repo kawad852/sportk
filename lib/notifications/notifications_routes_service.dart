@@ -5,12 +5,14 @@ import 'package:sportk/screens/news/news_details_screen.dart';
 import 'package:sportk/screens/web/web_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
+import 'package:sportk/utils/shared_pref.dart';
 
 class NotificationsRouteService {
   void toggle(BuildContext context, Map<String, dynamic> data) {
     try {
       final id = data['id'] as String?;
       final type = data['type'] as String?;
+      MySharedPreferences.showAd = false;
       switch (type) {
         case NotificationsType.blog:
           navigatorKey.currentState!.push(

@@ -10,6 +10,7 @@ import 'package:sportk/screens/news/widgets/news_empty_result.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/shared_pref.dart';
+import 'package:sportk/widgets/ads/google_%20interstitial.dart';
 import 'package:sportk/widgets/ads/google_banner.dart';
 import 'package:sportk/widgets/custom_back.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
@@ -53,105 +54,107 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomFutureBuilder(
-      future: _newFuture,
-      withBackgroundColor: true,
-      onRetry: () {
-        setState(() {
-          _initializeNew();
-        });
-      },
-      onComplete: (context, snapshot) {
-        final newData = snapshot.data!.data!;
-        return Scaffold(
-          bottomNavigationBar: const BottomAppBar(
-            child: GoogleBanner(),
-          ),
-          body: CustomScrollView(
-            slivers: [
-              const SliverAppBar(
-                leadingWidth: 120,
-                pinned: true,
-                leading: CustomBack(),
-              ),
-              SliverPadding(
-                padding: const EdgeInsetsDirectional.symmetric(horizontal: 10),
-                sliver: SliverToBoxAdapter(
-                  child: NewsDetailsCard(newData: newData, source: newData.source),
+    return GoogleInterstitial(
+      child: CustomFutureBuilder(
+        future: _newFuture,
+        withBackgroundColor: true,
+        onRetry: () {
+          setState(() {
+            _initializeNew();
+          });
+        },
+        onComplete: (context, snapshot) {
+          final newData = snapshot.data!.data!;
+          return Scaffold(
+            bottomNavigationBar: const BottomAppBar(
+              child: GoogleBanner(),
+            ),
+            body: CustomScrollView(
+              slivers: [
+                const SliverAppBar(
+                  leadingWidth: 120,
+                  pinned: true,
+                  leading: CustomBack(),
                 ),
-              ),
-              SliverPadding(
-                padding: const EdgeInsetsDirectional.symmetric(horizontal: 10),
-                sliver: SliverToBoxAdapter(
-                  child: NewDetailsCommentSection(newId: _newId),
+                SliverPadding(
+                  padding: const EdgeInsetsDirectional.symmetric(horizontal: 10),
+                  sliver: SliverToBoxAdapter(
+                    child: NewsDetailsCard(newData: newData, source: newData.source),
+                  ),
                 ),
-              ),
-              if (newData.tags!.isNotEmpty)
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsetsDirectional.only(
-                      start: 20,
-                      bottom: 5,
-                    ),
-                    child: Text(
-                      context.appLocalization.moreNews,
-                      style: TextStyle(
-                        color: context.colorPalette.blueD4B,
-                        fontWeight: FontWeight.w600,
+                SliverPadding(
+                  padding: const EdgeInsetsDirectional.symmetric(horizontal: 10),
+                  sliver: SliverToBoxAdapter(
+                    child: NewDetailsCommentSection(newId: _newId),
+                  ),
+                ),
+                if (newData.tags!.isNotEmpty)
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsetsDirectional.only(
+                        start: 20,
+                        bottom: 5,
+                      ),
+                      child: Text(
+                        context.appLocalization.moreNews,
+                        style: TextStyle(
+                          color: context.colorPalette.blueD4B,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              if (newData.tags!.isNotEmpty)
-                VexPaginator(
-                  query: (pageKey) async => context.commonProvider.fetchNews(pageKey, url: '${BlogsType.tag(newData.tags!.first.id!)}?locale=${MySharedPreferences.language}'),
-                  onFetching: (snapshot) async => snapshot.data!,
-                  sliver: true,
-                  pageSize: 10,
-                  onLoading: () {
-                    return ShimmerLoading(
-                      child: ListView.separated(
-                        itemCount: 10,
-                        separatorBuilder: (context, index) => const SizedBox(height: 5),
-                        physics: const NeverScrollableScrollPhysics(),
-                        padding: const EdgeInsetsDirectional.symmetric(horizontal: 10),
-                        itemBuilder: (context, index) {
-                          return const ShimmerLoading(
-                            child: LoadingBubble(
-                              height: 260,
-                              radius: 15,
-                              margin: EdgeInsetsDirectional.all(8.0),
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  },
-                  builder: (context, snapshot) {
-                    if (snapshot.docs.isEmpty) {
-                      return const SliverToBoxAdapter(
-                        child: NewsEmptyResult(),
+                if (newData.tags!.isNotEmpty)
+                  VexPaginator(
+                    query: (pageKey) async => context.commonProvider.fetchNews(pageKey, url: '${BlogsType.tag(newData.tags!.first.id!)}?locale=${MySharedPreferences.language}'),
+                    onFetching: (snapshot) async => snapshot.data!,
+                    sliver: true,
+                    pageSize: 10,
+                    onLoading: () {
+                      return ShimmerLoading(
+                        child: ListView.separated(
+                          itemCount: 10,
+                          separatorBuilder: (context, index) => const SizedBox(height: 5),
+                          physics: const NeverScrollableScrollPhysics(),
+                          padding: const EdgeInsetsDirectional.symmetric(horizontal: 10),
+                          itemBuilder: (context, index) {
+                            return const ShimmerLoading(
+                              child: LoadingBubble(
+                                height: 260,
+                                radius: 15,
+                                margin: EdgeInsetsDirectional.all(8.0),
+                              ),
+                            );
+                          },
+                        ),
                       );
-                    }
-                    return SliverPadding(
-                      padding: const EdgeInsetsDirectional.all(20),
-                      sliver: SliverList.separated(
-                        separatorBuilder: (context, index) => const SizedBox(height: 5),
-                        itemCount: 6,
-                        itemBuilder: (context, index) {
-                          final newData = snapshot.docs[index] as NewData;
-                          return NewsCard(
-                            newData: newData,
-                          );
-                        },
-                      ),
-                    );
-                  },
-                ),
-            ],
-          ),
-        );
-      },
+                    },
+                    builder: (context, snapshot) {
+                      if (snapshot.docs.isEmpty) {
+                        return const SliverToBoxAdapter(
+                          child: NewsEmptyResult(),
+                        );
+                      }
+                      return SliverPadding(
+                        padding: const EdgeInsetsDirectional.all(20),
+                        sliver: SliverList.separated(
+                          separatorBuilder: (context, index) => const SizedBox(height: 5),
+                          itemCount: 6,
+                          itemBuilder: (context, index) {
+                            final newData = snapshot.docs[index] as NewData;
+                            return NewsCard(
+                              newData: newData,
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }
