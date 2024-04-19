@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:345784452202:android:8a07fad1d5bd50d550f613",
+        "mobilesdk_app_id": "1:345784452202:android:b4f15a38a2ceb9d550f613",
         "android_client_info": {
-          "package_name": "com.sportk.wecan"
+          "package_name": "com.eascore.wecan"
         }
       },
       "oauth_client": [
@@ -29,6 +29,81 @@
             {
               "client_id": "345784452202-20ajjtpjcaa06q0fd2uarfhcvrkh2sbm.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "345784452202-oei9en742grn64e5gncpfsrq760b8snb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sportk.wecan"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345784452202:android:8a07fad1d5bd50d550f613",
+        "android_client_info": {
+          "package_name": "com.sportk.wecan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "345784452202-8bgvtb6tr5aa98522rg9g1n82m4aih9a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sportk.wecan",
+            "certificate_hash": "8dec8aefed1352b4ae6c310ddcc2aa05d8e16be5"
+          }
+        },
+        {
+          "client_id": "345784452202-knevrc4iossohrg5cbs1ioum5cl2vj7i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sportk.wecan",
+            "certificate_hash": "08c64fa4301e5b4b352751a6b9b944bb3067e109"
+          }
+        },
+        {
+          "client_id": "345784452202-op7hjta0lqsjfiukk60crbac46i7irql.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sportk.wecan",
+            "certificate_hash": "09e55cf6f1986f5d9b9ffdcab8f3f793c716b319"
+          }
+        },
+        {
+          "client_id": "345784452202-ur9kd3cqb9st0bt5d0pf10gudn7c92i3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sportk.wecan",
+            "certificate_hash": "6572fd273c2d68ec2610c4b7e89d96cc5e11378d"
+          }
+        },
+        {
+          "client_id": "345784452202-20ajjtpjcaa06q0fd2uarfhcvrkh2sbm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADxL_T3H9VmZoTV6f-tFKH2dkuX7w7Nso"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "345784452202-20ajjtpjcaa06q0fd2uarfhcvrkh2sbm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "345784452202-oei9en742grn64e5gncpfsrq760b8snb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sportk.wecan"
+              }
             }
           ]
         }
