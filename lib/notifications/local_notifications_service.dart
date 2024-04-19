@@ -37,12 +37,12 @@ class LocalNotificationsService {
       final data = message.notification;
       final id = DateTime.now().millisecondsSinceEpoch ~/ 1000;
       const AndroidNotificationChannel channel = AndroidNotificationChannel(
-        'appChannel', // id
-        'app channel', // title
-        description: 'This channel is used for important notifications.',
-        importance: Importance.max,
-        playSound: true,
-      );
+          'appChannel', // id
+          'app channel', // title
+          description: 'This channel is used for important notifications.',
+          importance: Importance.max,
+          playSound: true,
+          sound: RawResourceAndroidNotificationSound('goal'));
 
       await _flutterLocalNotificationsPlugin.show(
         id,
@@ -57,6 +57,7 @@ class LocalNotificationsService {
             playSound: true,
             icon: '@mipmap/ic_launcher',
             color: context.colorScheme.primary,
+            sound: const RawResourceAndroidNotificationSound('goal'),
           ),
           iOS: const DarwinNotificationDetails(),
         ),
