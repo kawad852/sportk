@@ -52,7 +52,7 @@ class _LiveTrackingState extends State<LiveTracking> {
       <embed type="text/html" src="${widget.link}" width="100%" height="250">
     </body>
     </html>
-    ''', baseUrl: "https://thesportk.com");
+    ''', baseUrl: "https://eascore.io/");
   }
 
   @override

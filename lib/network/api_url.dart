@@ -2,7 +2,7 @@ import 'package:sportk/utils/shared_pref.dart';
 
 class ApiUrl {
   static const String sportsMailUrl = 'https://api.sportmonks.com/v3';
-  static const String weCanMailUrl = 'http://dash.thesportk.com';
+  static const String weCanMailUrl = 'https://dash.eascore.io';
   static String locale = 'locale=${MySharedPreferences.language}';
   static String auth = '?api_token=cdxo3ts8WT2RbL8ovPjExCo20qnABdBZSYWO8YoEPqKMvHifLPhk1uUZWQq6';
 
