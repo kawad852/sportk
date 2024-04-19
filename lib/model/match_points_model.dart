@@ -45,6 +45,7 @@ class PointsData {
   String? competitionName;
   String? competitionLogo;
   String? competitionId;
+  int? goingMatch;
   int? status;
   int? statusSoon;
   TotalPredictions? totalPredictions;
@@ -68,6 +69,7 @@ class PointsData {
     this.competitionName,
     this.competitionLogo,
     this.competitionId,
+    this.goingMatch,
     this.status,
     this.statusSoon,
     this.totalPredictions,
@@ -92,6 +94,7 @@ class PointsData {
         competitionName: json["competition_name"],
         competitionLogo: json["competition_logo"],
         competitionId: json["competition_id"],
+        goingMatch: json["going_match"],
         status: json["status"],
         statusSoon: json["status_soon"],
         totalPredictions: json["total_predictions"] == null
@@ -118,6 +121,7 @@ class PointsData {
         "competition_name": competitionName,
         "competition_logo": competitionLogo,
         "competition_id": competitionId,
+        "going_match":goingMatch,
         "status": status,
         "status_soon": statusSoon,
         "total_predictions": totalPredictions?.toJson(),
@@ -139,9 +143,9 @@ class TotalPredictions {
 
   factory TotalPredictions.fromJson(Map<String, dynamic> json) => TotalPredictions(
         id: json["id"],
-        home: json["home"] is double? json["home"].toInt():json["home"],
-        away: json["away"] is double? json["away"].toInt():json["away"],
-        draw: json["draw"] is double? json["draw"].toInt():json["draw"],
+        home: json["home"] is double ? json["home"].toInt() : json["home"],
+        away: json["away"] is double ? json["away"].toInt() : json["away"],
+        draw: json["draw"] is double ? json["draw"].toInt() : json["draw"],
       );
 
   Map<String, dynamic> toJson() => {

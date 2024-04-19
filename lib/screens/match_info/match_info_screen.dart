@@ -11,6 +11,7 @@ import 'package:sportk/screens/match_info/widgets/live_tracking.dart';
 import 'package:sportk/screens/match_info/widgets/match_card.dart';
 import 'package:sportk/screens/match_info/widgets/match_detalis.dart';
 import 'package:sportk/screens/match_info/widgets/match_events.dart';
+import 'package:sportk/screens/match_info/widgets/match_info_loading.dart';
 import 'package:sportk/screens/match_info/widgets/match_scorers.dart';
 import 'package:sportk/screens/match_info/widgets/match_statistics.dart';
 import 'package:sportk/screens/match_info/widgets/teams_plan.dart';
@@ -24,8 +25,6 @@ import 'package:sportk/widgets/custom_back.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_svg.dart';
 import 'package:sportk/widgets/league_standings.dart';
-import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
-import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 import 'package:sportk/widgets/stretch_button.dart';
 
 class MatchInfoScreen extends StatefulWidget {
@@ -63,7 +62,6 @@ class _MatchInfoScreenState extends State<MatchInfoScreen>
   @override
   void initState() {
     super.initState();
-
     _commonProvider = context.commonProvider;
     _futures = _initializeFutures();
     WidgetsBinding.instance.addObserver(this);
@@ -96,15 +94,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen>
         });
       },
       onLoading: () {
-        return Scaffold(
-          bottomNavigationBar: ShimmerLoading(
-            child: LoadingBubble(
-              width: double.infinity,
-              height: context.systemButtonHeight + 4,
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-            ),
-          ),
-        );
+        return const MatchInfoLoading();
       },
       onComplete: (context, snapshot) {
         final matchPoints = snapshot.data![0] as MatchPointsModel;
@@ -180,6 +170,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen>
                       MatchCard(
                         matchId: widget.matchId,
                         statusMatch: pointsData.statusSoon!,
+                        firstMatchId: pointsData.goingMatch,
                       ),
                       const SizedBox(
                         height: 10,

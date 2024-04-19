@@ -6,20 +6,26 @@ import 'package:sportk/model/match_model.dart';
 import 'package:sportk/model/single_match_model.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/home/widgets/live_bubble.dart';
+import 'package:sportk/screens/match_info/widgets/final_result.dart';
+import 'package:sportk/screens/match_info/widgets/team_card_loading.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/screens/match_info/widgets/team_card.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/match_timer_circle.dart';
+import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
+import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 
 class MatchCard extends StatefulWidget {
   final int matchId;
+  final int? firstMatchId;
   final int statusMatch;
   const MatchCard({
     super.key,
     required this.matchId,
     required this.statusMatch,
+    this.firstMatchId,
   });
 
   @override
@@ -48,7 +54,6 @@ class _MatchCardState extends State<MatchCard> {
     difference = localTime.difference(DateTime.now());
   }
 
-
   @override
   Widget build(BuildContext context) {
     return CustomFutureBuilder(
@@ -60,13 +65,74 @@ class _MatchCardState extends State<MatchCard> {
       },
       onError: (snapshot) => const SizedBox.shrink(),
       onLoading: () {
-        return Padding(
-          padding: const EdgeInsetsDirectional.only(bottom: 60),
-          child: Center(
-            child: CircularProgressIndicator(
-              color: context.colorPalette.blueD4B,
+        return const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              flex: 2,
+              child: Column(
+                children: [
+                  ShimmerLoading(
+                    child: LoadingBubble(
+                      width: 70,
+                      height: 70,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  ShimmerLoading(
+                    child: LoadingBubble(
+                      height: 20,
+                      width: 60,
+                      padding: EdgeInsetsDirectional.symmetric(vertical: 5, horizontal: 5),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  ShimmerLoading(child: TeamCardLoading()),
+                ],
+              ),
             ),
-          ),
+            Expanded(
+              flex: 3,
+              child: ShimmerLoading(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    LoadingBubble(
+                      width: 50,
+                      height: 30,
+                      margin: EdgeInsetsDirectional.symmetric(horizontal: 20),
+                      radius: MyTheme.radiusSecondary,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Column(
+                children: [
+                  ShimmerLoading(
+                    child: LoadingBubble(
+                      width: 70,
+                      height: 70,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  ShimmerLoading(
+                    child: LoadingBubble(
+                      height: 20,
+                      width: 60,
+                      padding: EdgeInsetsDirectional.symmetric(vertical: 5, horizontal: 5),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  ShimmerLoading(child: TeamCardLoading()),
+                ],
+              ),
+            ),
+          ],
         );
       },
       onComplete: (context, snapshot) {
@@ -88,11 +154,30 @@ class _MatchCardState extends State<MatchCard> {
         List<double> goalsTime = [];
         int homeGoals = 0;
         int awayGoals = 0;
+        int penaltyGoalsHome = 0;
+        int penaltyGoalsAway = 0;
         int? minute;
         int? timeAdded;
         Participant teamHome = Participant();
         Participant teamAway = Participant();
+        Future.wait(match.data!.participants!.map((e) async {
+          if (e.meta!.location == LocationEnum.home) {
+            teamHome = e;
+          } else {
+            teamAway = e;
+          }
+        }).toSet());
         match.data!.periods!.map((period) {
+          if (period.typeId == 5) {
+            period.events!.map((penalty) {
+              if (penalty.typeId == 23 && penalty.participantId == teamHome.id) {
+                penaltyGoalsHome += 1;
+              }
+              if (penalty.typeId == 23 && penalty.participantId == teamAway.id) {
+                penaltyGoalsAway += 1;
+              }
+            }).toList();
+          }
           if (period.hasTimer! && (period.typeId == 2 || period.typeId == 1)) {
             minute = period.minutes;
             timeAdded = period.timeAdded;
@@ -118,13 +203,7 @@ class _MatchCardState extends State<MatchCard> {
             }
           },
         ).toSet();
-        match.data!.participants!.map((e) {
-          if (e.meta!.location == LocationEnum.home) {
-            teamHome = e;
-          } else {
-            teamAway = e;
-          }
-        }).toSet();
+
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -140,13 +219,24 @@ class _MatchCardState extends State<MatchCard> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        showGoals ? "$homeGoals" : "",
-                        style: TextStyle(
-                          color: context.colorPalette.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Column(
+                        children: [
+                          Text(
+                            showGoals ? "$homeGoals" : "",
+                            style: TextStyle(
+                              color: context.colorPalette.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          if (penaltyGoalsHome != 0)
+                            Text(
+                              "($penaltyGoalsHome)",
+                              style: TextStyle(
+                                color: context.colorPalette.white,
+                              ),
+                            ),
+                        ],
                       ),
                       match.data!.state!.id == 3
                           ? MatchTimerCircle(
@@ -205,13 +295,24 @@ class _MatchCardState extends State<MatchCard> {
                                         style: TextStyle(color: context.colorPalette.white),
                                       ),
                                     ),
-                      Text(
-                        showGoals ? "$awayGoals" : "",
-                        style: TextStyle(
-                          color: context.colorPalette.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Column(
+                        children: [
+                          Text(
+                            showGoals ? "$awayGoals" : "",
+                            style: TextStyle(
+                              color: context.colorPalette.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          if (penaltyGoalsAway != 0)
+                            Text(
+                              "($penaltyGoalsAway)",
+                              style: TextStyle(
+                                color: context.colorPalette.white,
+                              ),
+                            ),
+                        ],
                       ),
                     ],
                   ),
@@ -235,20 +336,30 @@ class _MatchCardState extends State<MatchCard> {
                       match.data!.state!.id == 1 &&
                       difference.inHours <= 24)
                     TweenAnimationBuilder<Duration>(
-                        duration: difference,
-                        tween: Tween(begin: difference, end: Duration.zero),
-                        builder: (BuildContext context, Duration value, Widget? child) {
-                          final hours = value.inHours;
-                          final minutes = value.inMinutes.remainder(60);
-                          final seconds = value.inSeconds.remainder(60);
-                          return Text(
-                            "$hours:$minutes:$seconds",
-                            style: TextStyle(
-                              color: context.colorPalette.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          );
-                        }),
+                      duration: difference,
+                      tween: Tween(begin: difference, end: Duration.zero),
+                      builder: (BuildContext context, Duration value, Widget? child) {
+                        final hours = value.inHours;
+                        final minutes = value.inMinutes.remainder(60);
+                        final seconds = value.inSeconds.remainder(60);
+                        return Text(
+                          "$hours:$minutes:$seconds",
+                          style: TextStyle(
+                            color: context.colorPalette.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        );
+                      },
+                    ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  if (widget.firstMatchId != null)
+                    FinalResult(
+                      matchId: widget.firstMatchId!,
+                      awayGoalsGoing: awayGoals,
+                      homeGoalsGoing: homeGoals,
+                    ),
                   const SizedBox(
                     height: 10,
                   ),

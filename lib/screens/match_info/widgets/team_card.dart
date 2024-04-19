@@ -4,12 +4,11 @@ import 'package:sportk/model/match_model.dart';
 import 'package:sportk/model/single_match_model.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/club/club_screen.dart';
+import 'package:sportk/screens/match_info/widgets/team_card_loading.dart';
 import 'package:sportk/utils/base_extensions.dart';
-import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
 import 'package:sportk/widgets/custom_network_image.dart';
 import 'package:sportk/screens/match_info/widgets/rounded_container.dart';
-import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 
 class TeamCard extends StatefulWidget {
@@ -116,26 +115,7 @@ class _TeamCardState extends State<TeamCard> {
           },
           onError: (snapshot) => const SizedBox(height: 25),
           onLoading: () {
-            return ShimmerLoading(
-              child: SizedBox(
-                height: 25,
-                child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 3,
-                  itemBuilder: (context, index) {
-                    return const LoadingBubble(
-                      width: 20,
-                      height: 20,
-                      margin: EdgeInsetsDirectional.only(end: 5),
-                      radius: MyTheme.radiusPrimary,
-                    );
-                  },
-                ),
-              ),
-            );
+            return const ShimmerLoading(child: TeamCardLoading());
           },
           onComplete: (context, snapshot) {
             return SizedBox(
