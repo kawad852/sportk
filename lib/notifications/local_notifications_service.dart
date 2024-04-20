@@ -10,6 +10,7 @@ import 'package:sportk/utils/base_extensions.dart';
 
 class LocalNotificationsService {
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  static late AndroidNotificationChannel androidChannel;
 
   Future<void> initialize() async {
     const initializationSettings = InitializationSettings(
@@ -36,13 +37,6 @@ class LocalNotificationsService {
     try {
       final data = message.notification;
       final id = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-      const AndroidNotificationChannel channel = AndroidNotificationChannel(
-        'appChannel', // id
-        'app channel', // title
-        description: 'This channel is used for important notifications.',
-        importance: Importance.max,
-        playSound: true,
-      );
 
       await _flutterLocalNotificationsPlugin.show(
         id,
@@ -50,13 +44,14 @@ class LocalNotificationsService {
         data?.body,
         NotificationDetails(
           android: AndroidNotificationDetails(
-            channel.id,
-            channel.name,
-            channelDescription: channel.description,
-            importance: Importance.max,
-            playSound: true,
+            androidChannel.id,
+            androidChannel.name,
+            channelDescription: androidChannel.description,
+            importance: androidChannel.importance,
+            playSound: androidChannel.playSound,
             icon: '@mipmap/ic_launcher',
             color: context.colorScheme.primary,
+            sound: const RawResourceAndroidNotificationSound('end_match_helf'),
           ),
           iOS: const DarwinNotificationDetails(),
         ),

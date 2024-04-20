@@ -135,7 +135,7 @@ class _InvitationCodeScreenState extends State<InvitationCodeScreen> {
                     children: [
                       Text(context.appLocalization.addInvitationCode),
                       Text(
-                        "$invitationCodePoints ${context.appLocalization.sportk} ",
+                        "$invitationCodePoints ${context.appLocalization.point} ",
                         style: TextStyle(
                           color: context.colorPalette.yellowF7A,
                         ),
@@ -190,7 +190,7 @@ class _InvitationCodeScreenState extends State<InvitationCodeScreen> {
                                       ),
                                     ),
                                     Text(
-                                      "$invitationCodePoints ${context.appLocalization.sportk} ",
+                                      "$invitationCodePoints ${context.appLocalization.point} ",
                                       style: TextStyle(
                                         color: context.colorPalette.yellowF7A,
                                         fontSize: 13,

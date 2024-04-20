@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Sportk</string>
+	<string>eascore</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -29,7 +29,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.345784452202-oei9en742grn64e5gncpfsrq760b8snb</string>
+				<string>com.googleusercontent.apps.345784452202-uop2mhmivc05srohdt8grac825u367fi</string>
 			</array>
 		</dict>
 		<dict>

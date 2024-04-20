@@ -84,7 +84,10 @@ class _IntroScreenState extends State<IntroScreen> {
               bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(kToolbarHeight + 20),
                 child: Center(
-                  child: Image.asset(MyImages.logo),
+                  child: Image.asset(
+                    MyImages.logo,
+                    width: 250,
+                  ),
                 ),
               ),
             ),
