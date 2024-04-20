@@ -81,7 +81,7 @@ class RequestDetalisScreen extends StatelessWidget {
                       ),
                       RequsetText(
                         text:
-                            "${context.appLocalization.numberPoints}${swapData.voucher!.points!} ${context.appLocalization.sportk}",
+                            "${context.appLocalization.numberPoints}${swapData.voucher!.points!} ${context.appLocalization.point}",
                       ),
                     ],
                   ),

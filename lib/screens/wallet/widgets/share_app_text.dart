@@ -20,7 +20,7 @@ class ShareAppText extends StatelessWidget {
               ),
             ),
             Text(
-              " $points ${context.appLocalization.sportk}",
+              " $points ${context.appLocalization.point}",
               style: TextStyle(
                 fontSize: 13,
                 color: context.colorPalette.yellowF7A,

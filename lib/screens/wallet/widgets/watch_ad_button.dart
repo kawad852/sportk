@@ -42,7 +42,7 @@ class WatchAdButton extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    context.appLocalization.sportk,
+                    context.appLocalization.point,
                     style: TextStyle(
                       fontSize: 14,
                       color: context.colorPalette.white,
