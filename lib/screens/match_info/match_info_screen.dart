@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:sportk/alerts/feedback/app_feedback.dart';
 import 'package:sportk/model/match_points_model.dart';
 import 'package:sportk/model/tracker_model.dart';
+import 'package:sportk/network/api_service.dart';
 import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/screens/champions_league/widgets/champions_matches.dart';
 import 'package:sportk/screens/chat/chat_screen.dart';
+import 'package:sportk/screens/home/widgets/live_bubble.dart';
 import 'package:sportk/screens/match_info/predictions/predictions_screen.dart';
 import 'package:sportk/screens/match_info/widgets/head_to_head.dart';
 import 'package:sportk/screens/match_info/widgets/live_tracking.dart';
@@ -42,85 +44,90 @@ class MatchInfoScreen extends StatefulWidget {
   State<MatchInfoScreen> createState() => _MatchInfoScreenState();
 }
 
-class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProviderStateMixin, WidgetsBindingObserver {
+class _MatchInfoScreenState extends State<MatchInfoScreen>
+    with SingleTickerProviderStateMixin {
   TabController? _controller;
-
+  late final AppLifecycleListener _listener;
   bool get _isDomestic => widget.subType == LeagueTypeEnum.domestic;
-
-  late Future<List<dynamic>> _futures;
+  late int lengthTab;
+  String? matchLink;
+  bool showTracker = false;
   late CommonProvider _commonProvider;
-  late Future<TrackerModel> _trackerFuture;
   late Future<MatchPointsModel> _matchPointsFuture;
 
-  Future<List<dynamic>> _initializeFutures() async {
+  void _initializeFuture() async {
     _matchPointsFuture = _commonProvider.getMatchPoints(widget.matchId);
-    _trackerFuture = _commonProvider.fetchTracker(widget.matchId);
-    return Future.wait([_matchPointsFuture, _trackerFuture]);
+  }
+
+  void fetchMatchTracker() {
+    ApiFutureBuilder<TrackerModel>().fetch(
+      context,
+      future: () async {
+        final trackerFuture = _commonProvider.fetchTracker(widget.matchId);
+        return trackerFuture;
+      },
+      onComplete: (snapshot) {
+        final matchTracker = snapshot.data;
+        if (matchTracker == null) {
+          context.showSnackBar(context.appLocalization.noLiveTracking);
+        } else {
+          switch ([MySharedPreferences.language, MySharedPreferences.theme]) {
+            case [LanguageEnum.english, ThemeEnum.light]:
+              matchLink = matchTracker.trackerLinkEn ?? "";
+            case [LanguageEnum.english, ThemeEnum.dark]:
+              matchLink = matchTracker.darkTrackerLinkEn ?? "";
+            case [LanguageEnum.arabic, ThemeEnum.light]:
+              matchLink = matchTracker.trackerLinkAr ?? "";
+            case [LanguageEnum.arabic, ThemeEnum.dark]:
+              matchLink = matchTracker.darkTrackerLinkAr ?? "";
+          }
+          setState(() {
+            _controller?.length = lengthTab + 1;
+            showTracker = true;
+          });
+        }
+      },
+    );
   }
 
   @override
   void initState() {
     super.initState();
     _commonProvider = context.commonProvider;
-    _futures = _initializeFutures();
-    WidgetsBinding.instance.addObserver(this);
+    _initializeFuture();
+    _listener = AppLifecycleListener(
+      onShow: () {
+        setState(() {
+          _initializeFuture();
+        });
+      },
+    );
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    _listener.dispose();
     super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.paused) {
-      setState(() {
-        _futures = _initializeFutures();
-      });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return CustomFutureBuilder(
-      future: _futures,
+      future: _matchPointsFuture,
       withBackgroundColor: true,
       onRetry: () {
         setState(() {
-          _futures = _initializeFutures();
+          _initializeFuture();
         });
       },
       onLoading: () {
         return const MatchInfoLoading();
       },
       onComplete: (context, snapshot) {
-        final matchPoints = snapshot.data![0] as MatchPointsModel;
-        final matchTracker = snapshot.data![1] as TrackerModel;
+        final matchPoints = snapshot.data!;
         final pointsData = matchPoints.data;
-        final showPredict = pointsData!.status == 1;
-        final showTracker = matchTracker.data != null;
-        String matchLink = "";
-        switch ([MySharedPreferences.language, MySharedPreferences.theme]) {
-          case [LanguageEnum.english, ThemeEnum.light]:
-            matchLink = matchTracker.data?.trackerLinkEn ?? "";
-          case [LanguageEnum.english, ThemeEnum.dark]:
-            matchLink = matchTracker.data?.darkTrackerLinkEn ?? "";
-          case [LanguageEnum.arabic, ThemeEnum.light]:
-            matchLink = matchTracker.data?.trackerLinkAr ?? "";
-          case [LanguageEnum.arabic, ThemeEnum.dark]:
-            matchLink = matchTracker.data?.darkTrackerLinkAr ?? "";
-        }
-        _controller ??= TabController(
-            length: showPredict
-                ? showTracker
-                    ? 9
-                    : 8
-                : showTracker
-                    ? 8
-                    : 7,
-            vsync: this);
+        lengthTab = pointsData!.status == 1 ? 8 : 7;
+        _controller ??= TabController(length: lengthTab, vsync: this);
         return Scaffold(
           bottomNavigationBar: StretchedButton(
             onPressed: () {
@@ -141,10 +148,12 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
               SliverAppBar(
                 leadingWidth: kBarLeadingWith,
                 collapsedHeight: kBarCollapsedHeight,
+                centerTitle: true,
                 pinned: true,
                 leading: CustomBack(
                   color: context.colorPalette.white,
                 ),
+                title: LiveBubble(matchId: widget.matchId),
                 actions: [
                   IconButton(
                     onPressed: () {},
@@ -156,7 +165,9 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(
-                        MyTheme.isLightTheme(context) ? MyImages.backgroundClub : MyImages.backgroundClubDark,
+                        MyTheme.isLightTheme(context)
+                            ? MyImages.backgroundClub
+                            : MyImages.backgroundClubDark,
                       ),
                       fit: BoxFit.cover,
                     ),
@@ -168,17 +179,22 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                         matchId: widget.matchId,
                         statusMatch: pointsData.statusSoon!,
                         firstMatchId: pointsData.goingMatch,
+                        onTracking: () {
+                          fetchMatchTracker();
+                        },
                       ),
                       const SizedBox(
                         height: 10,
                       ),
                       Padding(
-                        padding: const EdgeInsetsDirectional.symmetric(horizontal: 20),
+                        padding: const EdgeInsetsDirectional.symmetric(
+                            horizontal: 20),
                         child: Container(
                           height: 45,
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
+                            borderRadius:
+                                BorderRadius.circular(MyTheme.radiusSecondary),
                             color: context.colorPalette.grey9E9,
                           ),
                           child: TabBar(
@@ -189,11 +205,14 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                             labelColor: context.colorPalette.tabColor,
                             tabAlignment: TabAlignment.center,
                             indicatorSize: TabBarIndicatorSize.label,
-                            labelPadding: const EdgeInsetsDirectional.only(bottom: 8, end: 30, top: 10),
-                            padding: const EdgeInsetsDirectional.only(start: 10),
+                            labelPadding: const EdgeInsetsDirectional.only(
+                                bottom: 8, end: 30, top: 10),
+                            padding:
+                                const EdgeInsetsDirectional.only(start: 10),
                             tabs: [
-                              if (showTracker) Text(context.appLocalization.liveTracking),
-                              if (showPredict)
+                              if (showTracker)
+                                Text(context.appLocalization.liveTracking),
+                              if (pointsData.status == 1)
                                 Row(
                                   children: [
                                     const CustomSvg(
@@ -211,7 +230,9 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
                               Text(context.appLocalization.statistics),
                               Text(context.appLocalization.details),
                               Text(
-                                _isDomestic ? context.appLocalization.standings : context.appLocalization.table,
+                                _isDomestic
+                                    ? context.appLocalization.standings
+                                    : context.appLocalization.table,
                               ),
                               Text(context.appLocalization.scorers),
                               Text(context.appLocalization.headTwohead),
@@ -225,12 +246,16 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProv
               ),
               SliverFillRemaining(
                 child: TabBarView(
-                  physics: showTracker ? const NeverScrollableScrollPhysics() : null,
+                  physics:
+                      showTracker ? const NeverScrollableScrollPhysics() : null,
                   controller: _controller,
                   children: [
-                    if (showTracker) LiveTracking(link: matchLink),
-                    if (showPredict) PredictionsScreen(pointsData: pointsData),
-                    MatchEvents(matchId: widget.matchId, homeId: int.parse(pointsData.homeId!)),
+                    if (showTracker) LiveTracking(link: matchLink!),
+                    if (pointsData.status == 1)
+                      PredictionsScreen(pointsData: pointsData),
+                    MatchEvents(
+                        matchId: widget.matchId,
+                        homeId: int.parse(pointsData.homeId!)),
                     TeamsPlan(matchId: widget.matchId),
                     MatchStatistics(matchId: widget.matchId),
                     MatchDetalis(matchId: widget.matchId),

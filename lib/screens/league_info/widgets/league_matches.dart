@@ -20,10 +20,10 @@ class LeagueMatches extends StatefulWidget {
   State<LeagueMatches> createState() => _LeagueMatchesState();
 }
 
-class _LeagueMatchesState extends State<LeagueMatches> with AutomaticKeepAliveClientMixin,WidgetsBindingObserver {
+class _LeagueMatchesState extends State<LeagueMatches> with AutomaticKeepAliveClientMixin {
   late FootBallProvider _footBallProvider;
   late Future<MatchModel> _matchesFuture;
-
+  late final AppLifecycleListener _listener;
   final _vexKey = GlobalKey<VexPaginatorState>();
 
   Future<MatchModel> _initializeFuture(int pageKey) {
@@ -39,25 +39,23 @@ class _LeagueMatchesState extends State<LeagueMatches> with AutomaticKeepAliveCl
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
     _footBallProvider = context.footBallProvider;
+    _listener =AppLifecycleListener(
+      onShow: (){
+        setState(() {
+         _vexKey.currentState!.refresh();
+        });
+      },
+    );
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    _listener.dispose();
     super.dispose();
   }
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.paused) {
-      setState(() {
-        _vexKey.currentState!.refresh();
-      });
-    }
-  }
+ 
 
   @override
   Widget build(BuildContext context) {

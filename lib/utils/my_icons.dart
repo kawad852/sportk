@@ -54,6 +54,7 @@ class MyIcons {
   static const String penaltyMissed = '${_path}penalty_missed.svg';
   static const String penaltyScored = '${_path}penalty_scored.svg';
   static const String yellowRedCard = '${_path}yellow_red.svg';
+  static const String liveTracking = '${_path}live_tracking.svg';
 
   static const String dislikeFilled = '${_path}dislike_filled.svg';
   static const String dislikeOutlined = '${_path}dislike_outlined.svg';

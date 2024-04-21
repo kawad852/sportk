@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/my_images.dart';
+import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/ads/google_banner.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -11,15 +15,11 @@ class LiveTracking extends StatefulWidget {
   State<LiveTracking> createState() => _LiveTrackingState();
 }
 
-class _LiveTrackingState extends State<LiveTracking> {
+class _LiveTrackingState extends State<LiveTracking>
+    with AutomaticKeepAliveClientMixin {
   late WebViewController controller;
-  int _loadingValue = 0;
 
-  void _updateLoading(int value) {
-    setState(() {
-      _loadingValue = value;
-    });
-  }
+  bool showPage = false;
 
   void _initialize() async {
     controller = WebViewController()
@@ -28,9 +28,14 @@ class _LiveTrackingState extends State<LiveTracking> {
       ..setBackgroundColor(const Color(0x00000000))
       ..setNavigationDelegate(
         NavigationDelegate(
-          onProgress: _updateLoading,
           onPageStarted: (String url) {},
-          onPageFinished: (String url) {},
+          onPageFinished: (String url) {
+            Future.delayed(const Duration(seconds: 2)).then(
+              (value) => setState(() {
+                showPage = true;
+              }),
+            );
+          },
           onWebResourceError: (WebResourceError error) {
             print('myError::: $error');
           },
@@ -68,31 +73,49 @@ class _LiveTrackingState extends State<LiveTracking> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: _loadingValue < 100
-          ? const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: LinearProgressIndicator(),
+      body: !showPage
+          ? Container(
+              width: double.infinity,
+              height: 280,
+              margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
+                color: const Color(0xFFD9D9D9),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    MyImages.logo,
+                    width: 100,
+                  ),
+                  const SizedBox(height: 10),
+                  SpinKitCircle(color: context.colorPalette.white),
+                ],
+              ),
             )
-          : null,
-      body: Column(
-        children: [
-          SizedBox(
-            width: double.infinity,
-            height: 250,
-            child: WebViewWidget(
-              controller: controller,
+          : Column(
+              children: [
+                SizedBox(
+                  width: double.infinity,
+                  height: 280,
+                  child: WebViewWidget(
+                    controller: controller,
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                  child: GoogleBanner(
+                    adSize: AdSize.fullBanner,
+                  ),
+                )
+              ],
             ),
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-            child: GoogleBanner(
-              adSize: AdSize.fullBanner,
-            ),
-          )
-        ],
-      ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

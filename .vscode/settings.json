@@ -1,7 +1,9 @@
 {
     "dart.flutterSdkPath": "C:\\flutter_windows_3.16.8-stable\\flutter",
     "[dart]": {
-        "editor.rulers": [400]
+        "editor.rulers": [
+            400
+        ]
     },
-    "editor.formatOnSave":false
+    "editor.formatOnSave": true
 }

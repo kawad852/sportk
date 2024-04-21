@@ -37,12 +37,12 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMixin, WidgetsBindingObserver {
+class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMixin {
   late CommonProvider _commonProvider;
   late FootBallProvider _footBallProvider;
   bool _isLive = false;
   late DateTime _selectedDate;
-
+  late final AppLifecycleListener _listener;
   DateTime get _nowDate => DateTime.now();
 
   int get _maxDuration => 30;
@@ -108,22 +108,19 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     _footBallProvider = context.footBallProvider;
     _selectedDate = _nowDate;
     _commonProvider.initializeHome(context, date: _selectedDate);
-    WidgetsBinding.instance.addObserver(this);
+    _listener =AppLifecycleListener(
+      onShow: (){
+        setState(() {});
+      },
+    );
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+   _listener.dispose();
     super.dispose();
   }
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.paused) {
-      setState(() {});
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

@@ -278,5 +278,6 @@
   "comments": "Comments",
   "addReply": "Add a reply",
   "reply": "Reply",
-  "liveTracking":"Live tracking"
+  "liveTracking":"Live tracking",
+  "noLiveTracking":"There is no live tracking for this match"
 }

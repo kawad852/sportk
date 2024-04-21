@@ -75,7 +75,10 @@ class _LiveBubbleState extends State<LiveBubble> {
                     ),
                     Text(
                       context.appLocalization.live,
-                      style: TextStyle(color: context.colorPalette.blueD4B),
+                      style: TextStyle(
+                        color: context.colorPalette.blueD4B,
+                        fontSize: 15,
+                      ),
                     )
                   ],
                 ),
