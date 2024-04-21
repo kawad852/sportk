@@ -60,6 +60,9 @@ class _ChatScreenState extends State<ChatScreen> {
     setState(() {
       _isEmojiShown = !_isEmojiShown;
     });
+    if (_isEmojiShown) {
+      context.unFocusKeyboard();
+    }
   }
 
   void _initializeQuery() {
@@ -148,6 +151,11 @@ class _ChatScreenState extends State<ChatScreen> {
             bottom: !_isEmojiShown,
             child: ChatEditor(
               controller: _controller,
+              onTap: () {
+                setState(() {
+                  _isEmojiShown = false;
+                });
+              },
               onPressed: _controller.text.isNotEmpty
                   ? () {
                       _sendMessage();

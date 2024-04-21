@@ -42,8 +42,7 @@ class MatchInfoScreen extends StatefulWidget {
   State<MatchInfoScreen> createState() => _MatchInfoScreenState();
 }
 
-class _MatchInfoScreenState extends State<MatchInfoScreen>
-    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
+class _MatchInfoScreenState extends State<MatchInfoScreen> with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   TabController? _controller;
 
   bool get _isDomestic => widget.subType == LeagueTypeEnum.domestic;
@@ -127,7 +126,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen>
             onPressed: () {
               context.showBottomSheet(
                 context,
-                maxHeight: context.mediaQuery.height * 0.63,
+                // maxHeight: context.mediaQuery.height * 0.63,
                 builder: (context) {
                   return ChatScreen(matchId: widget.matchId);
                 },
@@ -157,9 +156,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen>
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(
-                        MyTheme.isLightTheme(context)
-                            ? MyImages.backgroundClub
-                            : MyImages.backgroundClubDark,
+                        MyTheme.isLightTheme(context) ? MyImages.backgroundClub : MyImages.backgroundClubDark,
                       ),
                       fit: BoxFit.cover,
                     ),
@@ -192,8 +189,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen>
                             labelColor: context.colorPalette.tabColor,
                             tabAlignment: TabAlignment.center,
                             indicatorSize: TabBarIndicatorSize.label,
-                            labelPadding:
-                                const EdgeInsetsDirectional.only(bottom: 8, end: 30, top: 10),
+                            labelPadding: const EdgeInsetsDirectional.only(bottom: 8, end: 30, top: 10),
                             padding: const EdgeInsetsDirectional.only(start: 10),
                             tabs: [
                               if (showTracker) Text(context.appLocalization.liveTracking),
@@ -215,9 +211,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen>
                               Text(context.appLocalization.statistics),
                               Text(context.appLocalization.details),
                               Text(
-                                _isDomestic
-                                    ? context.appLocalization.standings
-                                    : context.appLocalization.table,
+                                _isDomestic ? context.appLocalization.standings : context.appLocalization.table,
                               ),
                               Text(context.appLocalization.scorers),
                               Text(context.appLocalization.headTwohead),

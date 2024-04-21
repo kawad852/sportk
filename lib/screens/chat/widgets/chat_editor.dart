@@ -10,12 +10,14 @@ class ChatEditor extends StatelessWidget {
   final TextEditingController controller;
   final VoidCallback? onPressed;
   final VoidCallback? onEmojiTap;
+  final VoidCallback onTap;
 
   const ChatEditor({
     super.key,
     required this.controller,
     required this.onPressed,
     this.onEmojiTap,
+    required this.onTap,
   });
 
   @override
@@ -57,6 +59,7 @@ class ChatEditor extends StatelessWidget {
                 controller: controller,
                 keyboardType: TextInputType.multiline,
                 onTapOutside: () {},
+                onTap: onTap,
                 maxLines: null,
                 padding: const EdgeInsetsDirectional.only(end: 10),
                 hintText: context.appLocalization.chatHint,
