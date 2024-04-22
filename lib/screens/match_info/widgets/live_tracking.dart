@@ -31,9 +31,7 @@ class _LiveTrackingState extends State<LiveTracking> {
           onProgress: _updateLoading,
           onPageStarted: (String url) {},
           onPageFinished: (String url) {},
-          onWebResourceError: (WebResourceError error) {
-            print('myError::: $error');
-          },
+          onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest request) {
             if (request.url.startsWith('https://www.youtube.com/')) {
               return NavigationDecision.prevent;
