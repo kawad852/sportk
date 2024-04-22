@@ -73,6 +73,7 @@ dependencies:
   flutter_branch_sdk: ^7.1.0
   share_plus: ^7.2.2
   permission_handler: ^11.3.1
+  flutter_facebook_auth: ^6.2.0
 
 
   #firebase
