@@ -278,5 +278,6 @@
   "comments": "Comments",
   "addReply": "Add a reply",
   "reply": "Reply",
-  "liveTracking":"Live tracking"
+  "liveTracking":"Live tracking",
+  "linkError": "Links are not allowed in chat"
 }

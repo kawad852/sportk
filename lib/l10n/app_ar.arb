@@ -278,5 +278,6 @@
   "comments": "التعليقات",
   "addReply": "أضف رداً",
   "reply": "الرد",
-  "liveTracking":"تتبع مباشر"
+  "liveTracking":"تتبع مباشر",
+  "linkError": "لا يسمح بارسال الروابط عبر الدردشة"
 }
