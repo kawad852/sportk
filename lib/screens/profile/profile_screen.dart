@@ -78,23 +78,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
         padding: const EdgeInsets.all(20),
         children: [
           ProfileHeader(title: context.appLocalization.mySettings),
-          // StatefulBuilder(
-          //   builder: (context, setState) {
-          //     return ProfileTile(
-          //       onTap: () {
-          //         _toggleNotification();
-          //       },
-          //       title: context.appLocalization.notifications,
-          //       icon: MyIcons.bell,
-          //       trailing: Switch(
-          //         value: MySharedPreferences.notificationsEnabled,
-          //         onChanged: (value) {
-          //           _toggleNotification();
-          //         },
-          //       ),
-          //     );
-          //   },
-          // ),
+          StatefulBuilder(
+            builder: (context, setState) {
+              return ProfileTile(
+                onTap: () {
+                  _toggleNotification();
+                },
+                title: context.appLocalization.notifications,
+                icon: MyIcons.bell,
+                trailing: Switch(
+                  value: MySharedPreferences.notificationsEnabled,
+                  onChanged: (value) {
+                    _toggleNotification();
+                  },
+                ),
+              );
+            },
+          ),
           Selector<AppProvider, String>(
             selector: (context, provider) => provider.appTheme,
             builder: (context, appTheme, child) {
@@ -129,7 +129,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             title: context.appLocalization.appLanguage,
             icon: MyIcons.language,
           ),
-
           ProfileHeader(title: context.appLocalization.application),
           ProfileTile(
             onTap: () {

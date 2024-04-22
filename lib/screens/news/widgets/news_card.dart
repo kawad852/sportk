@@ -4,7 +4,6 @@ import 'package:sportk/helper/ui_helper.dart';
 import 'package:sportk/model/new_model.dart';
 import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/screens/news/news_details_screen.dart';
-import 'package:sportk/screens/news/widgets/like_buttons.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/deep_linking_service.dart';
 import 'package:sportk/utils/enums.dart';
@@ -57,6 +56,7 @@ class _NewsCardState extends State<NewsCard> {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = context.authProvider;
     return Container(
       decoration: BoxDecoration(
         color: context.colorPalette.grey3F3,
@@ -126,88 +126,91 @@ class _NewsCardState extends State<NewsCard> {
             ),
             child: Container(
               color: context.colorPalette.grey9E9,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  StatefulBuilder(
-                    builder: (context, setState) {
-                      return Row(
-                        children: [
-                          // ZoomIn(
-                          //   child: LikeButtons(
-                          //     isLike: _newData.isLiked!,
-                          //     onPressed: (isLike) {
-                          //       setState(() {
-                          //         _newData.isLiked = !_newData.isLiked!;
-                          //         if (_newData.isLiked!) {
-                          //           _newData.numberOfLikes = _newData.numberOfLikes! + 1;
-                          //           _commonProvider.like(_newData.id!, true, isComment: false);
-                          //         } else {
-                          //           _newData.numberOfLikes = _newData.numberOfLikes! - 1;
-                          //           _commonProvider.removeLike(_newData.id!, false);
-                          //         }
-                          //       });
-                          //     },
-                          //   ),
-                          // ),
-
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          ZoomIn(
-                            child: AnimatedSwitcher(
-                              duration: const Duration(milliseconds: 350),
-                              transitionBuilder: (Widget child, Animation<double> animation) {
-                                return ScaleTransition(scale: animation, child: child);
-                              },
-                              child: Text(
-                                "${_newData.numberOfLikes}",
-                                key: ValueKey<int>(_newData.numberOfLikes!),
-                                style: TextStyle(color: context.colorPalette.red000),
-                              ),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: StatefulBuilder(builder: (context, setState) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ZoomIn(
+                          child: AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 350),
+                            transitionBuilder: (Widget child, Animation<double> animation) {
+                              return ScaleTransition(scale: animation, child: child);
+                            },
+                            child: Text(
+                              "${_newData.numberOfLikes}",
+                              key: ValueKey<int>(_newData.numberOfLikes!),
+                              style: TextStyle(color: context.colorPalette.red000),
                             ),
                           ),
-                          ZoomIn(
-                            child: LikeButtons(
-                              onPressed: (likeType, like) {
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            authProvider.checkIfUserAuthenticated(
+                              context,
+                              callback: () {
                                 setState(() {
-                                  _toggleLike(likeType, like);
+                                  _toggleLike(_newData.likeType == LikeType.like ? null : 1, true);
                                 });
                               },
-                              likeType: _newData.likeType,
-                            ),
+                            );
+                          },
+                          icon: CustomSvg(
+                            _newData.likeType == LikeType.like ? MyIcons.heart : MyIcons.heartEmpty,
+                            width: 25,
+                            color: _newData.likeType == LikeType.like ? context.colorPalette.red000 : null,
                           ),
-                        ],
-                      );
-                    },
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      DeepLinkingService.share(
-                        context,
-                        id: _newData.id!.toString(),
-                        type: NotificationsType.blog,
-                        title: _newData.title!,
-                        description: _newData.content!,
-                        imageURL: _newData.image!,
-                      );
-                    },
-                    icon: const CustomSvg(
-                      MyIcons.download,
-                      width: 25,
+                        ),
+                      ],
                     ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      UiHelper.showCommentsSheet(context, _newData.id!);
-                    },
-                    icon: const CustomSvg(
-                      MyIcons.message,
-                      width: 25,
+                    IconButton(
+                      onPressed: () {
+                        authProvider.checkIfUserAuthenticated(
+                          context,
+                          callback: () {
+                            setState(() {
+                              _toggleLike(_newData.likeType == LikeType.disLike ? null : 0, false);
+                            });
+                          },
+                        );
+                      },
+                      icon: CustomSvg(
+                        _newData.likeType == LikeType.disLike ? MyIcons.dislikeFilled : MyIcons.dislikeOutlined,
+                        width: 25,
+                        color: _newData.likeType == LikeType.disLike ? context.colorPalette.red000 : null,
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                    IconButton(
+                      onPressed: () {
+                        DeepLinkingService.share(
+                          context,
+                          id: _newData.id!.toString(),
+                          type: NotificationsType.blog,
+                          title: _newData.title!,
+                          description: _newData.content!,
+                          imageURL: _newData.image!,
+                        );
+                      },
+                      icon: const CustomSvg(
+                        MyIcons.download,
+                        width: 25,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        UiHelper.showCommentsSheet(context, _newData.id!);
+                      },
+                      icon: const CustomSvg(
+                        MyIcons.message,
+                        width: 25,
+                      ),
+                    ),
+                  ],
+                );
+              }),
             ),
           ),
         ],
