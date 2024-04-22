@@ -13,11 +13,14 @@ class MatchInfoLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: ShimmerLoading(
-        child: LoadingBubble(
-          width: double.infinity,
-          height: context.systemButtonHeight + 4,
-          margin: const EdgeInsets.symmetric(horizontal: 20),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(bottom: 10),
+        child: ShimmerLoading(
+          child: LoadingBubble(
+            width: double.infinity,
+            height: context.systemButtonHeight + 4,
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+          ),
         ),
       ),
       body: CustomScrollView(
@@ -64,8 +67,8 @@ class MatchInfoLoading extends StatelessWidget {
                               child: LoadingBubble(
                                 height: 20,
                                 width: 60,
-                                padding:
-                                    EdgeInsetsDirectional.symmetric(vertical: 5, horizontal: 5),
+                                padding: EdgeInsetsDirectional.symmetric(
+                                    vertical: 5, horizontal: 5),
                               ),
                             ),
                             SizedBox(height: 20),
@@ -82,7 +85,8 @@ class MatchInfoLoading extends StatelessWidget {
                               LoadingBubble(
                                 width: 50,
                                 height: 30,
-                                margin: EdgeInsetsDirectional.symmetric(horizontal: 20),
+                                margin: EdgeInsetsDirectional.symmetric(
+                                    horizontal: 20),
                                 radius: MyTheme.radiusSecondary,
                               ),
                             ],
@@ -105,8 +109,8 @@ class MatchInfoLoading extends StatelessWidget {
                               child: LoadingBubble(
                                 height: 20,
                                 width: 60,
-                                padding:
-                                    EdgeInsetsDirectional.symmetric(vertical: 5, horizontal: 5),
+                                padding: EdgeInsetsDirectional.symmetric(
+                                    vertical: 5, horizontal: 5),
                               ),
                             ),
                             SizedBox(height: 20),

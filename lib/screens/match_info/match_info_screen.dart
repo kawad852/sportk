@@ -129,18 +129,21 @@ class _MatchInfoScreenState extends State<MatchInfoScreen>
         lengthTab = pointsData!.status == 1 ? 8 : 7;
         _controller ??= TabController(length: lengthTab, vsync: this);
         return Scaffold(
-          bottomNavigationBar: StretchedButton(
-            onPressed: () {
-              context.showBottomSheet(
-                context,
-                // maxHeight: context.mediaQuery.height * 0.63,
-                builder: (context) {
-                  return ChatScreen(matchId: widget.matchId);
-                },
-              );
-            },
-            margin: const EdgeInsets.symmetric(horizontal: 20),
-            child: Text(context.appLocalization.chat),
+          bottomNavigationBar: Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: StretchedButton(
+              onPressed: () {
+                context.showBottomSheet(
+                  context,
+                  // maxHeight: context.mediaQuery.height * 0.63,
+                  builder: (context) {
+                    return ChatScreen(matchId: widget.matchId);
+                  },
+                );
+              },
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              child: Text(context.appLocalization.chat),
+            ),
           ),
           body: CustomScrollView(
             physics: const NeverScrollableScrollPhysics(),
