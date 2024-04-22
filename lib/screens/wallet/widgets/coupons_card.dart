@@ -80,7 +80,7 @@ class _CouponsCardState extends State<CouponsCard> {
                           )
                         : context
                             .showDialog(
-                            titleText: context.appLocalization.replacePoints,
+                             titleText: context.appLocalization.replacePoints,
                             bodyText: context.appLocalization.pointsForVoucher(
                               widget.vouchersData.points.toString(),
                               widget.vouchersData.title!,

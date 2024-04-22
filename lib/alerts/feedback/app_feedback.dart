@@ -58,7 +58,7 @@ extension AppFeedbacks on BuildContext {
                         icon: const Center(child: Icon(Icons.close)),
                       ),
                     ),
-                    Text(titleText!),
+                    Text(titleText??""),
                     const SizedBox(width: 25),
                   ],
                 ),

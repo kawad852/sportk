@@ -306,7 +306,8 @@ class _MatchCardState extends State<MatchCard> {
                                         textAlign: TextAlign.center,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
-                                            color: context.colorPalette.white),
+                                          color: context.colorPalette.white,
+                                        ),
                                       ),
                                     ),
                       Column(
@@ -393,8 +394,10 @@ class _MatchCardState extends State<MatchCard> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const CustomSvg(MyIcons.liveTracking,
-                              fixedColor: true),
+                          const CustomSvg(
+                            MyIcons.liveTracking,
+                            fixedColor: true,
+                          ),
                           const SizedBox(width: 3),
                           Text(
                             context.appLocalization.liveTracking,

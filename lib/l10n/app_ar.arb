@@ -279,5 +279,6 @@
   "addReply": "أضف رداً",
   "reply": "الرد",
   "liveTracking":"تتبع مباشر",
-  "noLiveTracking":"لا يوجد تتبع مباشر لهذه المباراة"
+  "noLiveTracking":"لا يوجد تتبع مباشر لهذه المباراة",
+  "confirmPrediction":"هل تريد تأكيد توقعاتك لهذه المباراة؟"
 }

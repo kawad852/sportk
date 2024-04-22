@@ -279,5 +279,6 @@
   "addReply": "Add a reply",
   "reply": "Reply",
   "liveTracking":"Live tracking",
-  "noLiveTracking":"There is no live tracking for this match"
+  "noLiveTracking":"There is no live tracking for this match",
+  "confirmPrediction":"Want to confirm your predictions for this match?"
 }
