@@ -220,7 +220,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           Text(context.appLocalization.registrationBody),
           Padding(
             padding: const EdgeInsets.only(top: 70, bottom: 70),
-            child: Image.asset(MyImages.coins),
+            child: Image.asset(Platform.isIOS ? MyImages.coins2 : MyImages.coins),
           ),
           Text(
             context.appLocalization.registerWith,

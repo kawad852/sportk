@@ -3,6 +3,7 @@ class MyImages {
 
   static const String logo = '${_path}logo.png';
   static const String coins = '${_path}coins.png';
+  static const String coins2 = '${_path}coins2.png';
   static const String google = '${_path}google.png';
   static const String apple = '${_path}apple.png';
   static const String facebook = '${_path}facebook.png';
@@ -14,5 +15,4 @@ class MyImages {
   static const String backgroundLeague = '${_path}background_league.png';
   static const String goalsEvent = '${_path}goals_event.png';
   static const String matchPlan = '${_path}match_plan.png';
-
 }
