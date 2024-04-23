@@ -23,7 +23,6 @@ class ChampionsMatches extends StatefulWidget {
 class _ChampionsMatchesState extends State<ChampionsMatches> with AutomaticKeepAliveClientMixin {
   late FootBallProvider _footBallProvider;
   late Future<MatchModel> _matchesFuture;
-  late final AppLifecycleListener _listener;
   final _vexKey = GlobalKey<VexPaginatorState>();
 
   Future<MatchModel> _initializeFuture(int pageKey) {
@@ -40,19 +39,6 @@ class _ChampionsMatchesState extends State<ChampionsMatches> with AutomaticKeepA
   void initState() {
     super.initState();
     _footBallProvider = context.footBallProvider;
-     _listener =AppLifecycleListener(
-      onShow: (){
-        setState(() {
-         _vexKey.currentState!.refresh();
-        });
-      },
-    );
-  }
-
-  @override
-  void dispose() {
-    _listener.dispose();
-    super.dispose();
   }
 
   
