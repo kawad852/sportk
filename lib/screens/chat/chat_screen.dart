@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/foundation.dart' as foundation;
 import 'package:flutter/material.dart';
+import 'package:sportk/alerts/feedback/app_feedback.dart';
 import 'package:sportk/model/chat_model.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/screens/chat/widgets/chat_bubble.dart';
@@ -158,6 +159,12 @@ class _ChatScreenState extends State<ChatScreen> {
               },
               onPressed: _controller.text.isNotEmpty
                   ? () {
+                      final urlRegExp = RegExp(r"((https?:www\.)|(https?:/\/)|(www\.))[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9]{1,6}(/[-a-zA-Z0-9()@:%_+.~#?&/=]*)?");
+                      final bool hasLink = urlRegExp.hasMatch(_controller.text);
+                      if (hasLink) {
+                        context.showSnackBar(context.appLocalization.linkError);
+                        return;
+                      }
                       _sendMessage();
                     }
                   : null,

@@ -30,28 +30,35 @@ class UiHelper {
   static navigateToLeagueInfo(
     BuildContext context, {
     required LeagueData leagueData,
+    Function? afterNavigate,
     int? teamId,
     bool isNews = false,
-  }) {
+  }) async {
     leagueData.subType == LeagueTypeEnum.cubInternational
-        ? context.push(
-            ChampionsLeagueScreen(
-              leagueId: leagueData.id!,
-              teamId: teamId,
-              initialIndex: isNews ? 3 : 0,
+        ? {
+            await context.push(
+              ChampionsLeagueScreen(
+                leagueId: leagueData.id!,
+                teamId: teamId,
+                initialIndex: isNews ? 3 : 0,
+              ),
             ),
-          )
-        : context.push(
-            LeagueInfoScreen(
-              leagueId: leagueData.id!,
-              subType: leagueData.subType!,
-              initialIndex: isNews
-                  ? leagueData.subType != LeagueTypeEnum.domestic
-                      ? 2
-                      : 3
-                  : 0,
+            if (afterNavigate != null) afterNavigate()
+          }
+        : {
+            await context.push(
+              LeagueInfoScreen(
+                leagueId: leagueData.id!,
+                subType: leagueData.subType!,
+                initialIndex: isNews
+                    ? leagueData.subType != LeagueTypeEnum.domestic
+                        ? 2
+                        : 3
+                    : 0,
+              ),
             ),
-          );
+            if (afterNavigate != null) afterNavigate()
+          };
   }
 
   static String getMatchState(BuildContext context, {required int stateId}) {
@@ -114,24 +121,26 @@ class UiHelper {
     required int leagueId,
     required String subType,
     required Function afterNavigate,
-  }) async{
+  }) async {
     await context.push(
-          MatchInfoScreen(
-            matchId: matchId,
-            leagueId: leagueId,
-            subType: subType,
-          ),
-        );
-        afterNavigate();
+      MatchInfoScreen(
+        matchId: matchId,
+        leagueId: leagueId,
+        subType: subType,
+      ),
+    );
+    afterNavigate();
   }
 
   static List<BoxShadow> getShadow(BuildContext context) {
     return [
       BoxShadow(
-        color: context.colorScheme.inverseSurface.withOpacity(0.3), // Semi-transparent gray shadow
+        color: context.colorScheme.inverseSurface
+            .withOpacity(0.3), // Semi-transparent gray shadow
         blurRadius: 1,
         spreadRadius: 0.2,
-        offset: const Offset(0.5, 0.5), // Shadow slightly shifted down and right
+        offset:
+            const Offset(0.5, 0.5), // Shadow slightly shifted down and right
       )
     ];
   }

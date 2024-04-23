@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -41,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
   late CommonProvider _commonProvider;
   late FootBallProvider _footBallProvider;
   bool _isLive = false;
+  bool _isListener=true;
   late DateTime _selectedDate;
   late final AppLifecycleListener _listener;
   DateTime get _nowDate => DateTime.now();
@@ -110,7 +109,9 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     _commonProvider.initializeHome(context, date: _selectedDate);
     _listener =AppLifecycleListener(
       onShow: (){
+        if(_isListener){
         setState(() {});
+        }
       },
     );
   }
@@ -315,9 +316,13 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                         LeagueTile(
                                           league: leagueModel.data!,
                                           onTap: () {
+                                            _isListener=false;
                                             UiHelper.navigateToLeagueInfo(
                                               context,
                                               leagueData: leagueModel.data!,
+                                              afterNavigate: (){
+                                                _isListener=true;
+                                              }
                                             );
                                           },
                                         ),
@@ -371,7 +376,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                             ).toSet();
                                             return GestureDetector(
                                               onTap: () {
-                                                log(match.id.toString());
+                                                _isListener=false;
                                                 UiHelper.navigateToMatchInfo(
                                                   context,
                                                   matchId: match.id!,
@@ -379,7 +384,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                                   subType: match.league!.subType!,
                                                   afterNavigate: () {
                                                     setState(() {
-                                                      // _futures = _initializeFutures();
+                                                      _isListener=true;
                                                     });
                                                   },
                                                 );

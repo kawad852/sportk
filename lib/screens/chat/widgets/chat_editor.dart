@@ -75,7 +75,7 @@ class ChatEditor extends StatelessWidget {
             ),
             child: CustomSvg(
               MyIcons.directUp,
-              color: context.colorScheme.onPrimary,
+              color: MyTheme.isLightTheme(context) ? context.colorScheme.onPrimary : context.colorScheme.surfaceVariant,
             ),
           ),
         ],

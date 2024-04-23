@@ -65,10 +65,8 @@ class _CommentBubbleState extends State<CommentBubble> with AutomaticKeepAliveCl
     super.initState();
     _authProvider = context.authProvider;
     _commonProvider = context.commonProvider;
-    print("ajskfhakjsfh:::: ${widget.comment.toJson()}");
     _comment = CommentData.fromJson(widget.comment.toJson());
     _repliesCount = _comment.replies!.length;
-    print("_repliesCount::: ${_repliesCount}");
     // _controller = AnimationController(
     //   duration: const Duration(seconds: 1),
     //   vsync: this,

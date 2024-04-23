@@ -6,6 +6,7 @@ import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:sportk/alerts/feedback/app_feedback.dart';
@@ -76,6 +77,55 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         context.showSnackBar(context.appLocalization.generalError);
       }
       debugPrint("GoogleSignInException:: $e");
+    } finally {
+      AppOverlayLoader.hide();
+    }
+  }
+
+  Future<void> _signInWithFacebook(BuildContext context) async {
+    try {
+      // AppOverlayLoader.show();
+      final LoginResult loginResult = await FacebookAuth.instance.login();
+
+      final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(loginResult.accessToken!.token);
+
+      if (facebookAuthCredential.accessToken == null) {
+        AppOverlayLoader.hide();
+        return;
+      }
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: facebookAuthCredential.accessToken,
+        idToken: facebookAuthCredential.idToken,
+      );
+
+      final auth = await _firebaseAuth.signInWithCredential(credential);
+      if (context.mounted) {
+        await _authProvider.login(
+          context,
+          displayName: auth.user?.displayName,
+          email: auth.user?.email,
+          photoURL: auth.user?.photoURL,
+        );
+      }
+    } on PlatformException catch (e) {
+      AppOverlayLoader.hide();
+      if (context.mounted) {
+        if (e.code == GoogleSignIn.kNetworkError) {
+          context.showSnackBar(context.appLocalization.networkError);
+        } else {
+          if (context.mounted) {
+            context.showSnackBar(context.appLocalization.generalError);
+          }
+        }
+      }
+      debugPrint("FacebookSignInException:: $e");
+    } catch (e) {
+      AppOverlayLoader.hide();
+      if (context.mounted) {
+        context.showSnackBar(context.appLocalization.generalError);
+      }
+      debugPrint("FacebookSignInException:: $e");
     } finally {
       AppOverlayLoader.hide();
     }
@@ -170,7 +220,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           Text(context.appLocalization.registrationBody),
           Padding(
             padding: const EdgeInsets.only(top: 70, bottom: 70),
-            child: Image.asset(MyImages.coins),
+            child: Image.asset(Platform.isIOS ? MyImages.coins2 : MyImages.coins),
           ),
           Text(
             context.appLocalization.registerWith,
@@ -208,7 +258,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               else
                 const SizedBox(width: 20),
               // GestureDetector(
-              //   onTap: () {},
+              //   onTap: () {
+              //     _signInWithFacebook(context);
+              //   },
               //   child: Image.asset(
               //     MyImages.facebook,
               //     width: 50,

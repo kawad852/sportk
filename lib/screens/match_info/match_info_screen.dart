@@ -93,6 +93,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen>
   @override
   void initState() {
     super.initState();
+    // log(MySharedPreferences.accessToken);
     _commonProvider = context.commonProvider;
     _initializeFuture();
     _listener = AppLifecycleListener(
