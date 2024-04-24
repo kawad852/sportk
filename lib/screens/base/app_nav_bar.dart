@@ -64,7 +64,7 @@ class _AppNavBarState extends State<AppNavBar> {
   }
 
   Future<bool> _checkPermission(BuildContext context) async {
-    const permission =   Permission.audio;
+    const permission = Permission.audio;
     final status = await permission.status;
     if (status != PermissionStatus.granted) {
       final result = await permission.request();
@@ -95,7 +95,7 @@ class _AppNavBarState extends State<AppNavBar> {
     if (widget.initFav) {
       context.favoriteProvider.fetchFavs(context);
     }
-    
+
     MySharedPreferences.showAd = true;
   }
 

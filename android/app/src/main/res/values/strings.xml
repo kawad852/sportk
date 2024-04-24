@@ -2,4 +2,10 @@
 <resources>
     <string name="facebook_app_id">3713656325536241</string>
     <string name="facebook_client_token">01bd947956003ca1828abf96fb471fb7</string>
+    <string name="default_notification_channel_id">default_channel</string>
+    <string name="channel_id_1">channel_1</string>
+    <string name="channel_id_2">channel_2</string>
+    <string name="channel_id_3">channel_3</string>
+    <string name="channel_id_4">channel_4</string>
+    <string name="channel_id_5">channel_5</string>
 </resources>

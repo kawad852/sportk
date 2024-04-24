@@ -107,6 +107,6 @@
             android:value="ca-app-pub-8512331571054304~7702006757"/>
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="cnid"/>
+            android:value="default_notification_channel_id" />
     </application>
 </manifest>

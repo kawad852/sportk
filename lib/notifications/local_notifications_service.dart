@@ -10,7 +10,7 @@ import 'package:sportk/utils/base_extensions.dart';
 
 class LocalNotificationsService {
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-  static late AndroidNotificationChannel androidChannel;
+  // static late AndroidNotificationChannel androidChannel;
 
   Future<void> initialize() async {
     const initializationSettings = InitializationSettings(
@@ -32,28 +32,59 @@ class LocalNotificationsService {
     );
   }
 
+  String _getSound(String id) {
+    switch (id) {
+      case 'channel_id_1':
+        return 'any_event_in_match';
+      case 'channel_id_2':
+        return 'end_match_helf';
+      case 'channel_id_3':
+        return 'goal';
+      case 'channel_id_4':
+        return 'start_match_half';
+      case 'channel_id_5':
+        return 'all_other_notification';
+      default:
+        return 'all_other_notification';
+    }
+  }
+
   //for notifications in foreground
   void display(BuildContext context, RemoteMessage message) async {
     try {
       final data = message.notification;
       final id = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-
+      final pLoad = json.encode(message.data);
+      Map<String, dynamic> nData = json.decode(pLoad);
+      final channelId = nData['channel_id'] ?? '';
+      final sound = _getSound(channelId);
+      debugPrint("channelId::: $channelId\nsound:: $sound");
+      final androidChannel1 = AndroidNotificationChannel(
+        channelId, // id
+        channelId, // title
+        description: 'This channel is used for important notifications.',
+        importance: Importance.max,
+        playSound: true,
+        sound: RawResourceAndroidNotificationSound(_getSound(channelId)),
+      );
       await _flutterLocalNotificationsPlugin.show(
         id,
         data?.title,
         data?.body,
         NotificationDetails(
           android: AndroidNotificationDetails(
-            androidChannel.id,
-            androidChannel.name,
-            channelDescription: androidChannel.description,
-            importance: androidChannel.importance,
-            playSound: androidChannel.playSound,
+            androidChannel1.id,
+            androidChannel1.name,
+            channelDescription: androidChannel1.description,
+            importance: androidChannel1.importance,
+            playSound: androidChannel1.playSound,
             icon: '@mipmap/ic_launcher',
             color: context.colorScheme.primary,
-            sound: const RawResourceAndroidNotificationSound('end_match_helf'),
+            sound: androidChannel1.sound,
           ),
-          iOS: const DarwinNotificationDetails(),
+          iOS: DarwinNotificationDetails(
+            sound: sound,
+          ),
         ),
         payload: json.encode(message.data),
       );

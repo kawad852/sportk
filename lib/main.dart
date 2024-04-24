@@ -8,10 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
-import 'package:sportk/notifications/local_notifications_service.dart';
 import 'package:sportk/providers/app_provider.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/providers/common_provider.dart';
@@ -96,14 +94,6 @@ class _MyAppState extends State<MyApp> {
     _authProvider.initializeLocale(context);
     _authProvider.initUser();
     DeepLinkingService.listenDynamicLinks();
-    LocalNotificationsService.androidChannel = const AndroidNotificationChannel(
-      'cnid', // id
-      'cnid channel', // title
-      description: 'This channel is used for important notifications.',
-      importance: Importance.max,
-      playSound: true,
-      // sound: RawResourceAndroidNotificationSound('notification'),
-    );
     // final v = PlatformDispatcher.instance.locale.countryCode;
   }
 
