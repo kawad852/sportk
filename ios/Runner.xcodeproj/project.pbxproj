@@ -15,11 +15,6 @@
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		B523BCC76AFB8E3EC7F4AA38 /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B236900336F87815BBEDD65C /* Pods_RunnerTests.framework */; };
-		C6325CE32BD3DECA00E790C4 /* any_event_in_match.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C6325CDE2BD3DECA00E790C4 /* any_event_in_match.mp3 */; };
-		C6325CE42BD3DECA00E790C4 /* start_match_half.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C6325CDF2BD3DECA00E790C4 /* start_match_half.mp3 */; };
-		C6325CE52BD3DECA00E790C4 /* goal.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C6325CE02BD3DECA00E790C4 /* goal.mp3 */; };
-		C6325CE72BD3DECA00E790C4 /* end_match_helf.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C6325CE22BD3DECA00E790C4 /* end_match_helf.mp3 */; };
-		C6325CE92BD3E14600E790C4 /* notification.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C6325CE82BD3E14500E790C4 /* notification.mp3 */; };
 		C6B0D42F2BD2E62200B03210 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6B0D42E2BD2E62200B03210 /* GoogleService-Info.plist */; };
 		FB3C8D9A258387DE2893F2DD /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DCB2FC475792C1A932E95E /* Pods_Runner.framework */; };
 /* End PBXBuildFile section */
@@ -68,11 +63,11 @@
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B236900336F87815BBEDD65C /* Pods_RunnerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RunnerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C6325CDE2BD3DECA00E790C4 /* any_event_in_match.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = any_event_in_match.mp3; path = ../../../../Downloads/notification/any_event_in_match.mp3; sourceTree = "<group>"; };
-		C6325CDF2BD3DECA00E790C4 /* start_match_half.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = start_match_half.mp3; path = ../../../../Downloads/notification/start_match_half.mp3; sourceTree = "<group>"; };
-		C6325CE02BD3DECA00E790C4 /* goal.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = goal.mp3; sourceTree = "<group>"; };
-		C6325CE22BD3DECA00E790C4 /* end_match_helf.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = end_match_helf.mp3; path = ../../../../Downloads/notification/end_match_helf.mp3; sourceTree = "<group>"; };
-		C6325CE82BD3E14500E790C4 /* notification.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = notification.mp3; sourceTree = "<group>"; };
+		C670AF1F2BD92CA900606EF1 /* end_match_helf.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = end_match_helf.caf; sourceTree = "<group>"; };
+		C670AF202BD92CA900606EF1 /* all_other_notification.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = all_other_notification.caf; sourceTree = "<group>"; };
+		C670AF212BD92CA900606EF1 /* any_event_in_match.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = any_event_in_match.caf; sourceTree = "<group>"; };
+		C670AF222BD92CA900606EF1 /* goal.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = goal.caf; sourceTree = "<group>"; };
+		C670AF232BD92CA900606EF1 /* start_match_half.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = start_match_half.caf; sourceTree = "<group>"; };
 		C690BE302BA863F00019B335 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		C6B0D42E2BD2E62200B03210 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DBF3D746A866F9B593381682 /* Pods-RunnerTests.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.profile.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.profile.xcconfig"; sourceTree = "<group>"; };
@@ -156,11 +151,11 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
-				C6325CE82BD3E14500E790C4 /* notification.mp3 */,
-				C6325CDE2BD3DECA00E790C4 /* any_event_in_match.mp3 */,
-				C6325CE22BD3DECA00E790C4 /* end_match_helf.mp3 */,
-				C6325CE02BD3DECA00E790C4 /* goal.mp3 */,
-				C6325CDF2BD3DECA00E790C4 /* start_match_half.mp3 */,
+				C670AF202BD92CA900606EF1 /* all_other_notification.caf */,
+				C670AF212BD92CA900606EF1 /* any_event_in_match.caf */,
+				C670AF1F2BD92CA900606EF1 /* end_match_helf.caf */,
+				C670AF222BD92CA900606EF1 /* goal.caf */,
+				C670AF232BD92CA900606EF1 /* start_match_half.caf */,
 				C6B0D42E2BD2E62200B03210 /* GoogleService-Info.plist */,
 				C690BE302BA863F00019B335 /* Runner.entitlements */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
@@ -281,15 +276,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
-				C6325CE52BD3DECA00E790C4 /* goal.mp3 in Resources */,
-				C6325CE42BD3DECA00E790C4 /* start_match_half.mp3 in Resources */,
-				C6325CE72BD3DECA00E790C4 /* end_match_helf.mp3 in Resources */,
 				C6B0D42F2BD2E62200B03210 /* GoogleService-Info.plist in Resources */,
-				C6325CE92BD3E14600E790C4 /* notification.mp3 in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
-				C6325CE32BD3DECA00E790C4 /* any_event_in_match.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
