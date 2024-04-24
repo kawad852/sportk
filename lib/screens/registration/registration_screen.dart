@@ -260,15 +260,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 )
               else
                 const SizedBox(width: 20),
-              GestureDetector(
-                onTap: () {
-                  _signInWithFacebook(context);
-                },
-                child: Image.asset(
-                  MyImages.facebook,
-                  width: 50,
-                ),
-              ),
+              // GestureDetector(
+              //   onTap: () {
+              //     _signInWithFacebook(context);
+              //   },
+              //   child: Image.asset(
+              //     MyImages.facebook,
+              //     width: 50,
+              //   ),
+              // ),
             ],
           ),
         ],
