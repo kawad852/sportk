@@ -172,6 +172,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     } catch (e) {
       AppOverlayLoader.hide();
       debugPrint("AppleSignInException:: $e");
+    } finally {
+      AppOverlayLoader.hide();
     }
   }
 
