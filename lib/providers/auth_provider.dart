@@ -37,10 +37,11 @@ class AuthProvider extends ChangeNotifier {
     required String? displayName,
     required String? email,
     required String? photoURL,
+    bool withOverlayLoader = false,
   }) async {
     await ApiFutureBuilder<AuthModel>().fetch(
       context,
-      withOverlayLoader: false,
+      withOverlayLoader: withOverlayLoader,
       future: () {
         final favoritesProvider = context.favoriteProvider;
         final socialLoginFuture = ApiService<AuthModel>().build(

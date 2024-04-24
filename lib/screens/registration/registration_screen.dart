@@ -106,6 +106,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           displayName: auth.user?.displayName,
           email: auth.user?.email,
           photoURL: auth.user?.photoURL,
+          withOverlayLoader: true,
         );
       }
     } on PlatformException catch (e) {
@@ -259,15 +260,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 )
               else
                 const SizedBox(width: 20),
-              // GestureDetector(
-              //   onTap: () {
-              //     _signInWithFacebook(context);
-              //   },
-              //   child: Image.asset(
-              //     MyImages.facebook,
-              //     width: 50,
-              //   ),
-              // ),
+              GestureDetector(
+                onTap: () {
+                  _signInWithFacebook(context);
+                },
+                child: Image.asset(
+                  MyImages.facebook,
+                  width: 50,
+                ),
+              ),
             ],
           ),
         ],
