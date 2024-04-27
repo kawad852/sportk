@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@raw/any_event_in_match,@raw/end_match_helf,@raw/goal,@raw/start_match_half,@raw/all_other_notification"
+    />
