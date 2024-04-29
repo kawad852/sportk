@@ -231,7 +231,10 @@ class _PredictionsScreenState extends State<PredictionsScreen> with AutomaticKee
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () {
-                          setState(() {
+                          context.authProvider.checkIfUserAuthenticated(
+                            context,
+                            callback: (){
+                               setState(() {
                             _selectedFirstScore = index;
                             _firstScoreId = index == 0 ? pointData.homeId! : pointData.awayId!;
                           });
@@ -241,18 +244,17 @@ class _PredictionsScreenState extends State<PredictionsScreen> with AutomaticKee
                           )
                               .then((value) async {
                             if (value != null) {
-                              // context.authProvider.checkIfUserAuthenticated(
-                              //   context,
-                              //   callback: () {
-                              //     createPrediction();
-                              //   },
-                              // );
+                              createPrediction();
                             } else {
                               setState(() {
                                 reInitialize();
                               });
                             }
-                          });
+                          },
+                          );
+                            }
+                          );
+                         
                         },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 30),
