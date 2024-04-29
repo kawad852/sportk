@@ -62,7 +62,7 @@ class _NewsCardState extends State<NewsCard> {
         color: context.colorPalette.grey3F3,
         borderRadius: BorderRadius.circular(15),
       ),
-      constraints: const BoxConstraints(minWidth: 280, maxHeight: 283),
+      constraints: const BoxConstraints(minWidth: 280, maxHeight: 300),
       margin: const EdgeInsetsDirectional.all(8.0),
       child: Column(
         children: [
@@ -87,6 +87,7 @@ class _NewsCardState extends State<NewsCard> {
                   maxLines: 2,
                   style: const TextStyle(
                     overflow: TextOverflow.ellipsis,
+                    fontSize: 16,
                   ),
                 ),
                 const SizedBox(

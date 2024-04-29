@@ -32,6 +32,13 @@ class AuthProvider extends ChangeNotifier {
     Navigator.popUntil(context, (route) => route.settings.name == _lastRouteName);
   }
 
+  String _extractName(String? email) {
+    if (email == null) return '';
+    int atIndex = email.indexOf("@");
+    final name = email.substring(0, atIndex);
+    return name;
+  }
+
   Future login(
     BuildContext context, {
     required String? displayName,
@@ -49,7 +56,7 @@ class AuthProvider extends ChangeNotifier {
           isPublic: true,
           apiType: ApiType.post,
           queryParams: {
-            "name": displayName,
+            "name": displayName ?? _extractName(email),
             "email": email,
             "profile_img": photoURL,
             "locale": MySharedPreferences.language,

@@ -30,7 +30,7 @@ class NewsScreen extends StatefulWidget {
   State<NewsScreen> createState() => _NewsScreenState();
 }
 
-class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMixin {
+class _NewsScreenState extends State<NewsScreen> {
   int currentIndex = 0;
   late CommonProvider _commonProvider;
   late AuthProvider _authProvider;
@@ -88,7 +88,6 @@ class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMi
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
       floatingActionButton: _showBubble
@@ -196,7 +195,7 @@ class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMi
                               options: CarouselOptions(
                                 viewportFraction: 0.9,
                                 enableInfiniteScroll: false,
-                                height: 280.0,
+                                height: 290.0,
                                 onPageChanged: (index, reason) {
                                   setState(() {
                                     currentIndex = index;
@@ -392,7 +391,4 @@ class _NewsScreenState extends State<NewsScreen> with AutomaticKeepAliveClientMi
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

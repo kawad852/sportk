@@ -26,6 +26,7 @@ class ApiUrl {
   static const String playersSearch = '/football/players/search';
   static const String leagueByTeam = '/football/fixtures/between';
   static const String leaguesByCountry = '/football/leagues/countries';
+  static const String allLeagues = '/football/leagues';
   static const String matchById = '/football/fixtures';
   static const String headToHead = '/football/fixtures/head-to-head';
 
@@ -65,5 +66,4 @@ class ApiUrl {
   static const String mainMatches = '/api/competitions/main';
   static const String arabicSearch = '/api/teams/competitions/search';
   static const String tracker = '/api/trackers';
-
 }
