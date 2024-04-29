@@ -37,6 +37,11 @@ class _LeaguesScreenState extends State<LeaguesScreen> with AutomaticKeepAliveCl
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _footBallProvider.fetchAllLeagues(1);
+        },
+      ),
       drawer: const ProfileScreen(),
       appBar: AppBar(
         title: Text(context.appLocalization.leagues),
@@ -50,6 +55,8 @@ class _LeaguesScreenState extends State<LeaguesScreen> with AutomaticKeepAliveCl
               style: context.textTheme.titleMedium,
             ),
           ),
+
+          /// Trending
           VexPaginator(
             query: (pageKey) async => _commonProvider.fetchTrendingLeagues(pageKey),
             onFetching: (snapshot) async => snapshot.data!,
@@ -138,6 +145,8 @@ class _LeaguesScreenState extends State<LeaguesScreen> with AutomaticKeepAliveCl
               );
             },
           ),
+
+          /// Local
           VexPaginator(
             query: (pageKey) async => _footBallProvider.fetchLeaguesByCountry(id: '97374'),
             onFetching: (snapshot) async => snapshot.data!,
@@ -178,6 +187,71 @@ class _LeaguesScreenState extends State<LeaguesScreen> with AutomaticKeepAliveCl
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
+                      final league = snapshot.docs[index] as LeagueData;
+                      return LeagueTile(
+                        league: league,
+                        onTap: () {
+                          UiHelper.navigateToLeagueInfo(
+                            context,
+                            leagueData: league,
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ],
+              );
+            },
+          ),
+
+          /// All
+          VexPaginator(
+            query: (pageKey) async => _footBallProvider.fetchAllLeagues(pageKey),
+            onFetching: (snapshot) async => snapshot.data!,
+            pageSize: 25,
+            onLoading: () {
+              return ShimmerLoading(
+                child: ListView.separated(
+                  itemCount: 3,
+                  separatorBuilder: (context, index) => const SizedBox(height: 5),
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return const LoadingBubble(
+                      height: 50,
+                    );
+                  },
+                ),
+              );
+            },
+            builder: (context, snapshot) {
+              if (snapshot.docs.isEmpty) {
+                return const SizedBox.shrink();
+              }
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ListTile(
+                    title: Text(
+                      context.appLocalization.allLeagues,
+                      style: context.textTheme.titleMedium,
+                    ),
+                  ),
+                  ListView.separated(
+                    itemCount: snapshot.docs.length + 1,
+                    separatorBuilder: (context, index) => const SizedBox(height: 5),
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
+                        snapshot.fetchMore();
+                      }
+
+                      if (index == snapshot.docs.length) {
+                        return VexLoader(snapshot.isFetchingMore);
+                      }
                       final league = snapshot.docs[index] as LeagueData;
                       return LeagueTile(
                         league: league,

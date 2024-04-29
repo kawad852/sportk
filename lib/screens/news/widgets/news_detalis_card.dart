@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:sportk/model/new_model.dart';
 import 'package:sportk/screens/web/web_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
@@ -69,8 +70,8 @@ class NewsDetailsCard extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsetsDirectional.only(top: 10, bottom: 15),
-          child: Text(
-            newData.content!,
+          child: Html(
+            data: newData.content!,
           ),
         ),
         if (newData.link != null)

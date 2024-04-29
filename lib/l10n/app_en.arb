@@ -281,5 +281,6 @@
   "liveTracking":"Live tracking",
   "noLiveTracking":"There is no live tracking for this match",
   "confirmPrediction":"Want to confirm your predictions for this match?",
-  "linkError": "Links are not allowed in chat"
+  "linkError": "Links are not allowed in chat",
+  "allLeagues": "All Leagues"
 }
