@@ -21,8 +21,7 @@ class PredictionsScreen extends StatefulWidget {
   State<PredictionsScreen> createState() => _PredictionsScreenState();
 }
 
-class _PredictionsScreenState extends State<PredictionsScreen>
-    with AutomaticKeepAliveClientMixin {
+class _PredictionsScreenState extends State<PredictionsScreen> with AutomaticKeepAliveClientMixin {
   late ScrollController controller;
   int _selectedWinning = 3;
   int _selectedFirstScore = 3;
@@ -53,39 +52,21 @@ class _PredictionsScreenState extends State<PredictionsScreen>
       },
       onComplete: (snapshot) {
         context.showSnackBar(
-          snapshot.code == 500
-              ? context.appLocalization.alreadyPrediction
-              : context.appLocalization.successPrediction,
+          snapshot.code == 500 ? context.appLocalization.alreadyPrediction : context.appLocalization.successPrediction,
         );
         if (snapshot.code == 200) {
           setState(() {
             if (pointData.resultDisplay == PredictionTypeEnum.count) {
               totalPredictions = TotalPredictions(
-                home: _prediction == pointData.homeId
-                    ? totalPredictions.home! + 1
-                    : totalPredictions.home,
-                away: _prediction == pointData.awayId
-                    ? totalPredictions.away! + 1
-                    : totalPredictions.away,
-                draw: _prediction == "draw"
-                    ? totalPredictions.draw! + 1
-                    : totalPredictions.draw,
+                home: _prediction == pointData.homeId ? totalPredictions.home! + 1 : totalPredictions.home,
+                away: _prediction == pointData.awayId ? totalPredictions.away! + 1 : totalPredictions.away,
+                draw: _prediction == "draw" ? totalPredictions.draw! + 1 : totalPredictions.draw,
               );
-            } else if (pointData.resultDisplay ==
-                    PredictionTypeEnum.percentage &&
-                totalPredictions.home == 0 &&
-                totalPredictions.away == 0 &&
-                totalPredictions.draw == 0) {
+            } else if (pointData.resultDisplay == PredictionTypeEnum.percentage && totalPredictions.home == 0 && totalPredictions.away == 0 && totalPredictions.draw == 0) {
               totalPredictions = TotalPredictions(
-                home: _prediction == pointData.homeId
-                    ? totalPredictions.home! + 100
-                    : totalPredictions.home,
-                away: _prediction == pointData.awayId
-                    ? totalPredictions.away! + 100
-                    : totalPredictions.away,
-                draw: _prediction == "draw"
-                    ? totalPredictions.draw! + 100
-                    : totalPredictions.draw,
+                home: _prediction == pointData.homeId ? totalPredictions.home! + 100 : totalPredictions.home,
+                away: _prediction == pointData.awayId ? totalPredictions.away! + 100 : totalPredictions.away,
+                draw: _prediction == "draw" ? totalPredictions.draw! + 100 : totalPredictions.draw,
               );
             }
           });
@@ -138,8 +119,7 @@ class _PredictionsScreenState extends State<PredictionsScreen>
             child: Column(
               children: [
                 PredictionsCard(
-                  predictionText: context.appLocalization
-                      .predTeamWin(pointData.teamsScorePoints!),
+                  predictionText: context.appLocalization.predTeamWin(pointData.teamsScorePoints!),
                 ),
                 const SizedBox(
                   height: 10,
@@ -172,12 +152,8 @@ class _PredictionsScreenState extends State<PredictionsScreen>
                         },
                         child: PredictionsContainer(
                           index: index,
-                          teamLogo: index == 0
-                              ? pointData.homeLogo!
-                              : pointData.awayLogo!,
-                          team: index == 0
-                              ? pointData.homeName!
-                              : pointData.awayName!,
+                          teamLogo: index == 0 ? pointData.homeLogo! : pointData.awayLogo!,
+                          team: index == 0 ? pointData.homeName! : pointData.awayName!,
                           isDraw: index == 1 ? true : false,
                           selectedCard: _selectedWinning,
                         ),
@@ -195,8 +171,7 @@ class _PredictionsScreenState extends State<PredictionsScreen>
               child: Column(
                 children: [
                   PredictionsCard(
-                    predictionText: context.appLocalization
-                        .predResult(pointData.matchResultPoints!),
+                    predictionText: context.appLocalization.predResult(pointData.matchResultPoints!),
                   ),
                   const SizedBox(
                     height: 10,
@@ -241,8 +216,7 @@ class _PredictionsScreenState extends State<PredictionsScreen>
             child: Column(
               children: [
                 PredictionsCard(
-                  predictionText: context.appLocalization
-                      .predFirstScore(pointData.firstScorerPoints!),
+                  predictionText: context.appLocalization.predFirstScore(pointData.firstScorerPoints!),
                 ),
                 const SizedBox(
                   height: 10,
@@ -259,9 +233,7 @@ class _PredictionsScreenState extends State<PredictionsScreen>
                         onTap: () {
                           setState(() {
                             _selectedFirstScore = index;
-                            _firstScoreId = index == 0
-                                ? pointData.homeId!
-                                : pointData.awayId!;
+                            _firstScoreId = index == 0 ? pointData.homeId! : pointData.awayId!;
                           });
                           context
                               .showDialog(
@@ -269,7 +241,12 @@ class _PredictionsScreenState extends State<PredictionsScreen>
                           )
                               .then((value) async {
                             if (value != null) {
-                              createPrediction();
+                              // context.authProvider.checkIfUserAuthenticated(
+                              //   context,
+                              //   callback: () {
+                              //     createPrediction();
+                              //   },
+                              // );
                             } else {
                               setState(() {
                                 reInitialize();
@@ -281,12 +258,8 @@ class _PredictionsScreenState extends State<PredictionsScreen>
                           padding: const EdgeInsets.symmetric(horizontal: 30),
                           child: PredictionsContainer(
                             index: index,
-                            teamLogo: index == 0
-                                ? pointData.homeLogo!
-                                : pointData.awayLogo!,
-                            team: index == 0
-                                ? pointData.homeName!
-                                : pointData.awayName!,
+                            teamLogo: index == 0 ? pointData.homeLogo! : pointData.awayLogo!,
+                            team: index == 0 ? pointData.homeName! : pointData.awayName!,
                             selectedCard: _selectedFirstScore,
                           ),
                         ),
