@@ -37,11 +37,6 @@ class _LeaguesScreenState extends State<LeaguesScreen> with AutomaticKeepAliveCl
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _footBallProvider.fetchAllLeagues(1);
-        },
-      ),
       drawer: const ProfileScreen(),
       appBar: AppBar(
         title: Text(context.appLocalization.leagues),
