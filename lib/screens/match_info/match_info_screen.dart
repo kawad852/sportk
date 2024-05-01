@@ -258,6 +258,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen>
                     if (pointsData.status == 1)
                       PredictionsScreen(pointsData: pointsData),
                     MatchEvents(
+                        matchPoint: matchPoints,
                         matchId: widget.matchId,
                         homeId: int.parse(pointsData.homeId!)),
                     TeamsPlan(matchId: widget.matchId),

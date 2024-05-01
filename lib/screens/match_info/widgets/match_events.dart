@@ -3,7 +3,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sportk/model/match_event_model.dart';
 import 'package:sportk/model/match_points_model.dart';
 import 'package:sportk/model/single_match_event_model.dart';
-import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/match_info/predictions/widgets/viewers_predictions.dart';
 import 'package:sportk/screens/match_info/widgets/event_card.dart';
@@ -17,25 +16,22 @@ import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 class MatchEvents extends StatefulWidget {
   final int matchId;
   final int homeId;
-  const MatchEvents({super.key, required this.matchId, required this.homeId});
+  final MatchPointsModel matchPoint;
+  const MatchEvents({super.key, required this.matchId, required this.homeId, required this.matchPoint});
 
   @override
   State<MatchEvents> createState() => _MatchEventsState();
 }
 
 class _MatchEventsState extends State<MatchEvents> with AutomaticKeepAliveClientMixin {
-  late Future<List<dynamic>> _futures;
   late FootBallProvider _footBallProvider;
-  late CommonProvider _commonProvider;
-  late Future<MatchPointsModel> _matchPointsFuture;
+ 
   late Future<SingleMatchEventModel> _matchEventFuture;
   List<MatchEventModel> event = [];
   List<MatchEventModel> subEvent = [];
 
-  Future<List<dynamic>> _initializeFutures() async {
-    _matchPointsFuture = _commonProvider.getMatchPoints(widget.matchId);
+  void _initializeFuture() async {
     _matchEventFuture = _footBallProvider.fetchMatchEventById(matchId: widget.matchId);
-    return Future.wait([_matchPointsFuture, _matchEventFuture]);
   }
 
   MatchEventEnum getEventType(int typeId) {
@@ -119,27 +115,25 @@ class _MatchEventsState extends State<MatchEvents> with AutomaticKeepAliveClient
   void initState() {
     super.initState();
     _footBallProvider = context.footBallProvider;
-    _commonProvider = context.commonProvider;
-    _futures = _initializeFutures();
+    _initializeFuture();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return CustomFutureBuilder(
-      future: _futures,
+      future: _matchEventFuture,
       onRetry: () {
         setState(() {
-          _futures = _initializeFutures();
+          _initializeFuture();
         });
       },
       onLoading: () => const ShimmerLoading(child: StatisticsLoading()),
       onComplete: (context, snapshot) {
-        final matchPoint = snapshot.data![0] as MatchPointsModel;
-        final match = snapshot.data![1] as SingleMatchEventModel;
-        bool showPrediction = matchPoint.data!.totalPredictions!.home == 0 &&
-            matchPoint.data!.totalPredictions!.away == 0 &&
-            matchPoint.data!.totalPredictions!.draw == 0;
+        final match = snapshot.data!;
+        bool showPrediction = widget.matchPoint.data!.totalPredictions!.home == 0 &&
+           widget. matchPoint.data!.totalPredictions!.away == 0 &&
+            widget.matchPoint.data!.totalPredictions!.draw == 0;
         if (event.isNotEmpty) {
           event.clear();
           subEvent.clear();
@@ -182,7 +176,7 @@ class _MatchEventsState extends State<MatchEvents> with AutomaticKeepAliveClient
             : RefreshIndicator(
                 onRefresh: () async {
                   setState(() {
-                    _futures = _initializeFutures();
+                    _initializeFuture();
                   });
                 },
                 child: SingleChildScrollView(
@@ -193,8 +187,8 @@ class _MatchEventsState extends State<MatchEvents> with AutomaticKeepAliveClient
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
                           child: ViewersPredictions(
-                            pointsData: matchPoint.data!,
-                            totalPredictions: matchPoint.data!.totalPredictions!,
+                            pointsData: widget.matchPoint.data!,
+                            totalPredictions:widget. matchPoint.data!.totalPredictions!,
                           ),
                         ),
                       ListView.separated(
