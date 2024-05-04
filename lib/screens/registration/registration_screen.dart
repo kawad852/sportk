@@ -87,6 +87,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       // AppOverlayLoader.show();
       final LoginResult loginResult = await FacebookAuth.instance.login();
 
+      print("accessToken ${loginResult.message}");
+
       final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(loginResult.accessToken!.token);
 
       if (facebookAuthCredential.accessToken == null) {

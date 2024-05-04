@@ -56,6 +56,16 @@ class _LeagueTeamsScreenState extends State<LeagueTeamsScreen> {
           });
         },
         onComplete: (context, snapshot) {
+          if (snapshot.data!.data!.isEmpty) {
+            return Center(
+              child: Text(
+                context.appLocalization.noResults,
+                style: context.textTheme.titleLarge!.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            );
+          }
           return Consumer<FavoriteProvider>(
             builder: (context, provider, child) {
               return GridView.builder(

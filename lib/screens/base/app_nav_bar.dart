@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:rate_my_app/rate_my_app.dart';
 import 'package:sportk/notifications/cloud_messaging_service.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/screens/base/widgets/nav_bar_item.dart';
@@ -12,6 +13,7 @@ import 'package:sportk/screens/wallet/wallet_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/utils/shared_pref.dart';
+import 'package:store_redirect/store_redirect.dart';
 
 class AppNavBar extends StatefulWidget {
   final bool initFav;
@@ -29,6 +31,16 @@ class _AppNavBarState extends State<AppNavBar> {
   late PageController _pageController;
   final cloudMessagingService = CloudMessagingService();
   late AuthProvider authProvider;
+
+  final RateMyApp _rateMyApp = RateMyApp(
+    preferencesPrefix: 'rateMyApp_',
+    minDays: 1,
+    minLaunches: 2,
+    remindDays: 2,
+    remindLaunches: 2,
+    appStoreIdentifier: "com.eascore.wecan",
+    googlePlayIdentifier: "com.eascore.wecan",
+  );
 
   final items = [
     MyIcons.football,
@@ -90,6 +102,57 @@ class _AppNavBarState extends State<AppNavBar> {
     _pageController = PageController();
     authProvider.updateDeviceToken(context);
     cloudMessagingService.init(context);
+    // MySharedPreferences.reviewCount = MySharedPreferences.reviewCount + 1;
+    // if (MySharedPreferences.reviewCount == 2) {
+    //   // dialog
+    // }
+    _rateMyApp.init().then((_) {
+      // TODO: Comment out this if statement to test rating dialog (Remember to uncomment)
+      if (_rateMyApp.shouldOpenDialog) {
+        _rateMyApp.showStarRateDialog(
+          context,
+          title: context.appLocalization.rateUs,
+          message: context.appLocalization.rateMsg,
+          actionsBuilder: (context, stars) {
+            return [
+              TextButton(
+                child: Text(context.appLocalization.remindMeLater),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              TextButton(
+                child: Text(context.appLocalization.rate),
+                onPressed: () {
+                  if (stars != null) {
+                    _rateMyApp.callEvent(RateMyAppEventType.rateButtonPressed).then((_) {
+                      _rateMyApp.save();
+                      Navigator.pop(context);
+                    });
+                    if (stars <= 2) {
+                      Navigator.pop(context);
+                    } else if (stars <= 5) {
+                      StoreRedirect.redirect(
+                        androidAppId: "com.eascore.wecan",
+                        iOSAppId: "com.eascore.wecan",
+                      );
+                    }
+                  } else {
+                    Navigator.pop(context);
+                  }
+                },
+              ),
+            ];
+          },
+          dialogStyle: const DialogStyle(
+            titleAlign: TextAlign.center,
+            messageAlign: TextAlign.center,
+            messagePadding: EdgeInsets.only(bottom: 20.0),
+          ),
+          starRatingOptions: const StarRatingOptions(),
+        );
+      }
+    });
     cloudMessagingService.requestPermission();
     _checkPermission(context);
     if (widget.initFav) {

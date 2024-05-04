@@ -282,5 +282,10 @@
   "noLiveTracking":"There is no live tracking for this match",
   "confirmPrediction":"Want to confirm your predictions for this match?",
   "linkError": "Links are not allowed in chat",
-  "allLeagues": "All Leagues"
+  "allLeagues": "All Leagues",
+  "rateUs": "Rate Us",
+  "rateMsg": "Do you like EAscore ? Rate us now!",
+  "remindMeLater": "Remind me later",
+  "rate": "Rate",
+  "noResults": "No Results"
 }

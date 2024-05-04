@@ -45,8 +45,8 @@ Future<void> main() async {
   unawaited(MobileAds.instance.initialize());
   await FlutterBranchSdk.init(useTestKey: true, enableLogging: false, disableTracking: false);
   // FlutterBranchSdk.validateSDKIntegration();
-  // MySharedPreferences.clearStorage();
-  // MySharedPreferences.isPassedIntro = false;
+  MySharedPreferences.clearStorage();
+  MySharedPreferences.isPassedIntro = false;
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   FirebaseMessaging.onBackgroundMessage(onBackgroundMessage);
   runApp(

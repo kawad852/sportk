@@ -50,4 +50,7 @@ class MySharedPreferences {
 
   static bool get showAd => _sharedPreferences.getBool('showAd') ?? true;
   static set showAd(bool value) => _sharedPreferences.setBool('showAd', value);
+
+  static int get reviewCount => _sharedPreferences.getInt('reviewCount') ?? 0;
+  static set reviewCount(int value) => _sharedPreferences.setInt('reviewCount', value);
 }

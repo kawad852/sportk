@@ -75,6 +75,8 @@ dependencies:
   permission_handler: ^11.3.1
   flutter_spinkit: ^5.2.1
   flutter_facebook_auth: ^6.2.0
+  rate_my_app: ^2.1.0
+  store_redirect: ^2.0.2
 
 
   #firebase
