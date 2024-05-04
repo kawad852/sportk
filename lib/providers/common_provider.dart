@@ -239,7 +239,7 @@ class CommonProvider extends ChangeNotifier {
     required String matchId,
     required String homeScore,
     required String awayScore,
-    required String firstScoreId,
+    required String? firstScoreId,
     required String prediction,
   }) {
     final snapshot = ApiService<PredictionModel>().build(

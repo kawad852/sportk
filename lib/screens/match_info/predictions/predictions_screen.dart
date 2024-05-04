@@ -21,7 +21,8 @@ class PredictionsScreen extends StatefulWidget {
   State<PredictionsScreen> createState() => _PredictionsScreenState();
 }
 
-class _PredictionsScreenState extends State<PredictionsScreen> with AutomaticKeepAliveClientMixin {
+class _PredictionsScreenState extends State<PredictionsScreen>
+    with AutomaticKeepAliveClientMixin {
   late ScrollController controller;
   int _selectedWinning = 3;
   int _selectedFirstScore = 3;
@@ -29,7 +30,7 @@ class _PredictionsScreenState extends State<PredictionsScreen> with AutomaticKee
   bool _visibleFirstScore = false;
   int _homeScore = 1;
   int _awayScore = 1;
-  late String _firstScoreId;
+  String? _firstScoreId;
   late String _prediction;
 
   PointsData get pointData => widget.pointsData;
@@ -52,7 +53,9 @@ class _PredictionsScreenState extends State<PredictionsScreen> with AutomaticKee
       },
       onComplete: (snapshot) {
         context.showSnackBar(
-          snapshot.code == 500 ? context.appLocalization.alreadyPrediction : context.appLocalization.successPrediction,
+          snapshot.code == 500
+              ? context.appLocalization.alreadyPrediction
+              : context.appLocalization.successPrediction,
         );
         if (snapshot.code == 200) {
           setState(() {
@@ -75,6 +78,24 @@ class _PredictionsScreenState extends State<PredictionsScreen> with AutomaticKee
     );
   }
 
+  void _confirmPredication() {
+    context
+        .showDialog(
+      bodyText: context.appLocalization.confirmPrediction,
+    )
+        .then(
+      (value) async {
+        if (value != null) {
+          createPrediction();
+        } else {
+          setState(() {
+            reInitialize();
+          });
+        }
+      },
+    );
+  }
+
   void reInitialize() {
     _visibleResult = false;
     _visibleFirstScore = false;
@@ -89,8 +110,8 @@ class _PredictionsScreenState extends State<PredictionsScreen> with AutomaticKee
     super.initState();
     controller = ScrollController();
     _commonProvider = context.commonProvider;
-    _firstScoreId = pointData.homeId!;
-    _prediction = pointData.homeId!;
+    // _firstScoreId = pointData.homeId!;
+    // _prediction = pointData.homeId!;
     totalPredictions = widget.pointsData.totalPredictions!;
   }
 
@@ -119,7 +140,8 @@ class _PredictionsScreenState extends State<PredictionsScreen> with AutomaticKee
             child: Column(
               children: [
                 PredictionsCard(
-                  predictionText: context.appLocalization.predTeamWin(pointData.teamsScorePoints!),
+                  predictionText: context.appLocalization
+                      .predTeamWin(pointData.teamsScorePoints!),
                 ),
                 const SizedBox(
                   height: 10,
@@ -152,8 +174,12 @@ class _PredictionsScreenState extends State<PredictionsScreen> with AutomaticKee
                         },
                         child: PredictionsContainer(
                           index: index,
-                          teamLogo: index == 0 ? pointData.homeLogo! : pointData.awayLogo!,
-                          team: index == 0 ? pointData.homeName! : pointData.awayName!,
+                          teamLogo: index == 0
+                              ? pointData.homeLogo!
+                              : pointData.awayLogo!,
+                          team: index == 0
+                              ? pointData.homeName!
+                              : pointData.awayName!,
                           isDraw: index == 1 ? true : false,
                           selectedCard: _selectedWinning,
                         ),
@@ -171,7 +197,8 @@ class _PredictionsScreenState extends State<PredictionsScreen> with AutomaticKee
               child: Column(
                 children: [
                   PredictionsCard(
-                    predictionText: context.appLocalization.predResult(pointData.matchResultPoints!),
+                    predictionText: context.appLocalization
+                        .predResult(pointData.matchResultPoints!),
                   ),
                   const SizedBox(
                     height: 10,
@@ -182,12 +209,28 @@ class _PredictionsScreenState extends State<PredictionsScreen> with AutomaticKee
                       children: [
                         TeamName(name: pointData.homeName!),
                         ResultPicker(onSelectedItemChanged: (value) {
-                          setState(() {
-                            if (!_visibleFirstScore) {
+                          _homeScore = value;
+                          _firstScoreId = null;
+                          // setState(() {
+
+                          //   if (!_visibleFirstScore) {
+                          //     _visibleFirstScore = true;
+                          //   }
+
+                          // });
+                          if (value == 0 && _awayScore == 0) {
+                            setState(() {
+                              _visibleFirstScore = false;
+                            });
+                            context.authProvider.checkIfUserAuthenticated(
+                                context, callback: () {
+                              _confirmPredication();
+                            });
+                          } else {
+                            setState(() {
                               _visibleFirstScore = true;
-                            }
-                            _homeScore = value;
-                          });
+                            });
+                          }
                         }),
                         VerticalDivider(
                           color: context.colorPalette.greyAAA,
@@ -196,12 +239,27 @@ class _PredictionsScreenState extends State<PredictionsScreen> with AutomaticKee
                           endIndent: 20,
                         ),
                         ResultPicker(onSelectedItemChanged: (value) {
-                          setState(() {
-                            if (!_visibleFirstScore) {
+                          _awayScore = value;
+                          _firstScoreId = null;
+                          if (value == 0 && _homeScore == 0) {
+                            setState(() {
+                              _visibleFirstScore = false;
+                            });
+                            context.authProvider.checkIfUserAuthenticated(
+                                context, callback: () {
+                              _confirmPredication();
+                            });
+                          } else {
+                            setState(() {
                               _visibleFirstScore = true;
-                            }
-                            _awayScore = value;
-                          });
+                            });
+                          }
+                          // setState(() {
+                          //   if (!_visibleFirstScore) {
+                          //     _visibleFirstScore = true;
+                          //   }
+
+                          // });
                         }),
                         TeamName(name: pointData.awayName!),
                       ],
@@ -216,7 +274,8 @@ class _PredictionsScreenState extends State<PredictionsScreen> with AutomaticKee
             child: Column(
               children: [
                 PredictionsCard(
-                  predictionText: context.appLocalization.predFirstScore(pointData.firstScorerPoints!),
+                  predictionText: context.appLocalization
+                      .predFirstScore(pointData.firstScorerPoints!),
                 ),
                 const SizedBox(
                   height: 10,
@@ -231,37 +290,27 @@ class _PredictionsScreenState extends State<PredictionsScreen> with AutomaticKee
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () {
-                          context.authProvider.checkIfUserAuthenticated(
-                            context,
-                            callback: (){
-                               setState(() {
-                            _selectedFirstScore = index;
-                            _firstScoreId = index == 0 ? pointData.homeId! : pointData.awayId!;
+                          context.authProvider.checkIfUserAuthenticated(context,
+                              callback: () {
+                            setState(() {
+                              _selectedFirstScore = index;
+                              _firstScoreId = index == 0
+                                  ? pointData.homeId!
+                                  : pointData.awayId!;
+                            });
+                            _confirmPredication();
                           });
-                          context
-                              .showDialog(
-                            bodyText: context.appLocalization.confirmPrediction,
-                          )
-                              .then((value) async {
-                            if (value != null) {
-                              createPrediction();
-                            } else {
-                              setState(() {
-                                reInitialize();
-                              });
-                            }
-                          },
-                          );
-                            }
-                          );
-                         
                         },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 30),
                           child: PredictionsContainer(
                             index: index,
-                            teamLogo: index == 0 ? pointData.homeLogo! : pointData.awayLogo!,
-                            team: index == 0 ? pointData.homeName! : pointData.awayName!,
+                            teamLogo: index == 0
+                                ? pointData.homeLogo!
+                                : pointData.awayLogo!,
+                            team: index == 0
+                                ? pointData.homeName!
+                                : pointData.awayName!,
                             selectedCard: _selectedFirstScore,
                           ),
                         ),
