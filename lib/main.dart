@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:sportk/providers/app_provider.dart';
@@ -86,6 +88,13 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+  Future<String> getCountryCode()async{
+    String currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
+    List<Location> locations = await locationFromAddress(currentTimeZone.split('/').last);
+    List<Placemark> placemarks = await placemarkFromCoordinates(locations[0].latitude, locations[0].longitude);
+    return placemarks[0].isoCountryCode??"";
+  }
+
   @override
   void initState() {
     super.initState();
@@ -94,6 +103,8 @@ class _MyAppState extends State<MyApp> {
     _authProvider.initializeLocale(context);
     _authProvider.initUser();
     DeepLinkingService.listenDynamicLinks();
+    //log(DateTime.now().timeZoneName);
+    getCountryCode().then((value) => log(value));
     // final v = PlatformDispatcher.instance.locale.countryCode;
   }
 
