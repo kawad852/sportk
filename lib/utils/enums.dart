@@ -57,6 +57,11 @@ class NotificationsType {
   static const String url = 'url';
 }
 
+class DeepLinkingType {
+  static const String blog = 'blog';
+  static const String invitationCode = 'invitation_code';
+}
+
 class BlogsType {
   static String recommended = 'user';
   static String teams(int id) => 'teams/$id';

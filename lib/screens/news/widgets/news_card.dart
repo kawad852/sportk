@@ -189,7 +189,7 @@ class _NewsCardState extends State<NewsCard> {
                         DeepLinkingService.share(
                           context,
                           id: _newData.id!.toString(),
-                          type: NotificationsType.blog,
+                          type: DeepLinkingType.blog,
                           title: _newData.title!,
                           description: _newData.content!,
                           imageURL: _newData.image!,
