@@ -1,6 +1,10 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sportk/alerts/feedback/app_feedback.dart';
 import 'package:sportk/providers/app_provider.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/screens/contact/contact_screen.dart';
@@ -18,6 +22,7 @@ import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/utils/shared_pref.dart';
 import 'package:sportk/widgets/custom_back.dart';
 import 'package:sportk/widgets/stretch_button.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -38,6 +43,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
       FirebaseMessaging.instance.getToken();
     } else {
       FirebaseMessaging.instance.deleteToken();
+    }
+  }
+
+  void _openStore(BuildContext context) async {
+    try {
+      const appId = 'com.eascore.wecan';
+      final path = Platform.isAndroid ? 'market://details?id=$appId' : 'https://apps.apple.com/app/id$appId';
+      final uri = Uri.parse(path);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else {
+        await launchUrl(uri);
+      }
+    } catch (e) {
+      log("UrlLauncherError:: $e");
+      if (context.mounted) {
+        context.showSnackBar(context.appLocalization.generalError);
+      }
     }
   }
 
@@ -156,6 +179,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               context.push(const ContactScreen());
             },
             title: context.appLocalization.contactUs,
+            icon: MyIcons.messages,
+          ),
+          ProfileTile(
+            onTap: () {
+              _openStore(context);
+            },
+            title: context.appLocalization.rateApp,
             icon: MyIcons.messages,
           ),
         ],
