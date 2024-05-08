@@ -55,8 +55,9 @@ class _LiveBubbleState extends State<LiveBubble> {
               child: Container(
                 width: 64,
                 height: 25,
+                margin: const EdgeInsets.only(bottom: 30),
                 decoration: BoxDecoration(
-                  color: context.colorPalette.white.withOpacity(0.6),
+                  color: context.colorPalette.white.withOpacity(0.7),
                   borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
                 ),
                 child: Row(
