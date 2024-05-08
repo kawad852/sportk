@@ -48,11 +48,11 @@ class DeepLinkingService {
 
   static void share(
     BuildContext context, {
-    required String id,
+    String? id,
     required String type,
     required String title,
     required String description,
-    required String imageURL,
+    String? imageURL,
   }) async {
     AppOverlayLoader.fakeLoading();
     final buo = BranchUniversalObject(
@@ -60,7 +60,7 @@ class DeepLinkingService {
       canonicalUrl: kBranchWebURL,
       title: title,
       contentDescription: description,
-      imageUrl: imageURL,
+      imageUrl: imageURL??'',
       expirationDateInMilliSec: DateTime.now().add(const Duration(days: 365)).millisecondsSinceEpoch,
     );
 

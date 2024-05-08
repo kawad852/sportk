@@ -14,7 +14,10 @@ import 'package:sportk/screens/wallet/widgets/wallet_button.dart';
 import 'package:sportk/screens/wallet/widgets/wallet_card.dart';
 import 'package:sportk/screens/wallet/widgets/wallet_loading.dart';
 import 'package:sportk/screens/wallet/widgets/watch_ad_button.dart';
+import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/deep_linking_service.dart';
+import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/utils/shared_pref.dart';
@@ -35,7 +38,8 @@ class WalletScreen extends StatefulWidget {
   State<WalletScreen> createState() => _WalletScreenState();
 }
 
-class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClientMixin {
+class _WalletScreenState extends State<WalletScreen>
+    with AutomaticKeepAliveClientMixin {
   late Future<List<dynamic>> _futures;
   late AuthProvider _authProvider;
   late Future<UserModel> _userFuture;
@@ -47,7 +51,8 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
   final _vexKey = GlobalKey<VexPaginatorState>();
 
   Future<List<dynamic>> _initializeFutures() async {
-    _userFuture = _authProvider.getUserProfile(context, MySharedPreferences.user.id!);
+    _userFuture =
+        _authProvider.getUserProfile(context, MySharedPreferences.user.id!);
     _pointsFuture = _commonProvider.getPoints();
     return Future.wait([_userFuture, _pointsFuture]);
   }
@@ -71,10 +76,10 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
     return Scaffold(
       drawer: const ProfileScreen(),
       body: RefreshIndicator(
-        onRefresh: ()async{
+        onRefresh: () async {
           setState(() {
-           _futures = _initializeFutures();
-           _vexKey.currentState!.refresh();
+            _futures = _initializeFutures();
+            _vexKey.currentState!.refresh();
           });
         },
         child: CustomScrollView(
@@ -86,7 +91,8 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
               title: Text(context.appLocalization.myWallet),
             ),
             SliverPadding(
-              padding: const EdgeInsetsDirectional.symmetric(horizontal: 15, vertical: 10),
+              padding: const EdgeInsetsDirectional.symmetric(
+                  horizontal: 15, vertical: 10),
               sliver: SliverToBoxAdapter(
                 child: CustomFutureBuilder(
                   future: _futures,
@@ -150,7 +156,8 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
                           width: double.infinity,
                           height: 54,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
+                            borderRadius:
+                                BorderRadius.circular(MyTheme.radiusSecondary),
                             color: context.colorPalette.blueF9F,
                           ),
                           child: Row(
@@ -158,7 +165,8 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
                             children: [
                               const CustomSvg(MyIcons.ticketStar),
                               Padding(
-                                padding: const EdgeInsetsDirectional.only(start: 2, end: 2),
+                                padding: const EdgeInsetsDirectional.only(
+                                    start: 2, end: 2),
                                 child: Text(
                                   context.appLocalization.invitationCode,
                                   style: TextStyle(
@@ -172,8 +180,10 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
                                 height: 30,
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                  color: context.colorPalette.walletContainerColor,
-                                  borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
+                                  color:
+                                      context.colorPalette.walletContainerColor,
+                                  borderRadius: BorderRadius.circular(
+                                      MyTheme.radiusSecondary),
                                 ),
                                 child: Text(
                                   user.data!.invitationCode!,
@@ -185,15 +195,23 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
                               ),
                               IconButton(
                                 onPressed: () {
-                                  Clipboard.setData(ClipboardData(text: user.data!.invitationCode!)).then(
-                                    (value) {
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                          content: Text(context.appLocalization.copiedInvitionCode),
-                                        ),
-                                      );
-                                    },
+                                  DeepLinkingService.share(
+                                    context,
+                                    id: UniqueKey().toString(),
+                                    type: DeepLinkingType.invitationCode,
+                                    title: context.appLocalization.downloadEascore,
+                                    description: user.data!.invitationCode!,
+                                    imageURL: eascoreImage,
                                   );
+                                  // Clipboard.setData(ClipboardData(text: user.data!.invitationCode!)).then(
+                                  //   (value) {
+                                  //     ScaffoldMessenger.of(context).showSnackBar(
+                                  //       SnackBar(
+                                  //         content: Text(context.appLocalization.copiedInvitionCode),
+                                  //       ),
+                                  //     );
+                                  //   },
+                                  // );
                                 },
                                 icon: const CustomSvg(MyIcons.copyCode),
                               ),
@@ -250,20 +268,22 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
                     : SliverPadding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         sliver: SliverGrid(
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                           ),
                           delegate: SliverChildBuilderDelegate(
                             childCount: snapshot.docs.length + 1,
                             (context, index) {
-                              if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
+                              if (snapshot.hasMore &&
+                                  index + 1 == snapshot.docs.length) {
                                 snapshot.fetchMore();
                               }
-        
+
                               if (index == snapshot.docs.length) {
                                 return VexLoader(snapshot.isFetchingMore);
                               }
-        
+
                               final element = vouchers[index];
                               return CouponsCard(vouchersData: element);
                             },
