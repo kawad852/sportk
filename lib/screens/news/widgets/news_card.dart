@@ -69,7 +69,7 @@ class _NewsCardState extends State<NewsCard> {
           ClipRRect(
             borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
             child: CustomNetworkImage(
-              _newData.image!,
+              _newData.image ?? '',
               onTap: () {
                 context.push(NewsDetailsScreen(newId: _newData.id!));
               },
@@ -97,7 +97,7 @@ class _NewsCardState extends State<NewsCard> {
                   children: [
                     if (_newData.source != null) ...[
                       CustomNetworkImage(
-                        _newData.sourceImage!,
+                        _newData.sourceImage ?? '',
                         radius: 5,
                         width: 20,
                         height: 20,
@@ -107,7 +107,7 @@ class _NewsCardState extends State<NewsCard> {
                       ),
                     ],
                     Text(
-                      "${_newData.source != null ? '${_newData.source} - ' : ''}${_newData.publicationTime!.formatDate(context)}",
+                      "${_newData.source != null ? '${_newData.source}' : ''}${_newData.publicationTime != null ? ' - ${_newData.publicationTime!.formatDate(context)}' : ''}",
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: context.colorPalette.blueD4B,
