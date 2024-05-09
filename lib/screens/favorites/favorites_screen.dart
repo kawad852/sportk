@@ -106,32 +106,33 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
               }
               return Column(
                 children: [
-                  Material(
-                    child: SizedBox(
-                      height: 165,
-                      child: ListView.separated(
-                        itemCount: teamsFavorites.length,
-                        padding: const EdgeInsets.all(20),
-                        separatorBuilder: (context, index) => const SizedBox(width: 5),
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          final favoriteData = teamsFavorites[index];
-                          final id = favoriteData.favoritableId!;
-                          return TeamBuilder(
-                            key: ValueKey(index),
-                            teamId: id,
-                            builder: (context, teamData) {
-                              return TeamBubble(
-                                team: teamData,
-                                selected: _favoriteProvider.isFav(id, CompoTypeEnum.teams),
-                                showDialog: true,
-                              );
-                            },
-                          );
-                        },
+                  if (teamsFavorites.isNotEmpty)
+                    Material(
+                      child: SizedBox(
+                        height: 165,
+                        child: ListView.separated(
+                          itemCount: teamsFavorites.length,
+                          padding: const EdgeInsets.all(20),
+                          separatorBuilder: (context, index) => const SizedBox(width: 5),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            final favoriteData = teamsFavorites[index];
+                            final id = favoriteData.favoritableId!;
+                            return TeamBuilder(
+                              key: ValueKey(id),
+                              teamId: id,
+                              builder: (context, teamData) {
+                                return TeamBubble(
+                                  team: teamData,
+                                  selected: _favoriteProvider.isFav(id, CompoTypeEnum.teams),
+                                  showDialog: true,
+                                );
+                              },
+                            );
+                          },
+                        ),
                       ),
                     ),
-                  ),
                   Expanded(
                     child: ListView.separated(
                       itemCount: leagueFavorites.length,
@@ -141,7 +142,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> with AutomaticKeepAli
                         final favoriteData = leagueFavorites[index];
                         final id = favoriteData.favoritableId!;
                         return LeagueBuilder(
-                          key: ValueKey(index),
+                          key: ValueKey(id),
                           leagueId: id,
                           builder: (BuildContext context, LeagueModel leagueModel) {
                             final league = leagueModel.data!;
