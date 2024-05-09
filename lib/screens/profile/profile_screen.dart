@@ -16,6 +16,7 @@ import 'package:sportk/screens/profile/widgets/profile_header.dart';
 import 'package:sportk/screens/profile/widgets/profile_tile.dart';
 import 'package:sportk/screens/registration/registration_screen.dart';
 import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/deep_linking_service.dart';
 import 'package:sportk/utils/enums.dart';
 import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/utils/my_theme.dart';
@@ -189,9 +190,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
             icon: MyIcons.starOutlined,
           ),
           ProfileTile(
-            onTap: () {},
+            onTap: () {
+              DeepLinkingService.share(
+                context,
+                id: '0',
+                type: DeepLinkingType.app,
+                title: context.appLocalization.appName,
+                description: '',
+                imageURL: null,
+              );
+            },
             title: context.appLocalization.shareApp,
-            icon: MyIcons.starOutlined,
+            icon: MyIcons.download,
           ),
         ],
       ),

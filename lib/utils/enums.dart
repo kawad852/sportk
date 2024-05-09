@@ -60,6 +60,7 @@ class NotificationsType {
 class DeepLinkingType {
   static const String blog = 'blog';
   static const String invitationCode = 'invitation_code';
+  static const String app = 'app';
 }
 
 class BlogsType {

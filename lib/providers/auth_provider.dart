@@ -73,18 +73,20 @@ class AuthProvider extends ChangeNotifier {
       },
       onComplete: (snapshot) async {
         if (snapshot.status == true) {
-          await context.favoriteProvider.fetchFavs(context);
           MySharedPreferences.accessToken = snapshot.data!.token!;
           if (!context.mounted) return;
           updateUser(context, userModel: snapshot.data!.user);
-          if (_lastRouteName == null) {
+          await context.favoriteProvider.fetchFavs(context);
+          if (_lastRouteName == null && context.mounted) {
             if (snapshot.data!.user!.invitationCodeStatus == 0) {
               context.pushAndRemoveUntil(const InvitationCodeScreen());
             } else {
               context.pushAndRemoveUntil(const AppNavBar());
             }
           } else {
-            _popUntilLastPage(context);
+            if (context.mounted) {
+              _popUntilLastPage(context);
+            }
           }
         } else {
           context.showSnackBar(snapshot.msg!);

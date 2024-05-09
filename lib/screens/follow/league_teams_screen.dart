@@ -30,7 +30,7 @@ class _LeagueTeamsScreenState extends State<LeagueTeamsScreen> {
   Future<TeamsBySeasonModel> _initializeLeagues() async {
     final seasonFuture = _footBallProvider.fetchSeasonByLeague(leagueId: widget.leagueId);
     final season = await seasonFuture;
-    final teamsFuture = _footBallProvider.fetchTeamsBySeason(seasonId: season.data!.id!);
+    final teamsFuture = _footBallProvider.fetchTeamsBySeason(seasonId: season.data!.currentseason!.id!);
     return teamsFuture;
   }
 
@@ -40,6 +40,7 @@ class _LeagueTeamsScreenState extends State<LeagueTeamsScreen> {
     _footBallProvider = context.footBallProvider;
     _favoriteProvider = context.favoriteProvider;
     _teamsFuture = _initializeLeagues();
+
   }
 
   @override

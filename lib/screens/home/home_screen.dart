@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
   late CommonProvider _commonProvider;
   late FootBallProvider _footBallProvider;
   bool _isLive = false;
-  bool _isListener=true;
+  bool _isListener = true;
   late DateTime _selectedDate;
   late final AppLifecycleListener _listener;
   DateTime get _nowDate => DateTime.now();
@@ -107,10 +107,10 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
     _footBallProvider = context.footBallProvider;
     _selectedDate = _nowDate;
     _commonProvider.initializeHome(context, date: _selectedDate);
-    _listener =AppLifecycleListener(
-      onShow: (){
-        if(_isListener){
-        setState(() {});
+    _listener = AppLifecycleListener(
+      onShow: () {
+        if (_isListener) {
+          setState(() {});
         }
       },
     );
@@ -118,10 +118,9 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
 
   @override
   void dispose() {
-   _listener.dispose();
+    _listener.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -316,14 +315,10 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                         LeagueTile(
                                           league: leagueModel.data!,
                                           onTap: () {
-                                            _isListener=false;
-                                            UiHelper.navigateToLeagueInfo(
-                                              context,
-                                              leagueData: leagueModel.data!,
-                                              afterNavigate: (){
-                                                _isListener=true;
-                                              }
-                                            );
+                                            _isListener = false;
+                                            UiHelper.navigateToLeagueInfo(context, leagueData: leagueModel.data!, afterNavigate: () {
+                                              _isListener = true;
+                                            });
                                           },
                                         ),
                                         ListView.separated(
@@ -376,7 +371,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                             ).toSet();
                                             return GestureDetector(
                                               onTap: () {
-                                                _isListener=false;
+                                                _isListener = false;
                                                 UiHelper.navigateToMatchInfo(
                                                   context,
                                                   matchId: match.id!,
@@ -384,7 +379,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                                   subType: match.league!.subType!,
                                                   afterNavigate: () {
                                                     setState(() {
-                                                      _isListener=true;
+                                                      _isListener = true;
                                                     });
                                                   },
                                                 );

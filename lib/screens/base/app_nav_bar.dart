@@ -158,7 +158,6 @@ class _AppNavBarState extends State<AppNavBar> {
     if (widget.initFav) {
       context.favoriteProvider.fetchFavs(context);
     }
-
     MySharedPreferences.showAd = true;
   }
 
