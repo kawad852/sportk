@@ -186,7 +186,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
               _openStore(context);
             },
             title: context.appLocalization.rateApp,
-            icon: MyIcons.messages,
+            icon: MyIcons.starOutlined,
+          ),
+          ProfileTile(
+            onTap: () {},
+            title: context.appLocalization.shareApp,
+            icon: MyIcons.starOutlined,
           ),
         ],
       ),
