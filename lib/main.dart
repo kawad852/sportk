@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:flutter_native_timezone_updated_gradle/flutter_native_timezone.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
@@ -45,7 +45,7 @@ Future<void> main() async {
   await MySharedPreferences.init();
   await MatchTimerCircle.loadBallImage();
   unawaited(MobileAds.instance.initialize());
-  await FlutterBranchSdk.init(useTestKey: true, enableLogging: false, disableTracking: false);
+  await FlutterBranchSdk.init(useTestKey: false, enableLogging: false, disableTracking: false);
   // FlutterBranchSdk.validateSDKIntegration();
   // MySharedPreferences.clearStorage();
   // MySharedPreferences.isPassedIntro = false;
@@ -88,11 +88,11 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  Future<String> getCountryCode()async{
+  Future<String> getCountryCode() async {
     String currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
     List<Location> locations = await locationFromAddress(currentTimeZone.split('/').last);
     List<Placemark> placemarks = await placemarkFromCoordinates(locations[0].latitude, locations[0].longitude);
-    return placemarks[0].isoCountryCode??"";
+    return placemarks[0].isoCountryCode ?? "";
   }
 
   @override

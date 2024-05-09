@@ -13,7 +13,7 @@ import firebase_auth
 import firebase_core
 import firebase_messaging
 import flutter_local_notifications
-import flutter_native_timezone
+import flutter_native_timezone_updated_gradle
 import flutter_secure_storage_macos
 import geolocator_apple
 import google_sign_in_ios
