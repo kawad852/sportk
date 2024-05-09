@@ -56,7 +56,7 @@ class DeepLinkingService {
   }) async {
     AppOverlayLoader.fakeLoading();
     final buo = BranchUniversalObject(
-      canonicalIdentifier: 'myapp/branch',
+      canonicalIdentifier: kBranchIdentifier,
       canonicalUrl: kBranchWebURL,
       title: title,
       contentDescription: description,
