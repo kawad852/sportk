@@ -53,7 +53,7 @@
             <intent-filter>
                 <!-- If utilizing $deeplink_path please explicitly declare your hosts, or utilize a wildcard(*) -->
                 <!-- REPLACE `android:scheme` with your Android URI scheme -->
-                <data android:scheme="myapp" android:host="open" />
+                <data android:scheme="eascore" android:host="open" />
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -65,9 +65,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!-- REPLACE `android:host` with your `app.link` domain -->
-                <data android:scheme="https" android:host="u7jd1.app.link" />
+                <data android:scheme="https" android:host="uealv.app.link" />
                 <!-- REPLACE `android:host` with your `-alternate` domain (required for proper functioning of App Links and Deepviews) -->
-                <data android:scheme="https" android:host="u7jd1-alternate.app.link" />
+                <data android:scheme="https" android:host="uealv-alternate.app.link" />
             </intent-filter>
 
             <!-- Branch App Links - Test App -->
@@ -75,9 +75,9 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="u7jd1.test-app.link" />
+                <data android:scheme="https" android:host="uealv.app.link" />
                 <!-- REPLACE `android:host` with your `-alternate` domain (required for proper functioning of App Links and Deepviews) -->
-                <data android:scheme="https" android:host="u7jd1-alternate.test-app.link" />
+                <data android:scheme="https" android:host="uealv-alternate.app.link" />
             </intent-filter>
 
         </activity>
@@ -86,11 +86,11 @@
 
         <!-- Branch init -->
         <!-- REPLACE `BranchKey` with the value from your Branch Dashboard -->
-        <meta-data android:name="io.branch.sdk.BranchKey" android:value="key_live_osfKjUqy2CCIZf1NABTrykhotse9IoFZ" />
+        <meta-data android:name="io.branch.sdk.BranchKey" android:value="key_live_gEhNEldRvUbLFX9BKDsM7aggFDjwY867" />
         <!-- REPLACE `BranchKey.test` with the value from your Branch Dashboard -->
         <meta-data android:name="io.branch.sdk.BranchKey.test" android:value="key_test_bxkRlTEE5FuS3hYLzEQstiblyBnXQcRd" />
         <!-- Set to `true` to use `BranchKey.test` -->
-        <meta-data android:name="io.branch.sdk.TestMode" android:value="true" />
+        <meta-data android:name="io.branch.sdk.TestMode" android:value="false" />
 
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
         <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>

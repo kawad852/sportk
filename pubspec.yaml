@@ -77,7 +77,8 @@ dependencies:
   flutter_facebook_auth: ^6.2.0
   rate_my_app: ^2.1.0
   store_redirect: ^2.0.2
-  flutter_native_timezone: ^2.0.0
+#  flutter_native_timezone: ^2.0.0
+  flutter_native_timezone_updated_gradle: ^2.0.3
   geocoding: ^3.0.0
 
 

@@ -10,8 +10,8 @@
 	</array>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>u7jd1.test-app.link</string>
-		<string>u7jd1-alternate.test-app.link</string>
+		<string>uealv.app.link</string>
+		<string>uealv-alternate.app.link</string>
 	</array>
 	<key>keychain-access-groups</key>
 	<array>

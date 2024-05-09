@@ -48,10 +48,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.sportk.wecan</string>
+			<string>com.eascore.wecan</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>myapp</string>
+				<string>eascore</string>
 			</array>
 		</dict>
 	</array>
@@ -92,14 +92,14 @@
 	<key>branch_key</key>
 	<dict>
 		<key>live</key>
-		<string>key_test_bxkRlTEE5FuS3hYLzEQstiblyBnXQcRd</string>
+		<string>key_live_gEhNEldRvUbLFX9BKDsM7aggFDjwY867</string>
 		<key>test</key>
-		<string>key_test_bxkRlTEE5FuS3hYLzEQstiblyBnXQcRd</string>
+		<string>key_live_gEhNEldRvUbLFX9BKDsM7aggFDjwY867</string>
 	</dict>
 	<key>branch_universal_link_domains</key>
 	<array>
-		<string>u7jd1.test-app.link</string>
-		<string>u7jd1-alternate.test-app.link</string>
+		<string>uealv.app.link</string>
+		<string>uealv-alternate.app.link</string>
 	</array>
 </dict>
 </plist>
