@@ -18,7 +18,7 @@ class TeamsPlan extends StatefulWidget {
   State<TeamsPlan> createState() => _TeamsPlanState();
 }
 
-class _TeamsPlanState extends State<TeamsPlan> with SingleTickerProviderStateMixin {
+class _TeamsPlanState extends State<TeamsPlan> with SingleTickerProviderStateMixin ,AutomaticKeepAliveClientMixin {
   late TabController _controller;
   late FootBallProvider _footBallProvider;
   late Future<MatchPlanModel> _matchPlansFuture;
@@ -38,6 +38,7 @@ class _TeamsPlanState extends State<TeamsPlan> with SingleTickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return CustomFutureBuilder(
       future: _matchPlansFuture,
       onRetry: () {
@@ -160,6 +161,7 @@ class _TeamsPlanState extends State<TeamsPlan> with SingleTickerProviderStateMix
                       physics: const NeverScrollableScrollPhysics(),
                       children: [
                         PlanCard(
+                          key: UniqueKey(),
                           formation: formationHome,
                           lineup: homeLineup,
                           bench: homeBench,
@@ -167,6 +169,7 @@ class _TeamsPlanState extends State<TeamsPlan> with SingleTickerProviderStateMix
                           substitution: homeSubstitution,
                         ),
                         PlanCard(
+                          key: UniqueKey(),
                           formation: formationAway,
                           lineup: awayLineup,
                           bench: awayBench,
@@ -181,4 +184,6 @@ class _TeamsPlanState extends State<TeamsPlan> with SingleTickerProviderStateMix
       },
     );
   }
+  @override
+  bool get wantKeepAlive => true;
 }
