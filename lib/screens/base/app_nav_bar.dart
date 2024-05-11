@@ -38,8 +38,8 @@ class _AppNavBarState extends State<AppNavBar> {
     minLaunches: 2,
     remindDays: 2,
     remindLaunches: 2,
-    appStoreIdentifier: "com.eascore.wecan",
     googlePlayIdentifier: "com.eascore.wecan",
+    appStoreIdentifier: "6499055800",
   );
 
   final items = [
@@ -134,7 +134,7 @@ class _AppNavBarState extends State<AppNavBar> {
                     } else if (stars <= 5) {
                       StoreRedirect.redirect(
                         androidAppId: "com.eascore.wecan",
-                        iOSAppId: "com.eascore.wecan",
+                        iOSAppId: "6499055800",
                       );
                     }
                   } else {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:sportk/model/points_model.dart';
 import 'package:sportk/model/user_model.dart';
 import 'package:sportk/model/vouchers_model.dart';
@@ -38,8 +37,7 @@ class WalletScreen extends StatefulWidget {
   State<WalletScreen> createState() => _WalletScreenState();
 }
 
-class _WalletScreenState extends State<WalletScreen>
-    with AutomaticKeepAliveClientMixin {
+class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClientMixin {
   late Future<List<dynamic>> _futures;
   late AuthProvider _authProvider;
   late Future<UserModel> _userFuture;
@@ -51,8 +49,7 @@ class _WalletScreenState extends State<WalletScreen>
   final _vexKey = GlobalKey<VexPaginatorState>();
 
   Future<List<dynamic>> _initializeFutures() async {
-    _userFuture =
-        _authProvider.getUserProfile(context, MySharedPreferences.user.id!);
+    _userFuture = _authProvider.getUserProfile(context, MySharedPreferences.user.id!);
     _pointsFuture = _commonProvider.getPoints();
     return Future.wait([_userFuture, _pointsFuture]);
   }
@@ -91,8 +88,7 @@ class _WalletScreenState extends State<WalletScreen>
               title: Text(context.appLocalization.myWallet),
             ),
             SliverPadding(
-              padding: const EdgeInsetsDirectional.symmetric(
-                  horizontal: 15, vertical: 10),
+              padding: const EdgeInsetsDirectional.symmetric(horizontal: 15, vertical: 10),
               sliver: SliverToBoxAdapter(
                 child: CustomFutureBuilder(
                   future: _futures,
@@ -156,8 +152,7 @@ class _WalletScreenState extends State<WalletScreen>
                           width: double.infinity,
                           height: 54,
                           decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.circular(MyTheme.radiusSecondary),
+                            borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
                             color: context.colorPalette.blueF9F,
                           ),
                           child: Row(
@@ -165,8 +160,7 @@ class _WalletScreenState extends State<WalletScreen>
                             children: [
                               const CustomSvg(MyIcons.ticketStar),
                               Padding(
-                                padding: const EdgeInsetsDirectional.only(
-                                    start: 2, end: 2),
+                                padding: const EdgeInsetsDirectional.only(start: 2, end: 2),
                                 child: Text(
                                   context.appLocalization.invitationCode,
                                   style: TextStyle(
@@ -180,10 +174,8 @@ class _WalletScreenState extends State<WalletScreen>
                                 height: 30,
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                  color:
-                                      context.colorPalette.walletContainerColor,
-                                  borderRadius: BorderRadius.circular(
-                                      MyTheme.radiusSecondary),
+                                  color: context.colorPalette.walletContainerColor,
+                                  borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
                                 ),
                                 child: Text(
                                   user.data!.invitationCode!,
@@ -202,6 +194,7 @@ class _WalletScreenState extends State<WalletScreen>
                                     title: context.appLocalization.downloadEascore,
                                     description: user.data!.invitationCode!,
                                     imageURL: eascoreImage,
+                                    subject: user.data!.invitationCode!,
                                   );
                                   // Clipboard.setData(ClipboardData(text: user.data!.invitationCode!)).then(
                                   //   (value) {
@@ -268,15 +261,13 @@ class _WalletScreenState extends State<WalletScreen>
                     : SliverPadding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         sliver: SliverGrid(
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                           ),
                           delegate: SliverChildBuilderDelegate(
                             childCount: snapshot.docs.length + 1,
                             (context, index) {
-                              if (snapshot.hasMore &&
-                                  index + 1 == snapshot.docs.length) {
+                              if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
                                 snapshot.fetchMore();
                               }
 

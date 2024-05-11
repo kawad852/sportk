@@ -7,6 +7,8 @@ import 'package:sportk/alerts/loading/app_over_loader.dart';
 import 'package:sportk/main.dart';
 import 'package:sportk/notifications/notifications_routes_service.dart';
 import 'package:sportk/utils/app_constants.dart';
+import 'package:sportk/utils/base_extensions.dart';
+import 'package:sportk/utils/enums.dart';
 
 class DeepLinkingService {
   static StreamSubscription<Map>? streamSubscription;
@@ -53,6 +55,7 @@ class DeepLinkingService {
     required String title,
     required String description,
     String? imageURL,
+    String? subject,
   }) async {
     AppOverlayLoader.fakeLoading();
     final buo = BranchUniversalObject(
@@ -60,7 +63,7 @@ class DeepLinkingService {
       canonicalUrl: kBranchWebURL,
       title: title,
       contentDescription: description,
-      imageUrl: imageURL??'',
+      imageUrl: imageURL ?? '',
       expirationDateInMilliSec: DateTime.now().add(const Duration(days: 365)).millisecondsSinceEpoch,
     );
 
@@ -70,6 +73,10 @@ class DeepLinkingService {
 
     final link = await generateLink(context, buo: buo, lp: lp);
 
-    Share.share(link!);
+    if (type == DeepLinkingType.invitationCode) {
+      Share.share('${context.appLocalization.invitationCode}: $subject\n\n${link!}');
+    } else {
+      Share.share(link!);
+    }
   }
 }
