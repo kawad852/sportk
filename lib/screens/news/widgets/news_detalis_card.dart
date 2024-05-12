@@ -48,17 +48,18 @@ class NewsDetailsCard extends StatelessWidget {
         const SizedBox(
           height: 5,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Text(
-              newData.publicationTime!.formatDate(context),
-              style: const TextStyle(fontSize: 10),
-            ),
-            const SizedBox(width: 6),
-            const CustomSvg(MyIcons.clock),
-          ],
-        ),
+        if (newData.publicationTime != null)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                newData.publicationTime!.formatDate(context),
+                style: const TextStyle(fontSize: 10),
+              ),
+              const SizedBox(width: 6),
+              const CustomSvg(MyIcons.clock),
+            ],
+          ),
         const SizedBox(height: 5),
         Text(
           newData.title!,
