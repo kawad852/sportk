@@ -80,6 +80,7 @@ dependencies:
 #  flutter_native_timezone: ^2.0.0
   flutter_native_timezone_updated_gradle: ^2.0.3
   geocoding: ^3.0.0
+  lottie: ^3.1.2
 
 
   #firebase
@@ -142,6 +143,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/flags/
+    - assets/lottie/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

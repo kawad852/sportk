@@ -154,6 +154,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
             icon: MyIcons.language,
           ),
           ProfileHeader(title: context.appLocalization.application),
+           ProfileTile(
+            onTap: () {
+              _openStore(context);
+            },
+            title: context.appLocalization.rateApp,
+            icon: MyIcons.starOutlined,
+          ),
+          ProfileTile(
+            onTap: () {
+              DeepLinkingService.share(
+                context,
+                id: '0',
+                type: DeepLinkingType.app,
+                title: context.appLocalization.appName,
+                description: '',
+                imageURL: null,
+              );
+            },
+            title: context.appLocalization.shareApp,
+            icon: MyIcons.download,
+          ),
           ProfileTile(
             onTap: () {
               context.push(const PolicyScreen(id: 1));
@@ -182,27 +203,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             title: context.appLocalization.contactUs,
             icon: MyIcons.messages,
           ),
-          ProfileTile(
-            onTap: () {
-              _openStore(context);
-            },
-            title: context.appLocalization.rateApp,
-            icon: MyIcons.starOutlined,
-          ),
-          ProfileTile(
-            onTap: () {
-              DeepLinkingService.share(
-                context,
-                id: '0',
-                type: DeepLinkingType.app,
-                title: context.appLocalization.appName,
-                description: '',
-                imageURL: null,
-              );
-            },
-            title: context.appLocalization.shareApp,
-            icon: MyIcons.download,
-          ),
+         
         ],
       ),
     );

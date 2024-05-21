@@ -1,18 +1,18 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:sportk/helper/ui_helper.dart';
 import 'package:sportk/model/match_model.dart';
 import 'package:sportk/model/single_match_model.dart';
 import 'package:sportk/providers/football_provider.dart';
+import 'package:sportk/screens/home/widgets/live_bubble.dart';
 import 'package:sportk/screens/match_info/widgets/final_result.dart';
 import 'package:sportk/screens/match_info/widgets/team_card_loading.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/screens/match_info/widgets/team_card.dart';
 import 'package:sportk/utils/enums.dart';
-import 'package:sportk/utils/my_icons.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
-import 'package:sportk/widgets/custom_svg.dart';
 import 'package:sportk/widgets/match_timer_circle.dart';
 import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
@@ -215,6 +215,7 @@ class _MatchCardState extends State<MatchCard> {
 
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
               flex: 2,
@@ -223,8 +224,10 @@ class _MatchCardState extends State<MatchCard> {
             Expanded(
               flex: 3,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -247,10 +250,11 @@ class _MatchCardState extends State<MatchCard> {
                             ),
                         ],
                       ),
+                      
                       match.data!.state!.id == 3
                           ? MatchTimerCircle(
-                              width: 70,
-                              height: 80,
+                              width: 60,
+                              height: 70,
                               currentTime: 45,
                               goalsTime: goalsTime,
                               timeAdded: 0,
@@ -260,8 +264,8 @@ class _MatchCardState extends State<MatchCard> {
                             )
                           : minute != null
                               ? MatchTimerCircle(
-                                  width: 70,
-                                  height: 80,
+                                  width: 60,
+                                  height: 70,
                                   currentTime: minute!.toDouble(),
                                   goalsTime: goalsTime,
                                   timeAdded: timeAdded,
@@ -310,6 +314,7 @@ class _MatchCardState extends State<MatchCard> {
                                         ),
                                       ),
                                     ),
+                                    
                       Column(
                         children: [
                           Text(
@@ -331,6 +336,7 @@ class _MatchCardState extends State<MatchCard> {
                       ),
                     ],
                   ),
+               
                   if (match.data!.state!.id == 1 ||
                       minute != null ||
                       match.data!.state!.id == 3)
@@ -378,36 +384,52 @@ class _MatchCardState extends State<MatchCard> {
                       awayGoalsGoing: awayGoals,
                       homeGoalsGoing: homeGoals,
                     ),
+                //     Container(
+                //       width: 64,
+                //       height: 25,
+                //       alignment: Alignment.center,
+                //       decoration: BoxDecoration(
+                //         color: context.colorPalette.white.withOpacity(0.6),
+                //         borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
+                //       ),
+                //       child:
+                //           Text("3 -1 "),
+                // ),
                   const SizedBox(
                     height: 10,
                   ),
-                  GestureDetector(
-                    onTap: widget.onTracking,
-                    child: Container(
-                      height: 25,
-                      width: 100,
-                      decoration: BoxDecoration(
-                        color: context.colorPalette.white.withOpacity(0.6),
-                        borderRadius:
-                            BorderRadius.circular(MyTheme.radiusSecondary),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const CustomSvg(
-                            MyIcons.liveTracking,
-                            fixedColor: true,
-                          ),
-                          const SizedBox(width: 3),
-                          Text(
-                            context.appLocalization.liveTracking,
-                            style:
-                                TextStyle(color: context.colorPalette.blueD4B),
-                          )
-                        ],
-                      ),
+                  //const Spacer(),
+                  LiveBubble(
+                    matchId: widget.matchId,
+                    onTracking: widget.onTracking,
                     ),
-                  ),
+                  // GestureDetector(
+                  //   onTap: widget.onTracking,
+                  //   child: Container(
+                  //     height: 25,
+                  //     width: 100,
+                  //     decoration: BoxDecoration(
+                  //       color: context.colorPalette.white.withOpacity(0.6),
+                  //       borderRadius:
+                  //           BorderRadius.circular(MyTheme.radiusSecondary),
+                  //     ),
+                  //     child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.center,
+                  //       children: [
+                  //         const CustomSvg(
+                  //           MyIcons.liveTracking,
+                  //           fixedColor: true,
+                  //         ),
+                  //         const SizedBox(width: 3),
+                  //         Text(
+                  //           context.appLocalization.liveTracking,
+                  //           style:
+                  //               TextStyle(color: context.colorPalette.blueD4B),
+                  //         )
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),

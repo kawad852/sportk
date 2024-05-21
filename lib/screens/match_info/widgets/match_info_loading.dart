@@ -30,8 +30,11 @@ class MatchInfoLoading extends StatelessWidget {
             leadingWidth: kBarLeadingWith,
             collapsedHeight: kBarCollapsedHeight,
             pinned: true,
-            leading: CustomBack(
-              color: context.colorPalette.white,
+            leading: Align(
+              alignment: Alignment.topCenter,
+              child: CustomBack(
+                color: context.colorPalette.white,
+              ),
             ),
             flexibleSpace: Container(
               alignment: Alignment.bottomCenter,
@@ -121,7 +124,7 @@ class MatchInfoLoading extends StatelessWidget {
                     ],
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 2,
                   ),
                   ShimmerLoading(
                     child: LoadingBubble(

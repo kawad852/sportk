@@ -6,7 +6,6 @@ import 'package:sportk/network/api_service.dart';
 import 'package:sportk/providers/common_provider.dart';
 import 'package:sportk/screens/champions_league/widgets/champions_matches.dart';
 import 'package:sportk/screens/chat/chat_screen.dart';
-import 'package:sportk/screens/home/widgets/live_bubble.dart';
 import 'package:sportk/screens/match_info/predictions/predictions_screen.dart';
 import 'package:sportk/screens/match_info/widgets/head_to_head.dart';
 import 'package:sportk/screens/match_info/widgets/live_tracking.dart';
@@ -154,14 +153,20 @@ class _MatchInfoScreenState extends State<MatchInfoScreen>
                 collapsedHeight: kBarCollapsedHeight,
                 centerTitle: true,
                 pinned: true,
-                leading: CustomBack(
-                  color: context.colorPalette.white,
+                leading: Align(
+                  alignment: Alignment.topCenter,
+                  child: CustomBack(
+                    color: context.colorPalette.white,
+                  ),
                 ),
-                title: LiveBubble(matchId: widget.matchId),
+                //title: LiveBubble(matchId: widget.matchId),
                 actions: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: const CustomSvg(MyIcons.notification),
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: const CustomSvg(MyIcons.notification),
+                    ),
                   ),
                 ],
                 flexibleSpace: Container(
@@ -178,6 +183,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen>
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
+                    
                     children: [
                       MatchCard(
                         matchId: widget.matchId,
@@ -188,7 +194,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen>
                         },
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 2,
                       ),
                       Padding(
                         padding: const EdgeInsetsDirectional.symmetric(
