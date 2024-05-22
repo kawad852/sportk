@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sportk/model/match_plan_model.dart';
 import 'package:sportk/model/single_match_event_model.dart' as event;
 import 'package:sportk/providers/football_provider.dart';
+import 'package:sportk/screens/match_info/widgets/match_live.dart';
 import 'package:sportk/screens/match_info/widgets/plan_card.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
@@ -112,6 +113,7 @@ class _TeamsPlanState extends State<TeamsPlan> with SingleTickerProviderStateMix
               )
             : Column(
                 children: [
+                  MatchLive(matchId: widget.matchId),
                   Container(
                     height: 45,
                     width: double.infinity,

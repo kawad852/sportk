@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/screens/match_info/widgets/assister_scorers.dart';
+import 'package:sportk/screens/match_info/widgets/match_live.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/league_scorers/league_scorers.dart';
 
 class MatchScorers extends StatefulWidget {
+  final int matchId;
   final int leagueId;
-  const MatchScorers({super.key, required this.leagueId});
+  const MatchScorers({super.key, required this.leagueId, required this.matchId});
 
   @override
   State<MatchScorers> createState() => _MatchScorersState();
@@ -24,6 +26,7 @@ class _MatchScorersState extends State<MatchScorers> with SingleTickerProviderSt
   Widget build(BuildContext context) {
     return Column(
       children: [
+        MatchLive(matchId: widget.matchId),
         Container(
           height: 45,
           width: double.infinity,

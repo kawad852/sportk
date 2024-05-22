@@ -4,6 +4,7 @@ import 'package:sportk/helper/ui_helper.dart';
 import 'package:sportk/model/match_model.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/champions_league/widgets/stage_card.dart';
+import 'package:sportk/screens/match_info/widgets/match_live.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/widgets/match_card.dart';
 import 'package:sportk/widgets/match_empty_result.dart';
@@ -14,7 +15,8 @@ import 'package:sportk/widgets/vex/vex_paginator.dart';
 
 class ChampionsMatches extends StatefulWidget {
   final int leagueId;
-  const ChampionsMatches({super.key, required this.leagueId});
+  final int? matchId;
+  const ChampionsMatches({super.key, required this.leagueId, this.matchId});
 
   @override
   State<ChampionsMatches> createState() => _ChampionsMatchesState();
@@ -71,6 +73,7 @@ class _ChampionsMatchesState extends State<ChampionsMatches> with AutomaticKeepA
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      if(widget.matchId!=null)  MatchLive(matchId: widget.matchId!,margin: const EdgeInsetsDirectional.symmetric(horizontal: 5)),
                       Text(
                         context.appLocalization.nextMatches,
                         style: const TextStyle(

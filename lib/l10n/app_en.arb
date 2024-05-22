@@ -290,5 +290,7 @@
   "noResults": "No Results",
   "rateApp": "Rate App",
   "downloadEascore":"Download the eascore app and use my invitation code",
-  "shareApp": "Share App"
+  "shareApp": "Share App",
+  "watchMatchLive":"To watch the match, click on the button ",
+  "topLive":"'Live' ☝️"
 }

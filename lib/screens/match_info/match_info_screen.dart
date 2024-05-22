@@ -183,7 +183,6 @@ class _MatchInfoScreenState extends State<MatchInfoScreen>
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    
                     children: [
                       MatchCard(
                         matchId: widget.matchId,
@@ -250,6 +249,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen>
                           ),
                         ),
                       ),
+                      
                     ],
                   ),
                 ),
@@ -260,9 +260,9 @@ class _MatchInfoScreenState extends State<MatchInfoScreen>
                       showTracker ? const NeverScrollableScrollPhysics() : null,
                   controller: _controller,
                   children: [
-                    if (showTracker) LiveTracking(link: matchLink!),
+                    if (showTracker) LiveTracking(link: matchLink!,matchId: widget.matchId),
                     if (pointsData.status == 1)
-                      PredictionsScreen(pointsData: pointsData),
+                      PredictionsScreen(pointsData: pointsData,matchId: widget.matchId),
                     MatchEvents(
                         matchPoint: matchPoints,
                         matchId: widget.matchId,
@@ -272,13 +272,15 @@ class _MatchInfoScreenState extends State<MatchInfoScreen>
                     MatchDetalis(matchId: widget.matchId),
                     _isDomestic
                         ? LeagueStandings(
+                            matchId: widget.matchId,
                             leagueId: widget.leagueId,
                             selectedTeamId: int.parse(pointsData.homeId!),
                             selectedTeamId2: int.parse(pointsData.awayId!),
                           )
-                        : ChampionsMatches(leagueId: widget.leagueId),
-                    MatchScorers(leagueId: widget.leagueId),
+                        : ChampionsMatches(leagueId: widget.leagueId,matchId: widget.matchId),
+                    MatchScorers(leagueId: widget.leagueId,matchId: widget.matchId),
                     HeadToHead(
+                      matchId: widget.matchId,
                       fisrtTeamId: int.parse(pointsData.homeId!),
                       secondTeamId: int.parse(pointsData.awayId!),
                     ),

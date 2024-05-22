@@ -35,7 +35,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
       },
       onComplete: (snapshot) {
         if (snapshot.data!.status == 1) {
-          context.push(PredictionsScreen(pointsData: snapshot.data!));
+         // context.push(PredictionsScreen(pointsData: snapshot.data!));
         } else {
           context.showSnackBar(context.appLocalization.cantPredictMatch);
         }

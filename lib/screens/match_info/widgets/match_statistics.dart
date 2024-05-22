@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:sportk/model/single_match_model.dart';
 import 'package:sportk/providers/football_provider.dart';
+import 'package:sportk/screens/match_info/widgets/match_live.dart';
 import 'package:sportk/screens/match_info/widgets/statistics_loading.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
@@ -136,6 +137,7 @@ class _MatchStatisticsState extends State<MatchStatistics> with AutomaticKeepAli
                   physics:const AlwaysScrollableScrollPhysics(),
                   child: Column(
                     children: [
+                      MatchLive(matchId: widget.matchId,margin:const EdgeInsets.only(top: 5)),
                       Container(
                         width: double.infinity,
                         height: 87,

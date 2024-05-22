@@ -4,6 +4,7 @@ import 'package:sportk/helper/ui_helper.dart';
 import 'package:sportk/model/match_model.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/club/widgets/phase_card.dart';
+import 'package:sportk/screens/match_info/widgets/match_live.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
@@ -13,10 +14,11 @@ import 'package:sportk/widgets/shimmer/shimmer_bubble.dart';
 import 'package:sportk/widgets/shimmer/shimmer_loading.dart';
 
 class HeadToHead extends StatefulWidget {
+  final int matchId;
   final int fisrtTeamId;
   final int secondTeamId;
 
-  const HeadToHead({super.key, required this.fisrtTeamId, required this.secondTeamId});
+  const HeadToHead({super.key, required this.fisrtTeamId, required this.secondTeamId, required this.matchId});
 
   @override
   State<HeadToHead> createState() => _HeadToHeadState();
@@ -82,38 +84,46 @@ class _HeadToHeadState extends State<HeadToHead> with AutomaticKeepAliveClientMi
                 header: const Icon(FontAwesomeIcons.baseball),
                 title: context.appLocalization.noInfoConfrontations,
               )
-            : ListView.builder(
-                itemCount: matches.data!.length,
-                shrinkWrap: true,
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                itemBuilder: (context, index) {
-                  final elemant = matches.data![index];
-                  return Column(
-                    children: [
-                      PhaseCard(
-                        teamId: widget.fisrtTeamId,
-                        stageId: elemant.stageId!,
-                        leagueId: elemant.leagueId!,
-                        roundId: elemant.roundId,
-                      ),
-                      InkWell(
-                        highlightColor: Colors.transparent,
-                        splashColor: Colors.transparent,
-                        onTap: () async {
-                          await UiHelper.navigateToMatchInfo(
-                            context,
-                            matchId: elemant.id!,
-                            leagueId: elemant.leagueId!,
-                            subType: elemant.league!.subType!,
-                            afterNavigate: () {},
-                          );
-                        },
-                        child: MatchCard(element: elemant),
-                      )
-                    ],
-                  );
-                },
-              );
+            : SingleChildScrollView(
+              child: Column(
+                children: [
+                  MatchLive(matchId: widget.matchId),
+                  ListView.builder(
+                      itemCount: matches.data!.length,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      itemBuilder: (context, index) {
+                        final elemant = matches.data![index];
+                        return Column(
+                          children: [
+                            PhaseCard(
+                              teamId: widget.fisrtTeamId,
+                              stageId: elemant.stageId!,
+                              leagueId: elemant.leagueId!,
+                              roundId: elemant.roundId,
+                            ),
+                            InkWell(
+                              highlightColor: Colors.transparent,
+                              splashColor: Colors.transparent,
+                              onTap: () async {
+                                await UiHelper.navigateToMatchInfo(
+                                  context,
+                                  matchId: elemant.id!,
+                                  leagueId: elemant.leagueId!,
+                                  subType: elemant.league!.subType!,
+                                  afterNavigate: () {},
+                                );
+                              },
+                              child: MatchCard(element: elemant),
+                            )
+                          ],
+                        );
+                      },
+                    ),
+                ],
+              ),
+            );
       },
     );
   }

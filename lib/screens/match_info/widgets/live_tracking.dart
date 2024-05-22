@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:sportk/screens/match_info/widgets/match_live.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_images.dart';
 import 'package:sportk/utils/my_theme.dart';
@@ -8,8 +9,9 @@ import 'package:sportk/widgets/ads/google_banner.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class LiveTracking extends StatefulWidget {
+  final int matchId;
   final String link;
-  const LiveTracking({super.key, required this.link});
+  const LiveTracking({super.key, required this.link, required this.matchId});
 
   @override
   State<LiveTracking> createState() => _LiveTrackingState();
@@ -98,6 +100,7 @@ class _LiveTrackingState extends State<LiveTracking>
             )
           : Column(
               children: [
+                MatchLive(matchId: widget.matchId),
                 SizedBox(
                   width: double.infinity,
                   height: 280,
@@ -106,7 +109,7 @@ class _LiveTrackingState extends State<LiveTracking>
                   ),
                 ),
                 const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   child: GoogleBanner(
                     adSize: AdSize.fullBanner,
                   ),

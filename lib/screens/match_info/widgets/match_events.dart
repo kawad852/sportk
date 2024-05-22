@@ -6,6 +6,7 @@ import 'package:sportk/model/single_match_event_model.dart';
 import 'package:sportk/providers/football_provider.dart';
 import 'package:sportk/screens/match_info/predictions/widgets/viewers_predictions.dart';
 import 'package:sportk/screens/match_info/widgets/event_card.dart';
+import 'package:sportk/screens/match_info/widgets/match_live.dart';
 import 'package:sportk/screens/match_info/widgets/statistics_loading.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
@@ -183,6 +184,7 @@ class _MatchEventsState extends State<MatchEvents> with AutomaticKeepAliveClient
                   physics:const AlwaysScrollableScrollPhysics(),
                   child: Column(
                     children: [
+                      MatchLive(matchId: widget.matchId),
                       if (!showPrediction)
                         Padding(
                           padding: const EdgeInsets.only(top: 10),

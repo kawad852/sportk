@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:sportk/screens/match_info/widgets/team_card_loading.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_images.dart';
@@ -130,7 +131,8 @@ class MatchInfoLoading extends StatelessWidget {
                     child: LoadingBubble(
                       height: 45,
                       width: double.infinity,
-                      margin: EdgeInsetsDirectional.symmetric(horizontal: 20),
+                      margin:
+                          EdgeInsetsDirectional.symmetric(horizontal: 20),
                       radius: MyTheme.radiusSecondary,
                     ),
                   ),

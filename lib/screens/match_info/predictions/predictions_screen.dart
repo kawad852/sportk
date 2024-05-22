@@ -10,12 +10,14 @@ import 'package:sportk/screens/match_info/predictions/widgets/predictions_contai
 import 'package:sportk/screens/match_info/predictions/widgets/result_picker.dart';
 import 'package:sportk/screens/match_info/predictions/widgets/team_name.dart';
 import 'package:sportk/screens/match_info/predictions/widgets/viewers_predictions.dart';
+import 'package:sportk/screens/match_info/widgets/match_live.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/enums.dart';
 
 class PredictionsScreen extends StatefulWidget {
+  final int matchId;
   final PointsData pointsData;
-  const PredictionsScreen({super.key, required this.pointsData});
+  const PredictionsScreen({super.key, required this.pointsData, required this.matchId});
 
   @override
   State<PredictionsScreen> createState() => _PredictionsScreenState();
@@ -128,6 +130,7 @@ class _PredictionsScreenState extends State<PredictionsScreen>
       controller: controller,
       child: Column(
         children: [
+          MatchLive(matchId: widget.matchId),
           const SizedBox(
             height: 10,
           ),

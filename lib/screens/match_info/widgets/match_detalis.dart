@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sportk/model/match_detalis_model.dart';
 import 'package:sportk/providers/football_provider.dart';
+import 'package:sportk/screens/match_info/widgets/match_live.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/my_theme.dart';
 import 'package:sportk/widgets/custom_future_builder.dart';
@@ -74,40 +75,45 @@ class _MatchDetalisState extends State<MatchDetalis> with AutomaticKeepAliveClie
       onComplete: (context, snapshot) {
         final detalis = snapshot.data!;
         _filterDetalis(detalis);
-        return ListView.separated(
-          itemCount: _matchDetalis.length,
-          separatorBuilder: (context, index) => const SizedBox(height: 5),
-          shrinkWrap: true,
-          padding: const EdgeInsets.only(top: 10, bottom: 10),
-          itemBuilder: (context, index) {
-            String key = _matchDetalis.keys.elementAt(index);
-            return Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              decoration: BoxDecoration(
-                color: context.colorPalette.grey3F3,
-                borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      key,
-                      style: TextStyle(
-                        color: context.colorPalette.blueD4B,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
+        return Column(
+          children: [
+            MatchLive(matchId: widget.matchId),
+            ListView.separated(
+              itemCount: _matchDetalis.length,
+              separatorBuilder: (context, index) => const SizedBox(height: 5),
+              shrinkWrap: true,
+              padding: const EdgeInsets.only(top: 10, bottom: 10),
+              itemBuilder: (context, index) {
+                String key = _matchDetalis.keys.elementAt(index);
+                return Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  decoration: BoxDecoration(
+                    color: context.colorPalette.grey3F3,
+                    borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          key,
+                          style: TextStyle(
+                            color: context.colorPalette.blueD4B,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
                       ),
-                    ),
+                      Flexible(
+                        child: Text(_matchDetalis[key]!),
+                      ),
+                    ],
                   ),
-                  Flexible(
-                    child: Text(_matchDetalis[key]!),
-                  ),
-                ],
-              ),
-            );
-          },
+                );
+              },
+            ),
+          ],
         );
       },
     );
