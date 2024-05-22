@@ -388,7 +388,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                               },
                                               child: Builder(
                                                 builder: (context) {
-                                                  return _liveStateIds.contains(match.state!.id!)? 
+                                                  return  _liveStateIds.contains(match.state!.id!)? 
                                                   Container(
                                                       height: 115,
                                                       decoration: BoxDecoration(
@@ -398,6 +398,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                                         boxShadow: UiHelper.getShadow(context),
                                                       ),
                                                       margin: const EdgeInsets.symmetric(vertical: 5),
+                                                      padding: const EdgeInsets.symmetric(horizontal: 10),
                                                       child: Row(
                                                         children: [
                                                           Expanded(
