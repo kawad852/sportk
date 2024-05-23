@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:sportk/helper/ui_helper.dart';
@@ -388,30 +386,169 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                               },
                                               child: Builder(
                                                 builder: (context) {
-                                                  return  _liveStateIds.contains(match.state!.id!)? 
-                                                  Container(
-                                                      height: 115,
-                                                      decoration: BoxDecoration(
-                                                        color: context.colorPalette.homeMatchBubble,
-                                                        borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
-                                                        border: Border.all(color: context.colorPalette.grey0F5),
-                                                        boxShadow: UiHelper.getShadow(context),
-                                                      ),
-                                                      margin: const EdgeInsets.symmetric(vertical: 5),
-                                                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                                                      child: Row(
-                                                        children: [
-                                                          Expanded(
-                                                            child: Column(
-                                                              mainAxisAlignment: MainAxisAlignment.center,
-                                                              children: [
-                                                                CustomNetworkImage(
-                                                                  teamHome.imagePath!,
-                                                                  width: 50,
-                                                                  height: 50,
-                                                                  shape: BoxShape.circle,
+                                                  return _liveStateIds.contains(match.state!.id!)
+                                                      ? Container(
+                                                          height: 115,
+                                                          decoration: BoxDecoration(
+                                                            color: context.colorPalette.homeMatchBubble,
+                                                            borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
+                                                            border: Border.all(color: context.colorPalette.grey0F5),
+                                                            boxShadow: UiHelper.getShadow(context),
+                                                          ),
+                                                          margin: const EdgeInsets.symmetric(vertical: 5),
+                                                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                                                          child: Row(
+                                                            children: [
+                                                              Expanded(
+                                                                child: Column(
+                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                  children: [
+                                                                    CustomNetworkImage(
+                                                                      teamHome.imagePath!,
+                                                                      width: 50,
+                                                                      height: 50,
+                                                                      shape: BoxShape.circle,
+                                                                    ),
+                                                                    Text(
+                                                                      teamHome.name!,
+                                                                      textAlign: TextAlign.center,
+                                                                      overflow: TextOverflow.ellipsis,
+                                                                      maxLines: 2,
+                                                                      style: TextStyle(
+                                                                        color: context.colorPalette.blueD4B,
+                                                                        fontWeight: FontWeight.bold,
+                                                                        fontSize: 14,
+                                                                      ),
+                                                                    ),
+                                                                  ],
                                                                 ),
-                                                                Text(
+                                                              ),
+                                                              Expanded(
+                                                                flex: 2,
+                                                                child: Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                  children: [
+                                                                    !_showGoals.contains(match.state!.id!)
+                                                                        ? Text(
+                                                                            "$homeGoals",
+                                                                            style: const TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 20,
+                                                                            ),
+                                                                          )
+                                                                        : const SizedBox(
+                                                                            width: 6,
+                                                                          ),
+                                                                    match.state!.id == 3
+                                                                        ? Padding(
+                                                                            padding: const EdgeInsetsDirectional.only(start: 15, end: 15),
+                                                                            child: MatchTimerCircle(
+                                                                              currentTime: 45,
+                                                                              width: 60,
+                                                                              height: 70,
+                                                                              goalsTime: goalsTime,
+                                                                              timeAdded: 0,
+                                                                              isHalfTime: true,
+                                                                            ),
+                                                                          )
+                                                                        : minute != null
+                                                                            ? Padding(
+                                                                                padding: const EdgeInsetsDirectional.only(start: 15, end: 15),
+                                                                                child: MatchTimerCircle(
+                                                                                  currentTime: minute!.toDouble(),
+                                                                                  width: 60,
+                                                                                  height: 70,
+                                                                                  goalsTime: goalsTime,
+                                                                                  timeAdded: timeAdded,
+                                                                                ),
+                                                                              )
+                                                                            : Column(
+                                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                children: [
+                                                                                  SizedBox(
+                                                                                    width: 55,
+                                                                                    child: Text(
+                                                                                      UiHelper.getMatchState(
+                                                                                        context,
+                                                                                        stateId: match.state!.id!,
+                                                                                      ),
+                                                                                      textAlign: TextAlign.center,
+                                                                                      maxLines: 3,
+                                                                                      overflow: TextOverflow.ellipsis,
+                                                                                      style: TextStyle(
+                                                                                        color: context.colorPalette.green057,
+                                                                                        fontSize: 16,
+                                                                                        fontWeight: FontWeight.bold,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  if (match.state!.id == 1)
+                                                                                    Text(
+                                                                                      match.startingAt!.convertToLocal(context),
+                                                                                      style: const TextStyle(
+                                                                                        fontSize: 13,
+                                                                                        fontWeight: FontWeight.bold,
+                                                                                      ),
+                                                                                    ),
+                                                                                ],
+                                                                              ),
+                                                                    !_showGoals.contains(match.state!.id!)
+                                                                        ? Text(
+                                                                            "$awayGoals",
+                                                                            style: const TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 20,
+                                                                            ),
+                                                                          )
+                                                                        : const SizedBox(
+                                                                            width: 6,
+                                                                          )
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              Expanded(
+                                                                child: Column(
+                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                  children: [
+                                                                    CustomNetworkImage(
+                                                                      teamAway.imagePath!,
+                                                                      width: 50,
+                                                                      height: 50,
+                                                                      shape: BoxShape.circle,
+                                                                    ),
+                                                                    Text(
+                                                                      teamAway.name!,
+                                                                      textAlign: TextAlign.center,
+                                                                      overflow: TextOverflow.ellipsis,
+                                                                      maxLines: 2,
+                                                                      style: TextStyle(
+                                                                        color: context.colorPalette.blueD4B,
+                                                                        fontWeight: FontWeight.bold,
+                                                                        fontSize: 14,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        )
+                                                      : Container(
+                                                          height: 65,
+                                                          decoration: BoxDecoration(
+                                                            color: context.colorPalette.homeMatchBubble,
+                                                            borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
+                                                            border: Border.all(color: context.colorPalette.grey0F5),
+                                                            boxShadow: UiHelper.getShadow(context),
+                                                          ),
+                                                          margin: const EdgeInsets.symmetric(vertical: 5),
+                                                          child: Row(
+                                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                            children: [
+                                                              Expanded(
+                                                                flex: 1,
+                                                                child: Text(
                                                                   teamHome.name!,
                                                                   textAlign: TextAlign.center,
                                                                   overflow: TextOverflow.ellipsis,
@@ -419,109 +556,105 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                                                   style: TextStyle(
                                                                     color: context.colorPalette.blueD4B,
                                                                     fontWeight: FontWeight.bold,
-                                                                    fontSize: 14,
+                                                                    fontSize: 12,
                                                                   ),
                                                                 ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          Expanded(
-                                                            flex: 2,
-                                                            child: Row(
-                                                              mainAxisAlignment: MainAxisAlignment.center,
-                                                              children: [
-                                                                !_showGoals.contains(match.state!.id!)
-                                                                    ? Text(
-                                                                        "$homeGoals",
-                                                                        style: const TextStyle(
-                                                                          fontWeight: FontWeight.bold,
-                                                                          fontSize: 20,
-                                                                        ),
-                                                                      )
-                                                                    : const SizedBox(
-                                                                        width: 6,
-                                                                      ),
-                                                                match.state!.id == 3
-                                                                    ? Padding(
-                                                                        padding: const EdgeInsetsDirectional.only(
-                                                                            start: 15, end: 15),
-                                                                        child: MatchTimerCircle(
-                                                                          currentTime: 45,
-                                                                          width: 60,
-                                                                          height: 70,
-                                                                          goalsTime: goalsTime,
-                                                                          timeAdded: 0,
-                                                                          isHalfTime: true,
-                                                                        ),
-                                                                      )
-                                                                    : minute != null
-                                                                        ? Padding(
-                                                                            padding: const EdgeInsetsDirectional.only(
-                                                                                start: 15, end: 15),
-                                                                            child: MatchTimerCircle(
-                                                                              currentTime: minute!.toDouble(),
-                                                                              width: 60,
-                                                                              height: 70,
-                                                                              goalsTime: goalsTime,
-                                                                              timeAdded: timeAdded,
+                                                              ),
+                                                              CustomNetworkImage(
+                                                                teamHome.imagePath!,
+                                                                width: 30,
+                                                                height: 30,
+                                                                shape: BoxShape.circle,
+                                                              ),
+                                                              Expanded(
+                                                                flex: 1,
+                                                                child: Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                  children: [
+                                                                    !_showGoals.contains(match.state!.id!)
+                                                                        ? Text(
+                                                                            "$homeGoals",
+                                                                            style: const TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 16,
                                                                             ),
                                                                           )
-                                                                        : Column(
-                                                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                                            children: [
-                                                                              SizedBox(
-                                                                                width: 55,
-                                                                                child: Text(
-                                                                                  UiHelper.getMatchState(
-                                                                                    context,
-                                                                                    stateId: match.state!.id!,
-                                                                                  ),
-                                                                                  textAlign: TextAlign.center,
-                                                                                  maxLines: 3,
-                                                                                  overflow: TextOverflow.ellipsis,
-                                                                                  style: TextStyle(
-                                                                                    color: context.colorPalette.green057,
-                                                                                    fontSize: 16,
-                                                                                    fontWeight: FontWeight.bold,
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                              if (match.state!.id == 1)
-                                                                                Text(
-                                                                                  match.startingAt!.convertToLocal(context),
-                                                                                  style: const TextStyle(
-                                                                                    fontSize: 13,
-                                                                                    fontWeight: FontWeight.bold,
-                                                                                  ),
-                                                                                ),
-                                                                            ],
+                                                                        : const SizedBox(
+                                                                            width: 6,
                                                                           ),
-                                                                !_showGoals.contains(match.state!.id!)
-                                                                    ? Text(
-                                                                        "$awayGoals",
-                                                                        style: const TextStyle(
-                                                                          fontWeight: FontWeight.bold,
-                                                                          fontSize: 20,
-                                                                        ),
-                                                                      )
-                                                                    : const SizedBox(
-                                                                        width: 6,
-                                                                      )
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          Expanded(
-                                                            child: Column(
-                                                              mainAxisAlignment: MainAxisAlignment.center,
-                                                              children: [
-                                                                CustomNetworkImage(
-                                                                  teamAway.imagePath!,
-                                                                  width: 50,
-                                                                  height: 50,
-                                                                  shape: BoxShape.circle,
+                                                                    match.state!.id == 3
+                                                                        ? Padding(
+                                                                            padding: const EdgeInsetsDirectional.only(start: 3, end: 3),
+                                                                            child: MatchTimerCircle(
+                                                                              currentTime: 45,
+                                                                              goalsTime: goalsTime,
+                                                                              timeAdded: 0,
+                                                                              isHalfTime: true,
+                                                                            ),
+                                                                          )
+                                                                        : minute != null
+                                                                            ? Padding(
+                                                                                padding: const EdgeInsetsDirectional.only(start: 3, end: 3),
+                                                                                child: MatchTimerCircle(
+                                                                                  currentTime: minute!.toDouble(),
+                                                                                  goalsTime: goalsTime,
+                                                                                  timeAdded: timeAdded,
+                                                                                ),
+                                                                              )
+                                                                            : Column(
+                                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                children: [
+                                                                                  SizedBox(
+                                                                                    width: 55,
+                                                                                    child: Text(
+                                                                                      UiHelper.getMatchState(
+                                                                                        context,
+                                                                                        stateId: match.state!.id!,
+                                                                                      ),
+                                                                                      textAlign: TextAlign.center,
+                                                                                      maxLines: 3,
+                                                                                      overflow: TextOverflow.ellipsis,
+                                                                                      style: TextStyle(
+                                                                                        color: context.colorPalette.green057,
+                                                                                        fontSize: 12,
+                                                                                        fontWeight: FontWeight.bold,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  if (match.state!.id == 1)
+                                                                                    Text(
+                                                                                      match.startingAt!.convertToLocal(context),
+                                                                                      style: const TextStyle(
+                                                                                        fontSize: 10,
+                                                                                        fontWeight: FontWeight.bold,
+                                                                                      ),
+                                                                                    ),
+                                                                                ],
+                                                                              ),
+                                                                    !_showGoals.contains(match.state!.id!)
+                                                                        ? Text(
+                                                                            "$awayGoals",
+                                                                            style: const TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 16,
+                                                                            ),
+                                                                          )
+                                                                        : const SizedBox(
+                                                                            width: 6,
+                                                                          )
+                                                                  ],
                                                                 ),
-                                                                Text(
+                                                              ),
+                                                              CustomNetworkImage(
+                                                                teamAway.imagePath!,
+                                                                width: 30,
+                                                                height: 30,
+                                                                shape: BoxShape.circle,
+                                                              ),
+                                                              Expanded(
+                                                                flex: 1,
+                                                                child: Text(
                                                                   teamAway.name!,
                                                                   textAlign: TextAlign.center,
                                                                   overflow: TextOverflow.ellipsis,
@@ -529,150 +662,13 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                                                   style: TextStyle(
                                                                     color: context.colorPalette.blueD4B,
                                                                     fontWeight: FontWeight.bold,
-                                                                    fontSize: 14,
+                                                                    fontSize: 12,
                                                                   ),
                                                                 ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    )
-                                                 : Container(
-                                                    height: 65,
-                                                    decoration: BoxDecoration(
-                                                      color: context.colorPalette.homeMatchBubble,
-                                                      borderRadius: BorderRadius.circular(MyTheme.radiusSecondary),
-                                                      border: Border.all(color: context.colorPalette.grey0F5),
-                                                      boxShadow: UiHelper.getShadow(context),
-                                                    ),
-                                                    margin: const EdgeInsets.symmetric(vertical: 5),
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                      children: [
-                                                        Expanded(
-                                                          flex: 1,
-                                                          child: Text(
-                                                            teamHome.name!,
-                                                            textAlign: TextAlign.center,
-                                                            overflow: TextOverflow.ellipsis,
-                                                            maxLines: 2,
-                                                            style: TextStyle(
-                                                              color: context.colorPalette.blueD4B,
-                                                              fontWeight: FontWeight.bold,
-                                                              fontSize: 12,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        CustomNetworkImage(
-                                                          teamHome.imagePath!,
-                                                          width: 30,
-                                                          height: 30,
-                                                          shape: BoxShape.circle,
-                                                        ),
-                                                        Expanded(
-                                                          flex: 1,
-                                                          child: Row(
-                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                            children: [
-                                                              !_showGoals.contains(match.state!.id!)
-                                                                  ? Text(
-                                                                      "$homeGoals",
-                                                                      style: const TextStyle(
-                                                                        fontWeight: FontWeight.bold,
-                                                                        fontSize: 16,
-                                                                      ),
-                                                                    )
-                                                                  : const SizedBox(
-                                                                      width: 6,
-                                                                    ),
-                                                              match.state!.id == 3
-                                                                  ? Padding(
-                                                                      padding: const EdgeInsetsDirectional.only(start: 3, end: 3),
-                                                                      child: MatchTimerCircle(
-                                                                        currentTime: 45,
-                                                                        goalsTime: goalsTime,
-                                                                        timeAdded: 0,
-                                                                        isHalfTime: true,
-                                                                      ),
-                                                                    )
-                                                                  : minute != null
-                                                                      ? Padding(
-                                                                          padding: const EdgeInsetsDirectional.only(start: 3, end: 3),
-                                                                          child: MatchTimerCircle(
-                                                                            currentTime: minute!.toDouble(),
-                                                                            goalsTime: goalsTime,
-                                                                            timeAdded: timeAdded,
-                                                                          ),
-                                                                        )
-                                                                      : Column(
-                                                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                                          children: [
-                                                                            SizedBox(
-                                                                              width: 55,
-                                                                              child: Text(
-                                                                                UiHelper.getMatchState(
-                                                                                  context,
-                                                                                  stateId: match.state!.id!,
-                                                                                ),
-                                                                                textAlign: TextAlign.center,
-                                                                                maxLines: 3,
-                                                                                overflow: TextOverflow.ellipsis,
-                                                                                style: TextStyle(
-                                                                                  color: context.colorPalette.green057,
-                                                                                  fontSize: 12,
-                                                                                  fontWeight: FontWeight.bold,
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                            if (match.state!.id == 1)
-                                                                              Text(
-                                                                                match.startingAt!.convertToLocal(context),
-                                                                                style: const TextStyle(
-                                                                                  fontSize: 10,
-                                                                                  fontWeight: FontWeight.bold,
-                                                                                ),
-                                                                              ),
-                                                                          ],
-                                                                        ),
-                                                              !_showGoals.contains(match.state!.id!)
-                                                                  ? Text(
-                                                                      "$awayGoals",
-                                                                      style: const TextStyle(
-                                                                        fontWeight: FontWeight.bold,
-                                                                        fontSize: 16,
-                                                                      ),
-                                                                    )
-                                                                  : const SizedBox(
-                                                                      width: 6,
-                                                                    )
+                                                              ),
                                                             ],
                                                           ),
-                                                        ),
-                                                        CustomNetworkImage(
-                                                          teamAway.imagePath!,
-                                                          width: 30,
-                                                          height: 30,
-                                                          shape: BoxShape.circle,
-                                                        ),
-                                                        Expanded(
-                                                          flex: 1,
-                                                          child: Text(
-                                                            teamAway.name!,
-                                                            textAlign: TextAlign.center,
-                                                            overflow: TextOverflow.ellipsis,
-                                                            maxLines: 2,
-                                                            style: TextStyle(
-                                                              color: context.colorPalette.blueD4B,
-                                                              fontWeight: FontWeight.bold,
-                                                              fontSize: 12,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  );
+                                                        );
                                                 },
                                               ),
                                             );
