@@ -4,3 +4,4 @@ const eascoreImage = 'https://play-lh.googleusercontent.com/70h2XGXVYRE6JR9bu96Q
 const kBranchWebURL = 'https://eascore.io';
 const kBranchIdentifier = 'eascore/branch';
 const kBundleId = 'com.eascore.wecan';
+const kAppStoreId = '6499055800';

@@ -15,6 +15,7 @@ import 'package:sportk/screens/profile/edit_profile_screen.dart';
 import 'package:sportk/screens/profile/widgets/profile_header.dart';
 import 'package:sportk/screens/profile/widgets/profile_tile.dart';
 import 'package:sportk/screens/registration/registration_screen.dart';
+import 'package:sportk/utils/app_constants.dart';
 import 'package:sportk/utils/base_extensions.dart';
 import 'package:sportk/utils/deep_linking_service.dart';
 import 'package:sportk/utils/enums.dart';
@@ -49,8 +50,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void _openStore(BuildContext context) async {
     try {
-      const appId = 'com.eascore.wecan';
-      final path = Platform.isAndroid ? 'market://details?id=$appId' : 'https://apps.apple.com/app/id$appId';
+      final path = Platform.isAndroid ? 'market://details?id=$kBundleId' : 'https://apps.apple.com/app/id$kAppStoreId';
       final uri = Uri.parse(path);
       if (await canLaunchUrl(uri)) {
         await launchUrl(uri, mode: LaunchMode.externalApplication);
@@ -154,7 +154,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             icon: MyIcons.language,
           ),
           ProfileHeader(title: context.appLocalization.application),
-           ProfileTile(
+          ProfileTile(
             onTap: () {
               _openStore(context);
             },
@@ -203,7 +203,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             title: context.appLocalization.contactUs,
             icon: MyIcons.messages,
           ),
-         
         ],
       ),
     );
