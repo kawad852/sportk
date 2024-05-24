@@ -21,8 +21,8 @@ class _GoogleBannerState extends State<GoogleBanner> {
   BannerAd? _bannerAd;
   bool _loading = true;
 
-  String get _iosUnitId => kDebugMode ? 'ca-app-pub-3940256099942544/2934735716' : 'ca-app-pub-8512331571054304/4875181790';
-  String get _androidUnitId => kDebugMode ? 'ca-app-pub-3940256099942544/6300978111' : 'ca-app-pub-8512331571054304/8321470775';
+  String get _iosUnitId => kDebugMode ? 'ca-app-pub-3940256099942544/2934735716' : 'ca-app-pub-8605854106910601/7566320514';
+  String get _androidUnitId => kDebugMode ? 'ca-app-pub-3940256099942544/6300978111' : 'ca-app-pub-8605854106910601/8827431292';
 
   AdSize get _adSize => widget.adSize;
 

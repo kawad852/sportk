@@ -23,8 +23,8 @@ class _GoogleInterstitialState extends State<GoogleInterstitial> {
 
   bool _failed = false;
 
-  String get _iosUnitId => kDebugMode ? 'ca-app-pub-3940256099942544/4411468910' : 'ca-app-pub-8512331571054304/8016867377';
-  String get _androidUnitId => kDebugMode ? 'ca-app-pub-3940256099942544/1033173712' : 'ca-app-pub-8512331571054304/2334130007';
+  String get _iosUnitId => kDebugMode ? 'ca-app-pub-3940256099942544/4411468910' : 'ca-app-pub-8605854106910601/9757369580';
+  String get _androidUnitId => kDebugMode ? 'ca-app-pub-3940256099942544/1033173712' : 'ca-app-pub-8605854106910601/6827953917';
 
   void showAd(BuildContext context) {
     _interstitialAd?.show();
