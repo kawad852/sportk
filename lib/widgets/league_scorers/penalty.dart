@@ -98,7 +98,7 @@ class _PenaltyState extends State<Penalty> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                penaltyGoals.toString(),
+                "$penaltyGoals",
                 style: TextStyle(
                   color: context.colorPalette.blueD4B,
                 ),
@@ -107,7 +107,7 @@ class _PenaltyState extends State<Penalty> {
             Padding(
               padding: const EdgeInsetsDirectional.only(start: 40),
               child: Text(
-                penaltyMissed.toString(),
+                "$penaltyMissed",
                 style: TextStyle(
                   color: context.colorPalette.blueD4B,
                 ),

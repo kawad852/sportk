@@ -201,7 +201,6 @@ class Value {
   int? penalties;
   int? valueIn;
   int? out;
-  double? average;
   double? highest;
   double? lowest;
   double? scored;
@@ -213,7 +212,6 @@ class Value {
     this.penalties,
     this.valueIn,
     this.out,
-    this.average,
     this.highest,
     this.lowest,
     this.scored,
@@ -226,7 +224,6 @@ class Value {
         penalties: json["penalties"],
         valueIn: json["in"],
         out: json["out"],
-        average: json["average"]?.toDouble(),
         highest: json["highest"]?.toDouble(),
         lowest: json["lowest"]?.toDouble(),
         scored: json["scored"]?.toDouble(),
@@ -239,7 +236,6 @@ class Value {
         "penalties": penalties,
         "in": valueIn,
         "out": out,
-        "average": average,
         "highest": highest,
         "lowest": lowest,
         "scored":scored,
