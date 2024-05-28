@@ -369,6 +369,11 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                                 }
                                               },
                                             ).toSet();
+                                            if(teamHome.id ==18657 || teamAway.id ==18657)
+                                            {
+                                              return const SizedBox.shrink();
+                                            }
+                                            else {
                                             return GestureDetector(
                                               onTap: () {
                                                 _isListener = false;
@@ -672,6 +677,7 @@ class _HomeScreenState extends State<HomeScreen> with AutomaticKeepAliveClientMi
                                                 },
                                               ),
                                             );
+                                            }
                                           },
                                         ),
                                         // if (competition.hasMatches && (index % 3 == 0))

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:sportk/alerts/feedback/app_feedback.dart';
 import 'package:sportk/model/match_points_model.dart';
@@ -92,7 +94,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen>
   @override
   void initState() {
     super.initState();
-    // log(MySharedPreferences.accessToken);
+     log(widget.matchId.toString());
     _commonProvider = context.commonProvider;
     _initializeFuture();
     _listener = AppLifecycleListener(
