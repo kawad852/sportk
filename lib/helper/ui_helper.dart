@@ -34,7 +34,7 @@ class UiHelper {
     int? teamId,
     bool isNews = false,
   }) async {
-    leagueData.subType == LeagueTypeEnum.cubInternational
+    leagueData.subType == LeagueTypeEnum.cubInternational || leagueData.id == 1326//European Championship
         ? {
             await context.push(
               ChampionsLeagueScreen(
