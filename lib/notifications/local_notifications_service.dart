@@ -16,10 +16,10 @@ class LocalNotificationsService {
     const initializationSettings = InitializationSettings(
       android: AndroidInitializationSettings('@mipmap/ic_launcher'),
       iOS: DarwinInitializationSettings(
-        requestSoundPermission: false,
-        requestBadgePermission: false,
-        requestAlertPermission: false,
-      ),
+          // requestSoundPermission: false,
+          // requestBadgePermission: false,
+          // requestAlertPermission: false,
+          ),
     );
     await _flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
