@@ -32,6 +32,8 @@ class LocalNotificationsService {
     );
   }
 
+  void _createChannels() {}
+
   String _getSound(String id) {
     switch (id) {
       case 'channel_id_1':
@@ -57,7 +59,7 @@ class LocalNotificationsService {
       final pLoad = json.encode(message.data);
       Map<String, dynamic> nData = json.decode(pLoad);
       final channelId = nData['channel_id'] ?? '';
-      final sound = _getSound(channelId);
+      final sound = _getSound(channelId).replaceAll('wav', '');
       debugPrint("channelId::: $channelId\nsound:: $sound");
       final androidChannel1 = AndroidNotificationChannel(
         channelId, // id
@@ -65,7 +67,7 @@ class LocalNotificationsService {
         description: 'This channel is used for important notifications.',
         importance: Importance.max,
         playSound: true,
-        sound: RawResourceAndroidNotificationSound(_getSound(channelId)),
+        sound: RawResourceAndroidNotificationSound(sound),
       );
       await _flutterLocalNotificationsPlugin.show(
         id,

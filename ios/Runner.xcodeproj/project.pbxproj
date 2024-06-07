@@ -16,6 +16,12 @@
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		B523BCC76AFB8E3EC7F4AA38 /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B236900336F87815BBEDD65C /* Pods_RunnerTests.framework */; };
 		C6B0D42F2BD2E62200B03210 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6B0D42E2BD2E62200B03210 /* GoogleService-Info.plist */; };
+		C6BD78A42C13456C00E7B018 /* start_match_half.wav in Resources */ = {isa = PBXBuildFile; fileRef = C6BD789F2C13456C00E7B018 /* start_match_half.wav */; };
+		C6BD78A52C13456C00E7B018 /* all_other_notification.wav in Resources */ = {isa = PBXBuildFile; fileRef = C6BD78A02C13456C00E7B018 /* all_other_notification.wav */; };
+		C6BD78A62C13456C00E7B018 /* any_event_in_match.wav in Resources */ = {isa = PBXBuildFile; fileRef = C6BD78A12C13456C00E7B018 /* any_event_in_match.wav */; };
+		C6BD78A72C13456C00E7B018 /* end_match_helf.wav in Resources */ = {isa = PBXBuildFile; fileRef = C6BD78A22C13456C00E7B018 /* end_match_helf.wav */; };
+		C6BD78A82C13456C00E7B018 /* goal.wav in Resources */ = {isa = PBXBuildFile; fileRef = C6BD78A32C13456C00E7B018 /* goal.wav */; };
+		C6BD78AA2C1346BF00E7B018 /* notification.wav in Resources */ = {isa = PBXBuildFile; fileRef = C6BD78A92C1346BF00E7B018 /* notification.wav */; };
 		FB3C8D9A258387DE2893F2DD /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DCB2FC475792C1A932E95E /* Pods_Runner.framework */; };
 /* End PBXBuildFile section */
 
@@ -63,13 +69,14 @@
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B236900336F87815BBEDD65C /* Pods_RunnerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RunnerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C670AF1F2BD92CA900606EF1 /* end_match_helf.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = end_match_helf.caf; sourceTree = "<group>"; };
-		C670AF202BD92CA900606EF1 /* all_other_notification.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = all_other_notification.caf; sourceTree = "<group>"; };
-		C670AF212BD92CA900606EF1 /* any_event_in_match.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = any_event_in_match.caf; sourceTree = "<group>"; };
-		C670AF222BD92CA900606EF1 /* goal.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = goal.caf; sourceTree = "<group>"; };
-		C670AF232BD92CA900606EF1 /* start_match_half.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = start_match_half.caf; sourceTree = "<group>"; };
 		C690BE302BA863F00019B335 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		C6B0D42E2BD2E62200B03210 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C6BD789F2C13456C00E7B018 /* start_match_half.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = start_match_half.wav; path = ../../android/app/src/main/res/raw/start_match_half.wav; sourceTree = "<group>"; };
+		C6BD78A02C13456C00E7B018 /* all_other_notification.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = all_other_notification.wav; path = ../../android/app/src/main/res/raw/all_other_notification.wav; sourceTree = "<group>"; };
+		C6BD78A12C13456C00E7B018 /* any_event_in_match.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = any_event_in_match.wav; path = ../../android/app/src/main/res/raw/any_event_in_match.wav; sourceTree = "<group>"; };
+		C6BD78A22C13456C00E7B018 /* end_match_helf.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = end_match_helf.wav; path = ../../android/app/src/main/res/raw/end_match_helf.wav; sourceTree = "<group>"; };
+		C6BD78A32C13456C00E7B018 /* goal.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = goal.wav; path = ../../android/app/src/main/res/raw/goal.wav; sourceTree = "<group>"; };
+		C6BD78A92C1346BF00E7B018 /* notification.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = notification.wav; sourceTree = "<group>"; };
 		DBF3D746A866F9B593381682 /* Pods-RunnerTests.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.profile.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.profile.xcconfig"; sourceTree = "<group>"; };
 		E82287BCC6C60A5F53E6E901 /* Pods-RunnerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.release.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.release.xcconfig"; sourceTree = "<group>"; };
 		FBAC088851BD96B2F72DC075 /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
@@ -151,11 +158,12 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
-				C670AF202BD92CA900606EF1 /* all_other_notification.caf */,
-				C670AF212BD92CA900606EF1 /* any_event_in_match.caf */,
-				C670AF1F2BD92CA900606EF1 /* end_match_helf.caf */,
-				C670AF222BD92CA900606EF1 /* goal.caf */,
-				C670AF232BD92CA900606EF1 /* start_match_half.caf */,
+				C6BD78A92C1346BF00E7B018 /* notification.wav */,
+				C6BD78A02C13456C00E7B018 /* all_other_notification.wav */,
+				C6BD78A12C13456C00E7B018 /* any_event_in_match.wav */,
+				C6BD78A22C13456C00E7B018 /* end_match_helf.wav */,
+				C6BD78A32C13456C00E7B018 /* goal.wav */,
+				C6BD789F2C13456C00E7B018 /* start_match_half.wav */,
 				C6B0D42E2BD2E62200B03210 /* GoogleService-Info.plist */,
 				C690BE302BA863F00019B335 /* Runner.entitlements */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
@@ -276,10 +284,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
+				C6BD78A72C13456C00E7B018 /* end_match_helf.wav in Resources */,
 				C6B0D42F2BD2E62200B03210 /* GoogleService-Info.plist in Resources */,
+				C6BD78AA2C1346BF00E7B018 /* notification.wav in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
+				C6BD78A82C13456C00E7B018 /* goal.wav in Resources */,
+				C6BD78A42C13456C00E7B018 /* start_match_half.wav in Resources */,
+				C6BD78A62C13456C00E7B018 /* any_event_in_match.wav in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
+				C6BD78A52C13456C00E7B018 /* all_other_notification.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
