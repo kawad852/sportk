@@ -82,6 +82,46 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     }
   }
 
+  Future<void> _fbLogin(BuildContext context) async {
+    try {
+      // AppOverlayLoader.show();
+      final LoginResult result = await FacebookAuth.instance.login(
+        permissions: ['public_profile', 'email'],
+      );
+      if (result.status == LoginStatus.success) {
+        AppOverlayLoader.hide();
+        if (result.accessToken == null) {
+          throw '';
+        }
+        final userData = await FacebookAuth.instance.getUserData();
+        var email = userData['email'];
+        var displayName = userData['name'];
+        var photoURL = userData['picture']['data']['url'];
+        if (context.mounted) {
+          await _authProvider.login(
+            context,
+            displayName: displayName,
+            email: email,
+            photoURL: photoURL,
+            withOverlayLoader: true,
+          );
+        }
+      } else {
+        AppOverlayLoader.hide();
+        if (context.mounted) {
+          context.showSnackBar(context.appLocalization.generalError);
+        }
+      }
+    } catch (e) {
+      AppOverlayLoader.hide();
+      if (context.mounted) {
+        context.showSnackBar(context.appLocalization.generalError);
+      }
+    } finally {
+      AppOverlayLoader.hide();
+    }
+  }
+
   Future<void> _signInWithFacebook(BuildContext context) async {
     try {
       // AppOverlayLoader.show();
@@ -262,15 +302,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 )
               else
                 const SizedBox(width: 20),
-              // GestureDetector(
-              //   onTap: () {
-              //     _signInWithFacebook(context);
-              //   },
-              //   child: Image.asset(
-              //     MyImages.facebook,
-              //     width: 50,
-              //   ),
-              // ),
+              GestureDetector(
+                onTap: () {
+                  _fbLogin(context);
+                  // _signInWithFacebook(context);
+                },
+                child: Image.asset(
+                  MyImages.facebook,
+                  width: 50,
+                ),
+              ),
             ],
           ),
         ],

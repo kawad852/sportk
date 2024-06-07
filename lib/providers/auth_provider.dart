@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:sportk/alerts/errors/app_error_feedback.dart';
 import 'package:sportk/alerts/feedback/app_feedback.dart';
 import 'package:sportk/model/auth_model.dart';
@@ -111,6 +112,7 @@ class AuthProvider extends ChangeNotifier {
 
   void logout(BuildContext context) {
     _firebaseAuth.signOut();
+    FacebookAuth.instance.logOut();
     MySharedPreferences.clearStorage();
     updateUser(context, userModel: UserData());
     context.favoriteProvider.favorites.clear();
