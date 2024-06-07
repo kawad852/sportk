@@ -101,7 +101,6 @@ class _AppNavBarState extends State<AppNavBar> {
     authProvider = Provider.of<AuthProvider>(context, listen: false);
     _pageController = PageController();
     authProvider.updateDeviceToken(context);
-    cloudMessagingService.init(context);
     // MySharedPreferences.reviewCount = MySharedPreferences.reviewCount + 1;
     // if (MySharedPreferences.reviewCount == 2) {
     //   // dialog
@@ -153,7 +152,7 @@ class _AppNavBarState extends State<AppNavBar> {
         );
       }
     });
-    cloudMessagingService.requestPermission();
+    cloudMessagingService.requestPermission(context);
     _checkPermission(context);
     if (widget.initFav) {
       context.favoriteProvider.fetchFavs(context);

@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sportk/alerts/feedback/app_feedback.dart';
+import 'package:sportk/notifications/cloud_messaging_service.dart';
 import 'package:sportk/providers/app_provider.dart';
 import 'package:sportk/providers/auth_provider.dart';
 import 'package:sportk/screens/contact/contact_screen.dart';
@@ -43,6 +44,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
     if (MySharedPreferences.notificationsEnabled) {
       FirebaseMessaging.instance.getToken();
+      _authProvider.updateDeviceToken(context);
+      CloudMessagingService().requestPermission(context);
     } else {
       FirebaseMessaging.instance.deleteToken();
     }

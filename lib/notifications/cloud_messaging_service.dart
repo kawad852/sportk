@@ -7,8 +7,10 @@ import 'package:sportk/notifications/local_notifications_service.dart';
 import 'package:sportk/notifications/notifications_routes_service.dart';
 
 class CloudMessagingService {
-  void requestPermission() async {
-    await FirebaseMessaging.instance.requestPermission();
+  void requestPermission(BuildContext context) async {
+    await FirebaseMessaging.instance.requestPermission().then((value) {
+      init(context);
+    });
   }
 
   Future<void> init(BuildContext context) async {
