@@ -37,6 +37,7 @@ class LikeType {
 class LeagueTypeEnum {
   static const String domestic = 'domestic';
   static const String cubInternational = 'cup_international';
+  static const String international = 'international';
 }
 
 class PredictionTypeEnum {
