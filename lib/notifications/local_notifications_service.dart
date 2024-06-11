@@ -12,6 +12,51 @@ class LocalNotificationsService {
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   // static late AndroidNotificationChannel androidChannel;
 
+  final channel1 = const AndroidNotificationChannel(
+    'channel_id_1', // id
+    'channel_id_1', // title
+    description: 'This channel is used for important notifications.',
+    importance: Importance.max,
+    playSound: true,
+    sound: RawResourceAndroidNotificationSound('any_event_in_match'),
+  );
+
+  final channel2 = const AndroidNotificationChannel(
+    'channel_id_2', // id
+    'channel_id_2', // title
+    description: 'This channel is used for important notifications.',
+    importance: Importance.max,
+    playSound: true,
+    sound: RawResourceAndroidNotificationSound('end_match_helf'),
+  );
+
+  final channel3 = const AndroidNotificationChannel(
+    'channel_id_3', // id
+    'channel_id_3', // title
+    description: 'This channel is used for important notifications.',
+    importance: Importance.max,
+    playSound: true,
+    sound: RawResourceAndroidNotificationSound('goal'),
+  );
+
+  final channel4 = const AndroidNotificationChannel(
+    'channel_id_4', // id
+    'channel_id_4', // title
+    description: 'This channel is used for important notifications.',
+    importance: Importance.max,
+    playSound: true,
+    sound: RawResourceAndroidNotificationSound('start_match_half'),
+  );
+
+  final channel5 = const AndroidNotificationChannel(
+    'channel_id_5', // id
+    'channel_id_5', // title
+    description: 'This channel is used for important notifications.',
+    importance: Importance.max,
+    playSound: true,
+    sound: RawResourceAndroidNotificationSound('all_other_notification'),
+  );
+
   Future<void> initialize() async {
     const initializationSettings = InitializationSettings(
       android: AndroidInitializationSettings('@mipmap/ic_launcher'),
@@ -32,7 +77,14 @@ class LocalNotificationsService {
     );
   }
 
-  void _createChannels() {}
+  void createChannels() {
+    final plugin = _flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
+    plugin?.createNotificationChannel(channel1);
+    plugin?.createNotificationChannel(channel2);
+    plugin?.createNotificationChannel(channel3);
+    plugin?.createNotificationChannel(channel4);
+    plugin?.createNotificationChannel(channel5);
+  }
 
   String _getSound(String id) {
     switch (id) {
