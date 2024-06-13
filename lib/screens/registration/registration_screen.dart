@@ -83,11 +83,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   Future<void> _fbLogin(BuildContext context) async {
+    await FacebookAuth.instance.logOut();
     try {
       // AppOverlayLoader.show();
       final LoginResult result = await FacebookAuth.instance.login(
         permissions: ['public_profile', 'email'],
       );
+      print("status:::: ${result.message}");
       if (result.status == LoginStatus.success) {
         AppOverlayLoader.hide();
         if (result.accessToken == null) {
@@ -115,6 +117,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     } catch (e) {
       AppOverlayLoader.hide();
       if (context.mounted) {
+        print("eeeee:::: $e");
         context.showSnackBar(context.appLocalization.generalError);
       }
     } finally {
