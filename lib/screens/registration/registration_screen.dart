@@ -83,13 +83,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   Future<void> _fbLogin(BuildContext context) async {
-    await FacebookAuth.instance.logOut();
     try {
       // AppOverlayLoader.show();
+      // await FacebookAuth.instance.logOut();
       final LoginResult result = await FacebookAuth.instance.login(
         permissions: ['public_profile', 'email'],
       );
+
       print("status:::: ${result.message}");
+
+      if (result.status == LoginStatus.cancelled) {
+        AppOverlayLoader.hide();
+
+        return;
+      }
       if (result.status == LoginStatus.success) {
         AppOverlayLoader.hide();
         if (result.accessToken == null) {
@@ -305,16 +312,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 )
               else
                 const SizedBox(width: 20),
-              GestureDetector(
-                onTap: () {
-                  _fbLogin(context);
-                  // _signInWithFacebook(context);
-                },
-                child: Image.asset(
-                  MyImages.facebook,
-                  width: 50,
+              if (Platform.isAndroid)
+                GestureDetector(
+                  onTap: () {
+                    _fbLogin(context);
+                    // _signInWithFacebook(context);
+                  },
+                  child: Image.asset(
+                    MyImages.facebook,
+                    width: 50,
+                  ),
                 ),
-              ),
             ],
           ),
         ],
